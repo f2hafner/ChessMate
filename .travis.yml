@@ -49,8 +49,8 @@ script:
 
 addons:
   sonarcloud:
-    organization: "groupsix" # der key der organisation auf sonarcloud.io
-    token: 8984576c5228477e8bf7df51bdebd5d38340e6a0 # Umgebungsvariable auf travis-ci.com
+    organization: "groupsix"
+    token: 8984576c5228477e8bf7df51bdebd5d38340e6a0
 
 # benachrichtigungen per email ausschalten
 notifications:

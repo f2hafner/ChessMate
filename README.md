@@ -2,20 +2,23 @@
 ChessMate is a mobile android game all about Chess and Cards.
 
 ## Table of Contents
-[Description](#Description)
-[Installation](#Installation)
-[Detailed Game Info](#Detailed Game Info)
+1. [Description](#Description)
 
-<a name="Description"/>
-## Description
+2. [Installation](#Installation)
 
-
-
-<a name="Detailed Game Info"/>
-## Detailed Game Info
+3. [Detailed-Game-Info](#Detailed-Game-Info)
 
 
 
 
-<a name="Installation"/>
-## Installation
+## Description<a name="Description"></a>
+
+
+
+
+## Detailed Game Info<a name="Detailed-Game-Info"/></a>
+
+
+
+
+## Installation<a name="Installation"/></a>

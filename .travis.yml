@@ -50,7 +50,7 @@ script:
 addons:
   sonarcloud:
     organization: "groupsix"
-    token: 8984576c5228477e8bf7df51bdebd5d38340e6a0
+    token: $SONAR_TOKEN
 
 # benachrichtigungen per email ausschalten
 notifications:

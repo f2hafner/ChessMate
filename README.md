@@ -4,19 +4,36 @@ ChessMate is a mobile android game all about Chess and Cards.
 ## Table of Contents
 1. [Description](#Description)
 
-2. [Installation](#Installation)
+2. [Game Rules](#GameRules)
 
-3. [Detailed-Game-Info](#Detailed-Game-Info)
+3. [Detailed info about the Game](#Detailed-Game-Info)
 
+4. [Contributors](#Contributors)
+
+5. [Installation](#Installation)
 
 
 
 ## Description<a name="Description"></a>
+ChessMate is just your standard old chess game. Well it would be, but there is a twist to it. 
+In ChessMate you will play a regular round of chess until the cards come into play.
+Currently, our plan is to include a Carddeck of 25 Cards from which each player can draw. 
+These cards can significantly alter the gameplay. Some will have a minor effect and some will change the rules of chess completely!
+A player always has 5 cards on his hand. Though you can only play 1 Card per turn, there is plenty of ways to rig the game and drive your oponent into insanity.
+For example: Is your king in checkmate ? Well, on of the cards allows your King to swap places with a pawn.
+For more details on the Cards please refer to [Detailed info about the Game](#Detailed-Game-Info) down below.
+
+This Game is made by CS Students, created for the purpose of experiencing android development. 
 
 
 
 
-## Detailed Game Info<a name="Detailed-Game-Info"/></a>
+## Game Rules<a name="GameRules"></a>
+
+
+
+
+## Detailed Info about the Game<a name="Detailed-Game-Info"/></a>
 
 ### **The Cards**
 
@@ -188,4 +205,17 @@ ChessMate is a mobile android game all about Chess and Cards.
   Play this card before your move.
 
 
+
+
 ## Installation<a name="Installation"/></a>
+
+
+
+
+## Contributors<a name="Contributors"/></a>
+
+* [f2hafner](https://github.com/f2hafner) as Architect | UI-Design
+* [Bego99](https://github.com/Bego99) as UI-Design | Architect
+* [VeronikaSemmelrock](https://github.com/VeronikaSemmelrock) as Developer | Tester
+* [KathisGit](https://github.com/KathisGit) as Tester | Dokumentation
+* [ZangerlA](https://github.com/ZangerlA) as Dokumentation | Developer

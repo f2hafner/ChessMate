@@ -217,5 +217,5 @@ This Game is made by CS Students, created for the purpose of experiencing androi
 * [f2hafner](https://github.com/f2hafner) as Architect | UI-Design
 * [Bego99](https://github.com/Bego99) as UI-Design | Architect
 * [VeronikaSemmelrock](https://github.com/VeronikaSemmelrock) as Developer | Tester
-* [KathisGit](https://github.com/KathisGit) as Tester | Dokumentation
-* [ZangerlA](https://github.com/ZangerlA) as Dokumentation | Developer
+* [KathisGit](https://github.com/KathisGit) as Tester | Documentation
+* [ZangerlA](https://github.com/ZangerlA) as Documentation | Developer

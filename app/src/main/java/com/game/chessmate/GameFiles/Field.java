@@ -3,10 +3,10 @@ import com.game.chessmate.GameFiles.PlayingPieces.PlayingPiece;
 
 /** The Field class is an Object that represents a PlayingField on the chessboard. */
 public class Field {
-    int x; // required to get X value for the Field
-    int y; // required to get Y value for the Field
+    private int x; // required to get X value for the Field
+    private int y; // required to get Y value for the Field
     PlayingPiece currentPiece; //current PlayingPiece on the Field
-    Field (){
+    public Field (){
         //TODO Field constructor
         throw new UnsupportedOperationException();
     }

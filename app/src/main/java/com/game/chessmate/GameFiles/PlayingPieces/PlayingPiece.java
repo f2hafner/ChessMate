@@ -13,8 +13,8 @@ public interface PlayingPiece {
     Field getPosition();
     Drawable getDrawable();
     Field[] canMove();
+    PlayingPieceColour getColour();
 
     //TODO find a way to implement the legal moves
     // Maybe asset datatype so a user can switch out the playingpiece designs (if possible)
-
 }

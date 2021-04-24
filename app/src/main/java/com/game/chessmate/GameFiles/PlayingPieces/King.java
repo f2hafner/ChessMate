@@ -18,6 +18,7 @@ public class King implements PlayingPiece {
 
     private Field position;
     private Drawable sprite;    //TODO Maybe we can use Drawable for the svg. Could not figure out.
+    private PlayingPieceColour colour;
 
     /**
      * Instantiates a new King.
@@ -25,11 +26,13 @@ public class King implements PlayingPiece {
      * @param resourceName the resource name
      * @param position     the position
      */
-    public King(String resourceName, Field position, Resources resources) {
+    public King(String resourceName, Field position, Resources resources, PlayingPieceColour colour) {
         this.position = position;
         this.sprite = resources.getDrawable(R.drawable.ic_launcher_background);  //TODO replace ic_launcher_background with king vectordrawable
+        this.colour=colour;
     }
 
+    //TODO implement Interface methods
     @Override
     public PlayingPieceType getPlayingPieceType() {
         return PlayingPieceType.KING;
@@ -50,5 +53,9 @@ public class King implements PlayingPiece {
         return new Field[0];
     }
 
-    //TODO implement Interface methods
+    @Override
+    public PlayingPieceColour getColour() {
+        return this.colour;
+    }
+
 }

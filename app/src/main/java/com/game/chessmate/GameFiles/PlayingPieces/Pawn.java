@@ -36,6 +36,11 @@ public class Pawn implements PlayingPiece {
     }
 
     @Override
+    public Field[] canMove() {
+        return new Field[0];
+    }
+
+    @Override
     public PlayingPieceColour getColour() {
         return this.colour;
     }

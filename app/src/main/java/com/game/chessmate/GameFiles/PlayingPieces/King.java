@@ -45,5 +45,10 @@ public class King implements PlayingPiece {
         return this.sprite;
     }
 
+    @Override
+    public Field[] canMove() {
+        return new Field[0];
+    }
+
     //TODO implement Interface methods
 }

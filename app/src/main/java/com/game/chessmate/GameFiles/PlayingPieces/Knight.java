@@ -11,10 +11,12 @@ public class Knight implements PlayingPiece {
 
     private Field position;
     private Drawable sprite;
+    private PlayingPieceColour colour;
 
-    public Knight(String ResourceName, Field position, Resources resources){
+    public Knight(String ResourceName, Field position, Resources resources, PlayingPieceColour colour){
         this.position=position;
         this.sprite = resources.getDrawable(R.drawable.ic_launcher_background);  //TODO replace ic_launcher_background with knight vectordrawable
+        this.colour=colour;
     }
 
     //TODO implement Interface methods
@@ -31,6 +33,11 @@ public class Knight implements PlayingPiece {
     @Override
     public Drawable getDrawable() {
         return this.sprite;
+    }
+
+    @Override
+    public PlayingPieceColour getColour() {
+        return this.colour;
     }
 
 }

@@ -17,7 +17,7 @@ import com.game.chessmate.R;
 public class King implements PlayingPiece {
 
     private Field position;
-    private Drawable sprite;    //TODO Maybe we can use Drawable for the svg. Could not figure out.
+    private Bitmap sprite;    //TODO Maybe we can use Drawable for the svg. Could not figure out.
     private PlayingPieceColour colour;
 
     /**
@@ -28,7 +28,7 @@ public class King implements PlayingPiece {
      */
     public King(String resourceName, Field position, Resources resources, PlayingPieceColour colour) {
         this.position = position;
-        this.sprite = resources.getDrawable(R.drawable.ic_launcher_background);  //TODO replace ic_launcher_background with king vectordrawable
+        this.sprite = BitmapFactory.decodeResource(resources, R.drawable.ic_pawn);  //TODO replace ic_launcher_background with king vectordrawable
         this.colour=colour;
     }
 
@@ -44,7 +44,7 @@ public class King implements PlayingPiece {
     }
 
     @Override
-    public Drawable getDrawable() {
+    public Bitmap getDrawable() {
         return this.sprite;
     }
 

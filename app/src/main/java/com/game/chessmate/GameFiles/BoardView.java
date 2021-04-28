@@ -53,7 +53,8 @@ public class BoardView extends View {
     protected void onDraw(Canvas canvas) {
         byte boardSize = 8;
         board = ChessBoard.getInstance();
-        board.create(boardSize, canvas);
+        board.create(boardSize, canvas, getResources());
         board.drawFields(canvas);
+        board.drawPieces(canvas);
     }
 }

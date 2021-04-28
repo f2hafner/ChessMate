@@ -1,9 +1,18 @@
 package com.game.chessmate.GameFiles;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
+
+import com.game.chessmate.GameFiles.PlayingPieces.King;
+import com.game.chessmate.GameFiles.PlayingPieces.Pawn;
+import com.game.chessmate.GameFiles.PlayingPieces.PlayingPiece;
+import com.game.chessmate.GameFiles.PlayingPieces.PlayingPieceColour;
+
+import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
@@ -25,6 +34,8 @@ public class ChessBoard {
      */
     private Field[][] boardFields;
     private int fieldSize;
+    ArrayList<PlayingPiece> player1Pieces;
+    ArrayList<PlayingPiece> player2Pieces;
 
     /**
      * Initializes the 2D Array of Fields and calculates the Field size(Rectangle size) with the width of the canvas
@@ -33,17 +44,13 @@ public class ChessBoard {
      * @param size   chessboard (default size 8)
      * @param canvas the canvas which contains the Chessboard
      */
-    public void create(byte size, Canvas canvas){
+    public void create(byte size, Canvas canvas, Resources resources){
         this.boardFields = new Field[size][size];
         this.fieldSize = calculateRectSize(canvas, size);
         initFields();
-    }
-
-    /**
-     * This method will initialize all chess pieces
-     */
-    private void initializePieces(){
-        //TODO puts the ChestPieces in starting position
+        player1Pieces = new ArrayList<>();
+        player2Pieces = new ArrayList<>();
+        initPieces(resources);
     }
 
     private void initFields() {
@@ -51,6 +58,20 @@ public class ChessBoard {
             for (int j = 0; j < boardFields[i].length; j++) {
                 boardFields[i][j] = new Field(i, j);
             }
+        }
+    }
+
+    private void initPieces(Resources resources) {
+        for (int i = 0; i < boardFields.length; i++) {
+            for (int j = 0; j < boardFields[i].length; j++) {
+                boardFields[i][j].setCurrentPiece(initPawn(boardFields[i][j], resources));
+            }
+        }
+    }
+
+    public void drawPieces(Canvas canvas) {
+        for (int i = 0; i < player1Pieces.size(); i++) {
+            canvas.drawBitmap(player1Pieces.get(i).getDrawable(),null, boardFields[1][1].getRectangle(), null);
         }
     }
 
@@ -103,6 +124,12 @@ public class ChessBoard {
         float offset = canvasWidth % 8;
         int rectSize = (int)canvasWidth / size - (int)offset;
         return rectSize;
+    }
+    
+    private Pawn initPawn(Field field, Resources resources) {
+        Pawn pawn = new Pawn(field, resources);
+        this.player1Pieces.add(pawn);
+        return pawn;
     }
 
     public int getFieldSize() {

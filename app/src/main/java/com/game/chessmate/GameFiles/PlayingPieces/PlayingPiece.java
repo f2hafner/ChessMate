@@ -11,7 +11,7 @@ public interface PlayingPiece {
 
     PlayingPieceType getPlayingPieceType();
     Field getPosition();
-    Drawable getDrawable();
+    Bitmap getDrawable();
     Field[] canMove();
     PlayingPieceColour getColour();
 

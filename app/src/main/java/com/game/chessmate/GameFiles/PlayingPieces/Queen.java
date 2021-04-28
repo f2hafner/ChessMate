@@ -1,6 +1,8 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
 import com.game.chessmate.GameFiles.Field;
@@ -10,12 +12,12 @@ import com.game.chessmate.R;
 public class Queen implements PlayingPiece {
 
     private Field position;
-    private Drawable sprite;
+    private Bitmap sprite;
     private PlayingPieceColour colour;
 
     public Queen(String ResourceName, Field position, Resources resources,PlayingPieceColour colour){
         this.position=position;
-        this.sprite = resources.getDrawable(R.drawable.ic_launcher_background);  //TODO replace ic_launcher_background with queen vectordrawable
+        this.sprite = BitmapFactory.decodeResource(resources, R.drawable.ic_pawn);  //TODO replace ic_launcher_background with queen vectordrawable
         this.colour=colour;
     }
 
@@ -31,7 +33,7 @@ public class Queen implements PlayingPiece {
     }
 
     @Override
-    public Drawable getDrawable() {
+    public Bitmap getDrawable() {
         return this.sprite;
     }
 

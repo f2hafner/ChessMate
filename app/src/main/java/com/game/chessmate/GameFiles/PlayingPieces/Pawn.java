@@ -1,7 +1,11 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.R;
@@ -10,13 +14,12 @@ import com.game.chessmate.R;
 public class Pawn implements PlayingPiece {
 
     private Field position;
-    private Drawable sprite;
+    private Bitmap sprite;
     private PlayingPieceColour colour;
 
-    public Pawn(String ResourceName, Field position, Resources resources, PlayingPieceColour colour){
+    public Pawn(Field position, Resources resources){
         this.position=position;
-        this.sprite = resources.getDrawable(R.drawable.ic_launcher_background);  //TODO replace ic_launcher_background with pawn vectordrawable
-        this.colour=colour;
+        this.sprite = BitmapFactory.decodeResource(resources, R.drawable.ic_pawn_png);
     }
 
     //TODO implement Interface methods
@@ -31,7 +34,7 @@ public class Pawn implements PlayingPiece {
     }
 
     @Override
-    public Drawable getDrawable() {
+    public Bitmap getDrawable() {
         return this.sprite;
     }
 

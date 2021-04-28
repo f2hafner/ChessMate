@@ -96,4 +96,8 @@ public class Field {
     public String getChessCoordinates() {
         return ArrayToChessCoordinatesTranslator.translateCoordinates(this.x, this.y);
     }
+
+    public void setCurrentPiece(PlayingPiece currentPiece) {
+        this.currentPiece = currentPiece;
+    }
 }

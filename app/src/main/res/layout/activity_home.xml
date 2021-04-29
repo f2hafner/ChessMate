@@ -8,19 +8,6 @@
     android:background="@drawable/ic_enternamescreen">
 
     <Button
-        android:id="@+id/CreateCodeButton"
-        android:layout_width="365dp"
-        android:layout_height="42dp"
-        android:text="CreateGameCode"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.468"
-        tools:visibility="invisible" />
-
-    <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,14 +23,36 @@
         android:id="@+id/EnterName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="188dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/CreateCodeButton"
+        app:layout_constraintBottom_toTopOf="@+id/EnterGamePicture"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.606"
+        app:layout_constraintHorizontal_bias="0.597"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.687" />
+        app:layout_constraintVertical_bias="0.027" />
+
+    <ImageView
+        android:id="@+id/EnterGamePicture"
+        android:layout_width="258dp"
+        android:layout_height="79dp"
+        android:layout_marginBottom="348dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:srcCompat="@drawable/ic_entergamebutton"
+        tools:layout_editor_absoluteX="91dp" />
+
+    <Button
+        android:id="@+id/EnterGameButton"
+        android:layout_width="254dp"
+        android:layout_height="61dp"
+        android:text="Button"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/EnterGamePicture"
+        app:layout_constraintEnd_toEndOf="@+id/EnterGamePicture"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/EnterGamePicture"
+        app:layout_constraintTop_toTopOf="@+id/EnterGamePicture" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

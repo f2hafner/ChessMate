@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/joinSession"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_createsessionscreen"
+    tools:context=".createSession">
+
+    <ImageView
+        android:id="@+id/createSessionPicture"
+        android:layout_width="178dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="84dp"
+        app:layout_constraintBottom_toTopOf="@+id/joinSessionPicture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.063"
+        app:srcCompat="@drawable/ic_createsessionbutton" />
+
+    <ImageView
+        android:id="@+id/joinSessionPicture"
+        android:layout_width="194dp"
+        android:layout_height="71dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/optionPicture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_joinsessionbutton" />
+
+    <ImageView
+        android:id="@+id/optionPicture"
+        android:layout_width="127dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/RulesPicture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_optionsbutton" />
+
+    <ImageView
+        android:id="@+id/RulesPicture"
+        android:layout_width="134dp"
+        android:layout_height="42dp"
+        android:layout_marginBottom="332dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_rulesbutton" />
+
+    <Button
+        android:id="@+id/createSessionButton"
+        android:layout_width="181dp"
+        android:layout_height="58dp"
+        android:text="Button"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/createSessionPicture"
+        app:layout_constraintEnd_toEndOf="@+id/createSessionPicture"
+        app:layout_constraintStart_toStartOf="@+id/createSessionPicture"
+        app:layout_constraintTop_toTopOf="@+id/createSessionPicture" />
+
+    <Button
+        android:id="@+id/joinSessionButton"
+        android:layout_width="192dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="264dp"
+        android:text="Button"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/joinSessionPicture"
+        app:layout_constraintEnd_toEndOf="@+id/joinSessionPicture"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/joinSessionPicture"
+        app:layout_constraintTop_toTopOf="@+id/joinSessionPicture"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/optionsButton"
+        android:layout_width="123dp"
+        android:layout_height="48dp"
+        android:text="Button"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/optionPicture"
+        app:layout_constraintEnd_toEndOf="@+id/optionPicture"
+        app:layout_constraintStart_toStartOf="@+id/optionPicture"
+        app:layout_constraintTop_toTopOf="@+id/optionPicture" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="111dp"
+        android:layout_height="50dp"
+        android:text="Button"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/RulesPicture"
+        app:layout_constraintEnd_toEndOf="@+id/RulesPicture"
+        app:layout_constraintStart_toStartOf="@+id/RulesPicture"
+        app:layout_constraintTop_toTopOf="@+id/RulesPicture" />
+</androidx.constraintlayout.widget.ConstraintLayout>

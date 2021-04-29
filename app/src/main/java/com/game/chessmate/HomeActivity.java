@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -23,7 +27,13 @@ public class HomeActivity extends AppCompatActivity {
                 openNewActivity();
             }
         });
-    }
+
+    EditText enterName = findViewById(R.id.EnterName);
+    String name = enterName.getText().toString();
+
+}
+
+
     public void openNewActivity(){
         new Handler().post(() -> {
             Intent intent = new Intent(this, GameActivity.class);

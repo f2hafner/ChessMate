@@ -20,18 +20,6 @@
         app:layout_constraintVertical_bias="0.468"
         tools:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/EnterName"
-        android:layout_width="201dp"
-        android:layout_height="43dp"
-        android:text="EnterYourName"
-        app:layout_constraintBottom_toTopOf="@+id/CreateCodeButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.58"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.682" />
-
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -43,4 +31,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
+
+    <EditText
+        android:id="@+id/EnterName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/CreateCodeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.606"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.687" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

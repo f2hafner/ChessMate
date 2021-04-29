@@ -15,9 +15,9 @@ public class Knight implements PlayingPiece {
     private Bitmap sprite;
     private PlayingPieceColour colour;
 
-    public Knight(String ResourceName, Field position, Resources resources, PlayingPieceColour colour){
+    public Knight(Field position, Resources resources, int drawableId){
         this.position=position;
-        this.sprite = BitmapFactory.decodeResource(resources, R.drawable.ic_pawn);  //TODO replace ic_launcher_background with knight vectordrawable
+        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
         this.colour=colour;
     }
 

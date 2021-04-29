@@ -26,9 +26,9 @@ public class King implements PlayingPiece {
      * @param resourceName the resource name
      * @param position     the position
      */
-    public King(String resourceName, Field position, Resources resources, PlayingPieceColour colour) {
+    public King(Field position, Resources resources, int drawableId) {
         this.position = position;
-        this.sprite = BitmapFactory.decodeResource(resources, R.drawable.ic_pawn);  //TODO replace ic_launcher_background with king vectordrawable
+        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
         this.colour=colour;
     }
 

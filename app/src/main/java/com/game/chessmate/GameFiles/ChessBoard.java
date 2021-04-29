@@ -1,16 +1,21 @@
 package com.game.chessmate.GameFiles;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.game.chessmate.GameFiles.PlayingPieces.Bishop;
 import com.game.chessmate.GameFiles.PlayingPieces.King;
+import com.game.chessmate.GameFiles.PlayingPieces.Knight;
 import com.game.chessmate.GameFiles.PlayingPieces.Pawn;
 import com.game.chessmate.GameFiles.PlayingPieces.PlayingPiece;
-import com.game.chessmate.GameFiles.PlayingPieces.PlayingPieceColour;
+import com.game.chessmate.GameFiles.PlayingPieces.PlayingPieceType;
+import com.game.chessmate.GameFiles.PlayingPieces.Queen;
+import com.game.chessmate.GameFiles.PlayingPieces.Rook;
+import com.game.chessmate.R;
 
 import java.util.ArrayList;
 
@@ -26,7 +31,6 @@ public class ChessBoard {
     }
     public static ChessBoard getInstance(){ return ChessBoard.InstanceHolder.INSTANCE; }
 
-
     /**
      * @param boardFields 2D Array that contains all Fields of the Chessboard
      * @param fieldSize The size of one Field one the Chessboard, which is actually used to define the size
@@ -34,23 +38,27 @@ public class ChessBoard {
      */
     private Field[][] boardFields;
     private int fieldSize;
-    ArrayList<PlayingPiece> player1Pieces;
-    ArrayList<PlayingPiece> player2Pieces;
+    private final int boardSize = 8;
+    ArrayList<PlayingPiece> piecesPlayer1;
+    ArrayList<PlayingPiece> piecesPlayer2;
+
+    private ChessBoard() {
+        this.boardFields = new Field[8][8];
+        piecesPlayer1 = new ArrayList<>();
+        piecesPlayer2 = new ArrayList<>();
+    }
 
     /**
      * Initializes the 2D Array of Fields and calculates the Field size(Rectangle size) with the width of the canvas
      * that is being drawn on.
      *
-     * @param size   chessboard (default size 8)
      * @param canvas the canvas which contains the Chessboard
      */
-    public void create(byte size, Canvas canvas, Resources resources){
-        this.boardFields = new Field[size][size];
-        this.fieldSize = calculateRectSize(canvas, size);
+    public void initChessBoard(Canvas canvas, Resources resources){
+        this.fieldSize = calculateRectSize(canvas);
         initFields();
-        player1Pieces = new ArrayList<>();
-        player2Pieces = new ArrayList<>();
-        initPieces(resources);
+        initPiecesPlayer1(resources);
+        initPiecesPlayer2(resources);
     }
 
     private void initFields() {
@@ -61,17 +69,39 @@ public class ChessBoard {
         }
     }
 
-    private void initPieces(Resources resources) {
-        for (int i = 0; i < boardFields.length; i++) {
-            for (int j = 0; j < boardFields[i].length; j++) {
-                boardFields[i][j].setCurrentPiece(initPawn(boardFields[i][j], resources));
-            }
-        }
+    private void initPiecesPlayer1(Resources resources) {
+        initPieces(PlayingPieceType.PAWN, resources, 6, 0, 8, this.piecesPlayer1, R.drawable.pawn_player1);
+        initPieces(PlayingPieceType.ROOK, resources, 7, 0, 1, this.piecesPlayer1, R.drawable.rook_player1);
+        initPieces(PlayingPieceType.ROOK, resources, 7, 7, 1, this.piecesPlayer1, R.drawable.rook_player1);
+        initPieces(PlayingPieceType.KNIGHT, resources, 7, 1, 1, this.piecesPlayer1, R.drawable.knight_player1);
+        initPieces(PlayingPieceType.KNIGHT, resources, 7, 6, 1, this.piecesPlayer1, R.drawable.knight_player1);
+        initPieces(PlayingPieceType.BISHOP, resources, 7, 2, 1, this.piecesPlayer1, R.drawable.bishop_player1);
+        initPieces(PlayingPieceType.BISHOP, resources, 7, 5, 1, this.piecesPlayer1, R.drawable.bishop_player1);
+        initPieces(PlayingPieceType.QUEEN, resources, 7, 4, 1, this.piecesPlayer1, R.drawable.queen_player1);
+        initPieces(PlayingPieceType.KING, resources, 7, 3, 1, this.piecesPlayer1, R.drawable.king_player1);
+    }
+
+    private void initPiecesPlayer2(Resources resources) {
+        initPieces(PlayingPieceType.PAWN, resources, 1, 0, 8, this.piecesPlayer2, R.drawable.pawn_player2);
+        initPieces(PlayingPieceType.ROOK, resources, 0, 0, 1, this.piecesPlayer2, R.drawable.rook_player2);
+        initPieces(PlayingPieceType.ROOK, resources, 0, 7, 1, this.piecesPlayer2, R.drawable.rook_player2);
+        initPieces(PlayingPieceType.KNIGHT, resources, 0, 1, 1, this.piecesPlayer2, R.drawable.knight_player2);
+        initPieces(PlayingPieceType.KNIGHT, resources, 0, 6, 1, this.piecesPlayer2, R.drawable.knight_player2);
+        initPieces(PlayingPieceType.BISHOP, resources, 0, 2, 1, this.piecesPlayer2, R.drawable.bishop_player2);
+        initPieces(PlayingPieceType.BISHOP, resources, 0, 5, 1, this.piecesPlayer2, R.drawable.bishop_player2);
+        initPieces(PlayingPieceType.QUEEN, resources, 0, 4, 1, this.piecesPlayer2, R.drawable.queen_player2);
+        initPieces(PlayingPieceType.KING, resources, 0, 3, 1, this.piecesPlayer2, R.drawable.king_player2);
     }
 
     public void drawPieces(Canvas canvas) {
-        for (int i = 0; i < player1Pieces.size(); i++) {
-            canvas.drawBitmap(player1Pieces.get(i).getDrawable(),null, boardFields[1][1].getRectangle(), null);
+        for (int i = 0; i < piecesPlayer1.size(); i++) {
+
+            Bitmap spritePlayer1 = piecesPlayer1.get(i).getDrawable();
+            Bitmap spritePlayer2 = piecesPlayer2.get(i).getDrawable();
+            Rect fieldPlayer1 = piecesPlayer1.get(i).getPosition().getRectangle();
+            Rect fieldPlayer2 = piecesPlayer2.get(i).getPosition().getRectangle();
+            canvas.drawBitmap(spritePlayer1,null, fieldPlayer1, null);
+            canvas.drawBitmap(spritePlayer2,null, fieldPlayer2, null);
         }
     }
 
@@ -115,21 +145,31 @@ public class ChessBoard {
      * for must be considered.
      *
      * @param canvas Used to get the size of the canvas
-     * @param size Chessboard n x n size
      * @return returns the size 1 Rectangle should have
      */
-
-    private int calculateRectSize(Canvas canvas, byte size) {
+    private int calculateRectSize(Canvas canvas) {
         float canvasWidth = canvas.getWidth();
         float offset = canvasWidth % 8;
-        int rectSize = (int)canvasWidth / size - (int)offset;
+        int rectSize = (int)canvasWidth / this.boardSize - (int)offset;
         return rectSize;
     }
-    
-    private Pawn initPawn(Field field, Resources resources) {
-        Pawn pawn = new Pawn(field, resources);
-        this.player1Pieces.add(pawn);
-        return pawn;
+
+    private void initPieces(PlayingPieceType type, Resources resources, int row, int offset, int length, ArrayList<PlayingPiece> piecesPlayer, int drawableId) {
+        for (int j = offset; j < offset + length; j++) {
+            Field field = boardFields[row][j];
+            PlayingPiece piece = null;
+            switch(type) {
+                case PAWN: piece = new Pawn(field, resources, drawableId); break;
+                case ROOK: piece = new Rook(field, resources, drawableId); break;
+                case BISHOP: piece = new Bishop(field, resources, drawableId); break;
+                case KNIGHT: piece = new Knight(field, resources, drawableId); break;
+                case QUEEN: piece = new Queen(field, resources, drawableId); break;
+                case KING: piece = new King(field, resources, drawableId); break;
+            }
+
+            piecesPlayer.add(piece);
+            field.setCurrentPiece(piece);
+        }
     }
 
     public int getFieldSize() {

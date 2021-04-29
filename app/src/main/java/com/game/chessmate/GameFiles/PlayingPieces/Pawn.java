@@ -1,10 +1,13 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.*;
 
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.game.chessmate.GameFiles.Field;
@@ -17,9 +20,10 @@ public class Pawn implements PlayingPiece {
     private Bitmap sprite;
     private PlayingPieceColour colour;
 
-    public Pawn(Field position, Resources resources){
+    public Pawn(Field position, Resources resources, int drawableId){
         this.position=position;
-        this.sprite = BitmapFactory.decodeResource(resources, R.drawable.ic_pawn_png);
+        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+
     }
 
     //TODO implement Interface methods

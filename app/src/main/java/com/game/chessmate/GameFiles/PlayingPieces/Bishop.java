@@ -15,9 +15,9 @@ public class Bishop implements PlayingPiece {
     private Bitmap sprite;
     private PlayingPieceColour colour;
 
-    public Bishop(Field position, Resources resources, PlayingPieceColour colour){
+    public Bishop(Field position, Resources resources, int drawableId){
         this.position=position;
-        this.sprite = BitmapFactory.decodeResource(resources, R.drawable.ic_pawn);  //TODO replace ic_launcher_background with bishop vectordrawable
+        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
         this.colour=colour;
     }
 
@@ -46,5 +46,6 @@ public class Bishop implements PlayingPiece {
     public PlayingPieceColour getColour() {
         return this.colour;
     }
+
 }
 

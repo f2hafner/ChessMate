@@ -14,9 +14,9 @@ public class Rook implements PlayingPiece {
     private Bitmap sprite;
     private PlayingPieceColour colour;
 
-    public Rook(String ResourceName, Field position, Resources resources, PlayingPieceColour colour){
+    public Rook(Field position, Resources resources, int drawableId){
         this.position=position;
-        this.sprite = BitmapFactory.decodeResource(resources, R.drawable.ic_pawn);  //TODO replace ic_launcher_background with rook vectordrawable
+        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
         this.colour=colour;
     }
 

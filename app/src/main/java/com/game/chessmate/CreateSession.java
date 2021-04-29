@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class createSession extends AppCompatActivity {
+public class CreateSession extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

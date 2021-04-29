@@ -38,21 +38,36 @@
         android:id="@+id/EnterGamePicture"
         android:layout_width="258dp"
         android:layout_height="79dp"
-        android:layout_marginBottom="348dp"
+        android:layout_marginBottom="344dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:srcCompat="@drawable/ic_entergamebutton"
-        tools:layout_editor_absoluteX="91dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_entergamebutton" />
 
     <Button
         android:id="@+id/EnterGameButton"
         android:layout_width="254dp"
         android:layout_height="61dp"
-        android:text="Button"
-        android:visibility="invisible"
+        android:text="Enter"
+        android:visibility="visible"
+        app:backgroundTint="#C3BEBE"
         app:layout_constraintBottom_toBottomOf="@+id/EnterGamePicture"
-        app:layout_constraintEnd_toEndOf="@+id/EnterGamePicture"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/EnterGamePicture"
-        app:layout_constraintTop_toTopOf="@+id/EnterGamePicture" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/EnterGamePicture"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/pleaseEnterYourName"
+        android:layout_width="224dp"
+        android:layout_height="27dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.369" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

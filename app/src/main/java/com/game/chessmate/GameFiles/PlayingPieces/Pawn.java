@@ -13,15 +13,17 @@ import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.R;
 
+import java.util.ArrayList;
+
 /** class implementing the Pawn playing piece */
 public class Pawn implements PlayingPiece {
 
-    private Field position;
+    private Field currentPosition;
     private Bitmap sprite;
     private PlayingPieceColour colour;
 
     public Pawn(Field position, Resources resources, int drawableId){
-        this.position=position;
+        this.currentPosition=position;
         this.sprite = BitmapFactory.decodeResource(resources, drawableId);
 
     }
@@ -34,7 +36,7 @@ public class Pawn implements PlayingPiece {
 
     @Override
     public Field getPosition() {
-        return this.position;
+        return this.currentPosition;
     }
 
     @Override
@@ -43,9 +45,10 @@ public class Pawn implements PlayingPiece {
     }
 
     @Override
-    public Field[] canMove() {
-        return new Field[0];
+    public ArrayList<Field> getLegalFields() {
+        return new ArrayList<>();
     }
+
 
     @Override
     public PlayingPieceColour getColour() {

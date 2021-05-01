@@ -36,7 +36,7 @@ public class Field {
         this.y = y;
 
         this.color = new Paint();
-        color.setColor(getColor() ? Color.BLACK : Color.GRAY);
+        color.setColor(getInitColor() ? Color.BLACK : Color.GRAY);
         rectangle = new Rect();
         setupRectangle(rectangle);
     }
@@ -62,14 +62,13 @@ public class Field {
      * @return PlayingPiece
      * */
     public PlayingPiece getCurrentPiece(){
-        //TODO implement return gamepiece
-        throw new UnsupportedOperationException();
+        return this.currentPiece;
     }
 
     /**
      * Decides the color of the Rectangle with modulo operation on x and y coordinates.
      */
-    private boolean getColor() {
+    private boolean getInitColor() {
         return (this.x + this.y) % 2 == 0;
     }
 
@@ -99,5 +98,21 @@ public class Field {
 
     public void setCurrentPiece(PlayingPiece currentPiece) {
         this.currentPiece = currentPiece;
+    }
+
+    public int getX(){
+        return this.x;
+    }
+
+    public int getY(){
+        return this.y;
+    }
+
+    public void setAsLegal(){
+        color.setColor(Color.YELLOW);
+    }
+
+    public void setOriginalColour(){
+        color.setColor(getInitColor() ? Color.BLACK : Color.GRAY);
     }
 }

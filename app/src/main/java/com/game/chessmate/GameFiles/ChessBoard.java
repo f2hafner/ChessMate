@@ -36,6 +36,7 @@ public class ChessBoard {
      * @param fieldSize The size of one Field one the Chessboard, which is actually used to define the size
      *                  of the Rectangle each Field consists of.
      */
+    private BoardView view;
     private Field[][] boardFields;
     private int fieldSize;
     private final int boardSize = 8;
@@ -52,10 +53,11 @@ public class ChessBoard {
      * Initializes the 2D Array of Fields and calculates the Field size(Rectangle size) with the width of the canvas
      * that is being drawn on.
      *
-     * @param canvas the canvas which contains the Chessboard
+     * @param view the canvas which contains the Chessboard
      */
-    public void initChessBoard(Canvas canvas, Resources resources){
-        this.fieldSize = calculateRectSize(canvas);
+    public void initChessBoard(BoardView view, Resources resources){
+        this.view = view;
+        this.fieldSize = calculateRectSize(1130);
         initFields();
         initPiecesPlayer1(resources);
         initPiecesPlayer2(resources);
@@ -65,6 +67,7 @@ public class ChessBoard {
         for (int i = 0; i < boardFields.length; i++) {
             for (int j = 0; j < boardFields[i].length; j++) {
                 boardFields[i][j] = new Field(i, j);
+                boardFields[i][j].setCurrentPiece(null);
             }
         }
     }
@@ -120,7 +123,9 @@ public class ChessBoard {
      * Handles onTouchEvent fired by the BoardView (onTouchEvent) when the View is clicked on.
      * Cycles through the Chessboard fields and checks if the coordinates from the touchEvent match with
      * the coordinates from one of the Fields (Rectangles); it then translates the coordinates from the 2D Array
-     * to chessboard coordinates and logs them (for now)
+     * to chessboard coordinates and logs them.
+     * Uses Rectangle that was clicked on to determine field and with that chess piece that was clicked on. Then calls Method
+     * to determine legalMoves of ChessPiece and calls method to draw legalMoves.
      *
      * @param event the event with the x and y coordinates of the touch event.
      */
@@ -134,9 +139,33 @@ public class ChessBoard {
                 rect = boardFields[i][j].getRectangle();
                 if (rect.contains(touchX, touchY)) {
                     Log.d(TAG, "handleChessBoardClick: " + boardFields[i][j].getChessCoordinates());
+                    Field clickedField = boardFields[i][j];
+                    ArrayList<Field> fieldsToMove = clickedField.getCurrentPiece().getLegalFields();
+                    if(!fieldsToMove.isEmpty()){
+                        drawLegalMoves(fieldsToMove);
+                    }
                 }
             }
         }
+    }
+
+    /**
+     * Sets all fields in ArrayList fieldsToMove as legal to move to. Then calls redraw of view.
+     * @param fieldsToMove ArrayList of Fields that are legal for the currently selected ChessPiece to move to
+     */
+    private void drawLegalMoves(ArrayList<Field> fieldsToMove) {
+        Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
+        for (int i = 0; i<currentFields.length; i++){
+            for(int j = 0; j<currentFields[i].length; j++){
+                currentFields[i][j].setOriginalColour();
+            }
+        }
+
+        for(Field f : fieldsToMove){
+            f.setAsLegal();
+        }
+        view.invalidate();
+
     }
 
     /**
@@ -147,8 +176,8 @@ public class ChessBoard {
      * @param canvas Used to get the size of the canvas
      * @return returns the size 1 Rectangle should have
      */
-    private int calculateRectSize(Canvas canvas) {
-        float canvasWidth = canvas.getWidth();
+    private int calculateRectSize(int canvas) {
+        float canvasWidth = canvas;
         float offset = canvasWidth % 8;
         int rectSize = (int)canvasWidth / this.boardSize - (int)offset;
         return rectSize;

@@ -6,13 +6,15 @@ import android.graphics.drawable.VectorDrawable;
 
 import com.game.chessmate.GameFiles.Field;
 
+import java.util.ArrayList;
+
 /** Interface to set the needed methods for the PlayingPieces. */
 public interface PlayingPiece {
 
     PlayingPieceType getPlayingPieceType();
     Field getPosition();
     Bitmap getDrawable();
-    Field[] canMove();
+    ArrayList<Field> getLegalFields();
     PlayingPieceColour getColour();
 
     //TODO find a way to implement the legal moves

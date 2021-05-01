@@ -8,15 +8,17 @@ import android.graphics.drawable.Drawable;
 import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.R;
 
+import java.util.ArrayList;
+
 /** class implementing the Queen playing piece */
 public class Queen implements PlayingPiece {
 
-    private Field position;
+    private Field currentPosition;
     private Bitmap sprite;
     private PlayingPieceColour colour;
 
     public Queen(Field position, Resources resources, int drawableId){
-        this.position=position;
+        this.currentPosition=position;
         this.sprite = BitmapFactory.decodeResource(resources, drawableId);
         this.colour=colour;
     }
@@ -29,7 +31,7 @@ public class Queen implements PlayingPiece {
 
     @Override
     public Field getPosition() {
-        return this.position;
+        return this.currentPosition;
     }
 
     @Override
@@ -38,8 +40,8 @@ public class Queen implements PlayingPiece {
     }
 
     @Override
-    public Field[] canMove() {
-        return new Field[0];
+    public ArrayList<Field> getLegalFields() {
+        return new ArrayList<>();
     }
 
     @Override

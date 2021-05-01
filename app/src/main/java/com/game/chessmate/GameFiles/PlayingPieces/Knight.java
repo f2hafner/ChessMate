@@ -5,18 +5,21 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
+import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.R;
+
+import java.util.ArrayList;
 
 /** class implementing the Knight playing piece */
 public class Knight implements PlayingPiece {
 
-    private Field position;
+    private Field currentPosition;
     private Bitmap sprite;
     private PlayingPieceColour colour;
 
     public Knight(Field position, Resources resources, int drawableId){
-        this.position=position;
+        this.currentPosition=position;
         this.sprite = BitmapFactory.decodeResource(resources, drawableId);
         this.colour=colour;
     }
@@ -29,7 +32,7 @@ public class Knight implements PlayingPiece {
 
     @Override
     public Field getPosition() {
-        return this.position;
+        return this.currentPosition;
     }
 
     @Override
@@ -38,8 +41,8 @@ public class Knight implements PlayingPiece {
     }
 
     @Override
-    public Field[] canMove() {
-        return new Field[0];
+    public ArrayList<Field> getLegalFields() {
+        return new ArrayList<>();
     }
 
     @Override

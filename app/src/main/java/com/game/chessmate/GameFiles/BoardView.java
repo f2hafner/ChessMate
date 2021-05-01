@@ -26,6 +26,7 @@ public class BoardView extends View {
         super(context, attrs);
         this.setOnTouchListener(boardClickListener);
         board = ChessBoard.getInstance();
+        board.initChessBoard(this, getResources());
     }
 
     /**
@@ -49,7 +50,6 @@ public class BoardView extends View {
      */
     @Override
     protected void onDraw(Canvas canvas) {
-        board.initChessBoard(canvas, getResources());
         board.drawFields(canvas);
         board.drawPieces(canvas);
     }

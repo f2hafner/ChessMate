@@ -111,4 +111,8 @@ public class Field {
     public void setAsLegal(){
         color.setColor(Color.YELLOW);
     }
+
+    public void setOriginalColour(){
+        color.setColor(getInitColor() ? Color.BLACK : Color.GRAY);
+    }
 }

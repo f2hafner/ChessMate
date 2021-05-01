@@ -45,8 +45,7 @@ public class Rook implements PlayingPiece {
      */
     @Override
     public ArrayList<Field> getLegalFields() {
-        ChessBoard cb = ChessBoard.getInstance();
-        Field[][] currentFields = cb.getBoardFields();
+        Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
         ArrayList<Field> legalFields = new ArrayList<>();
 
         int i;

@@ -154,6 +154,13 @@ public class ChessBoard {
      * @param fieldsToMove ArrayList of Fields that are legal for the currently selected ChessPiece to move to
      */
     private void drawLegalMoves(ArrayList<Field> fieldsToMove) {
+        Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
+        for (int i = 0; i<currentFields.length; i++){
+            for(int j = 0; j<currentFields[i].length; j++){
+                currentFields[i][j].setOriginalColour();
+            }
+        }
+
         for(Field f : fieldsToMove){
             f.setAsLegal();
         }

@@ -56,8 +56,7 @@ public class King implements PlayingPiece {
      */
     @Override
     public ArrayList<Field> getLegalFields() {
-        ChessBoard cb = ChessBoard.getInstance();
-        Field[][] currentFields = cb.getBoardFields();
+        Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
         ArrayList<Field> legalFields = new ArrayList<>();
 
         for(int i = currentPosition.getX()-1; i <= currentPosition.getX()+1; i++){

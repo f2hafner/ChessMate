@@ -36,7 +36,7 @@ public class HomeActivity extends AppCompatActivity {
                 Intent createSessionIntent = new Intent(this, CreateSession.class);
                 startActivity(createSessionIntent);
             } else {
-                pleaseEnterName.setText("Please Enter Your Name");
+                pleaseEnterName.setText("Please Enter Your Name!");
             }
         });
 

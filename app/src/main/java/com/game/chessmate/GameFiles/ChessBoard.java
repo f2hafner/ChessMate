@@ -65,6 +65,7 @@ public class ChessBoard {
         for (int i = 0; i < boardFields.length; i++) {
             for (int j = 0; j < boardFields[i].length; j++) {
                 boardFields[i][j] = new Field(i, j);
+                boardFields[i][j].setCurrentPiece(null);
             }
         }
     }

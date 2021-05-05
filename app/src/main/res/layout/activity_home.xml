@@ -62,9 +62,10 @@
 
     <TextView
         android:id="@+id/pleaseEnterYourName"
-        android:layout_width="224dp"
-        android:layout_height="27dp"
+        android:layout_width="333dp"
+        android:layout_height="35dp"
         android:layout_marginBottom="48dp"
+        android:textAlignment="center"
         android:textColor="#FF9800"
         android:textColorHighlight="#FF9800"
         android:textColorLink="#FF9800"

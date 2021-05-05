@@ -12,9 +12,7 @@
         android:id="@+id/createSessionButton"
         android:layout_width="230dp"
         android:layout_height="40dp"
-        android:layout_marginStart="89dp"
-        android:layout_marginTop="135dp"
-        android:layout_marginEnd="73dp"
+        android:layout_marginTop="136dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:text="Create Session"
@@ -24,6 +22,7 @@
         android:textSize="24sp"
         app:backgroundTint="#C8C4C4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,9 +30,7 @@
         android:id="@+id/joinSessionButton"
         android:layout_width="230dp"
         android:layout_height="40dp"
-        android:layout_marginStart="89dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="73dp"
+        android:layout_marginTop="32dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:text="Join Session"
@@ -42,6 +39,7 @@
         android:textSize="24sp"
         app:backgroundTint="#C8C4C4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createSessionButton" />
 
@@ -49,9 +47,7 @@
         android:id="@+id/optionsButton"
         android:layout_width="230dp"
         android:layout_height="40dp"
-        android:layout_marginStart="89dp"
         android:layout_marginTop="28dp"
-        android:layout_marginEnd="73dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:text="Options"
@@ -60,6 +56,7 @@
         android:textSize="24sp"
         app:backgroundTint="#C8C4C4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/joinSessionButton" />
 
@@ -67,9 +64,7 @@
         android:id="@+id/rulesButton"
         android:layout_width="230dp"
         android:layout_height="40dp"
-        android:layout_marginStart="89dp"
         android:layout_marginTop="28dp"
-        android:layout_marginEnd="73dp"
         android:layout_marginBottom="441dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
@@ -82,7 +77,9 @@
         app:iconTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/optionsButton" />
+        app:layout_constraintTop_toBottomOf="@+id/optionsButton"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

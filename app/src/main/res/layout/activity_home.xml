@@ -25,16 +25,15 @@
         android:id="@+id/EnterName"
         android:layout_width="182dp"
         android:layout_height="38dp"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="215dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/EnterGamePicture"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.554"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.013" />
+        app:layout_constraintVertical_bias="0.768" />
 
     <ImageView
         android:id="@+id/EnterGamePicture"
@@ -56,9 +55,10 @@
         app:backgroundTint="#C3BEBE"
         app:layout_constraintBottom_toBottomOf="@+id/EnterGamePicture"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/EnterGamePicture" />
+        app:layout_constraintTop_toTopOf="@+id/EnterGamePicture"
+        app:layout_constraintVertical_bias="0.555" />
 
     <TextView
         android:id="@+id/pleaseEnterYourName"
@@ -69,9 +69,9 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.383" />
+        app:layout_constraintVertical_bias="0.352" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

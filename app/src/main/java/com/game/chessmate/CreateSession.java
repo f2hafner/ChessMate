@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class CreateSession extends AppCompatActivity {
 
@@ -20,8 +21,10 @@ public class CreateSession extends AppCompatActivity {
         Button options=(Button) findViewById(R.id.optionsButton);
         Button rules=(Button) findViewById(R.id.rulesButton);
 
+        TextView namedisplay = findViewById(R.id.playerName);
         String name =getIntent().getExtras().getString("name");
 
+        namedisplay.setText("Welcome "+ name);
         createSession.setOnClickListener(v -> {
             Intent createSessionIntent=new Intent(this,Lobby.class);
             createSessionIntent.putExtra("name",name);

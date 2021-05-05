@@ -5,14 +5,15 @@
     android:id="@+id/joinSession"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_createsessionscreen"
+    android:background="@drawable/ic_simplebackground"
     tools:context=".CreateSession">
 
     <Button
         android:id="@+id/createSessionButton"
         android:layout_width="230dp"
         android:layout_height="40dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginTop="196dp"
+        android:layout_marginBottom="20dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:text="Create Session"
@@ -21,16 +22,18 @@
         android:textColor="#050505"
         android:textSize="24sp"
         app:backgroundTint="#C8C4C4"
+        app:layout_constraintBottom_toTopOf="@+id/joinSessionButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/joinSessionButton"
         android:layout_width="230dp"
         android:layout_height="40dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="20dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:text="Join Session"
@@ -38,16 +41,16 @@
         android:textColor="#000000"
         android:textSize="24sp"
         app:backgroundTint="#C8C4C4"
+        app:layout_constraintBottom_toTopOf="@+id/optionsButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createSessionButton" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/optionsButton"
         android:layout_width="230dp"
         android:layout_height="40dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginBottom="20dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:text="Options"
@@ -55,17 +58,16 @@
         android:textColor="#000000"
         android:textSize="24sp"
         app:backgroundTint="#C8C4C4"
+        app:layout_constraintBottom_toTopOf="@+id/rulesButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/joinSessionButton" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/rulesButton"
         android:layout_width="230dp"
         android:layout_height="40dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginBottom="441dp"
+        android:layout_marginBottom="40dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:text="Rules"
@@ -75,11 +77,48 @@
         app:backgroundTint="#C8C4C4"
         app:backgroundTintMode="src_atop"
         app:iconTint="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/imageView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
+        android:text="ChessMate"
+        android:textColor="#FF9800"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/playerName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/playerName"
+        android:layout_width="299dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="40dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="#FF9800"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/createSessionButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="154dp"
+        android:layout_height="218dp"
+        android:layout_marginBottom="28dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/optionsButton"
-        app:layout_constraintVertical_bias="0.0" />
+        app:srcCompat="@drawable/ic_pawnforscreen" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity"
-    android:background="@drawable/ic_enternamescreen">
+    android:background="@drawable/ic_simplebackground"
+    tools:context=".HomeActivity">
 
     <Button
         android:id="@+id/button"
@@ -16,7 +16,7 @@
         app:backgroundTint="#FF5722"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.056"
+        app:layout_constraintHorizontal_bias="0.003"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
@@ -25,53 +25,84 @@
         android:id="@+id/EnterName"
         android:layout_width="182dp"
         android:layout_height="38dp"
+        android:layout_marginBottom="28dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/EnterGamePicture"
+        android:textColor="#FFC107"
+        android:textColorHint="#FF9800"
+        app:layout_constraintBottom_toTopOf="@+id/pleaseEnterYourName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.554"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.768" />
-
-    <ImageView
-        android:id="@+id/EnterGamePicture"
-        android:layout_width="258dp"
-        android:layout_height="79dp"
-        android:layout_marginBottom="364dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_entergamebutton" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/EnterGameButton"
         android:layout_width="254dp"
         android:layout_height="61dp"
+        android:layout_marginBottom="60dp"
+        android:shadowColor="#FFFFFF"
         android:text="Enter"
+        android:textColor="#000000"
+        android:textColorHint="#FFFFFF"
+        android:textSize="18sp"
         android:visibility="visible"
-        app:backgroundTint="#C3BEBE"
-        app:layout_constraintBottom_toBottomOf="@+id/EnterGamePicture"
+        app:backgroundTint="#FF9800"
+        app:cornerRadius="20px"
+        app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/EnterGamePicture"
-        app:layout_constraintVertical_bias="0.555" />
+        app:strokeColor="#FF9800" />
 
     <TextView
         android:id="@+id/pleaseEnterYourName"
         android:layout_width="224dp"
         android:layout_height="27dp"
+        android:layout_marginTop="248dp"
         android:textColor="#FF9800"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/EnterGameButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.352" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="232dp"
+        android:layout_height="44dp"
+        android:text="Enter Your Name"
+        android:textColor="#FF9800"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/EnterName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="51dp"
+        android:layout_height="34dp"
+        app:layout_constraintBottom_toBottomOf="@+id/EnterName"
+        app:layout_constraintEnd_toStartOf="@+id/EnterName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/EnterName"
+        app:srcCompat="@drawable/ic_crownwidget" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="156dp"
+        android:layout_height="253dp"
+        android:layout_marginBottom="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_pawnforscreen" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

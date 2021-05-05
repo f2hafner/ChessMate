@@ -20,8 +20,11 @@ public class CreateSession extends AppCompatActivity {
         Button options=(Button) findViewById(R.id.optionsButton);
         Button rules=(Button) findViewById(R.id.rulesButton);
 
+        String name =getIntent().getExtras().getString("name");
+
         createSession.setOnClickListener(v -> {
-            Intent createSessionIntent=new Intent(this,GameActivity.class);
+            Intent createSessionIntent=new Intent(this,Lobby.class);
+            createSessionIntent.putExtra("name",name);
             startActivity(createSessionIntent);
         });
 

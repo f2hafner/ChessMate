@@ -26,6 +26,8 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+
+
         EditText enterName = findViewById(R.id.EnterName);
         String name = enterName.getText().toString();
         TextView pleaseEnterName = findViewById(R.id.pleaseEnterYourName);
@@ -34,6 +36,7 @@ public class HomeActivity extends AppCompatActivity {
         enterGame.setOnClickListener(v -> {
             if (!enterName.getText().toString().matches("")) {
                 Intent createSessionIntent = new Intent(this, CreateSession.class);
+                createSessionIntent.putExtra("name",enterName.getText().toString());
                 startActivity(createSessionIntent);
             } else {
                 pleaseEnterName.setText("Please Enter Your Name!");

@@ -3,14 +3,10 @@ package com.game.chessmate.GameFiles.PlayingPieces;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
-
-import androidx.core.content.res.ResourcesCompat;
+import android.graphics.Rect;
 
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
-import com.game.chessmate.R;
 
 import java.util.ArrayList;
 
@@ -32,7 +28,15 @@ public class King implements PlayingPiece {
     public King(Field position, Resources resources, int drawableId) {
         this.currentPosition = position;
         this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+        scaleBitmapToFieldSize();
         this.colour=colour;
+    }
+
+    private void scaleBitmapToFieldSize() {
+        Rect rectangle = this.currentPosition.getRectangle();
+        int width = rectangle.width();
+        int height = rectangle.height();
+        this.sprite = Bitmap.createScaledBitmap(this.sprite, width, height, false);
     }
 
     @Override
@@ -59,10 +63,10 @@ public class King implements PlayingPiece {
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
         ArrayList<Field> legalFields = new ArrayList<>();
 
-        for(int i = currentPosition.getX()-1; i <= currentPosition.getX()+1; i++){
-            for(int j = currentPosition.getY()-1; j <= currentPosition.getY()+1; j++){
+        for(int i = currentPosition.getFieldX()-1; i <= currentPosition.getFieldX()+1; i++){
+            for(int j = currentPosition.getFieldY()-1; j <= currentPosition.getFieldY()+1; j++){
                 if(i>=0 && i<=7 && j>=0 && j<=7){
-                    if(!(i == currentPosition.getX() && j == currentPosition.getY())){
+                    if(!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())){
                         legalFields.add(currentFields[i][j]);
                     }
                 }
@@ -76,4 +80,8 @@ public class King implements PlayingPiece {
         return this.colour;
     }
 
+    @Override
+    public void setCurrentPosition(Field currentPosition) {
+        this.currentPosition = currentPosition;
+    }
 }

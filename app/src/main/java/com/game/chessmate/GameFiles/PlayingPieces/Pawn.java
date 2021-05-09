@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.*;
 
@@ -25,7 +26,14 @@ public class Pawn implements PlayingPiece {
     public Pawn(Field position, Resources resources, int drawableId){
         this.currentPosition=position;
         this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+        scaleBitmapToFieldSize();
+    }
 
+    private void scaleBitmapToFieldSize() {
+        Rect rectangle = this.currentPosition.getRectangle();
+        int width = rectangle.width();
+        int height = rectangle.height();
+        this.sprite = Bitmap.createScaledBitmap(this.sprite, width, height, false);
     }
 
     //TODO implement Interface methods
@@ -55,4 +63,8 @@ public class Pawn implements PlayingPiece {
         return this.colour;
     }
 
+    @Override
+    public void setCurrentPosition(Field currentPosition) {
+        this.currentPosition = currentPosition;
+    }
 }

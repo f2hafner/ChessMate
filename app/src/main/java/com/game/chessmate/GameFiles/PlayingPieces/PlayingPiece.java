@@ -16,6 +16,7 @@ public interface PlayingPiece {
     Bitmap getDrawable();
     ArrayList<Field> getLegalFields();
     PlayingPieceColour getColour();
+    void setCurrentPosition(Field field);
 
     //TODO find a way to implement the legal moves
     // Maybe asset datatype so a user can switch out the playingpiece designs (if possible)

@@ -44,7 +44,7 @@ public class KnightTest {
         resources=Mockito.mock(Resources.class);
         sprite=null;
 
-        knight=new Knight(position,resources,drawableId);//,colour);
+        knight=new Knight(position,resources,drawableId,colour);
 
         knight.setColor(colour);
 

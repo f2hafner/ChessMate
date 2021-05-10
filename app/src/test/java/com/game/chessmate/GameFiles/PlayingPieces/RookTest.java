@@ -44,7 +44,7 @@ public class RookTest {
         resources=Mockito.mock(Resources.class);
         sprite=null;
 
-        rook=new Rook(position,resources,drawableId);//,colour);
+        rook=new Rook(position,resources,drawableId,colour);
 
         rook.setColor(colour);
 

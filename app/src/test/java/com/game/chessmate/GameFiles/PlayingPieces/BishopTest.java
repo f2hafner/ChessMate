@@ -56,7 +56,7 @@ public class BishopTest {
         resources=Mockito.mock(Resources.class);
         drawableId=R.drawable.bishop_player1;
 
-        bishop=new Bishop(position,resources,drawableId);//,colour);
+        bishop=new Bishop(position,resources,drawableId,colour);
         bishop.setColor(colour);
 
     }

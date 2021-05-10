@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 
 import com.game.chessmate.GameFiles.PlayingPieces.PlayingPiece;
+import com.game.chessmate.GameFiles.PlayingPieces.PlayingPieceType;
 
 import static android.content.ContentValues.TAG;
 
@@ -31,7 +32,7 @@ public class Field extends View {
      */
     private int x;
     private int y;
-    private Paint color;
+    public Paint color;
     private Rect rectangle;
     private PlayingPiece currentPiece;
 
@@ -44,7 +45,7 @@ public class Field extends View {
         this.y = y;
 
         this.color = new Paint();
-        setRectangleDefaultColor();
+ //       setRectangleDefaultColor();
         rectangle = new Rect();
         setupRectangle(rectangle);
     }
@@ -78,7 +79,11 @@ public class Field extends View {
      * */
     public boolean hasPiece(){
         //TODO implement if Field has Piece
-        throw new UnsupportedOperationException();
+        if (currentPiece!= null)
+            return true;
+        else
+            return false;
+     //   throw new UnsupportedOperationException();
     }
 
     /** Gets the current Piece that is on the Playing Field.

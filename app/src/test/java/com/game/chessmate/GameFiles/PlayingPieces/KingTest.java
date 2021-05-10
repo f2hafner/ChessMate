@@ -44,7 +44,7 @@ public class KingTest {
         resources=Mockito.mock(Resources.class);
         sprite=null;
 
-        king=new King(position,resources,drawableId);//,colour);
+        king=new King(position,resources,drawableId,colour);
 
         king.setColor(colour);
 

@@ -44,7 +44,7 @@ public class QueenTest {
         resources=Mockito.mock(Resources.class);
         sprite=null;
 
-        queen=new Queen(position,resources,drawableId);//,colour);
+        queen=new Queen(position,resources,drawableId,colour);
 
         queen.setColor(colour);
 

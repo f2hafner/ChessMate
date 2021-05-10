@@ -44,7 +44,7 @@ public class PawnTest {
         resources=Mockito.mock(Resources.class);
         sprite=null;
 
-        pawn=new Pawn(position,resources,drawableId);//,colour);
+        pawn=new Pawn(position,resources,drawableId,colour);
 
         pawn.setColor(colour);
 

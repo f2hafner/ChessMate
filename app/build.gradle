@@ -64,7 +64,6 @@ dependencies {
     androidTestImplementation 'com.google.dexmaker:dexmaker:1.0'
     androidTestImplementation'com.google.dexmaker:dexmaker-mockito:1.0'
 
-
     // https://mvnrepository.com/artifact/com.esotericsoftware/kryonet
     implementation 'com.esotericsoftware:kryonet:2.22.0-RC1'
 }

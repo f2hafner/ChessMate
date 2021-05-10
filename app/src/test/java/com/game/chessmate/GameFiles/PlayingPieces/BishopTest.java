@@ -2,10 +2,11 @@ package com.game.chessmate.GameFiles.PlayingPieces;
 
 
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 
 import com.game.chessmate.GameFiles.Field;
-import android.content.res.Resources;
+import com.game.chessmate.R;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 
 import java.util.ArrayList;
+import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -52,10 +54,9 @@ public class BishopTest {
    //     when(position.getY()).thenReturn(0);
 
         resources=Mockito.mock(Resources.class);
-        sprite=null;
+        drawableId=R.drawable.bishop_player1;
 
         bishop=new Bishop(position,resources,drawableId);//,colour);
-
         bishop.setColor(colour);
 
     }

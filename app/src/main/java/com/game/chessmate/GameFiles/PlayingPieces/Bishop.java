@@ -16,6 +16,8 @@ public class Bishop implements PlayingPiece {
     private Field currentPosition;
     private Bitmap sprite;
     private PlayingPieceColour colour;
+    //private Resources resources;
+    //int drawableId;
 
     public Bishop(Field position, Resources resources, int drawableId){//, PlayingPieceColour colour){
         this.currentPosition=position;
@@ -23,6 +25,11 @@ public class Bishop implements PlayingPiece {
         scaleBitmapToFieldSize();
         this.colour=colour;
     }
+
+  /*  public void createBitmap(){
+        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+        scaleBitmapToFieldSize();
+    }*/
 
     private void scaleBitmapToFieldSize() {
         Rect rectangle = this.currentPosition.getRectangle();

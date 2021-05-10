@@ -3,6 +3,8 @@ package com.game.chessmate.GameFiles.PlayingPieces;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 
 import com.game.chessmate.GameFiles.Field;
 
@@ -17,8 +19,19 @@ public class Queen implements PlayingPiece {
 
     public Queen(Field position, Resources resources, int drawableId){
         this.currentPosition=position;
-      //  this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+       // this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+       // scaleBitmapToFieldSize();
         this.colour=colour;
+    }
+
+    /**
+     * Scale the bitmap of the PlayingPiece to the size of its rectangle container.
+     */
+    private void scaleBitmapToFieldSize() {
+        Rect rectangle = this.currentPosition.getRectangle();
+        int width = rectangle.width();
+        int height = rectangle.height();
+        this.sprite = Bitmap.createScaledBitmap(this.sprite, width, height, false);
     }
 
     //TODO implement Interface methods
@@ -49,6 +62,6 @@ public class Queen implements PlayingPiece {
 
     @Override
     public void setColor(PlayingPieceColour colour) {
-        this.colour=colour;
-    }
+        this.colour=colour;}
+
 }

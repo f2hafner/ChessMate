@@ -3,6 +3,7 @@ package com.game.chessmate.GameFiles.PlayingPieces;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
@@ -17,8 +18,16 @@ public class Rook implements PlayingPiece {
 
     public Rook(Field position, Resources resources, int drawableId){
         this.currentPosition=position;
-     //   this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+        //this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+        //scaleBitmapToFieldSize();
         this.colour=colour;
+    }
+
+    private void scaleBitmapToFieldSize() {
+        Rect rectangle = this.currentPosition.getRectangle();
+        int width = rectangle.width();
+        int height = rectangle.height();
+        this.sprite = Bitmap.createScaledBitmap(this.sprite, width, height, false);
     }
 
     //TODO implement Interface methods
@@ -49,10 +58,10 @@ public class Rook implements PlayingPiece {
         int i;
         int j;
         for(int loops = 0; loops <4; loops++){
-            i = currentPosition.getX();
-            j = currentPosition.getY();
+            i = currentPosition.getFieldX();
+            j = currentPosition.getFieldY();
             while(i<8 && i>=0 && j<8 && j>=0 ){
-                if(!(i == currentPosition.getX() && j == currentPosition.getY())){
+                if(!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())){
                     legalFields.add(currentFields[i][j]);
                 }
                 switch(loops){
@@ -82,6 +91,6 @@ public class Rook implements PlayingPiece {
 
     @Override
     public void setColor(PlayingPieceColour colour) {
-        this.colour=colour;
-    }
+        this.colour=colour;}
+
 }

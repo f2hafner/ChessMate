@@ -1,19 +1,26 @@
 package com.game.chessmate.GameFiles;
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
+
+import androidx.annotation.Nullable;
 
 import com.game.chessmate.GameFiles.PlayingPieces.PlayingPiece;
 
 import static android.content.ContentValues.TAG;
 
 /** The Field class is an Object that represents a PlayingField on the chessboard. */
-public class Field {
+
+public class Field extends View {
 
     /**
      * @param x x coordinate of the Field on the Chessboard Array
@@ -31,21 +38,38 @@ public class Field {
     /**
      * Constructor of Field. Set coordinates, compute color of the Rectangle with x and y, and construct the rectangle
      */
-    public Field (int x, int y){
+    public Field (int x, int y, Context context, @Nullable AttributeSet attrs){
+        super(context, attrs);
         this.x = x;
         this.y = y;
 
         this.color = new Paint();
-        color.setColor(getInitColor() ? Color.BLACK : Color.GRAY);
+        setRectangleDefaultColor();
         rectangle = new Rect();
         setupRectangle(rectangle);
     }
 
     /**
-     * Draw the rectangle on the canvas with @param color
+     * onDraw inherited from View. call invalidate on the field to redraw the rectangle and the PlayingPiece on this
+     * rectangle if not empty.
      */
-    public void draw(Canvas canvas) {
+    @Override
+    protected void onDraw(Canvas canvas) {
         canvas.drawRect(rectangle, color);
+        if(this.currentPiece != null) {
+            drawCurrentPiece(this.currentPiece, canvas);
+        }
+    }
+
+    /**
+     * Draws the bitmap of the PlayingPiece on the canvas of the field
+     *
+     * @param piece the piece to draw on the canvas
+     * @param canvas
+     */
+    public void drawCurrentPiece(PlayingPiece piece, Canvas canvas) {
+        Bitmap sprite = piece.getDrawable();
+        canvas.drawBitmap(sprite, this.rectangle.left, this.rectangle.top, null);
     }
 
     /** Returns true if the field has a playing piece on it
@@ -63,13 +87,6 @@ public class Field {
      * */
     public PlayingPiece getCurrentPiece(){
         return this.currentPiece;
-    }
-
-    /**
-     * Decides the color of the Rectangle with modulo operation on x and y coordinates.
-     */
-    private boolean getInitColor() {
-        return (this.x + this.y) % 2 == 0;
     }
 
     /**
@@ -96,15 +113,22 @@ public class Field {
         return ArrayToChessCoordinatesTranslator.translateCoordinates(this.x, this.y);
     }
 
+    /**
+     * Sets the rectangle to its default color based on the chessboard layout.
+     */
+    public void setRectangleDefaultColor(){
+        color.setColor((this.x + this.y) % 2 == 0 ? Color.parseColor("#838381") : Color.parseColor("#d5d8db"));
+    }
+
     public void setCurrentPiece(PlayingPiece currentPiece) {
         this.currentPiece = currentPiece;
     }
 
-    public int getX(){
+    public int getFieldX(){
         return this.x;
     }
 
-    public int getY(){
+    public int getFieldY(){
         return this.y;
     }
 
@@ -112,7 +136,6 @@ public class Field {
         color.setColor(Color.YELLOW);
     }
 
-    public void setOriginalColour(){
-        color.setColor(getInitColor() ? Color.BLACK : Color.GRAY);
-    }
+
+
 }

@@ -14,6 +14,7 @@ public interface PlayingPiece {
     Bitmap getDrawable();
     ArrayList<Field> getLegalFields();
     PlayingPieceColour getColour();
+
     void setColor(PlayingPieceColour colour);
 
     //TODO find a way to implement the legal moves

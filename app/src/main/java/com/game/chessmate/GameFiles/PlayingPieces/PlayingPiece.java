@@ -1,8 +1,6 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
 
 import com.game.chessmate.GameFiles.Field;
 
@@ -16,6 +14,7 @@ public interface PlayingPiece {
     Bitmap getDrawable();
     ArrayList<Field> getLegalFields();
     PlayingPieceColour getColour();
+    void setColor(PlayingPieceColour colour);
 
     //TODO find a way to implement the legal moves
     // Maybe asset datatype so a user can switch out the playingpiece designs (if possible)

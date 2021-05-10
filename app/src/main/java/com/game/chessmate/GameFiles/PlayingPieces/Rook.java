@@ -3,11 +3,9 @@ package com.game.chessmate.GameFiles.PlayingPieces;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
-import com.game.chessmate.R;
 
 import java.util.ArrayList;
 
@@ -19,7 +17,7 @@ public class Rook implements PlayingPiece {
 
     public Rook(Field position, Resources resources, int drawableId){
         this.currentPosition=position;
-        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+     //   this.sprite = BitmapFactory.decodeResource(resources, drawableId);
         this.colour=colour;
     }
 
@@ -80,5 +78,10 @@ public class Rook implements PlayingPiece {
     @Override
     public PlayingPieceColour getColour() {
         return this.colour;
+    }
+
+    @Override
+    public void setColor(PlayingPieceColour colour) {
+        this.colour=colour;
     }
 }

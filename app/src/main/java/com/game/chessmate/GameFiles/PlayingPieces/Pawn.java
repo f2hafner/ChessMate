@@ -1,17 +1,10 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.*;
-
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.game.chessmate.GameFiles.Field;
-import com.game.chessmate.R;
 
 import java.util.ArrayList;
 
@@ -24,8 +17,8 @@ public class Pawn implements PlayingPiece {
 
     public Pawn(Field position, Resources resources, int drawableId){
         this.currentPosition=position;
-        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
-
+ //       this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+        this.colour=colour;
     }
 
     //TODO implement Interface methods
@@ -53,6 +46,11 @@ public class Pawn implements PlayingPiece {
     @Override
     public PlayingPieceColour getColour() {
         return this.colour;
+    }
+
+    @Override
+    public void setColor(PlayingPieceColour colour) {
+        this.colour=colour;
     }
 
 }

@@ -24,7 +24,7 @@ public class Pawn implements PlayingPiece {
     private PlayingPieceColour colour;
     private boolean firstMove = true;
 
-    public Pawn(Field position, Resources resources, int drawableId){
+    public Pawn(Field position, Resources resources, int drawableId, PlayingPieceColour colour){
         this.currentPosition=position;
         this.sprite = BitmapFactory.decodeResource(resources, drawableId);
         scaleBitmapToFieldSize();
@@ -58,11 +58,25 @@ public class Pawn implements PlayingPiece {
     public ArrayList<Field> getLegalFields() {
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
         ArrayList<Field> legalFields = new ArrayList<>();
+        int i = currentPosition.getFieldX();
+        int j = currentPosition.getFieldY();
 
-        if(currentPosition.getFieldX()-1 < 8){
-            legalFields.add(currentFields[currentPosition.getFieldX()-1][currentPosition.getFieldY()]);
-            if(firstMove && currentPosition.getFieldX()-2 < 8){
-                legalFields.add(currentFields[currentPosition.getFieldX()-2][currentPosition.getFieldY()]);
+        if(i-1 < 8) {
+            if (currentFields[i - 1][j].getCurrentPiece() == null) {
+                legalFields.add(currentFields[i - 1][j]);
+            } else if (currentFields[i - 1][j].getCurrentPiece().getColour() != this.colour) {
+                legalFields.add(currentFields[i - 1][j]);
+            } else {
+                return legalFields;
+            }
+            if (firstMove && i - 2 < 8) {
+                if (currentFields[i - 2][j].getCurrentPiece() == null) {
+                    legalFields.add(currentFields[i - 2][j]);
+                } else if (currentFields[i - 2][j].getCurrentPiece().getColour() != this.colour) {
+                    legalFields.add(currentFields[i - 2][j]);
+                } else {
+                    return legalFields;
+                }
             }
         }
         return legalFields;

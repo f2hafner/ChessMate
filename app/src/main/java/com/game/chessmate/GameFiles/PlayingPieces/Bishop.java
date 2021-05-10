@@ -19,7 +19,7 @@ public class Bishop implements PlayingPiece {
     //private Resources resources;
     //int drawableId;
 
-    public Bishop(Field position, Resources resources, int drawableId){//, PlayingPieceColour colour){
+    public Bishop(Field position, Resources resources, int drawableId, PlayingPieceColour colour){
         this.currentPosition=position;
         this.sprite = BitmapFactory.decodeResource(resources, drawableId);
         scaleBitmapToFieldSize();
@@ -71,7 +71,13 @@ public class Bishop implements PlayingPiece {
 
             while(i<8 && i>=0 && j<8 && j>=0){
                 if(!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())){
-                    legalFields.add(currentFields[i][j]);
+                    if (currentFields[i][j].getCurrentPiece() == null) {
+                        legalFields.add(currentFields[i][j]);
+                    } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour) {
+                        legalFields.add(currentFields[i][j]);
+                    }else{
+                        break; //breaks out of while so next loop is started
+                    }
                 }
                 switch(loops){
                     case 0:

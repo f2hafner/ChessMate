@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
+import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
 
 import java.util.ArrayList;
@@ -52,7 +54,50 @@ public class Queen implements PlayingPiece {
 
     @Override
     public ArrayList<Field> getLegalFields() {
-        return new ArrayList<>();
+        Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
+        ArrayList<Field> legalFields = new ArrayList<>();
+
+        for(int loops = 0; loops <8; loops++){
+            int i = currentPosition.getFieldX();
+            int j = currentPosition.getFieldY();
+            while(i<8 && i>=0 && j<8 && j>=0){
+                if(!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())){
+                    legalFields.add(currentFields[i][j]);
+                }
+                switch(loops){
+                    case 0:
+                        i++;
+                        break;
+                    case 1:
+                        i--;
+                        break;
+                    case 2:
+                        j--;
+                        break;
+                    case 3:
+                        j++;
+                        break;
+                    case 4:
+                        i--;
+                        j--;
+                        break;
+                    case 5:
+                        i++;
+                        j++;
+                        break;
+                    case 6:
+                        i--;
+                        j++;
+                        break;
+                    case 7:
+                        i++;
+                        j--;
+                        break;
+
+                }
+            }
+        }
+        return legalFields;
     }
 
     @Override

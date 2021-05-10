@@ -140,10 +140,11 @@ public class ChessBoard {
 
                 if (rect.contains(touchX, touchY)) {
                     Field clickedField = boardFields[i][j];
-                    ArrayList<Field> fieldsToMove = clickedField.getCurrentPiece().getLegalFields();
-
-                    if(!fieldsToMove.isEmpty()){
-                        drawLegalMoves(fieldsToMove);
+                    if(clickedField.getCurrentPiece() != null){
+                        ArrayList<Field> fieldsToMove = clickedField.getCurrentPiece().getLegalFields();
+                        if(!fieldsToMove.isEmpty()){
+                            drawLegalMoves(fieldsToMove);
+                        }
                     }
                 }
             }

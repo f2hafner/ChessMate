@@ -10,6 +10,7 @@ import android.graphics.drawable.*;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
+import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.R;
 
@@ -21,6 +22,7 @@ public class Pawn implements PlayingPiece {
     private Field currentPosition;
     private Bitmap sprite;
     private PlayingPieceColour colour;
+    private boolean firstMove = true;
 
     public Pawn(Field position, Resources resources, int drawableId){
         this.currentPosition=position;
@@ -54,7 +56,16 @@ public class Pawn implements PlayingPiece {
 
     @Override
     public ArrayList<Field> getLegalFields() {
-        return new ArrayList<>();
+        Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
+        ArrayList<Field> legalFields = new ArrayList<>();
+
+        if(currentPosition.getFieldX()-1 < 8){
+            legalFields.add(currentFields[currentPosition.getFieldX()-1][currentPosition.getFieldY()]);
+            if(firstMove && currentPosition.getFieldX()-2 < 8){
+                legalFields.add(currentFields[currentPosition.getFieldX()-2][currentPosition.getFieldY()]);
+            }
+        }
+        return legalFields;
     }
 
 

@@ -10,6 +10,7 @@ import com.game.chessmate.GameFiles.PlayingPieces.King;
 import com.game.chessmate.GameFiles.PlayingPieces.Knight;
 import com.game.chessmate.GameFiles.PlayingPieces.Pawn;
 import com.game.chessmate.GameFiles.PlayingPieces.PlayingPiece;
+import com.game.chessmate.GameFiles.PlayingPieces.PlayingPieceColour;
 import com.game.chessmate.GameFiles.PlayingPieces.PlayingPieceType;
 import com.game.chessmate.GameFiles.PlayingPieces.Queen;
 import com.game.chessmate.GameFiles.PlayingPieces.Rook;
@@ -66,8 +67,8 @@ public class ChessBoard {
         this.view = view;
         this.fieldSize = calculateRectSize(width);
         initFields();
-        initPiecesPlayer1(resources);
-        initPiecesPlayer2(resources);
+        initPiecesPlayer1(resources, PlayingPieceColour.WHITE);
+        initPiecesPlayer2(resources, PlayingPieceColour.BLACK);
     }
 
     /**
@@ -90,16 +91,16 @@ public class ChessBoard {
      *
      * @param resources the resource context for the PlayingPiece Sprites
      */
-    private void initPiecesPlayer1(Resources resources) {
-        initPieces(PlayingPieceType.PAWN, resources, 6, 0, 8, this.piecesPlayer1, R.drawable.pawn_player1);
-        initPieces(PlayingPieceType.ROOK, resources, 7, 0, 1, this.piecesPlayer1, R.drawable.rook_player1);
-        initPieces(PlayingPieceType.ROOK, resources, 7, 7, 1, this.piecesPlayer1, R.drawable.rook_player1);
-        initPieces(PlayingPieceType.KNIGHT, resources, 7, 1, 1, this.piecesPlayer1, R.drawable.knight_player1);
-        initPieces(PlayingPieceType.KNIGHT, resources, 7, 6, 1, this.piecesPlayer1, R.drawable.knight_player1);
-        initPieces(PlayingPieceType.BISHOP, resources, 7, 2, 1, this.piecesPlayer1, R.drawable.bishop_player1);
-        initPieces(PlayingPieceType.BISHOP, resources, 7, 5, 1, this.piecesPlayer1, R.drawable.bishop_player1);
-        initPieces(PlayingPieceType.QUEEN, resources, 7, 4, 1, this.piecesPlayer1, R.drawable.queen_player1);
-        initPieces(PlayingPieceType.KING, resources, 7, 3, 1, this.piecesPlayer1, R.drawable.king_player1);
+    private void initPiecesPlayer1(Resources resources, PlayingPieceColour c) {
+        initPieces(PlayingPieceType.PAWN, resources, 6, 0, 8, this.piecesPlayer1, R.drawable.pawn_player1, c);
+        initPieces(PlayingPieceType.ROOK, resources, 7, 0, 1, this.piecesPlayer1, R.drawable.rook_player1, c);
+        initPieces(PlayingPieceType.ROOK, resources, 7, 7, 1, this.piecesPlayer1, R.drawable.rook_player1, c);
+        initPieces(PlayingPieceType.KNIGHT, resources, 7, 1, 1, this.piecesPlayer1, R.drawable.knight_player1, c);
+        initPieces(PlayingPieceType.KNIGHT, resources, 7, 6, 1, this.piecesPlayer1, R.drawable.knight_player1, c);
+        initPieces(PlayingPieceType.BISHOP, resources, 7, 2, 1, this.piecesPlayer1, R.drawable.bishop_player1, c);
+        initPieces(PlayingPieceType.BISHOP, resources, 7, 5, 1, this.piecesPlayer1, R.drawable.bishop_player1, c);
+        initPieces(PlayingPieceType.QUEEN, resources, 7, 4, 1, this.piecesPlayer1, R.drawable.queen_player1, c);
+        initPieces(PlayingPieceType.KING, resources, 7, 3, 1, this.piecesPlayer1, R.drawable.king_player1, c);
     }
 
     /**
@@ -107,16 +108,16 @@ public class ChessBoard {
      *
      * @param resources the resource context for the PlayingPiece Sprites
      */
-    private void initPiecesPlayer2(Resources resources) {
-        initPieces(PlayingPieceType.PAWN, resources, 1, 0, 8, this.piecesPlayer2, R.drawable.pawn_player2);
-        initPieces(PlayingPieceType.ROOK, resources, 0, 0, 1, this.piecesPlayer2, R.drawable.rook_player2);
-        initPieces(PlayingPieceType.ROOK, resources, 0, 7, 1, this.piecesPlayer2, R.drawable.rook_player2);
-        initPieces(PlayingPieceType.KNIGHT, resources, 0, 1, 1, this.piecesPlayer2, R.drawable.knight_player2);
-        initPieces(PlayingPieceType.KNIGHT, resources, 0, 6, 1, this.piecesPlayer2, R.drawable.knight_player2);
-        initPieces(PlayingPieceType.BISHOP, resources, 0, 2, 1, this.piecesPlayer2, R.drawable.bishop_player2);
-        initPieces(PlayingPieceType.BISHOP, resources, 0, 5, 1, this.piecesPlayer2, R.drawable.bishop_player2);
-        initPieces(PlayingPieceType.QUEEN, resources, 0, 4, 1, this.piecesPlayer2, R.drawable.queen_player2);
-        initPieces(PlayingPieceType.KING, resources, 0, 3, 1, this.piecesPlayer2, R.drawable.king_player2);
+    private void initPiecesPlayer2(Resources resources, PlayingPieceColour c) {
+        initPieces(PlayingPieceType.PAWN, resources, 1, 0, 8, this.piecesPlayer2, R.drawable.pawn_player2, c);
+        initPieces(PlayingPieceType.ROOK, resources, 0, 0, 1, this.piecesPlayer2, R.drawable.rook_player2, c);
+        initPieces(PlayingPieceType.ROOK, resources, 0, 7, 1, this.piecesPlayer2, R.drawable.rook_player2, c);
+        initPieces(PlayingPieceType.KNIGHT, resources, 0, 1, 1, this.piecesPlayer2, R.drawable.knight_player2, c);
+        initPieces(PlayingPieceType.KNIGHT, resources, 0, 6, 1, this.piecesPlayer2, R.drawable.knight_player2, c);
+        initPieces(PlayingPieceType.BISHOP, resources, 0, 2, 1, this.piecesPlayer2, R.drawable.bishop_player2, c);
+        initPieces(PlayingPieceType.BISHOP, resources, 0, 5, 1, this.piecesPlayer2, R.drawable.bishop_player2, c);
+        initPieces(PlayingPieceType.QUEEN, resources, 0, 4, 1, this.piecesPlayer2, R.drawable.queen_player2, c);
+        initPieces(PlayingPieceType.KING, resources, 0, 3, 1, this.piecesPlayer2, R.drawable.king_player2, c);
     }
 
     /**
@@ -142,9 +143,7 @@ public class ChessBoard {
                     Field clickedField = boardFields[i][j];
                     if(clickedField.getCurrentPiece() != null){
                         ArrayList<Field> fieldsToMove = clickedField.getCurrentPiece().getLegalFields();
-                        if(!fieldsToMove.isEmpty()){
-                            drawLegalMoves(fieldsToMove);
-                        }
+                        drawLegalMoves(fieldsToMove);
                     }
                 }
             }
@@ -162,10 +161,11 @@ public class ChessBoard {
             f.setRectangleDefaultColor();
             f.invalidate();
         }
-
-        for(Field f : fieldsToMove){
-            f.setAsLegal();
-            f.invalidate();
+        if(!fieldsToMove.isEmpty()){
+            for(Field f : fieldsToMove){
+                f.setAsLegal();
+                f.invalidate();
+            }
         }
 
         this.legalMoves = fieldsToMove;
@@ -198,17 +198,17 @@ public class ChessBoard {
      * @param piecesPlayer the array that contains the players pieces.
      * @param drawableId the id of the drawable resource.
      */
-    private void initPieces(PlayingPieceType type, Resources resources, int row, int offset, int length, ArrayList<PlayingPiece> piecesPlayer, int drawableId) {
+    private void initPieces(PlayingPieceType type, Resources resources, int row, int offset, int length, ArrayList<PlayingPiece> piecesPlayer, int drawableId, PlayingPieceColour colour) {
         for (int j = offset; j < offset + length; j++) {
             Field field = boardFields[row][j];
             PlayingPiece piece = null;
             switch(type) {
-                case PAWN: piece = new Pawn(field, resources, drawableId); break;
-                case ROOK: piece = new Rook(field, resources, drawableId); break;
-                case BISHOP: piece = new Bishop(field, resources, drawableId); break;
-                case KNIGHT: piece = new Knight(field, resources, drawableId); break;
-                case QUEEN: piece = new Queen(field, resources, drawableId); break;
-                case KING: piece = new King(field, resources, drawableId); break;
+                case PAWN: piece = new Pawn(field, resources, drawableId, colour); break;
+                case ROOK: piece = new Rook(field, resources, drawableId, colour); break;
+                case BISHOP: piece = new Bishop(field, resources, drawableId, colour); break;
+                case KNIGHT: piece = new Knight(field, resources, drawableId, colour); break;
+                case QUEEN: piece = new Queen(field, resources, drawableId, colour); break;
+                case KING: piece = new King(field, resources, drawableId, colour); break;
             }
 
             piecesPlayer.add(piece);

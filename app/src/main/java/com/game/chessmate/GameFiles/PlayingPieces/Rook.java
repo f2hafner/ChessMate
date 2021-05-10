@@ -16,7 +16,7 @@ public class Rook implements PlayingPiece {
     private Bitmap sprite;
     private PlayingPieceColour colour;
 
-    public Rook(Field position, Resources resources, int drawableId){
+    public Rook(Field position, Resources resources, int drawableId, PlayingPieceColour colour){
         this.currentPosition=position;
         this.sprite = BitmapFactory.decodeResource(resources, drawableId);
         scaleBitmapToFieldSize();
@@ -62,7 +62,13 @@ public class Rook implements PlayingPiece {
             j = currentPosition.getFieldY();
             while(i<8 && i>=0 && j<8 && j>=0 ){
                 if(!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())){
-                    legalFields.add(currentFields[i][j]);
+                    if (currentFields[i][j].getCurrentPiece() == null) {
+                        legalFields.add(currentFields[i][j]);
+                    } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour) {
+                        legalFields.add(currentFields[i][j]);
+                    }else{
+                        break; //breaks out of while - done with current direction
+                    }
                 }
                 switch(loops){
                     case 0:

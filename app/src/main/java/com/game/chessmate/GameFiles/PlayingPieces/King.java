@@ -25,7 +25,7 @@ public class King implements PlayingPiece {
      * @param resources the resource name
      * @param position     the position
      */
-    public King(Field position, Resources resources, int drawableId) {
+    public King(Field position, Resources resources, int drawableId, PlayingPieceColour colour){
         this.currentPosition = position;
         this.sprite = BitmapFactory.decodeResource(resources, drawableId);
         scaleBitmapToFieldSize();
@@ -67,7 +67,11 @@ public class King implements PlayingPiece {
             for(int j = currentPosition.getFieldY()-1; j <= currentPosition.getFieldY()+1; j++){
                 if(i>=0 && i<=7 && j>=0 && j<=7){
                     if(!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())){
-                        legalFields.add(currentFields[i][j]);
+                        if (currentFields[i][j].getCurrentPiece() == null) {
+                            legalFields.add(currentFields[i][j]);
+                        } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour) {
+                            legalFields.add(currentFields[i][j]);
+                        }
                     }
                 }
             }

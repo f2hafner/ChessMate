@@ -19,7 +19,7 @@ public class Knight implements PlayingPiece {
     private Bitmap sprite;
     private PlayingPieceColour colour;
 
-    public Knight(Field position, Resources resources, int drawableId){
+    public Knight(Field position, Resources resources, int drawableId, PlayingPieceColour colour){
         this.currentPosition=position;
         this.sprite = BitmapFactory.decodeResource(resources, drawableId);
         scaleBitmapToFieldSize();
@@ -59,7 +59,11 @@ public class Knight implements PlayingPiece {
         for(int loops = 0; loops <8; loops++){
             if(i<8 && i>=0 && j<8 && j>=0){
                 if(!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())){
-                    legalFields.add(currentFields[i][j]);
+                    if (currentFields[i][j].getCurrentPiece() == null) {
+                        legalFields.add(currentFields[i][j]);
+                    } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour) {
+                        legalFields.add(currentFields[i][j]);
+                    }
                 }
                 i = currentPosition.getFieldX();
                 j = currentPosition.getFieldY();

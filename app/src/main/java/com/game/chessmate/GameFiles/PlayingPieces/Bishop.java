@@ -19,8 +19,8 @@ public class Bishop implements PlayingPiece {
 
     public Bishop(Field position, Resources resources, int drawableId){//, PlayingPieceColour colour){
         this.currentPosition=position;
-        //this.sprite = BitmapFactory.decodeResource(resources, drawableId);
-        //scaleBitmapToFieldSize();
+        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+        scaleBitmapToFieldSize();
         this.colour=colour;
     }
 

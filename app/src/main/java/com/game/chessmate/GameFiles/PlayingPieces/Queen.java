@@ -19,8 +19,8 @@ public class Queen implements PlayingPiece {
 
     public Queen(Field position, Resources resources, int drawableId){
         this.currentPosition=position;
-       // this.sprite = BitmapFactory.decodeResource(resources, drawableId);
-       // scaleBitmapToFieldSize();
+       this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+       scaleBitmapToFieldSize();
         this.colour=colour;
     }
 

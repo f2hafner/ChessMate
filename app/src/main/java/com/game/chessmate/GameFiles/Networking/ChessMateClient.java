@@ -4,6 +4,8 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionRequest;
+import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionResponse;
 
 import java.io.IOException;
 
@@ -18,8 +20,10 @@ public class ChessMateClient {
     public static ChessMateClient getInstance(){ return ChessMateClient.InstanceHolder.INSTANCE; }
 
     // Local Variables
-    private int TCP_PORT = 54555;
-    private int UDP_PORT = 54777;
+    private int TCP_PORT    = 54555;
+    private int UDP_PORT    = 54777;
+    private String HOST_IP  = "192.168.0.4";
+    private int TIMEOUT     = 5000; // milliseconds
     private Client clientInstance;
 
     // Constructors
@@ -36,8 +40,8 @@ public class ChessMateClient {
     private void registerClasses(){
         Kryo kryo = clientInstance.getKryo();
         //TODO add Requests and Responses
-        //kryo.register(SomeRequest.class);
-        //kryo.register(SomeResponse.class);
+        kryo.register(createSessionRequest.class);
+        kryo.register(createSessionResponse.class);
     }
 
     /**
@@ -46,7 +50,7 @@ public class ChessMateClient {
     public void start() throws IOException {
         //TODO implement specific Start function
         clientInstance.start();
-        clientInstance.connect(5000, "192.168.0.4", 54555, 54777);
+        clientInstance.connect(TIMEOUT, HOST_IP, TCP_PORT, UDP_PORT);
 
         /*
         SomeRequest request = new SomeRequest();

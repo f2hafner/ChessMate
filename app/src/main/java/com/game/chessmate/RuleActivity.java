@@ -13,6 +13,7 @@ public class RuleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rules);
+        getSupportActionBar().hide();
 
 
         Button back = findViewById(R.id.backButton);

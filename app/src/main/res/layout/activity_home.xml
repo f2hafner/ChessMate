@@ -50,7 +50,7 @@
         android:textColor="#000000"
         android:textColorHighlight="#000000"
         android:textColorLink="#000000"
-        android:textSize="24sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/EnterGameButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="112dp"
-        android:text="Create Session"
+        android:text="Welcome"
         android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -91,8 +91,8 @@
         android:hint="Name"
         android:textColorHint="#000000"
         app:boxStrokeColor="#000000"
-        app:counterMaxLength="20"
-        app:endIconMode="clear_text"
+        app:counterMaxLength="15"
+        app:endIconMode="custom"
         app:endIconTint="#2196F3"
         app:hintTextColor="#2196F3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -101,9 +101,10 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/EnterName"
+            android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="20"
+            android:maxLength="16"
             android:textColorHighlight="#000000"
             android:textColorLink="#000000" />
 

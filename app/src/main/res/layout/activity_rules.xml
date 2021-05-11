@@ -4,21 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#B8AEAE">
+    android:background="#FFFFFF">
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="420dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_width="294dp"
+        android:layout_height="71dp"
+        android:layout_marginTop="116dp"
         android:text="Rules"
         android:textAlignment="center"
-        android:textColor="#FF9800"
+        android:textColor="#000000"
         android:textSize="45sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/backButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,15 +26,11 @@
         android:layout_width="130dp"
         android:layout_height="50dp"
         android:layout_marginStart="34dp"
-        android:layout_marginTop="630dp"
-        android:layout_marginEnd="271dp"
         android:layout_marginBottom="36dp"
         android:text="Back"
-        app:backgroundTint="#FF9800"
+        app:backgroundTint="#000000"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

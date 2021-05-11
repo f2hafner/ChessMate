@@ -8,18 +8,19 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="294dp"
-        android:layout_height="71dp"
-        android:layout_marginTop="116dp"
+        android:layout_width="129dp"
+        android:layout_height="73dp"
         android:text="Rules"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="45sp"
         android:textStyle="bold"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.504" />
 
     <Button
         android:id="@+id/backButton"
@@ -32,5 +33,48 @@
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="313dp"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/backButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginBottom="100dp"
+            android:text="What is Lorem Ipsum?
+
+Lorem Ipsum is simply dummy text of the printing and typesetting
+industry. Lorem Ipsum has been the industry's standard dummy text ever
+since the 1500s, when an unknown printer took a galley of type and scrambled
+it to make a type specimen book. It has survived not only five centuries, but
+also the leap into electronic typesetting, remaining essentially unchanged.
+It was popularised in the 1960s with the release of Letraset sheets containing
+ Lorem Ipsum passages, and more recently with desktop publishing software like
+  Aldus PageMaker including versions of Lorem Ipsum."
+
+            android:textSize="24sp"
+
+
+            ></TextView>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

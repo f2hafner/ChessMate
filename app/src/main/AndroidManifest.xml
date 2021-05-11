@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ChessMate">
-        <activity android:name=".Lobby"></activity>
+        <activity android:name=".RulesScreen"></activity>
+        <activity android:name=".Lobby" />
         <activity android:name=".CreateSession" />
         <activity android:name=".GameActivity" />
         <activity android:name=".HomeActivity" />

@@ -51,7 +51,7 @@ public class CreateSession extends AppCompatActivity {
         });
 
         rules.setOnClickListener(v -> {
-                    Intent ruleIntent = new Intent(this, RulesScreen.class);
+                    Intent ruleIntent = new Intent(this, RuleActivity.class);
                     startActivity(ruleIntent);
         });
 

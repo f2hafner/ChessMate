@@ -140,7 +140,11 @@ public class ChessBoard {
 
                 if (rect.contains(touchX, touchY)) {
                     Field clickedField = boardFields[i][j];
-                    ArrayList<Field> fieldsToMove = clickedField.getCurrentPiece().getLegalFields();
+                    ArrayList<Field> fieldsToMove = new ArrayList<>();
+                    if (clickedField.getCurrentPiece() != null) {
+                        fieldsToMove = clickedField.getCurrentPiece().getLegalFields();
+                        boardFields[i][j].getCurrentPiece().move(boardFields[i - 1][j - 1]);  // TODO Delete cause this is a test call to test PlayingPiece.move()
+                    }
 
                     if(!fieldsToMove.isEmpty()){
                         drawLegalMoves(fieldsToMove);
@@ -159,12 +163,12 @@ public class ChessBoard {
 
         for(Field f : legalMoves) {
             f.setRectangleDefaultColor();
-            f.invalidate();
+            f.setUpdate(true);
         }
 
         for(Field f : fieldsToMove){
             f.setAsLegal();
-            f.invalidate();
+            f.setUpdate(true);
         }
 
         this.legalMoves = fieldsToMove;
@@ -179,7 +183,6 @@ public class ChessBoard {
      * @return returns the size 1 Rectangle should have
      */
     private int calculateRectSize(int width) {
-        Log.d(TAG, "calculateRectSize: "+ view.getMeasuredWidth());
         float canvasWidth = width;
         float offset = canvasWidth % 8;
         int rectSize = (int)canvasWidth / this.boardSize - (int)offset;

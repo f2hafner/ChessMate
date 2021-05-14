@@ -26,6 +26,8 @@ import static android.content.ContentValues.TAG;
 public class BoardView extends ViewGroup {
 
     private ChessBoard board;
+    private Thread thread;
+    private RenderThread runnable;
 
     /**
      * Instantiates a new Board view.
@@ -43,6 +45,9 @@ public class BoardView extends ViewGroup {
         this.setOnTouchListener(boardClickListener);
         board = ChessBoard.getInstance();
         board.initChessBoard(this, getResources(), width);
+
+        runnable = new RenderThread(this);
+        thread = new Thread(runnable);
     }
 
     /**
@@ -71,8 +76,10 @@ public class BoardView extends ViewGroup {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         for (int i = 0; i < this.getChildCount(); i++) {
-            Field field = (Field)this.getChildAt(i);
             this.getChildAt(i).layout(l,t,r,b);
         }
+
+        runnable.setRunning(true);
+        thread.start();
     }
 }

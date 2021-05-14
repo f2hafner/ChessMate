@@ -34,6 +34,7 @@ public class Field extends View {
     private Paint color;
     private Rect rectangle;
     private PlayingPiece currentPiece;
+    private boolean update;
 
     /**
      * Constructor of Field. Set coordinates, compute color of the Rectangle with x and y, and construct the rectangle
@@ -57,19 +58,8 @@ public class Field extends View {
     protected void onDraw(Canvas canvas) {
         canvas.drawRect(rectangle, color);
         if(this.currentPiece != null) {
-            drawCurrentPiece(this.currentPiece, canvas);
+            this.currentPiece.draw(canvas);
         }
-    }
-
-    /**
-     * Draws the bitmap of the PlayingPiece on the canvas of the field
-     *
-     * @param piece the piece to draw on the canvas
-     * @param canvas
-     */
-    public void drawCurrentPiece(PlayingPiece piece, Canvas canvas) {
-        Bitmap sprite = piece.getDrawable();
-        canvas.drawBitmap(sprite, this.rectangle.left, this.rectangle.top, null);
     }
 
     /** Returns true if the field has a playing piece on it
@@ -77,8 +67,7 @@ public class Field extends View {
      * @return boolean
      * */
     public boolean hasPiece(){
-        //TODO implement if Field has Piece
-        throw new UnsupportedOperationException();
+        return currentPiece == null;
     }
 
     /** Gets the current Piece that is on the Playing Field.
@@ -136,6 +125,13 @@ public class Field extends View {
         color.setColor(Color.YELLOW);
     }
 
+    public boolean getUpdate() {
+        return this.update;
+    }
+
+    public void setUpdate(boolean update) {
+        this.update = update;
+    }
 
 
 }

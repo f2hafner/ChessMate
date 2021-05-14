@@ -3,24 +3,34 @@ package com.game.chessmate.GameFiles.PlayingPieces;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
+import com.game.chessmate.GameFiles.Vector;
 
 import java.util.ArrayList;
 
 /** class implementing the Rook playing piece */
 public class Rook implements PlayingPiece {
+
     private Field currentPosition;
+    private Field targetPosition;
     private Bitmap sprite;
     private PlayingPieceColour colour;
+    private Vector offset;
+    private boolean updatePosition;
+    private int movementSpeed = 15;
 
     public Rook(Field position, Resources resources, int drawableId){
         this.currentPosition=position;
+        this.targetPosition = null;
         this.sprite = BitmapFactory.decodeResource(resources, drawableId);
         scaleBitmapToFieldSize();
         this.colour=colour;
+        this.offset = new Vector(0,0);
+        this.updatePosition = false;
     }
 
     private void scaleBitmapToFieldSize() {
@@ -92,5 +102,43 @@ public class Rook implements PlayingPiece {
     @Override
     public void setCurrentPosition(Field currentPosition) {
         this.currentPosition = currentPosition;
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        Field field = this.currentPosition;
+        canvas.drawBitmap(this.sprite, field.getRectangle().left + (int)offset.getX(), field.getRectangle().top + (int)offset.getY(), null);
+    }
+
+    @Override
+    public void move(Field targetField) {
+        this.targetPosition = targetField;
+        this.updatePosition = true;
+        this.currentPosition.setUpdate(true);
+    }
+
+    public void updateOffsets() {
+        Vector start = new Vector(currentPosition.getRectangle().left, currentPosition.getRectangle().top);
+        Vector target = new Vector(targetPosition.getRectangle().left, targetPosition.getRectangle().top);
+        Vector vector = target.sub(start);
+
+        if((offset.getX() != vector.getX()) || (offset.getY() != vector.getY())){
+            offset = offset.add(vector.div(this.movementSpeed));
+            currentPosition.setUpdate(true);
+        }
+        else {
+            this.updatePosition = false;
+            currentPosition.setCurrentPiece(null);
+            targetPosition.setCurrentPiece(this);
+            this.offset = new Vector(0,0);
+            this.setCurrentPosition(targetPosition);
+            currentPosition.setUpdate(true);
+            targetPosition.setUpdate(true);
+        }
+    }
+
+
+    public boolean isUpdatePosition() {
+        return this.updatePosition;
     }
 }

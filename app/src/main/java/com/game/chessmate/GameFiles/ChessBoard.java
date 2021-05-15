@@ -210,7 +210,7 @@ public class ChessBoard {
                 case QUEEN: piece = new Queen(field, resources, drawableId, colour); break;
                 case KING: piece = new King(field, resources, drawableId, colour); break;
             }
-            
+
             piece.createBitmap();
 
             piecesPlayer.add(piece);

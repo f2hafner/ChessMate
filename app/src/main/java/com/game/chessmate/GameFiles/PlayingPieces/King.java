@@ -18,6 +18,8 @@ public class King implements PlayingPiece {
     private Field currentPosition;
     private Bitmap sprite;    //TODO Maybe we can use Drawable for the svg. Could not figure out.
     private PlayingPieceColour colour;
+    private Resources resources;
+    int drawableId;
 
     /**
      * Instantiates a new King.
@@ -27,8 +29,8 @@ public class King implements PlayingPiece {
      */
     public King(Field position, Resources resources, int drawableId, PlayingPieceColour colour){
         this.currentPosition = position;
-        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
-        scaleBitmapToFieldSize();
+        this.resources=resources;
+        this.drawableId=drawableId;
         this.colour=colour;
     }
 
@@ -37,6 +39,11 @@ public class King implements PlayingPiece {
         int width = rectangle.width();
         int height = rectangle.height();
         this.sprite = Bitmap.createScaledBitmap(this.sprite, width, height, false);
+    }
+
+    public void createBitmap(){
+        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+        scaleBitmapToFieldSize();
     }
 
     @Override

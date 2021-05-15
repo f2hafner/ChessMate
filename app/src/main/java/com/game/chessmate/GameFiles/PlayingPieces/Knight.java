@@ -18,11 +18,13 @@ public class Knight implements PlayingPiece {
     private Field currentPosition;
     private Bitmap sprite;
     private PlayingPieceColour colour;
+    private Resources resources;
+    int drawableId;
 
     public Knight(Field position, Resources resources, int drawableId, PlayingPieceColour colour){
         this.currentPosition=position;
-        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
-        scaleBitmapToFieldSize();
+        this.resources=resources;
+        this.drawableId=drawableId;
         this.colour=colour;
     }
 
@@ -31,6 +33,11 @@ public class Knight implements PlayingPiece {
         int width = rectangle.width();
         int height = rectangle.height();
         this.sprite = Bitmap.createScaledBitmap(this.sprite, width, height, false);
+    }
+
+    public void createBitmap(){
+        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+        scaleBitmapToFieldSize();
     }
 
     //TODO implement Interface methods

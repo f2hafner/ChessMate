@@ -15,6 +15,8 @@ public interface PlayingPiece {
     ArrayList<Field> getLegalFields();
     PlayingPieceColour getColour();
 
+    void createBitmap();
+
     void setColor(PlayingPieceColour colour);
     // Maybe asset datatype so a user can switch out the playingpiece designs (if possible)
 }

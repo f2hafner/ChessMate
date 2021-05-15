@@ -21,7 +21,7 @@ public class NetworkManager {
 
     // Constructors
     NetworkManager() {
-        // test Server creation
+        // test.xml Server creation
         serverInstance = ChessMateServer.getInstance();
         try { serverInstance.start(); }
         catch (IOException e) {

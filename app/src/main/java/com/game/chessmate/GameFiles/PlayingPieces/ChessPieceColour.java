@@ -1,6 +1,6 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
-public enum PlayingPieceColour {
+public enum ChessPieceColour {
     WHITE,
     BLACK
 }

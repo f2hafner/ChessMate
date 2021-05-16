@@ -18,11 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 
-import java.util.ArrayList;
-import java.util.Properties;
-
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -30,7 +26,7 @@ public class BishopTest {
 
 
 
-    PlayingPieceColour colour;
+    ChessPieceColour colour;
 
     @Mock
     private Field position;
@@ -49,7 +45,7 @@ public class BishopTest {
 
     @Before
     public void init(){
-        colour= PlayingPieceColour.WHITE;
+        colour= ChessPieceColour.WHITE;
 
         context= Mockito.mock(Context.class);
         position= Mockito.mock(Field.class);
@@ -67,7 +63,7 @@ public class BishopTest {
 
     @Test
     public void returnPlayingPieceTypeTest() {
-        assertEquals(PlayingPieceType.BISHOP,bishop.getPlayingPieceType());
+        assertEquals(ChessPieceType.BISHOP,bishop.getPlayingPieceType());
     }
 
     @Test
@@ -84,7 +80,7 @@ public class BishopTest {
     public void getColour(){
         assertEquals(colour,bishop.getColour());
 
-        colour=PlayingPieceColour.BLACK;
+        colour= ChessPieceColour.BLACK;
         bishop.setColor(colour);
 
         assertEquals(colour,bishop.getColour());

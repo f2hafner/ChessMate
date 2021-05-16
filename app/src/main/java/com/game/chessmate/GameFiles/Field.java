@@ -1,23 +1,15 @@
 package com.game.chessmate.GameFiles;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 
-import com.game.chessmate.GameFiles.PlayingPieces.PlayingPiece;
-import com.game.chessmate.GameFiles.PlayingPieces.PlayingPieceType;
-
-import static android.content.ContentValues.TAG;
+import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 
 /** The Field class is an Object that represents a PlayingField on the chessboard. */
 
@@ -34,7 +26,7 @@ public class Field extends View {
     private int y;
     public Paint color;
     private Rect rectangle;
-    private PlayingPiece currentPiece;
+    private ChessPiece currentPiece;
     private boolean update;
 
     /**
@@ -74,7 +66,7 @@ public class Field extends View {
      * Gets the current Piece that is on the Playing Field.
      * @return PlayingPiece
      * */
-    public PlayingPiece getCurrentPiece(){
+    public ChessPiece getCurrentPiece(){
         return this.currentPiece;
     }
 
@@ -109,7 +101,7 @@ public class Field extends View {
         color.setColor((this.x + this.y) % 2 == 0 ? Color.parseColor("#838381") : Color.parseColor("#d5d8db"));
     }
 
-    public void setCurrentPiece(PlayingPiece currentPiece) {
+    public void setCurrentPiece(ChessPiece currentPiece) {
         this.currentPiece = currentPiece;
     }
 

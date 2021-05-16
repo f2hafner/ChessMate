@@ -1,27 +1,19 @@
 package com.game.chessmate.GameFiles;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Rect;
-import android.util.Log;
-
-import androidx.constraintlayout.solver.widgets.Rectangle;
 
 import com.game.chessmate.GameFiles.PlayingPieces.Bishop;
-import com.game.chessmate.GameFiles.PlayingPieces.PlayingPiece;
-import com.game.chessmate.GameFiles.PlayingPieces.PlayingPieceType;
+import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import static android.content.ContentValues.TAG;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 
 public class FieldTest {
     Field field;
@@ -30,7 +22,7 @@ public class FieldTest {
     Context context;
 
     @Mock
-    PlayingPiece bishop;
+    ChessPiece bishop;
 
     @Mock
     Rect rectangle;

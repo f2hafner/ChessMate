@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class QueenTest {
-    PlayingPieceColour colour;
+    ChessPieceColour colour;
     int drawableId;
 
     @Mock
@@ -38,7 +38,7 @@ public class QueenTest {
 
     @Before
     public void init(){
-        colour= PlayingPieceColour.WHITE;
+        colour= ChessPieceColour.WHITE;
 
         context= Mockito.mock(Context.class);
         position= Mockito.mock(Field.class);
@@ -57,7 +57,7 @@ public class QueenTest {
 
     @Test
     public void returnPlayingPieceTypeTest() {
-        assertEquals(PlayingPieceType.QUEEN,queen.getPlayingPieceType());
+        assertEquals(ChessPieceType.QUEEN,queen.getPlayingPieceType());
     }
 
     @Test
@@ -74,7 +74,7 @@ public class QueenTest {
     public void getColour(){
         assertEquals(colour,queen.getColour());
 
-        colour=PlayingPieceColour.BLACK;
+        colour= ChessPieceColour.BLACK;
         queen.setColor(colour);
 
         assertEquals(colour,queen.getColour());

@@ -3,7 +3,7 @@ package com.game.chessmate.GameFiles;
 import android.util.Log;
 import android.view.View;
 
-import com.game.chessmate.GameFiles.PlayingPieces.PlayingPiece;
+import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 
 import static android.content.ContentValues.TAG;
 
@@ -49,7 +49,7 @@ public class RenderThread implements Runnable {
                         f.setUpdate(false);
                         f.invalidate();
                     }
-                    PlayingPiece piece = f.getCurrentPiece();
+                    ChessPiece piece = f.getCurrentPiece();
                     if (piece != null && piece.getUpdateView()) {
                         piece.setUpdateView(false);
 

@@ -15,13 +15,29 @@ public class OptionsActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
 
-
         Button back = findViewById(R.id.backButtonOptions);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-               finish();
+            public void onClick(View v) {
+                finish();
             }
         });
+
+        Button music = findViewById(R.id.music);
+        music.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (music.getText().toString().matches("Music on")) {
+                    music.setText("Music off");
+                }
+                else if (music.getText().toString().matches("Music off")) {
+                    music.setText("Music on");
+                }
+            }
+        });
+
+
     }
+
 }
+

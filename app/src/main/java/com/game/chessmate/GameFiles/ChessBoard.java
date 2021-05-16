@@ -210,6 +210,7 @@ public class ChessBoard {
                 case KNIGHT: piece = new Knight(field, resources, drawableId, view.getContext(), null, colour); break;
                 case QUEEN: piece = new Queen(field, resources, drawableId, view.getContext(), null, colour); break;
                 case KING: piece = new King(field, resources, drawableId, view.getContext(), null, colour); break;
+                default: throw new UnsupportedOperationException();
             }
             piece.createBitmap();
             piecesPlayer.add(piece);

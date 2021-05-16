@@ -2,6 +2,7 @@ package com.game.chessmate.GameFiles.PlayingPieces;
 
 
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 
@@ -37,6 +38,8 @@ public class BishopTest {
     @Mock
     private Resources resources;
 
+    @Mock
+    private Context context;
     int drawableId;
 
   //  @Mock
@@ -48,7 +51,7 @@ public class BishopTest {
     public void init(){
         colour= PlayingPieceColour.WHITE;
 
-
+        context= Mockito.mock(Context.class);
         position= Mockito.mock(Field.class);
  //       when(position.getX()).thenReturn(0);
    //     when(position.getY()).thenReturn(0);
@@ -56,7 +59,7 @@ public class BishopTest {
         resources=Mockito.mock(Resources.class);
         drawableId=R.drawable.bishop_player1;
 
-        bishop=new Bishop(position,resources,drawableId,colour);
+        bishop=new Bishop(position,resources,drawableId,context,null,colour);
         bishop.setColor(colour);
 
     }

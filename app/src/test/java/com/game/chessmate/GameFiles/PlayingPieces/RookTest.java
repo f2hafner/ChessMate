@@ -1,5 +1,6 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 
@@ -25,6 +26,9 @@ public class RookTest {
     @Mock
     private Resources resources;
 
+    @Mock
+    private Context context;
+
    // @Mock
     Bitmap sprite;
 
@@ -36,7 +40,7 @@ public class RookTest {
     public void init(){
         colour= PlayingPieceColour.WHITE;
 
-
+        context= Mockito.mock(Context.class);
         position= Mockito.mock(Field.class);
         //       when(position.getX()).thenReturn(0);
         //     when(position.getY()).thenReturn(0);
@@ -44,7 +48,7 @@ public class RookTest {
         resources=Mockito.mock(Resources.class);
         sprite=null;
 
-        rook=new Rook(position,resources,drawableId,colour);
+        rook=new Rook(position,resources,drawableId,context,null,colour);
 
         rook.setColor(colour);
 

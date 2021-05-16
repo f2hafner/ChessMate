@@ -36,7 +36,7 @@ public class RenderThread implements Runnable {
         long timeMillis;
         long waitTime;
         long totalTime = 0;
-        int frameCount = 0;
+        double frameCount = 0;
         long targetTime = 1000 / targetFPS;
 
         while(running) {
@@ -67,8 +67,8 @@ public class RenderThread implements Runnable {
 
             try {
                 Thread.sleep(waitTime);
-            }catch (Exception e) {
-                Log.w(TAG, "run: RenderThread", e);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
             totalTime += System.nanoTime() - startTime;

@@ -1,5 +1,6 @@
 package com.game.chessmate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +35,14 @@ public class OptionsActivity extends AppCompatActivity {
                     music.setText("Music on");
                 }
             }
+        });
+
+        Button changeName = findViewById(R.id.changeName);
+
+
+        changeName.setOnClickListener(v -> {
+            Intent changeNameIntent=new Intent (this, HomeActivity.class);
+            startActivity(changeNameIntent);
         });
 
 

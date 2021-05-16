@@ -21,8 +21,8 @@ public interface PlayingPiece {
     void setCurrentPosition(Field field);
     void draw(Canvas canvas);
     void move(Field ToField);
-    boolean isUpdatePosition();
+    boolean updateMovementOffset();
     void updateOffsets();
-    boolean getUpdate();
-    void setUpdate(boolean update);
+    boolean getUpdateView();
+    void setUpdateView(boolean update);
 }

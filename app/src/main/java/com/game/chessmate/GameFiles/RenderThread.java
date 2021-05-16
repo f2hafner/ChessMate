@@ -7,6 +7,9 @@ import com.game.chessmate.GameFiles.PlayingPieces.PlayingPiece;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * The type Render thread.
+ */
 public class RenderThread implements Runnable {
 
     private ChessBoard board;
@@ -14,10 +17,19 @@ public class RenderThread implements Runnable {
     private int targetFPS = 30;
     private double averageFPS;
 
+    /**
+     * Instantiates a new Render thread.
+     *
+     * @param view the view
+     */
     public RenderThread(BoardView view) {
         this.board = ChessBoard.getInstance();
     }
 
+    /**
+     * Creates frames on the canvas by invalidating the view @averageFPS. The thread will do its task and then sleep for @waitTime to
+     * ensure steady FPS.
+     */
     @Override
     public void run() {
         long startTime;
@@ -38,10 +50,10 @@ public class RenderThread implements Runnable {
                         f.invalidate();
                     }
                     PlayingPiece piece = f.getCurrentPiece();
-                    if (piece != null && piece.getUpdate()) {
-                        piece.setUpdate(false);
+                    if (piece != null && piece.getUpdateView()) {
+                        piece.setUpdateView(false);
 
-                        if (piece.isUpdatePosition()) {
+                        if (piece.updateMovementOffset()) {
                             piece.updateOffsets();
                         }
 
@@ -71,6 +83,11 @@ public class RenderThread implements Runnable {
         }
     }
 
+    /**
+     * Sets running.
+     *
+     * @param running determines if the thread is running
+     */
     public void setRunning(boolean running) {
         this.running = running;
     }

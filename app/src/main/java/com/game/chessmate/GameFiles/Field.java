@@ -51,24 +51,23 @@ public class Field extends View {
     }
 
     /**
-     * onDraw inherited from View. call invalidate on the field to redraw the rectangle and the PlayingPiece on this
-     * rectangle if not empty.
+     * onDraw inherited from View. call invalidate on the field to redraw the rectangle.
      */
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawRect(rectangle, color);
     }
 
-    /** Returns true if the field has a playing piece on it
-     *
+    /**
+     * Returns true if the field has a playing piece on it
      * @return boolean
      * */
     public boolean hasPiece(){
         return currentPiece == null;
     }
 
-    /** Gets the current Piece that is on the Playing Field.
-     *
+    /**
+     * Gets the current Piece that is on the Playing Field.
      * @return PlayingPiece
      * */
     public PlayingPiece getCurrentPiece(){

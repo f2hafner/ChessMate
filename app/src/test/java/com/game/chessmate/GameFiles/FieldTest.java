@@ -3,6 +3,7 @@ package com.game.chessmate.GameFiles;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.util.Log;
 
 import androidx.constraintlayout.solver.widgets.Rectangle;
 
@@ -15,9 +16,11 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import static android.content.ContentValues.TAG;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 public class FieldTest {
@@ -32,14 +35,15 @@ public class FieldTest {
     @Mock
     Rect rectangle;
 
+
+
     @Before
     public void init(){
         context= Mockito.mock(Context.class);
         bishop=Mockito.mock(Bishop.class);
         rectangle=Mockito.mock(Rect.class);
 
-
-        field=new Field(0,0,context,null);
+        field = new Field(0, 0, context, null);
     }
 
     @Test
@@ -52,7 +56,6 @@ public class FieldTest {
     @Test
     public void hasPieceFalseTest(){
         field.setCurrentPiece(null);
-
         assertFalse(field.hasPiece());
     }
 

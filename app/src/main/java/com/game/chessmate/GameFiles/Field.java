@@ -64,7 +64,10 @@ public class Field extends View {
      * @return boolean
      * */
     public boolean hasPiece(){
-        return currentPiece == null;
+        if (currentPiece == null) {
+            return false;
+        }
+        else return true;
     }
 
     /**

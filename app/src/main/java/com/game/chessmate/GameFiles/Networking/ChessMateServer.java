@@ -4,6 +4,9 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionRequest;
+import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionResponse;
+
 import java.io.IOException;
 
 /**
@@ -34,8 +37,8 @@ public class ChessMateServer {
     private void registerClasses(){
         Kryo kryo = serverInstance.getKryo();
         //TODO add Requests and Responses
-        //kryo.register(SomeRequest.class);
-        //kryo.register(SomeResponse.class);
+        kryo.register(createSessionRequest.class);
+        kryo.register(createSessionResponse.class);
     }
 
 

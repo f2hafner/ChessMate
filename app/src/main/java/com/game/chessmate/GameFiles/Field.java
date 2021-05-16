@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 
 import com.game.chessmate.GameFiles.PlayingPieces.PlayingPiece;
+import com.game.chessmate.GameFiles.PlayingPieces.PlayingPieceType;
 
 import static android.content.ContentValues.TAG;
 
@@ -31,7 +32,7 @@ public class Field extends View {
      */
     private int x;
     private int y;
-    private Paint color;
+    public Paint color;
     private Rect rectangle;
     private PlayingPiece currentPiece;
     private boolean update;

@@ -12,6 +12,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.GameFiles.Vector;
 
@@ -40,18 +41,27 @@ public class Pawn extends View implements PlayingPiece {
     private boolean updateMovementOffset;
     private int movementSpeed = 15;
     private boolean updateView;
+    private Resources resources;
+    private int drawableId;
+    private boolean firstMove;
 
-
-    public Pawn(Field position, Resources resources, int drawableId, Context context, @Nullable AttributeSet attrs){
+    /**
+     * Instantiates a new Pawn.
+     *
+     * @param resources the resource name
+     * @param position     the position
+     */
+    public Pawn(Field position, Resources resources, int drawableId, Context context, @Nullable AttributeSet attrs, PlayingPieceColour color){
         super(context, attrs);
-        this.currentPosition=position;
+        this.currentPosition = position;
         this.targetPosition = null;
-        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
-        scaleBitmapToFieldSize();
-        this.colour=colour;
+        this.resources=resources;
+        this.drawableId=drawableId;
+        this.colour = colour;
         this.offset = new Vector(0,0);
         this.updateMovementOffset = false;
         this.updateView = false;
+        this.firstMove = true;
     }
 
     /**
@@ -62,6 +72,11 @@ public class Pawn extends View implements PlayingPiece {
         int width = rectangle.width();
         int height = rectangle.height();
         this.sprite = Bitmap.createScaledBitmap(this.sprite, width, height, false);
+    }
+
+    public void createBitmap(){
+        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+        scaleBitmapToFieldSize();
     }
 
     //TODO implement Interface methods
@@ -82,7 +97,30 @@ public class Pawn extends View implements PlayingPiece {
 
     @Override
     public ArrayList<Field> getLegalFields() {
-        return new ArrayList<>();
+        Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
+        ArrayList<Field> legalFields = new ArrayList<>();
+        int i = currentPosition.getFieldX();
+        int j = currentPosition.getFieldY();
+
+        if(i-1 < 8) {
+            if (currentFields[i - 1][j].getCurrentPiece() == null) {
+                legalFields.add(currentFields[i - 1][j]);
+            } else if (currentFields[i - 1][j].getCurrentPiece().getColour() != this.colour) {
+                legalFields.add(currentFields[i - 1][j]);
+            } else {
+                return legalFields;
+            }
+            if (firstMove && i - 2 < 8) {
+                if (currentFields[i - 2][j].getCurrentPiece() == null) {
+                    legalFields.add(currentFields[i - 2][j]);
+                } else if (currentFields[i - 2][j].getCurrentPiece().getColour() != this.colour) {
+                    legalFields.add(currentFields[i - 2][j]);
+                } else {
+                    return legalFields;
+                }
+            }
+        }
+        return legalFields;
     }
 
 
@@ -92,8 +130,13 @@ public class Pawn extends View implements PlayingPiece {
     }
 
     @Override
-    public void setCurrentPosition(Field currentPosition) {
-        this.currentPosition = currentPosition;
+    public void setCurrentPosition(Field field) {
+        this.currentPosition = field;
+    }
+
+    @Override
+    public void setColor(PlayingPieceColour colour) {
+        this.colour=colour;
     }
 
     /**
@@ -160,4 +203,5 @@ public class Pawn extends View implements PlayingPiece {
     public void setUpdateView(boolean update) {
         this.updateView = update;
     }
+
 }

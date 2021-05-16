@@ -40,14 +40,22 @@ public class King extends View implements PlayingPiece {
     private boolean updateMovementOffset;
     private int movementSpeed = 15;
     private boolean updateView;
+    private Resources resources;
+    private int drawableId;
 
-    public King(Field position, Resources resources, int drawableId, Context context, @Nullable AttributeSet attrs){
+    /**
+     * Instantiates a new King.
+     *
+     * @param resources the resource name
+     * @param position     the position
+     */
+    public King(Field position, Resources resources, int drawableId, Context context, @Nullable AttributeSet attrs, PlayingPieceColour color){
         super(context, attrs);
-        this.currentPosition=position;
+        this.currentPosition = position;
         this.targetPosition = null;
-        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
-        scaleBitmapToFieldSize();
-        this.colour=colour;
+        this.resources=resources;
+        this.drawableId=drawableId;
+        this.colour = colour;
         this.offset = new Vector(0,0);
         this.updateMovementOffset = false;
         this.updateView = false;
@@ -61,6 +69,11 @@ public class King extends View implements PlayingPiece {
         int width = rectangle.width();
         int height = rectangle.height();
         this.sprite = Bitmap.createScaledBitmap(this.sprite, width, height, false);
+    }
+
+    public void createBitmap(){
+        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+        scaleBitmapToFieldSize();
     }
 
     @Override
@@ -91,7 +104,11 @@ public class King extends View implements PlayingPiece {
             for(int j = currentPosition.getFieldY()-1; j <= currentPosition.getFieldY()+1; j++){
                 if(i>=0 && i<=7 && j>=0 && j<=7){
                     if(!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())){
-                        legalFields.add(currentFields[i][j]);
+                        if (currentFields[i][j].getCurrentPiece() == null) {
+                            legalFields.add(currentFields[i][j]);
+                        } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour) {
+                            legalFields.add(currentFields[i][j]);
+                        }
                     }
                 }
             }
@@ -105,8 +122,13 @@ public class King extends View implements PlayingPiece {
     }
 
     @Override
-    public void setCurrentPosition(Field currentPosition) {
-        this.currentPosition = currentPosition;
+    public void setCurrentPosition(Field field) {
+        this.currentPosition = field;
+    }
+
+    @Override
+    public void setColor(PlayingPieceColour colour) {
+        this.colour=colour;
     }
 
     /**
@@ -172,5 +194,4 @@ public class King extends View implements PlayingPiece {
     public void setUpdateView(boolean update) {
         this.updateView = update;
     }
-
 }

@@ -38,14 +38,22 @@ public class Rook extends View implements PlayingPiece {
     private boolean updateMovementOffset;
     private int movementSpeed = 15;
     private boolean updateView;
+    private Resources resources;
+    private int drawableId;
 
-    public Rook(Field position, Resources resources, int drawableId, Context context, @Nullable AttributeSet attrs){
+    /**
+     * Instantiates a new Rook.
+     *
+     * @param resources the resource name
+     * @param position     the position
+     */
+    public Rook(Field position, Resources resources, int drawableId, Context context, @Nullable AttributeSet attrs, PlayingPieceColour color){
         super(context, attrs);
-        this.currentPosition=position;
+        this.currentPosition = position;
         this.targetPosition = null;
-        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
-        scaleBitmapToFieldSize();
-        this.colour=colour;
+        this.resources=resources;
+        this.drawableId=drawableId;
+        this.colour = colour;
         this.offset = new Vector(0,0);
         this.updateMovementOffset = false;
         this.updateView = false;
@@ -59,6 +67,11 @@ public class Rook extends View implements PlayingPiece {
         int width = rectangle.width();
         int height = rectangle.height();
         this.sprite = Bitmap.createScaledBitmap(this.sprite, width, height, false);
+    }
+
+    public void createBitmap(){
+        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+        scaleBitmapToFieldSize();
     }
 
     //TODO implement Interface methods
@@ -93,7 +106,13 @@ public class Rook extends View implements PlayingPiece {
             j = currentPosition.getFieldY();
             while(i<8 && i>=0 && j<8 && j>=0 ){
                 if(!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())){
-                    legalFields.add(currentFields[i][j]);
+                    if (currentFields[i][j].getCurrentPiece() == null) {
+                        legalFields.add(currentFields[i][j]);
+                    } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour) {
+                        legalFields.add(currentFields[i][j]);
+                    }else{
+                        break; //breaks out of while - done with current direction
+                    }
                 }
                 switch(loops){
                     case 0:
@@ -187,5 +206,9 @@ public class Rook extends View implements PlayingPiece {
     @Override
     public void setUpdateView(boolean update) {
         this.updateView = update;
+    }
+
+    public void setColor(PlayingPieceColour colour) {
+        this.colour=colour;
     }
 }

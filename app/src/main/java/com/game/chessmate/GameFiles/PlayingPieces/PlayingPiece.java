@@ -5,9 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
 import android.view.View;
-
 import com.game.chessmate.GameFiles.Field;
-
 import java.util.ArrayList;
 
 /** Interface to set the needed methods for the PlayingPieces. */
@@ -18,6 +16,7 @@ public interface PlayingPiece {
     Bitmap getDrawable();
     ArrayList<Field> getLegalFields();
     PlayingPieceColour getColour();
+
     void setCurrentPosition(Field field);
     void draw(Canvas canvas);
     void move(Field ToField);
@@ -25,4 +24,7 @@ public interface PlayingPiece {
     void updateOffsets();
     boolean getUpdateView();
     void setUpdateView(boolean update);
+    void createBitmap();
+    void setColor(PlayingPieceColour colour);
+
 }

@@ -8,12 +8,12 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
-
 import androidx.annotation.Nullable;
-
+import android.graphics.drawable.Drawable;
+import android.util.Log;
+import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.GameFiles.Vector;
-
 import java.util.ArrayList;
 
 /** class implementing the Queen playing piece */
@@ -28,7 +28,8 @@ public class Queen extends View implements PlayingPiece {
      * @updateMovementOffset true if the RenderThread should update the position of this PlayingPiece when moving
      * @movementSpeed movement Speed of the Playing Piece. The higher the slower.
      * @updateView true if this view should be invalidated in the future by the RenderThread.
-     */    private Field currentPosition;
+     */
+    private Field currentPosition;
     private Field targetPosition;
     private Bitmap sprite;
     private PlayingPieceColour colour;
@@ -36,27 +37,40 @@ public class Queen extends View implements PlayingPiece {
     private boolean updateMovementOffset;
     private int movementSpeed = 15;
     private boolean updateView;
+    private Resources resources;
+    private int drawableId;
 
-    public Queen(Field position, Resources resources, int drawableId, Context context, @Nullable AttributeSet attrs){
+    /**
+     * Instantiates a new Queen.
+     *
+     * @param resources the resource name
+     * @param position     the position
+     */
+    public Queen(Field position, Resources resources, int drawableId, Context context, @Nullable AttributeSet attrs, PlayingPieceColour color){
         super(context, attrs);
-        this.currentPosition=position;
+        this.currentPosition = position;
         this.targetPosition = null;
-        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
-        scaleBitmapToFieldSize();
-        this.colour=colour;
+        this.resources=resources;
+        this.drawableId=drawableId;
+        this.colour = colour;
         this.offset = new Vector(0,0);
         this.updateMovementOffset = false;
         this.updateView = false;
     }
 
     /**
-     * Scale the bitmap of the PlayingPiece to the size of its rectangle container.
+     * Scales the bitmap of this PlayingPiece to the size of the rectangle container.
      */
     private void scaleBitmapToFieldSize() {
         Rect rectangle = this.currentPosition.getRectangle();
         int width = rectangle.width();
         int height = rectangle.height();
         this.sprite = Bitmap.createScaledBitmap(this.sprite, width, height, false);
+    }
+
+    public void createBitmap(){
+        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
+        scaleBitmapToFieldSize();
     }
 
     //TODO implement Interface methods
@@ -77,7 +91,56 @@ public class Queen extends View implements PlayingPiece {
 
     @Override
     public ArrayList<Field> getLegalFields() {
-        return new ArrayList<>();
+        Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
+        ArrayList<Field> legalFields = new ArrayList<>();
+
+        for(int loops = 0; loops <8; loops++){
+            int i = currentPosition.getFieldX();
+            int j = currentPosition.getFieldY();
+            while(i<8 && i>=0 && j<8 && j>=0){
+                if(!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())){
+                    if (currentFields[i][j].getCurrentPiece() == null) {
+                        legalFields.add(currentFields[i][j]);
+                    } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour) {
+                        legalFields.add(currentFields[i][j]);
+                    }else{
+                        break;
+                    }
+                }
+                switch(loops){
+                    case 0:
+                        i++;
+                        break;
+                    case 1:
+                        i--;
+                        break;
+                    case 2:
+                        j--;
+                        break;
+                    case 3:
+                        j++;
+                        break;
+                    case 4:
+                        i--;
+                        j--;
+                        break;
+                    case 5:
+                        i++;
+                        j++;
+                        break;
+                    case 6:
+                        i--;
+                        j++;
+                        break;
+                    case 7:
+                        i++;
+                        j--;
+                        break;
+
+                }
+            }
+        }
+        return legalFields;
     }
 
     @Override
@@ -86,7 +149,7 @@ public class Queen extends View implements PlayingPiece {
     }
 
     @Override
-    public void setCurrentPosition(Field currentPosition) {
+    public void setCurrentPosition(Field field) {
         this.currentPosition = currentPosition;
     }
 
@@ -153,4 +216,9 @@ public class Queen extends View implements PlayingPiece {
     public void setUpdateView(boolean update) {
         this.updateView = update;
     }
+
+    public void setColor(PlayingPieceColour colour) {
+        this.colour=colour;
+    }
+
 }

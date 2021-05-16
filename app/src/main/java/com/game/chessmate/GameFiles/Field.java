@@ -57,9 +57,6 @@ public class Field extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawRect(rectangle, color);
-        if(this.currentPiece != null) {
-            this.currentPiece.draw(canvas);
-        }
     }
 
     /** Returns true if the field has a playing piece on it

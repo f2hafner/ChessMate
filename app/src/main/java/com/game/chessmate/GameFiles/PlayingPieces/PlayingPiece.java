@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
+import android.view.View;
 
 import com.game.chessmate.GameFiles.Field;
 
@@ -22,7 +23,6 @@ public interface PlayingPiece {
     void move(Field ToField);
     boolean isUpdatePosition();
     void updateOffsets();
-
-    //TODO find a way to implement the legal moves
-    // Maybe asset datatype so a user can switch out the playingpiece designs (if possible)
+    boolean getUpdate();
+    void setUpdate(boolean update);
 }

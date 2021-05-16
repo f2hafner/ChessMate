@@ -1,6 +1,9 @@
 package com.game.chessmate.GameFiles;
 
 import android.util.Log;
+import android.view.View;
+
+import com.game.chessmate.GameFiles.PlayingPieces.PlayingPiece;
 
 import static android.content.ContentValues.TAG;
 
@@ -32,10 +35,18 @@ public class RenderThread implements Runnable {
                 for (Field f : rowFields) {
                     if (f.getUpdate()) {
                         f.setUpdate(false);
-                        if (f.getCurrentPiece() != null && f.getCurrentPiece().isUpdatePosition()) {
-                            f.getCurrentPiece().updateOffsets();
-                        }
                         f.invalidate();
+                    }
+                    PlayingPiece piece = f.getCurrentPiece();
+                    if (piece != null && piece.getUpdate()) {
+                        piece.setUpdate(false);
+
+                        if (piece.isUpdatePosition()) {
+                            piece.updateOffsets();
+                        }
+
+                        View pieceView = (View)piece;
+                        pieceView.invalidate();
                     }
                 }
             }

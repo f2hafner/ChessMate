@@ -1,5 +1,6 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -7,7 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
@@ -17,7 +22,7 @@ import com.game.chessmate.R;
 import java.util.ArrayList;
 
 /** class implementing the Bishop playing piece */
-public class Bishop implements PlayingPiece {
+public class Bishop extends View implements PlayingPiece {
 
     private Field currentPosition;
     private Field targetPosition;
@@ -26,8 +31,10 @@ public class Bishop implements PlayingPiece {
     private Vector offset;
     private boolean updatePosition;
     private int movementSpeed = 15;
+    private boolean update;
 
-    public Bishop(Field position, Resources resources, int drawableId){
+    public Bishop(Field position, Resources resources, int drawableId, Context context, @Nullable AttributeSet attrs){
+        super(context, attrs);
         this.currentPosition=position;
         this.targetPosition = null;
         this.sprite = BitmapFactory.decodeResource(resources, drawableId);
@@ -35,6 +42,7 @@ public class Bishop implements PlayingPiece {
         this.colour=colour;
         this.offset = new Vector(0,0);
         this.updatePosition = false;
+        this.update = false;
     }
 
     private void scaleBitmapToFieldSize() {
@@ -112,7 +120,7 @@ public class Bishop implements PlayingPiece {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         Field field = this.currentPosition;
         canvas.drawBitmap(this.sprite, field.getRectangle().left + (int)offset.getX(), field.getRectangle().top + (int)offset.getY(), null);
     }
@@ -121,7 +129,7 @@ public class Bishop implements PlayingPiece {
     public void move(Field targetField) {
         this.targetPosition = targetField;
         this.updatePosition = true;
-        this.currentPosition.setUpdate(true);
+        this.setUpdate(true);
     }
 
     public void updateOffsets() {
@@ -131,22 +139,32 @@ public class Bishop implements PlayingPiece {
 
         if((offset.getX() != vector.getX()) || (offset.getY() != vector.getY())){
             offset = offset.add(vector.div(this.movementSpeed));
-            currentPosition.setUpdate(true);
+            this.setUpdate(true);
         }
         else {
             this.updatePosition = false;
-            currentPosition.setCurrentPiece(null);
-            targetPosition.setCurrentPiece(this);
             this.offset = new Vector(0,0);
+            this.currentPosition.setCurrentPiece(null);
+            this.targetPosition.setCurrentPiece(this);
             this.setCurrentPosition(targetPosition);
-            currentPosition.setUpdate(true);
-            targetPosition.setUpdate(true);
+            this.setUpdate(true);
+            this.targetPosition.getCurrentPiece().setUpdate(true);
         }
     }
 
     @Override
     public boolean isUpdatePosition() {
         return this.updatePosition;
+    }
+
+    @Override
+    public boolean getUpdate() {
+        return this.update;
+    }
+
+    @Override
+    public void setUpdate(boolean update) {
+        this.update = update;
     }
 }
 

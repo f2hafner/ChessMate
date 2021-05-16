@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.game.chessmate.GameFiles.PlayingPieces.Bishop;
 import com.game.chessmate.GameFiles.PlayingPieces.King;
@@ -143,7 +144,7 @@ public class ChessBoard {
                     ArrayList<Field> fieldsToMove = new ArrayList<>();
                     if (clickedField.getCurrentPiece() != null) {
                         fieldsToMove = clickedField.getCurrentPiece().getLegalFields();
-                        boardFields[i][j].getCurrentPiece().move(boardFields[i - 1][j - 1]);  // TODO Delete cause this is a test call to test PlayingPiece.move()
+                        boardFields[i][j].getCurrentPiece().move(boardFields[i - 1][j + 1]);  // TODO Delete cause this is a test call to test PlayingPiece.move()
                     }
 
                     if(!fieldsToMove.isEmpty()){
@@ -205,16 +206,17 @@ public class ChessBoard {
             Field field = boardFields[row][j];
             PlayingPiece piece = null;
             switch(type) {
-                case PAWN: piece = new Pawn(field, resources, drawableId); break;
-                case ROOK: piece = new Rook(field, resources, drawableId); break;
-                case BISHOP: piece = new Bishop(field, resources, drawableId); break;
-                case KNIGHT: piece = new Knight(field, resources, drawableId); break;
-                case QUEEN: piece = new Queen(field, resources, drawableId); break;
-                case KING: piece = new King(field, resources, drawableId); break;
+                case PAWN: piece = new Pawn(field, resources, drawableId, view.getContext(), null); break;
+                case ROOK: piece = new Rook(field, resources, drawableId, view.getContext(), null); break;
+                case BISHOP: piece = new Bishop(field, resources, drawableId, view.getContext(), null); break;
+                case KNIGHT: piece = new Knight(field, resources, drawableId, view.getContext(), null); break;
+                case QUEEN: piece = new Queen(field, resources, drawableId, view.getContext(), null); break;
+                case KING: piece = new King(field, resources, drawableId, view.getContext(), null); break;
             }
 
             piecesPlayer.add(piece);
             field.setCurrentPiece(piece);
+            view.addView((View)piece);
         }
     }
 

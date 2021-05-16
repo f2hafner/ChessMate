@@ -8,8 +8,11 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.*;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
@@ -22,7 +25,7 @@ import java.util.ArrayList;
 import static android.content.ContentValues.TAG;
 
 /** class implementing the Pawn playing piece */
-public class Pawn implements PlayingPiece {
+public class Pawn extends View implements PlayingPiece {
 
     private Field currentPosition;
     private Field targetPosition;
@@ -31,8 +34,11 @@ public class Pawn implements PlayingPiece {
     private Vector offset;
     private boolean updatePosition;
     private int movementSpeed = 15;
+    private boolean update;
 
-    public Pawn(Field position, Resources resources, int drawableId){
+
+    public Pawn(Field position, Resources resources, int drawableId, Context context, @Nullable AttributeSet attrs){
+        super(context, attrs);
         this.currentPosition=position;
         this.targetPosition = null;
         this.sprite = BitmapFactory.decodeResource(resources, drawableId);
@@ -40,6 +46,7 @@ public class Pawn implements PlayingPiece {
         this.colour=colour;
         this.offset = new Vector(0,0);
         this.updatePosition = false;
+        this.update = false;
     }
 
     private void scaleBitmapToFieldSize() {
@@ -82,7 +89,8 @@ public class Pawn implements PlayingPiece {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
+        Log.d(TAG, "onDraw: " + " got called in pawn");
         Field field = this.currentPosition;
         canvas.drawBitmap(this.sprite, field.getRectangle().left + (int)offset.getX(), field.getRectangle().top + (int)offset.getY(), null);
     }
@@ -91,7 +99,7 @@ public class Pawn implements PlayingPiece {
     public void move(Field targetField) {
         this.targetPosition = targetField;
         this.updatePosition = true;
-        this.currentPosition.setUpdate(true);
+        this.setUpdate(true);
     }
 
     public void updateOffsets() {
@@ -101,20 +109,37 @@ public class Pawn implements PlayingPiece {
 
         if((offset.getX() != vector.getX()) || (offset.getY() != vector.getY())){
             offset = offset.add(vector.div(this.movementSpeed));
-            currentPosition.setUpdate(true);
+            this.setUpdate(true);
         }
         else {
+            // TODO Note: When the piece moves to its destination,
+            //  the piece that olready occupies that destination does not get removed because it has its own canvas.
+            //  Cannot set it null and rerender cause null will skip the invalidate(). piece on destination
+            //  somehow needs to be removed first. maybe by setting its color to transparent.
             this.updatePosition = false;
-            currentPosition.setCurrentPiece(null);
-            targetPosition.setCurrentPiece(this);
             this.offset = new Vector(0,0);
-            this.setCurrentPosition(targetPosition);
-            currentPosition.setUpdate(true);
-            targetPosition.setUpdate(true);
+            currentPosition.setCurrentPiece(null);
+            this.currentPosition = targetPosition;
+            targetPosition.setCurrentPiece(this);
+            this.setUpdate(true);
+
+
+            Log.d(TAG, "updateOffsets: " + targetPosition.getCurrentPiece());
+            Log.d(TAG, "updateOffsets: " + targetPosition.getUpdate());
         }
     }
 
     public boolean isUpdatePosition() {
         return updatePosition;
+    }
+
+    @Override
+    public boolean getUpdate() {
+        return this.update;
+    }
+
+    @Override
+    public void setUpdate(boolean update) {
+        this.update = update;
     }
 }

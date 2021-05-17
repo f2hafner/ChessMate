@@ -42,13 +42,14 @@ public class ChessBoard {
     private final int boardSize = 8;
     private ArrayList<ChessPiece> piecesPlayer1;
     private ArrayList<ChessPiece> piecesPlayer2;
-    private ArrayList<Field> legalMoves;
+    private ArrayList<Field> legalMovesSelected;
+    private Field lastSelectedField = null;
 
     private ChessBoard() {
         this.boardFields = new Field[8][8];
         piecesPlayer1 = new ArrayList<>();
         piecesPlayer2 = new ArrayList<>();
-        legalMoves = new ArrayList<>();
+        legalMovesSelected = new ArrayList<>();
     }
 
     /**
@@ -137,18 +138,39 @@ public class ChessBoard {
 
                 if (rect.contains(touchX, touchY)) {
                     Field clickedField = boardFields[i][j];
-                    ArrayList<Field> fieldsToMove = new ArrayList<>();
 
-                    if (clickedField.getCurrentPiece() != null) {
-                        fieldsToMove = clickedField.getCurrentPiece().getLegalFields();
-                        boardFields[i][j].getCurrentPiece().move(boardFields[i - 1][j]);  // TODO Delete cause this is a test call to test ChessPiece.move()
+                    if(clickedField.getCurrentPiece() != null){
+                        //TODO - differentiate between piece of opponent and mine - only set to null if it is my color (user selected different piece to move)
+                        lastSelectedField = null;
+                        resetLegalMoves();
+                    }
+                    if(lastSelectedField == null){//this is the first click on a field
+                        if (clickedField.getCurrentPiece() != null) {
+                            lastSelectedField = clickedField;
+                            this.legalMovesSelected = clickedField.getCurrentPiece().getLegalFields();
+                            if(!legalMovesSelected.isEmpty()){
+                                drawLegalMoves(legalMovesSelected);
+                            }
+                        }
+                    }else{//this is the second click
+                        if(legalMovesSelected.contains(clickedField)){
+                            lastSelectedField.getCurrentPiece().move(clickedField);
+                            lastSelectedField = null;
+                            resetLegalMoves();
+                        }else{
+                            lastSelectedField = null;
+                        }
                     }
 
-                    if(!fieldsToMove.isEmpty()){
-                        drawLegalMoves(fieldsToMove);
-                    }
                 }
             }
+        }
+    }
+
+    private void resetLegalMoves() {
+        for(Field f : legalMovesSelected) {
+            f.setRectangleDefaultColor();
+            f.setUpdate(true);
         }
     }
 
@@ -158,11 +180,7 @@ public class ChessBoard {
      * @param fieldsToMove ArrayList of Fields that are legal for the currently selected ChessPiece to move to
      */
     private void drawLegalMoves(ArrayList<Field> fieldsToMove) {
-
-        for(Field f : legalMoves) {
-            f.setRectangleDefaultColor();
-            f.setUpdate(true);
-        }
+        resetLegalMoves();
 
         if(!fieldsToMove.isEmpty()){
             for(Field f : fieldsToMove){
@@ -170,7 +188,6 @@ public class ChessBoard {
                 f.invalidate();
             }
         }
-        this.legalMoves = fieldsToMove;
     }
 
     /**

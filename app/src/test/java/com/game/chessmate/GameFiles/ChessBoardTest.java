@@ -4,7 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class ChessBoardTest {
@@ -16,11 +18,12 @@ public class ChessBoardTest {
 
     @Before
     public void init(){
-
+        chessBoard.getInstance();
+        field= Mockito.mock(Field.class);
     }
 
     @Test
-    public void exampleTest() {
+    public void exampleTest(){
 
     }
 }

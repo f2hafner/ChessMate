@@ -78,11 +78,11 @@ public class FieldTest {
         assertEquals(0,field.getFieldY());
     }
 
-  /*  @Test
-    public void setLegalMoveColourTest(){
+ /*   @Test
+    public void setLegalMoveColourTest() {
         field.setAsLegal();
 
-        assertEquals(Color.YELLOW,field.color);
-  */
+        assertEquals(Color.YELLOW, field.color);
+    }*/
 
 }

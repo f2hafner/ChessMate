@@ -46,8 +46,11 @@ public class DeckTest {
 
     @Test
     public void testShuffle(){
+        Card [] cards=deck.getDeck();
         deck.shuffle();
-        assertNotEquals("Cowardice",deck.getDeck()[0].getName());
+
+        assertNotEquals(cards,deck);
+
     }
 
     @Test

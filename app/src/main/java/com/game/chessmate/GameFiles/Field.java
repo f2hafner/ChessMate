@@ -35,6 +35,7 @@ public class Field extends View {
     public Paint color;
     private Rect rectangle;
     private PlayingPiece currentPiece;
+    private boolean blocked=false;
 
     /**
      * Constructor of Field. Set coordinates, compute color of the Rectangle with x and y, and construct the rectangle
@@ -140,6 +141,10 @@ public class Field extends View {
     public void setAsLegal(){
         color.setColor(Color.YELLOW);
     }
+
+    public void setBlocked(){this.blocked=true;}
+
+    public boolean isBlocked(){return this.blocked;}
 
 
 

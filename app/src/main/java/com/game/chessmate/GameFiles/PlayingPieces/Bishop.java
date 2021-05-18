@@ -13,6 +13,7 @@ import java.util.ArrayList;
 /** class implementing the Bishop playing piece */
 public class Bishop implements PlayingPiece {
 
+    private boolean isProtected=false;
     private Field currentPosition;
     private Bitmap sprite;
     private PlayingPieceColour colour;
@@ -47,6 +48,11 @@ public class Bishop implements PlayingPiece {
     @Override
     public Field getPosition() {
         return this.currentPosition;
+    }
+
+    @Override
+    public void setPosition(Field position) {
+        this.currentPosition=position;
     }
 
     @Override
@@ -105,6 +111,16 @@ public class Bishop implements PlayingPiece {
     @Override
     public PlayingPieceColour getColour() {
         return this.colour;
+    }
+
+    @Override
+    public void setProtected() {
+        isProtected=true;
+    }
+
+    @Override
+    public boolean isProtected() {
+        return this.isProtected;
     }
 
     @Override

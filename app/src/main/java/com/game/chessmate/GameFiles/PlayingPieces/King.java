@@ -15,6 +15,7 @@ import java.util.ArrayList;
  */
 public class King implements PlayingPiece {
 
+    private boolean isProtected=false;
     private Field currentPosition;
     private Bitmap sprite;    //TODO Maybe we can use Drawable for the svg. Could not figure out.
     private PlayingPieceColour colour;
@@ -54,6 +55,21 @@ public class King implements PlayingPiece {
     @Override
     public Field getPosition() {
         return this.currentPosition;
+    }
+
+    @Override
+    public void setPosition(Field position) {
+        this.currentPosition=position;
+    }
+
+    @Override
+    public void setProtected() {
+        isProtected=true;
+    }
+
+    @Override
+    public boolean isProtected() {
+        return this.isProtected;
     }
 
     @Override

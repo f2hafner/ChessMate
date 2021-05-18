@@ -9,11 +9,17 @@ import java.util.ArrayList;
 /** Interface to set the needed methods for the PlayingPieces. */
 public interface PlayingPiece {
 
+
+
     PlayingPieceType getPlayingPieceType();
     Field getPosition();
+    void setPosition(Field position);
     Bitmap getDrawable();
     ArrayList<Field> getLegalFields();
     PlayingPieceColour getColour();
+
+    void setProtected();
+    boolean isProtected();
 
     void createBitmap();
 

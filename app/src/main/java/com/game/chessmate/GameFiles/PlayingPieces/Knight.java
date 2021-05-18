@@ -15,6 +15,7 @@ import java.util.ArrayList;
 /** class implementing the Knight playing piece */
 public class Knight implements PlayingPiece {
 
+    private boolean isProtected=false;
     private Field currentPosition;
     private Bitmap sprite;
     private PlayingPieceColour colour;
@@ -49,6 +50,21 @@ public class Knight implements PlayingPiece {
     @Override
     public Field getPosition() {
         return this.currentPosition;
+    }
+
+    @Override
+    public void setPosition(Field position) {
+        this.currentPosition=position;
+    }
+
+    @Override
+    public void setProtected() {
+        isProtected=true;
+    }
+
+    @Override
+    public boolean isProtected() {
+        return this.isProtected;
     }
 
     @Override

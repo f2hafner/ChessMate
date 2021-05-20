@@ -4,6 +4,8 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+
 import com.game.chessmate.GameFiles.PlayingPieces.Bishop;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
@@ -253,4 +255,8 @@ public class ChessBoard {
     public Field[][] getBoardFields() {
         return boardFields;
     }
+
+
+
+
 }

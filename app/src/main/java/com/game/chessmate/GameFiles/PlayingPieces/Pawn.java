@@ -56,4 +56,13 @@ public class Pawn extends ChessPiece {
         }
         return legalFields;
     }
+
+
+   /* public ArrayList<Field> cheatMoves(){
+        Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
+        int i = currentPosition.getFieldX();
+        int j = currentPosition.getFieldY();
+
+
+    }*/
 }

@@ -63,7 +63,7 @@ public class Pawn extends ChessPiece {
 
     public ArrayList<Field> cheatMoves() {
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
-        ArrayList<Field> legalFields = new ArrayList<>();
+        ArrayList<Field> legalCheatFields = new ArrayList<>();
         int i = currentPosition.getFieldX();
         int j = currentPosition.getFieldY();
 
@@ -71,11 +71,35 @@ public class Pawn extends ChessPiece {
         for (int fieldX = 0; fieldX < currentFields.length; fieldX++) {
             for (int fieldY = 0; fieldY < currentFields[fieldX].length; fieldY++) {
                 if (!currentFields[i][j].hasPiece()) {
-                    legalFields.add(currentFields[i][j]);
+                    legalCheatFields.add(currentFields[i][j]);
                 }
 
             }
         }
-        return legalFields;
+        return legalCheatFields;
     }
+
+    public ArrayList<Field> getCheatFunktionMoves() {
+
+        ArrayList<Field> alllegalMovesPlusCheatFields = new ArrayList<>();
+        ArrayList<Field> legalMoves = new ArrayList<>();
+        ArrayList<Field> cheatlMoves = new ArrayList<>();
+        legalMoves = getLegalFields();
+        cheatlMoves = cheatMoves();
+
+        int size = legalMoves.size() + cheatlMoves.size();
+        ArrayList<Field> result = new ArrayList<>(size);
+
+        for (int i = 0; i < cheatlMoves.size(); i++) {
+            result.add(cheatlMoves.get(i));
+            for (int j = 0; j < legalMoves.size(); j++) {
+                if (!legalMoves.contains(legalMoves.get(j))) {
+                    result.add(legalMoves.get(j));
+                }
+            }
+        }
+        return result;
+
+    }
+
 }

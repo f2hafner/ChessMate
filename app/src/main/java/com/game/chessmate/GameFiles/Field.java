@@ -98,6 +98,7 @@ public class Field extends View {
      * Sets the rectangle to its default color based on the chessboard layout.
      */
     public void setRectangleDefaultColor(){
+        //color.setColor((this.x + this.y) % 2 == 0 ? Color.WHITE : Color.BLACK);
         color.setColor((this.x + this.y) % 2 == 0 ? Color.parseColor("#838381") : Color.parseColor("#d5d8db"));
     }
 

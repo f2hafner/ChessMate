@@ -1,6 +1,7 @@
 package com.game.chessmate.GameFiles;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
@@ -88,16 +89,16 @@ public class ChessBoard {
      *
      * @param resources the resource context for the ChessPiece Sprites
      */
-    private void initPiecesPlayer1(Resources resources, ChessPieceColour c) {
-        initPieces(ChessPieceType.PAWN, resources, 6, 0, 8, this.piecesPlayer1, R.drawable.pawn_player1, c);
-        initPieces(ChessPieceType.ROOK, resources, 7, 0, 1, this.piecesPlayer1, R.drawable.rook_player1, c);
-        initPieces(ChessPieceType.ROOK, resources, 7, 7, 1, this.piecesPlayer1, R.drawable.rook_player1, c);
-        initPieces(ChessPieceType.KNIGHT, resources, 7, 1, 1, this.piecesPlayer1, R.drawable.knight_player1, c);
-        initPieces(ChessPieceType.KNIGHT, resources, 7, 6, 1, this.piecesPlayer1, R.drawable.knight_player1, c);
-        initPieces(ChessPieceType.BISHOP, resources, 7, 2, 1, this.piecesPlayer1, R.drawable.bishop_player1, c);
-        initPieces(ChessPieceType.BISHOP, resources, 7, 5, 1, this.piecesPlayer1, R.drawable.bishop_player1, c);
-        initPieces(ChessPieceType.QUEEN, resources, 7, 4, 1, this.piecesPlayer1, R.drawable.queen_player1, c);
-        initPieces(ChessPieceType.KING, resources, 7, 3, 1, this.piecesPlayer1, R.drawable.king_player1, c);
+    private void initPiecesPlayer1(Resources resources, ChessPieceColour color) {
+        initPieces(ChessPieceType.PAWN,  6, 0, 8, this.piecesPlayer1, ResourceLoader.getPawn_player1(), color);
+        initPieces(ChessPieceType.ROOK,  7, 0, 1, this.piecesPlayer1, ResourceLoader.getRook_player1(),  color);
+        initPieces(ChessPieceType.ROOK,  7, 7, 1, this.piecesPlayer1, ResourceLoader.getRook_player1(),  color);
+        initPieces(ChessPieceType.KNIGHT,  7, 1, 1, this.piecesPlayer1, ResourceLoader.getKnight_player1(), color);
+        initPieces(ChessPieceType.KNIGHT,  7, 6, 1, this.piecesPlayer1, ResourceLoader.getKnight_player1(), color);
+        initPieces(ChessPieceType.BISHOP,  7, 2, 1, this.piecesPlayer1, ResourceLoader.getBishop_player1(), color);
+        initPieces(ChessPieceType.BISHOP,  7, 5, 1, this.piecesPlayer1, ResourceLoader.getBishop_player1(), color);
+        initPieces(ChessPieceType.QUEEN,  7, 4, 1, this.piecesPlayer1, ResourceLoader.getQueen_player1(), color);
+        initPieces(ChessPieceType.KING,  7, 3, 1, this.piecesPlayer1, ResourceLoader.getKing_player1(), color);
     }
 
     /**
@@ -105,16 +106,16 @@ public class ChessBoard {
      *
      * @param resources the resource context for the ChessPiece Sprites
      */
-    private void initPiecesPlayer2(Resources resources, ChessPieceColour c) {
-        initPieces(ChessPieceType.PAWN, resources, 1, 0, 8, this.piecesPlayer2, R.drawable.pawn_player2, c);
-        initPieces(ChessPieceType.ROOK, resources, 0, 0, 1, this.piecesPlayer2, R.drawable.rook_player2, c);
-        initPieces(ChessPieceType.ROOK, resources, 0, 7, 1, this.piecesPlayer2, R.drawable.rook_player2, c);
-        initPieces(ChessPieceType.KNIGHT, resources, 0, 1, 1, this.piecesPlayer2, R.drawable.knight_player2, c);
-        initPieces(ChessPieceType.KNIGHT, resources, 0, 6, 1, this.piecesPlayer2, R.drawable.knight_player2, c);
-        initPieces(ChessPieceType.BISHOP, resources, 0, 2, 1, this.piecesPlayer2, R.drawable.bishop_player2, c);
-        initPieces(ChessPieceType.BISHOP, resources, 0, 5, 1, this.piecesPlayer2, R.drawable.bishop_player2, c);
-        initPieces(ChessPieceType.QUEEN, resources, 0, 4, 1, this.piecesPlayer2, R.drawable.queen_player2, c);
-        initPieces(ChessPieceType.KING, resources, 0, 3, 1, this.piecesPlayer2, R.drawable.king_player2, c);
+    private void initPiecesPlayer2(Resources resources, ChessPieceColour color) {
+        initPieces(ChessPieceType.PAWN,  1, 0, 8, this.piecesPlayer2, ResourceLoader.getPawn_player2(), color);
+        initPieces(ChessPieceType.ROOK,  0, 0, 1, this.piecesPlayer2, ResourceLoader.getRook_player2(), color);
+        initPieces(ChessPieceType.ROOK,  0, 7, 1, this.piecesPlayer2, ResourceLoader.getRook_player2(), color);
+        initPieces(ChessPieceType.KNIGHT,  0, 1, 1, this.piecesPlayer2, ResourceLoader.getKnight_player2(), color);
+        initPieces(ChessPieceType.KNIGHT,  0, 6, 1, this.piecesPlayer2, ResourceLoader.getKnight_player2(), color);
+        initPieces(ChessPieceType.BISHOP,  0, 2, 1, this.piecesPlayer2, ResourceLoader.getBishop_player2(), color);
+        initPieces(ChessPieceType.BISHOP,  0, 5, 1, this.piecesPlayer2, ResourceLoader.getBishop_player2(), color);
+        initPieces(ChessPieceType.QUEEN,  0, 4, 1, this.piecesPlayer2, ResourceLoader.getQueen_player2(), color);
+        initPieces(ChessPieceType.KING,  0, 3, 1, this.piecesPlayer2, ResourceLoader.getKing_player2(), color);
     }
 
     /**
@@ -198,7 +199,7 @@ public class ChessBoard {
      * @param width The size of the screen
      * @return returns the size 1 Rectangle should have
      */
-    private int calculateRectSize(int width) {
+    public int calculateRectSize(int width) {
         float canvasWidth = width;
         float offset = canvasWidth % 8;
         int rectSize = (int)canvasWidth / this.boardSize - (int)offset;
@@ -216,20 +217,20 @@ public class ChessBoard {
      * @param piecesPlayer the array that contains the players pieces.
      * @param drawableId the id of the drawable resource.
      */
-    private void initPieces(ChessPieceType type, Resources resources, int row, int offset, int length, ArrayList<ChessPiece> piecesPlayer, int drawableId, ChessPieceColour colour) {
+    private void initPieces(ChessPieceType type, int row, int offset, int length, ArrayList<ChessPiece> piecesPlayer, Bitmap sprite, ChessPieceColour colour) {
         for (int j = offset; j < offset + length; j++) {
             Field field = boardFields[row][j];
             ChessPiece piece = null;
+
             switch(type) {
-                case PAWN: piece = new Pawn(field, resources, drawableId,view.getContext(), null, colour); break;
-                case ROOK: piece = new Rook(field, resources, drawableId, view.getContext(), null, colour); break;
-                case BISHOP: piece = new Bishop(field, resources, drawableId, view.getContext(), null, colour); break;
-                case KNIGHT: piece = new Knight(field, resources, drawableId, view.getContext(), null, colour); break;
-                case QUEEN: piece = new Queen(field, resources, drawableId, view.getContext(), null, colour); break;
-                case KING: piece = new King(field, resources, drawableId, view.getContext(), null, colour); break;
+                case PAWN: piece = new Pawn(field, sprite, view.getContext(), null, colour); break;
+                case ROOK: piece = new Rook(field, sprite, view.getContext(), null, colour); break;
+                case BISHOP: piece = new Bishop(field, sprite, view.getContext(), null, colour); break;
+                case KNIGHT: piece = new Knight(field, sprite, view.getContext(), null, colour); break;
+                case QUEEN: piece = new Queen(field, sprite, view.getContext(), null, colour); break;
+                case KING: piece = new King(field, sprite, view.getContext(), null, colour); break;
                 default: throw new UnsupportedOperationException();
             }
-            piece.createBitmap();
             piecesPlayer.add(piece);
             field.setCurrentPiece(piece);
             view.addView((View)piece);

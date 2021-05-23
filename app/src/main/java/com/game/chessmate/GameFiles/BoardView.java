@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Outline;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 
 import androidx.annotation.Nullable;
 
@@ -46,7 +48,7 @@ public class BoardView extends ViewGroup {
         board = ChessBoard.getInstance();
         board.initChessBoard(this, getResources(), width);
 
-        runnable = new RenderThread(this);
+        runnable = new RenderThread();
         thread = new Thread(runnable);
     }
 

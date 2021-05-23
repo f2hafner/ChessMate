@@ -39,7 +39,7 @@ abstract public class ChessPiece extends View {
     private Resources resources;
     private int drawableId;
 
-    public ChessPiece(Context context, Field position, Resources resources, int drawableId, ChessPieceColour colour) {
+    public ChessPiece(Context context, Field position, Bitmap sprite, ChessPieceColour colour) {
         super(context);
         this.currentPosition = position;
         this.targetPosition = null;
@@ -49,9 +49,10 @@ abstract public class ChessPiece extends View {
         this.offset = new Vector(0,0);
         this.updateMovementOffset = false;
         this.updateView = false;
+        this.sprite = sprite;
     }
 
-    public ChessPiece(Context context, @Nullable AttributeSet attrs, Field position, Resources resources, int drawableId, ChessPieceColour colour) {
+    public ChessPiece(Context context, @Nullable AttributeSet attrs, Field position, Bitmap sprite, ChessPieceColour colour) {
         super(context, attrs);
         this.currentPosition = position;
         this.targetPosition = null;
@@ -61,18 +62,20 @@ abstract public class ChessPiece extends View {
         this.offset = new Vector(0,0);
         this.updateMovementOffset = false;
         this.updateView = false;
+        this.sprite = sprite;
     }
 
-    public ChessPiece(Context context, @Nullable AttributeSet attrs, int defStyleAttr, Field position, Resources resources, int drawableId, ChessPieceColour colour) {
+    public ChessPiece(Context context, @Nullable AttributeSet attrs, int defStyleAttr, Field position, Bitmap sprite, ChessPieceColour colour) {
         super(context, attrs, defStyleAttr);
         this.currentPosition = position;
         this.targetPosition = null;
-        this.resources=resources;
-        this.drawableId=drawableId;
+        this.resources = resources;
+        this.drawableId = drawableId;
         this.colour = colour;
         this.offset = new Vector(0,0);
         this.updateMovementOffset = false;
         this.updateView = false;
+        this.sprite = sprite;
     }
 
     abstract public ChessPieceType getPlayingPieceType();
@@ -81,7 +84,7 @@ abstract public class ChessPiece extends View {
     /**
      * Extracts the bitmap of this ChessPiece from Ressources
      */
-    public void createBitmap(){
+    public void loadBitmap(){
         this.sprite = BitmapFactory.decodeResource(resources, drawableId);
         scaleBitmapToFieldSize();
     }

@@ -11,17 +11,20 @@ import com.game.chessmate.GameFiles.Field;
 
 import java.util.ArrayList;
 
-/** class implementing the Pawn playing piece */
+/**
+ * class implementing the Pawn playing piece
+ */
 public class Pawn extends ChessPiece {
 
     private boolean firstMove;
+
     /**
      * Instantiates a new Pawn.
      *
      * @param resources the resource name
-     * @param position     the position
+     * @param position  the position
      */
-    public Pawn(Field position, Resources resources, int drawableId, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){
+    public Pawn(Field position, Resources resources, int drawableId, Context context, @Nullable AttributeSet attrs, ChessPieceColour color) {
         super(context, attrs, position, resources, drawableId, color);
         this.firstMove = true;
     }
@@ -36,7 +39,7 @@ public class Pawn extends ChessPiece {
         int i = currentPosition.getFieldX();
         int j = currentPosition.getFieldY();
 
-        if(i-1 < 8) {
+        if (i - 1 < 8) {
             if (currentFields[i - 1][j].getCurrentPiece() == null) {
                 legalFields.add(currentFields[i - 1][j]);
             } else if (currentFields[i - 1][j].getCurrentPiece().getColour() != this.colour) {
@@ -58,11 +61,21 @@ public class Pawn extends ChessPiece {
     }
 
 
-   /* public ArrayList<Field> cheatMoves(){
+    public ArrayList<Field> cheatMoves() {
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
+        ArrayList<Field> legalFields = new ArrayList<>();
         int i = currentPosition.getFieldX();
         int j = currentPosition.getFieldY();
 
 
-    }*/
+        for (int fieldX = 0; fieldX < currentFields.length; fieldX++) {
+            for (int fieldY = 0; fieldY < currentFields[fieldX].length; fieldY++) {
+                if (!currentFields[i][j].hasPiece()) {
+                    legalFields.add(currentFields[i][j]);
+                }
+
+            }
+        }
+        return legalFields;
+    }
 }

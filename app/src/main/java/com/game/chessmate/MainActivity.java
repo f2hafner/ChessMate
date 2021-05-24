@@ -11,6 +11,8 @@ import android.view.View;
 
 import com.game.chessmate.GameFiles.BoardView;
 import com.game.chessmate.GameFiles.ChessBoard;
+import com.game.chessmate.GameFiles.NetworkManager;
+import com.game.chessmate.GameFiles.Networking.ChessMateClient;
 
 public class MainActivity extends AppCompatActivity {
     private static int SPLASH_TIME_OUT = 1000;
@@ -20,11 +22,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
         getSupportActionBar().hide();
-
         new Handler().postDelayed(() -> {
             Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(homeIntent);
             finish();
         }, SPLASH_TIME_OUT);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }

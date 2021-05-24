@@ -1,6 +1,8 @@
 package com.game.chessmate.GameFiles.Networking.NetObjects;
 
 public class createSessionResponse {
-    //TODO create specific Response Packet for communication
     public String lobbyCode;
+    public createSessionResponse(){}
+    public String getLobbyCode() { return lobbyCode; }
+    public void setLobbyCode(String lobbyCode) { this.lobbyCode = lobbyCode; }
 }

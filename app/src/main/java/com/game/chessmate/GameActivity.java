@@ -23,8 +23,8 @@ public class GameActivity extends AppCompatActivity {
         getCheatButton();
 
     }
-    boolean cheatButtonSetting = false;
-    public boolean getCheatButton() {
+    //boolean cheatButtonSetting;
+    public String  getCheatButton() {
 
         Button cheatButton = findViewById(R.id.cheatButton);
         cheatButton.setOnClickListener(new View.OnClickListener() {
@@ -37,19 +37,19 @@ public class GameActivity extends AppCompatActivity {
                 if (cheatButton.getText().toString().matches("Cheat Off")){
                     cheatButton.setText("Cheat On");
                     cheatButton.setBackgroundColor(getResources().getColor(R.color.purple_200));
-                    cheatButtonSetting = true;
+                    //cheatButtonSetting = true;
                 }
                 else if(cheatButton.getText().toString().matches("Cheat On")){
                     cheatButton.setText("Cheat Off");
                     cheatButton.setBackgroundColor(getResources().getColor(R.color.black));
-                   // cheatButtonSetting = false;
+                   //cheatButtonSetting = false;
                 }
 
             }
 
         });
 
-        return cheatButtonSetting;
+        return cheatButton.getText().toString();
     }
 
 

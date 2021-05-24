@@ -1,11 +1,8 @@
-package com.game.chessmate.GameFiles.Networking;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.Before;
 
 public class ChessMateServerTest {
-
-    ChessMateServer server;
 
     @Before
     public void init(){

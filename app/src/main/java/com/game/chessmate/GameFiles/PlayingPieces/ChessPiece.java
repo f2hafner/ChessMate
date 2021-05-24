@@ -77,6 +77,7 @@ abstract public class ChessPiece extends View {
 
     abstract public ChessPieceType getPlayingPieceType();
     abstract public ArrayList<Field> getLegalFields();
+    abstract public ArrayList<Field> getCheatFunctionMoves();
 
     /**
      * Extracts the bitmap of this ChessPiece from Ressources

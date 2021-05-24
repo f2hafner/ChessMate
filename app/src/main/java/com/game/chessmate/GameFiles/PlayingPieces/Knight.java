@@ -84,4 +84,52 @@ public class Knight extends ChessPiece {
         }
         return legalFields;
     }
+
+
+
+//Kings Cheat moves
+    public ArrayList<Field> cheatMoves() {
+        Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
+        ArrayList<Field> legalCheatFields = new ArrayList<>();
+        int i = currentPosition.getFieldX();
+        int j = currentPosition.getFieldY();
+
+
+        for (int fieldX = 0; fieldX < currentFields.length; fieldX++) {
+            for (int fieldY = 0; fieldY < currentFields[fieldX].length; fieldY++) {
+                if (!currentFields[i][j].hasPiece()) {
+                    legalCheatFields.add(currentFields[i][j]);
+                }
+
+            }
+        }
+        return legalCheatFields;
+    }
+
+    public ArrayList<Field> getCheatFunctionMoves() {
+
+        ArrayList<Field> legalMoves = new ArrayList<>();
+        ArrayList<Field> cheatMoves = new ArrayList<>();
+        legalMoves = getLegalFields();
+        cheatMoves = cheatMoves();
+
+        int size = cheatMoves.size();
+        for (int i = 0; i < legalMoves.size(); i++) {
+            if (!cheatMoves.contains(legalMoves)) {
+                size++;
+            }
+
+        }
+        ArrayList<Field> result = new ArrayList<>(size);
+
+        for (int i = 0; i < cheatMoves.size(); i++) {
+            result.add(cheatMoves.get(i));
+            for (int j = 0; j < legalMoves.size(); j++) {
+                if (!legalMoves.contains(legalMoves.get(j))) {
+                    result.add(legalMoves.get(j));
+                }
+            }
+        }
+        return result;
+    }
 }

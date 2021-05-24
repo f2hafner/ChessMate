@@ -79,19 +79,24 @@ public class Pawn extends ChessPiece {
         return legalCheatFields;
     }
 
-    public ArrayList<Field> getCheatFunktionMoves() {
+    public ArrayList<Field> getCheatFunctionMoves() {
 
-        ArrayList<Field> alllegalMovesPlusCheatFields = new ArrayList<>();
         ArrayList<Field> legalMoves = new ArrayList<>();
-        ArrayList<Field> cheatlMoves = new ArrayList<>();
+        ArrayList<Field> cheatMoves = new ArrayList<>();
         legalMoves = getLegalFields();
-        cheatlMoves = cheatMoves();
+        cheatMoves = cheatMoves();
 
-        int size = legalMoves.size() + cheatlMoves.size();
+        int size = cheatMoves.size();
+        for (int i = 0; i < legalMoves.size(); i++) {
+            if (!cheatMoves.contains(legalMoves)) {
+                size++;
+            }
+
+        }
         ArrayList<Field> result = new ArrayList<>(size);
 
-        for (int i = 0; i < cheatlMoves.size(); i++) {
-            result.add(cheatlMoves.get(i));
+        for (int i = 0; i < cheatMoves.size(); i++) {
+            result.add(cheatMoves.get(i));
             for (int j = 0; j < legalMoves.size(); j++) {
                 if (!legalMoves.contains(legalMoves.get(j))) {
                     result.add(legalMoves.get(j));
@@ -99,7 +104,6 @@ public class Pawn extends ChessPiece {
             }
         }
         return result;
-
     }
 
 }

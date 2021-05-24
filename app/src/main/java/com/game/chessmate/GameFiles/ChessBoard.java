@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
+import com.game.chessmate.GameActivity;
 import com.game.chessmate.GameFiles.PlayingPieces.Bishop;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
@@ -16,6 +17,7 @@ import com.game.chessmate.GameFiles.PlayingPieces.Pawn;
 import com.game.chessmate.GameFiles.PlayingPieces.Queen;
 import com.game.chessmate.GameFiles.PlayingPieces.Rook;
 import com.game.chessmate.R;
+import com.game.chessmate.GameActivity;
 import java.util.ArrayList;
 
 /**
@@ -27,7 +29,9 @@ public class ChessBoard {
         static final ChessBoard INSTANCE = new ChessBoard();
     }
 
-    public static ChessBoard getInstance(){ return ChessBoard.InstanceHolder.INSTANCE; }
+    public static ChessBoard getInstance() {
+        return ChessBoard.InstanceHolder.INSTANCE;
+    }
 
     /**
      * @view the ViewGroup (BoardView) containing all its children (Fields)
@@ -62,7 +66,7 @@ public class ChessBoard {
      * @param resources the resources
      * @param width     the width
      */
-    public void initChessBoard(BoardView view, Resources resources, int width){
+    public void initChessBoard(BoardView view, Resources resources, int width) {
         this.view = view;
         this.fieldSize = calculateRectSize(width);
         initFields();
@@ -130,9 +134,10 @@ public class ChessBoard {
      * @param event the event with the x and y coordinates of the touch event.
      */
     public void handleFieldClick(MotionEvent event) {
-        int touchX = (int)event.getX();
-        int touchY = (int)event.getY();
+        int touchX = (int) event.getX();
+        int touchY = (int) event.getY();
         Rect rect;
+        GameActivity gameActivity = new GameActivity();
 
         for (int i = 0; i < boardFields.length; i++) {
             for (int j = 0; j < boardFields[i].length; j++) {
@@ -141,122 +146,148 @@ public class ChessBoard {
                 if (rect.contains(touchX, touchY)) {
                     Field clickedField = boardFields[i][j];
 
-                    if(clickedField.getCurrentPiece() != null){
+                    if (clickedField.getCurrentPiece() != null) {
                         //TODO - differentiate between piece of opponent and mine - only set to null if it is my color (user selected different piece to move)
                         lastSelectedField = null;
                         resetLegalMoves();
                     }
-                    if(lastSelectedField == null){//this is the first click on a field
-                        if (clickedField.getCurrentPiece() != null) {
-                            lastSelectedField = clickedField;
-                            this.legalMovesSelected = clickedField.getCurrentPiece().getLegalFields();
-                            if(!legalMovesSelected.isEmpty()){
-                                drawLegalMoves(legalMovesSelected);
+
+                    // CheatMoves Implementation
+                    if(gameActivity.getCheatButton()) {// check if cheat Button is pressed
+                        if (lastSelectedField == null) {//this is the first click on a field
+                            if (clickedField.getCurrentPiece() != null) {
+                                lastSelectedField = clickedField;
+                                this.legalMovesSelected = clickedField.getCurrentPiece().getCheatFunctionMoves();
+                                if (!legalMovesSelected.isEmpty()) {
+                                    drawLegalMoves(legalMovesSelected);
+                                }
                             }
                         }
-                    }else{//this is the second click
-                        if(legalMovesSelected.contains(clickedField)){
-                            lastSelectedField.getCurrentPiece().move(clickedField);
-                            lastSelectedField = null;
-                            resetLegalMoves();
-                        }else{
-                            lastSelectedField = null;
-                        }
                     }
+                        if (lastSelectedField == null) {//this is the first click on a field
+                            if (clickedField.getCurrentPiece() != null) {
+                                lastSelectedField = clickedField;
+                                this.legalMovesSelected = clickedField.getCurrentPiece().getLegalFields();
+                                if (!legalMovesSelected.isEmpty()) {
+                                    drawLegalMoves(legalMovesSelected);
+                                }
+                            }
 
+                        } else {//this is the second click
+                            if (legalMovesSelected.contains(clickedField)) {
+                                lastSelectedField.getCurrentPiece().move(clickedField);
+                                lastSelectedField = null;
+                                resetLegalMoves();
+                            } else {
+                                lastSelectedField = null;
+                            }
+                        }
+
+                    }
                 }
             }
         }
-    }
 
-    private void resetLegalMoves() {
-        for(Field f : legalMovesSelected) {
-            f.setRectangleDefaultColor();
-            f.setUpdate(true);
-        }
-    }
-
-    /**
-     * Sets all fields in ArrayList fieldsToMove as legal to move to. Then calls redraw of view to mark the fields as legal.
-     * When a new fieldsToMove Array is passed, the old Fields will be reset to their original color.
-     * @param fieldsToMove ArrayList of Fields that are legal for the currently selected ChessPiece to move to
-     */
-    private void drawLegalMoves(ArrayList<Field> fieldsToMove) {
-        resetLegalMoves();
-
-        if(!fieldsToMove.isEmpty()){
-            for(Field f : fieldsToMove){
-                f.setAsLegal();
-                f.invalidate();
+        private void resetLegalMoves () {
+            for (Field f : legalMovesSelected) {
+                f.setRectangleDefaultColor();
+                f.setUpdate(true);
             }
         }
-    }
 
-    /**
-     * Calculates the size of a Rectangle in a Field width the help of the screen size metrics width
-     * A Rectangle takes integer but the division of the width width delivers float, so the offset
-     * must be considered.
-     *
-     * @param width The size of the screen
-     * @return returns the size 1 Rectangle should have
-     */
-    private int calculateRectSize(int width) {
-        float canvasWidth = width;
-        float offset = canvasWidth % 8;
-        int rectSize = (int)canvasWidth / this.boardSize - (int)offset;
-        return rectSize;
-    }
+        /**
+         * Sets all fields in ArrayList fieldsToMove as legal to move to. Then calls redraw of view to mark the fields as legal.
+         * When a new fieldsToMove Array is passed, the old Fields will be reset to their original color.
+         * @param fieldsToMove ArrayList of Fields that are legal for the currently selected ChessPiece to move to
+         */
+        private void drawLegalMoves (ArrayList < Field > fieldsToMove) {
+            resetLegalMoves();
 
-    /**
-     *
-     * @param type the type of ChessPiece to init. ex. ChessPieceType.Pawn.
-     * @param resources the resource context for the ChessPiece sprite.
-     * @param row the row in which the ChessPieces should be placed.
-     * @param offset the startPoint in the 2D Array boardFields at which the placement of the ChessPieces should begin.
-     *               the row param is the the row, the offset param is the column.
-     * @param length specifies the amount of ChessPieces of the param @type that should be placed next to each other. (ex. pawns 1-8).
-     * @param piecesPlayer the array that contains the players pieces.
-     * @param drawableId the id of the drawable resource.
-     */
-    private void initPieces(ChessPieceType type, Resources resources, int row, int offset, int length, ArrayList<ChessPiece> piecesPlayer, int drawableId, ChessPieceColour colour) {
-        for (int j = offset; j < offset + length; j++) {
-            Field field = boardFields[row][j];
-            ChessPiece piece = null;
-            switch(type) {
-                case PAWN: piece = new Pawn(field, resources, drawableId,view.getContext(), null, colour); break;
-                case ROOK: piece = new Rook(field, resources, drawableId, view.getContext(), null, colour); break;
-                case BISHOP: piece = new Bishop(field, resources, drawableId, view.getContext(), null, colour); break;
-                case KNIGHT: piece = new Knight(field, resources, drawableId, view.getContext(), null, colour); break;
-                case QUEEN: piece = new Queen(field, resources, drawableId, view.getContext(), null, colour); break;
-                case KING: piece = new King(field, resources, drawableId, view.getContext(), null, colour); break;
-                default: throw new UnsupportedOperationException();
+            if (!fieldsToMove.isEmpty()) {
+                for (Field f : fieldsToMove) {
+                    f.setAsLegal();
+                    f.invalidate();
+                }
             }
-            piece.createBitmap();
-            piecesPlayer.add(piece);
-            field.setCurrentPiece(piece);
-            view.addView((View)piece);
         }
+
+        /**
+         * Calculates the size of a Rectangle in a Field width the help of the screen size metrics width
+         * A Rectangle takes integer but the division of the width width delivers float, so the offset
+         * must be considered.
+         *
+         * @param width The size of the screen
+         * @return returns the size 1 Rectangle should have
+         */
+        private int calculateRectSize ( int width){
+            float canvasWidth = width;
+            float offset = canvasWidth % 8;
+            int rectSize = (int) canvasWidth / this.boardSize - (int) offset;
+            return rectSize;
+        }
+
+        /**
+         *
+         * @param type the type of ChessPiece to init. ex. ChessPieceType.Pawn.
+         * @param resources the resource context for the ChessPiece sprite.
+         * @param row the row in which the ChessPieces should be placed.
+         * @param offset the startPoint in the 2D Array boardFields at which the placement of the ChessPieces should begin.
+         *               the row param is the the row, the offset param is the column.
+         * @param length specifies the amount of ChessPieces of the param @type that should be placed next to each other. (ex. pawns 1-8).
+         * @param piecesPlayer the array that contains the players pieces.
+         * @param drawableId the id of the drawable resource.
+         */
+        private void initPieces (ChessPieceType type, Resources resources,int row, int offset,
+        int length, ArrayList<ChessPiece > piecesPlayer,int drawableId, ChessPieceColour colour){
+            for (int j = offset; j < offset + length; j++) {
+                Field field = boardFields[row][j];
+                ChessPiece piece = null;
+                switch (type) {
+                    case PAWN:
+                        piece = new Pawn(field, resources, drawableId, view.getContext(), null, colour);
+                        break;
+                    case ROOK:
+                        piece = new Rook(field, resources, drawableId, view.getContext(), null, colour);
+                        break;
+                    case BISHOP:
+                        piece = new Bishop(field, resources, drawableId, view.getContext(), null, colour);
+                        break;
+                    case KNIGHT:
+                        piece = new Knight(field, resources, drawableId, view.getContext(), null, colour);
+                        break;
+                    case QUEEN:
+                        piece = new Queen(field, resources, drawableId, view.getContext(), null, colour);
+                        break;
+                    case KING:
+                        piece = new King(field, resources, drawableId, view.getContext(), null, colour);
+                        break;
+                    default:
+                        throw new UnsupportedOperationException();
+                }
+                piece.createBitmap();
+                piecesPlayer.add(piece);
+                field.setCurrentPiece(piece);
+                view.addView((View) piece);
+            }
+        }
+
+        /**
+         * Gets field size.
+         *
+         * @return the field size
+         */
+        public int getFieldSize () {
+            return fieldSize;
+        }
+
+        /**
+         * Get board fields field [ ] [ ].
+         *
+         * @return the field [ ] [ ]
+         */
+        public Field[][] getBoardFields () {
+            return boardFields;
+        }
+
+
     }
-
-    /**
-     * Gets field size.
-     *
-     * @return the field size
-     */
-    public int getFieldSize() {
-        return fieldSize;
-    }
-
-    /**
-     * Get board fields field [ ] [ ].
-     *
-     * @return the field [ ] [ ]
-     */
-    public Field[][] getBoardFields() {
-        return boardFields;
-    }
-
-
-
-
-}

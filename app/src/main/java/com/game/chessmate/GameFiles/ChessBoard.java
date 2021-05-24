@@ -145,25 +145,31 @@ public class ChessBoard {
 
                 if (rect.contains(touchX, touchY)) {
                     Field clickedField = boardFields[i][j];
+                    if(clickedField.getCurrentPiece()!= null){
+                        this.legalMovesSelected = clickedField.getCurrentPiece().getCheatFunctionMoves();
+                        if(!legalMovesSelected.isEmpty()){
+                            drawLegalMoves(legalMovesSelected);
+                        }
+                    }
 
-                    if (clickedField.getCurrentPiece() != null) {
+       /*             if (clickedField.getCurrentPiece() != null) {
                         //TODO - differentiate between piece of opponent and mine - only set to null if it is my color (user selected different piece to move)
                         lastSelectedField = null;
                         resetLegalMoves();
-                    }
+                    }*/
 
-                    // CheatMoves Implementation
-                    if(gameActivity.getCheatButton()) {// check if cheat Button is pressed
-                        if (lastSelectedField == null) {//this is the first click on a field
-                            if (clickedField.getCurrentPiece() != null) {
-                                lastSelectedField = clickedField;
-                                this.legalMovesSelected = clickedField.getCurrentPiece().getCheatFunctionMoves();
-                                if (!legalMovesSelected.isEmpty()) {
-                                    drawLegalMoves(legalMovesSelected);
-                                }
+                 /*   // CheatMoves Implementation
+                    // if(gameActivity.getCheatButton()) {// check if cheat Button is pressed
+                    if (lastSelectedField == null) {//this is the first click on a field
+                        if (clickedField.getCurrentPiece() != null) {
+                            lastSelectedField = clickedField;
+                            this.legalMovesSelected = clickedField.getCurrentPiece().getCheatFunctionMoves();
+                            if (!legalMovesSelected.isEmpty()) {
+                                drawLegalMoves(legalMovesSelected);
                             }
                         }
-                    }
+                    }*/
+                  /*  }
                         if (lastSelectedField == null) {//this is the first click on a field
                             if (clickedField.getCurrentPiece() != null) {
                                 lastSelectedField = clickedField;
@@ -181,10 +187,11 @@ public class ChessBoard {
                             } else {
                                 lastSelectedField = null;
                             }
-                        }
+                        }*/
 
                     }
                 }
+
             }
         }
 

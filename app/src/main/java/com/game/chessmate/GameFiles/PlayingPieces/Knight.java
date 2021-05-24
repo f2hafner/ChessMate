@@ -3,6 +3,7 @@ package com.game.chessmate.GameFiles.PlayingPieces;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -87,24 +88,31 @@ public class Knight extends ChessPiece {
 
 
 
-//Kings Cheat moves
-    public ArrayList<Field> cheatMoves() {
-        Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
-        ArrayList<Field> legalCheatFields = new ArrayList<>();
-        int i = currentPosition.getFieldX();
-        int j = currentPosition.getFieldY();
-
-
-        for (int fieldX = 0; fieldX < currentFields.length; fieldX++) {
-            for (int fieldY = 0; fieldY < currentFields[fieldX].length; fieldY++) {
-                if (!currentFields[i][j].hasPiece()) {
-                    legalCheatFields.add(currentFields[i][j]);
-                }
-
-            }
+//Knight Cheat moves
+public ArrayList<Field> cheatMoves() {
+    Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
+       /* for (Field[] f: currentFields){
+            Log.d("currentFields", f.toString());
         }
-        return legalCheatFields;
+        String size = String.valueOf(currentFields.length);
+        Log.d("CURRENTFIELDSIZE", size); // 8*/
+
+    ArrayList<Field> cheatFields = new ArrayList<>();
+    // int i = currentPosition.getFieldX();
+    //int j = currentPosition.getFieldY();
+
+
+    for (int fieldX = 0; fieldX < currentFields.length; fieldX++) {
+        for (int fieldY = 0; fieldY < currentFields[fieldX].length; fieldY++) {
+            if (!currentFields[fieldX][fieldY].hasPiece()) {
+                cheatFields.add(currentFields[fieldX][fieldY]);
+            }
+
+        }
     }
+    // Log.d("CHEATFIELD>SIZE", cheatFields.toString()) ;
+    return cheatFields;
+}
 
     public ArrayList<Field> getCheatFunctionMoves() {
 
@@ -125,11 +133,14 @@ public class Knight extends ChessPiece {
         for (int i = 0; i < cheatMoves.size(); i++) {
             result.add(cheatMoves.get(i));
             for (int j = 0; j < legalMoves.size(); j++) {
-                if (!legalMoves.contains(legalMoves.get(j))) {
+                if (!cheatMoves.contains(legalMoves.get(j))) {
                     result.add(legalMoves.get(j));
                 }
             }
         }
+        Log.d("foreach", "wir sind hier");
+        for (Field f: result){
+            Log.d("Pawn cheat Moves",f.getChessCoordinates());}
         return result;
     }
 }

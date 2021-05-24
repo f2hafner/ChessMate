@@ -12,6 +12,7 @@ import com.game.chessmate.GameFiles.PlayingPieces.Pawn;
 
 public class GameActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,9 +20,12 @@ public class GameActivity extends AppCompatActivity {
 
 
 
+        getCheatButton();
+
     }
     boolean cheatButtonSetting = false;
     public boolean getCheatButton() {
+
         Button cheatButton = findViewById(R.id.cheatButton);
         cheatButton.setOnClickListener(new View.OnClickListener() {
 
@@ -38,7 +42,7 @@ public class GameActivity extends AppCompatActivity {
                 else if(cheatButton.getText().toString().matches("Cheat On")){
                     cheatButton.setText("Cheat Off");
                     cheatButton.setBackgroundColor(getResources().getColor(R.color.black));
-                    cheatButtonSetting = false;
+                   // cheatButtonSetting = false;
                 }
 
             }

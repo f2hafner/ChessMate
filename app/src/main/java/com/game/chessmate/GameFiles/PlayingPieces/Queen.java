@@ -18,7 +18,6 @@ public class Queen extends ChessPiece {
     /**
      * Instantiates a new Queen.
      *
-     * @param resources the resource name
      * @param position     the position
      */
     public Queen(Field position, Bitmap sprite, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){

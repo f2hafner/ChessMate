@@ -19,7 +19,6 @@ public class Pawn extends ChessPiece {
     /**
      * Instantiates a new Pawn.
      *
-     * @param resources the resource name
      * @param position     the position
      */
     public Pawn(Field position, Bitmap sprite, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){

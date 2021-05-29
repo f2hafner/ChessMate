@@ -53,7 +53,7 @@ public class BoardView extends ViewGroup {
     }
 
     /**
-     * @param boardClickListener This is used to catch onTouchEvents on the Chessboard.
+     * @param boardClickListener catch onTouchEvents on the Chessboard.
      */
     private View.OnTouchListener boardClickListener = new View.OnTouchListener() {
         @Override

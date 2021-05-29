@@ -209,13 +209,12 @@ public class ChessBoard {
     /**
      *
      * @param type the type of ChessPiece to init. ex. ChessPieceType.Pawn.
-     * @param resources the resource context for the ChessPiece sprite.
+     * @sprite the bitmap of this ChessPiece.
      * @param row the row in which the ChessPieces should be placed.
      * @param offset the startPoint in the 2D Array boardFields at which the placement of the ChessPieces should begin.
      *               the row param is the the row, the offset param is the column.
      * @param length specifies the amount of ChessPieces of the param @type that should be placed next to each other. (ex. pawns 1-8).
      * @param piecesPlayer the array that contains the players pieces.
-     * @param drawableId the id of the drawable resource.
      */
     private void initPieces(ChessPieceType type, int row, int offset, int length, ArrayList<ChessPiece> piecesPlayer, Bitmap sprite, ChessPieceColour colour) {
         for (int j = offset; j < offset + length; j++) {

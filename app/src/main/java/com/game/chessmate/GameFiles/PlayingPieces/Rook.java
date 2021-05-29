@@ -18,7 +18,6 @@ public class Rook extends ChessPiece {
     /**
      * Instantiates a new Rook.
      *
-     * @param resources the resource name
      * @param position     the position
      */
     public Rook(Field position, Bitmap sprite, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){

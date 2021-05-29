@@ -18,7 +18,6 @@ public class Bishop extends ChessPiece {
     /**
      * Instantiates a new Bishop.
      *
-     * @param resources the resource name
      * @param position     the position
      */
     public Bishop(Field position, Bitmap sprite, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){

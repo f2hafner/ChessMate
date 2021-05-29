@@ -18,7 +18,6 @@ public class Knight extends ChessPiece {
     /**
      * Instantiates a new Knight.
      *
-     * @param resources the resource name
      * @param position     the position
      */
     public Knight(Field position, Bitmap sprite, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){

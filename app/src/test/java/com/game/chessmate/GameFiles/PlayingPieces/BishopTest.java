@@ -83,13 +83,14 @@ public class BishopTest {
 
     @Test
     public void getLegalFieldsTest(){
+        /*
         ArrayList<Field> createdList = new ArrayList<>();
         ChessBoard cb = ChessBoard.getInstance();
-        /*
+
         testcases - one normal testcase when piece is in the middle of the chessboard,
         one testcase for each chessboard border (4),
         one testcase for each chessboard corner (4)
-         */
+
         //normal testcase
         when(position.getFieldX()).thenReturn(4);
         when(position.getFieldY()).thenReturn(4);
@@ -100,6 +101,6 @@ public class BishopTest {
         //assertEquals(createdList,bishop.getLegalFields());
 
         //assertEquals(createdList,bishop.getLegalFields());
-
+        */
     }
 }

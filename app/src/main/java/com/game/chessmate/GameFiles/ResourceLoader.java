@@ -18,18 +18,18 @@ import com.game.chessmate.R;
  */
 public class ResourceLoader extends AsyncTask<Void, Void, Void> {
 
-    private static Bitmap pawn_player1;
-    private static Bitmap bishop_player1;
-    private static Bitmap rook_player1;
-    private static Bitmap knight_player1;
-    private static Bitmap queen_player1;
-    private static Bitmap king_player1;
-    private static Bitmap pawn_player2;
-    private static Bitmap bishop_player2;
-    private static Bitmap rook_player2;
-    private static Bitmap knight_player2;
-    private static Bitmap queen_player2;
-    private static Bitmap king_player2;
+    private static Bitmap pawnPlayer1;
+    private static Bitmap bishopPlayer1;
+    private static Bitmap rookPlayer1;
+    private static Bitmap knightPlayer1;
+    private static Bitmap queenPlayer1;
+    private static Bitmap kingPlayer1;
+    private static Bitmap pawnPlayer2;
+    private static Bitmap bishopPlayer2;
+    private static Bitmap rookPlayer2;
+    private static Bitmap knightPlayer2;
+    private static Bitmap queenPlayer2;
+    private static Bitmap kingPlayer2;
     private Resources resources;
     private int fieldSize;
     private Context context;
@@ -53,19 +53,19 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
      */
     @Override
     protected Void doInBackground(Void... voids) {
-        pawn_player1 = loadBitmap(R.drawable.pawn_player1);
-        bishop_player1 = loadBitmap(R.drawable.bishop_player1);
-        rook_player1 = loadBitmap(R.drawable.rook_player1);
-        knight_player1 = loadBitmap(R.drawable.knight_player1);
-        queen_player1 = loadBitmap(R.drawable.queen_player1);
-        king_player1 = loadBitmap(R.drawable.king_player1);
+        pawnPlayer1 = loadBitmap(R.drawable.pawn_player1);
+        bishopPlayer1 = loadBitmap(R.drawable.bishop_player1);
+        rookPlayer1 = loadBitmap(R.drawable.rook_player1);
+        knightPlayer1 = loadBitmap(R.drawable.knight_player1);
+        queenPlayer1 = loadBitmap(R.drawable.queen_player1);
+        kingPlayer1 = loadBitmap(R.drawable.king_player1);
 
-        pawn_player2 = loadBitmap(R.drawable.pawn_player2);
-        bishop_player2 = loadBitmap(R.drawable.bishop_player2);
-        rook_player2 = loadBitmap(R.drawable.rook_player2);
-        knight_player2 = loadBitmap(R.drawable.knight_player2);
-        queen_player2 = loadBitmap(R.drawable.queen_player2);
-        king_player2 = loadBitmap(R.drawable.king_player2);
+        pawnPlayer2 = loadBitmap(R.drawable.pawn_player2);
+        bishopPlayer2 = loadBitmap(R.drawable.bishop_player2);
+        rookPlayer2 = loadBitmap(R.drawable.rook_player2);
+        knightPlayer2 = loadBitmap(R.drawable.knight_player2);
+        queenPlayer2 = loadBitmap(R.drawable.queen_player2);
+        kingPlayer2 = loadBitmap(R.drawable.king_player2);
 
         return null;
     }
@@ -118,8 +118,8 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
      *
      * @return the pawn player 1
      */
-    public static Bitmap getPawn_player1() {
-        return pawn_player1;
+    public static Bitmap getPawnPlayer1() {
+        return pawnPlayer1;
     }
 
     /**
@@ -127,8 +127,8 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
      *
      * @return the bishop player 1
      */
-    public static Bitmap getBishop_player1() {
-        return bishop_player1;
+    public static Bitmap getBishopPlayer1() {
+        return bishopPlayer1;
     }
 
     /**
@@ -136,8 +136,8 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
      *
      * @return the rook player 1
      */
-    public static Bitmap getRook_player1() {
-        return rook_player1;
+    public static Bitmap getRookPlayer1() {
+        return rookPlayer1;
     }
 
     /**
@@ -145,8 +145,8 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
      *
      * @return the knight player 1
      */
-    public static Bitmap getKnight_player1() {
-        return knight_player1;
+    public static Bitmap getKnightPlayer1() {
+        return knightPlayer1;
     }
 
     /**
@@ -154,8 +154,8 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
      *
      * @return the queen player 1
      */
-    public static Bitmap getQueen_player1() {
-        return queen_player1;
+    public static Bitmap getQueenPlayer1() {
+        return queenPlayer1;
     }
 
     /**
@@ -163,8 +163,8 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
      *
      * @return the king player 1
      */
-    public static Bitmap getKing_player1() {
-        return king_player1;
+    public static Bitmap getKingPlayer1() {
+        return kingPlayer1;
     }
 
     /**
@@ -172,8 +172,8 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
      *
      * @return the pawn player 2
      */
-    public static Bitmap getPawn_player2() {
-        return pawn_player2;
+    public static Bitmap getPawnPlayer2() {
+        return pawnPlayer2;
     }
 
     /**
@@ -181,8 +181,8 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
      *
      * @return the bishop player 2
      */
-    public static Bitmap getBishop_player2() {
-        return bishop_player2;
+    public static Bitmap getBishopPlayer2() {
+        return bishopPlayer2;
     }
 
     /**
@@ -190,8 +190,8 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
      *
      * @return the rook player 2
      */
-    public static Bitmap getRook_player2() {
-        return rook_player2;
+    public static Bitmap getRookPlayer2() {
+        return rookPlayer2;
     }
 
     /**
@@ -199,8 +199,8 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
      *
      * @return the knight player 2
      */
-    public static Bitmap getKnight_player2() {
-        return knight_player2;
+    public static Bitmap getKnightPlayer2() {
+        return knightPlayer2;
     }
 
     /**
@@ -208,8 +208,8 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
      *
      * @return the queen player 2
      */
-    public static Bitmap getQueen_player2() {
-        return queen_player2;
+    public static Bitmap getQueenPlayer2() {
+        return queenPlayer2;
     }
 
     /**
@@ -217,7 +217,7 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
      *
      * @return the king player 2
      */
-    public static Bitmap getKing_player2() {
-        return king_player2;
+    public static Bitmap getKingPlayer2() {
+        return kingPlayer2;
     }
 }

@@ -1,6 +1,5 @@
 package com.game.chessmate.GameFiles;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.view.MotionEvent;
@@ -59,15 +58,14 @@ public class ChessBoard {
      * that is being drawn on.
      *
      * @param view      the canvas which contains the Chessboard
-     * @param resources the resources
      * @param width     the width
      */
-    public void initChessBoard(BoardView view, Resources resources, int width){
+    public void initChessBoard(BoardView view, int width){
         this.view = view;
         this.fieldSize = calculateRectSize(width);
         initFields();
-        initPiecesPlayer1(resources, ChessPieceColour.WHITE);
-        initPiecesPlayer2(resources, ChessPieceColour.BLACK);
+        initPiecesPlayer1(ChessPieceColour.WHITE);
+        initPiecesPlayer2(ChessPieceColour.BLACK);
     }
 
     /**
@@ -88,35 +86,33 @@ public class ChessBoard {
     /**
      * Initializes the pieces for player1. See initPieces for details on the creation.
      *
-     * @param resources the resource context for the ChessPiece Sprites
      */
-    private void initPiecesPlayer1(Resources resources, ChessPieceColour color) {
-        initPieces(ChessPieceType.PAWN,  6, 0, 8, this.piecesPlayer1, ResourceLoader.getPawn_player1(), color);
-        initPieces(ChessPieceType.ROOK,  7, 0, 1, this.piecesPlayer1, ResourceLoader.getRook_player1(),  color);
-        initPieces(ChessPieceType.ROOK,  7, 7, 1, this.piecesPlayer1, ResourceLoader.getRook_player1(),  color);
-        initPieces(ChessPieceType.KNIGHT,  7, 1, 1, this.piecesPlayer1, ResourceLoader.getKnight_player1(), color);
-        initPieces(ChessPieceType.KNIGHT,  7, 6, 1, this.piecesPlayer1, ResourceLoader.getKnight_player1(), color);
-        initPieces(ChessPieceType.BISHOP,  7, 2, 1, this.piecesPlayer1, ResourceLoader.getBishop_player1(), color);
-        initPieces(ChessPieceType.BISHOP,  7, 5, 1, this.piecesPlayer1, ResourceLoader.getBishop_player1(), color);
-        initPieces(ChessPieceType.QUEEN,  7, 4, 1, this.piecesPlayer1, ResourceLoader.getQueen_player1(), color);
-        initPieces(ChessPieceType.KING,  7, 3, 1, this.piecesPlayer1, ResourceLoader.getKing_player1(), color);
+    private void initPiecesPlayer1(ChessPieceColour color) {
+        initPieces(ChessPieceType.PAWN,  6, 0, 8, this.piecesPlayer1, ResourceLoader.getPawnPlayer1(), color);
+        initPieces(ChessPieceType.ROOK,  7, 0, 1, this.piecesPlayer1, ResourceLoader.getRookPlayer1(),  color);
+        initPieces(ChessPieceType.ROOK,  7, 7, 1, this.piecesPlayer1, ResourceLoader.getRookPlayer1(),  color);
+        initPieces(ChessPieceType.KNIGHT,  7, 1, 1, this.piecesPlayer1, ResourceLoader.getKnightPlayer1(), color);
+        initPieces(ChessPieceType.KNIGHT,  7, 6, 1, this.piecesPlayer1, ResourceLoader.getKnightPlayer1(), color);
+        initPieces(ChessPieceType.BISHOP,  7, 2, 1, this.piecesPlayer1, ResourceLoader.getBishopPlayer1(), color);
+        initPieces(ChessPieceType.BISHOP,  7, 5, 1, this.piecesPlayer1, ResourceLoader.getBishopPlayer1(), color);
+        initPieces(ChessPieceType.QUEEN,  7, 4, 1, this.piecesPlayer1, ResourceLoader.getQueenPlayer1(), color);
+        initPieces(ChessPieceType.KING,  7, 3, 1, this.piecesPlayer1, ResourceLoader.getKingPlayer1(), color);
     }
 
     /**
      * Initializes the pieces for player2. See initPieces for details on the creation.
      *
-     * @param resources the resource context for the ChessPiece Sprites
      */
-    private void initPiecesPlayer2(Resources resources, ChessPieceColour color) {
-        initPieces(ChessPieceType.PAWN,  1, 0, 8, this.piecesPlayer2, ResourceLoader.getPawn_player2(), color);
-        initPieces(ChessPieceType.ROOK,  0, 0, 1, this.piecesPlayer2, ResourceLoader.getRook_player2(), color);
-        initPieces(ChessPieceType.ROOK,  0, 7, 1, this.piecesPlayer2, ResourceLoader.getRook_player2(), color);
-        initPieces(ChessPieceType.KNIGHT,  0, 1, 1, this.piecesPlayer2, ResourceLoader.getKnight_player2(), color);
-        initPieces(ChessPieceType.KNIGHT,  0, 6, 1, this.piecesPlayer2, ResourceLoader.getKnight_player2(), color);
-        initPieces(ChessPieceType.BISHOP,  0, 2, 1, this.piecesPlayer2, ResourceLoader.getBishop_player2(), color);
-        initPieces(ChessPieceType.BISHOP,  0, 5, 1, this.piecesPlayer2, ResourceLoader.getBishop_player2(), color);
-        initPieces(ChessPieceType.QUEEN,  0, 4, 1, this.piecesPlayer2, ResourceLoader.getQueen_player2(), color);
-        initPieces(ChessPieceType.KING,  0, 3, 1, this.piecesPlayer2, ResourceLoader.getKing_player2(), color);
+    private void initPiecesPlayer2(ChessPieceColour color) {
+        initPieces(ChessPieceType.PAWN,  1, 0, 8, this.piecesPlayer2, ResourceLoader.getPawnPlayer2(), color);
+        initPieces(ChessPieceType.ROOK,  0, 0, 1, this.piecesPlayer2, ResourceLoader.getRookPlayer2(), color);
+        initPieces(ChessPieceType.ROOK,  0, 7, 1, this.piecesPlayer2, ResourceLoader.getRookPlayer2(), color);
+        initPieces(ChessPieceType.KNIGHT,  0, 1, 1, this.piecesPlayer2, ResourceLoader.getKnightPlayer2(), color);
+        initPieces(ChessPieceType.KNIGHT,  0, 6, 1, this.piecesPlayer2, ResourceLoader.getKnightPlayer2(), color);
+        initPieces(ChessPieceType.BISHOP,  0, 2, 1, this.piecesPlayer2, ResourceLoader.getBishopPlayer2(), color);
+        initPieces(ChessPieceType.BISHOP,  0, 5, 1, this.piecesPlayer2, ResourceLoader.getBishopPlayer2(), color);
+        initPieces(ChessPieceType.QUEEN,  0, 4, 1, this.piecesPlayer2, ResourceLoader.getQueenPlayer2(), color);
+        initPieces(ChessPieceType.KING,  0, 3, 1, this.piecesPlayer2, ResourceLoader.getKingPlayer2(), color);
     }
 
     /**

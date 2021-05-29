@@ -38,6 +38,7 @@ abstract public class ChessPiece extends View {
     private boolean updateView;
     private Resources resources;
     private int drawableId;
+    private boolean firstMove = true;
 
     public ChessPiece(Context context, Field position, Resources resources, int drawableId, ChessPieceColour colour) {
         super(context);
@@ -173,5 +174,12 @@ abstract public class ChessPiece extends View {
 
     public void setUpdateView(boolean update) {
         this.updateView = update;
+    }
+
+    public void setFirstMove(boolean value){
+        this.firstMove = value;
+    }
+    public boolean getFirstMove(){
+        return this.firstMove;
     }
 }

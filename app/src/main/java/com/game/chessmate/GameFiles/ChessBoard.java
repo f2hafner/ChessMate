@@ -2,6 +2,7 @@ package com.game.chessmate.GameFiles;
 
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import com.game.chessmate.GameFiles.PlayingPieces.Bishop;
@@ -155,6 +156,7 @@ public class ChessBoard {
                     }else{//this is the second click
                         if(legalMovesSelected.contains(clickedField)){
                             lastSelectedField.getCurrentPiece().move(clickedField);
+                            lastSelectedField.getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
                             lastSelectedField = null;
                             resetLegalMoves();
                         }else{

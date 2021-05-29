@@ -1,9 +1,7 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
 
-
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 
 import com.game.chessmate.GameFiles.ChessBoard;
@@ -12,7 +10,6 @@ import com.game.chessmate.R;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -33,14 +30,11 @@ public class BishopTest {
     private Field position;
 
     @Mock
-    private Resources resources;
+    private Bitmap sprite;
 
     @Mock
     private Context context;
     int drawableId;
-
-  //  @Mock
-    Bitmap sprite;
 
     Bishop bishop;
 
@@ -53,10 +47,10 @@ public class BishopTest {
         //when(position.getX()).thenReturn(0);
         //when(position.getY()).thenReturn(0);
 
-        resources=Mockito.mock(Resources.class);
+        sprite=Mockito.mock(Bitmap.class);
         drawableId=R.drawable.bishop_player1;
 
-        bishop=new Bishop(position,resources,drawableId,context,null,colour);
+        bishop=new Bishop(position, sprite, context,null,colour);
         bishop.setColor(colour);
 
     }
@@ -101,10 +95,12 @@ public class BishopTest {
         when(position.getFieldY()).thenReturn(4);
         bishop.setCurrentPosition(position);
 
-        //field.getCurrentPiece() muss auch jedes mal gemockt werden und field.getCurrentPiece.getColour() vllt auch damit man einmal schwarz einmal weiß hat und die dinge dann nicht in der ArrayList sind 
+        //field.getCurrentPiece() muss auch jedes mal gemockt werden und field.getCurrentPiece.getColour() vllt auch damit man einmal schwarz einmal weiß hat und die dinge dann nicht in der ArrayList sind
+
+        assertEquals(createdList,bishop.getLegalFields());
+
 
         assertEquals(createdList,bishop.getLegalFields());
 
     }
-
 }

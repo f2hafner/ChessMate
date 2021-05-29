@@ -1,11 +1,8 @@
 package com.game.chessmate;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.game.chessmate.GameFiles.ChessBoard;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class GameActivity extends AppCompatActivity {
 

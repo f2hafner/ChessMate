@@ -1,7 +1,7 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
 import android.content.Context;
-import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.util.AttributeSet;
 
 import androidx.annotation.Nullable;
@@ -20,11 +20,10 @@ public class King extends ChessPiece {
     /**
      * Instantiates a new King.
      *
-     * @param resources the resource name
      * @param position     the position
      */
-    public King(Field position, Resources resources, int drawableId, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){
-        super(context, attrs, position, resources, drawableId, color);
+    public King(Field position, Bitmap sprite, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){
+        super(context, attrs, position, sprite, color);
     }
 
     /**

@@ -1,9 +1,8 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
 import android.content.Context;
-import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -18,11 +17,10 @@ public class Pawn extends ChessPiece {
     /**
      * Instantiates a new Pawn.
      *
-     * @param resources the resource name
      * @param position     the position
      */
-    public Pawn(Field position, Resources resources, int drawableId, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){
-        super(context, attrs, position, resources, drawableId, color);
+    public Pawn(Field position, Bitmap sprite, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){
+        super(context, attrs, position, sprite, color);
     }
 
     public ChessPieceType getPlayingPieceType() {

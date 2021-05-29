@@ -20,9 +20,8 @@ public class RenderThread implements Runnable {
     /**
      * Instantiates a new Render thread.
      *
-     * @param view the view
      */
-    public RenderThread(BoardView view) {
+    public RenderThread() {
         this.board = ChessBoard.getInstance();
     }
 

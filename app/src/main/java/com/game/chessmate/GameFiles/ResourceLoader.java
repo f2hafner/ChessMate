@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Handler;
+
 import com.game.chessmate.HomeActivity;
 import com.game.chessmate.R;
 
@@ -30,7 +31,6 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
     private static Bitmap queen_player2;
     private static Bitmap king_player2;
     private Resources resources;
-    private int screenWidth;
     private int fieldSize;
     private Context context;
 
@@ -43,7 +43,6 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
      */
     public ResourceLoader(Resources resources, int screenWidth, Context context) {
         this.resources = resources;
-        this.screenWidth = screenWidth;
         this.context = context;
         ChessBoard board = ChessBoard.getInstance();
         fieldSize = board.calculateRectSize(screenWidth);

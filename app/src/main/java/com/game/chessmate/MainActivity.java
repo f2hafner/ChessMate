@@ -1,18 +1,11 @@
 package com.game.chessmate;
 // Test commit Comment
 
+import android.os.Bundle;
+import android.util.DisplayMetrics;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
-import android.util.DisplayMetrics;
-import android.view.View;
-
-import com.game.chessmate.GameFiles.BoardView;
-import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.ResourceLoader;
 
 public class MainActivity extends AppCompatActivity {

@@ -1,9 +1,7 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
 
-
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 
 import com.game.chessmate.GameFiles.Field;
@@ -11,12 +9,10 @@ import com.game.chessmate.R;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
 
 import static org.junit.Assert.assertEquals;
 

@@ -1,7 +1,6 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 
 import com.game.chessmate.GameFiles.Field;

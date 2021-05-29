@@ -24,14 +24,10 @@ public class QueenTest {
     private Field position;
 
     @Mock
-    private Resources resources;
+    private Bitmap sprite;
 
     @Mock
     private Context context;
-
-//    @Mock
-    Bitmap sprite;
-
 
     Queen queen;
 
@@ -45,10 +41,9 @@ public class QueenTest {
         //       when(position.getX()).thenReturn(0);
         //     when(position.getY()).thenReturn(0);
 
-        resources=Mockito.mock(Resources.class);
-        sprite=null;
+        sprite=Mockito.mock(Bitmap.class);
 
-        queen=new Queen(position,resources,drawableId,context,null,colour);
+        queen=new Queen(position,sprite,context,null,colour);
 
         queen.setColor(colour);
 

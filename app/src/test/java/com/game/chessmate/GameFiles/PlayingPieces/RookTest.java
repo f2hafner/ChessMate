@@ -24,16 +24,12 @@ public class RookTest {
     private Field position;
 
     @Mock
-    private Resources resources;
+    private Bitmap sprite;
 
     @Mock
     private Context context;
 
-   // @Mock
-    Bitmap sprite;
-
-
-   Rook rook;
+    Rook rook;
 
 
     @Before
@@ -45,10 +41,10 @@ public class RookTest {
         //       when(position.getX()).thenReturn(0);
         //     when(position.getY()).thenReturn(0);
 
-        resources=Mockito.mock(Resources.class);
+        sprite=Mockito.mock(Bitmap.class);
         sprite=null;
 
-        rook=new Rook(position,resources,drawableId,context,null,colour);
+        rook=new Rook(position,sprite,context,null,colour);
 
         rook.setColor(colour);
 

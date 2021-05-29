@@ -32,14 +32,11 @@ public class BishopTest {
     private Field position;
 
     @Mock
-    private Resources resources;
+    private Bitmap sprite;
 
     @Mock
     private Context context;
     int drawableId;
-
-  //  @Mock
-    Bitmap sprite;
 
     Bishop bishop;
 
@@ -52,10 +49,10 @@ public class BishopTest {
  //       when(position.getX()).thenReturn(0);
    //     when(position.getY()).thenReturn(0);
 
-        resources=Mockito.mock(Resources.class);
+        sprite=Mockito.mock(Bitmap.class);
         drawableId=R.drawable.bishop_player1;
 
-        bishop=new Bishop(position,resources,drawableId,context,null,colour);
+        bishop=new Bishop(position, sprite, context,null,colour);
         bishop.setColor(colour);
 
     }

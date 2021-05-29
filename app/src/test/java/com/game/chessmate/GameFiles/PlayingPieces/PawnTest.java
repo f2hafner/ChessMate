@@ -24,14 +24,10 @@ public class PawnTest {
     private Field position;
 
     @Mock
-    private Resources resources;
+    private Bitmap sprite;
 
     @Mock
     private Context context;
-
- //   @Mock
-    Bitmap sprite;
-
 
     Pawn pawn;
 
@@ -45,10 +41,9 @@ public class PawnTest {
         //       when(position.getX()).thenReturn(0);
         //     when(position.getY()).thenReturn(0);
 
-        resources=Mockito.mock(Resources.class);
-        sprite=null;
+        sprite=Mockito.mock(Bitmap.class);
 
-        pawn=new Pawn(position,resources,drawableId,context,null,colour);
+        pawn=new Pawn(position,sprite,context,null,colour);
 
         pawn.setColor(colour);
 

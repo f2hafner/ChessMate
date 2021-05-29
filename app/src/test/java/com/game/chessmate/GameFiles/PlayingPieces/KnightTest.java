@@ -24,14 +24,10 @@ public class KnightTest {
     private Field position;
 
     @Mock
-    private Resources resources;
+    private Bitmap sprite;
 
     @Mock
     private Context context;
-
-  //  @Mock
-    Bitmap sprite;
-
 
     Knight knight;
 
@@ -45,10 +41,10 @@ public class KnightTest {
         //       when(position.getX()).thenReturn(0);
         //     when(position.getY()).thenReturn(0);
 
-        resources=Mockito.mock(Resources.class);
-        sprite=null;
+        sprite=Mockito.mock(Bitmap.class);
 
-        knight=new Knight(position,resources,drawableId,context,null,colour);
+
+        knight=new Knight(position,sprite,context,null,colour);
 
         knight.setColor(colour);
 

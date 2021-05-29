@@ -34,7 +34,7 @@ public class BoardView extends ViewGroup {
 
         this.setOnTouchListener(boardClickListener);
         board = ChessBoard.getInstance();
-        board.initChessBoard(this, getResources(), width);
+        board.initChessBoard(this, width);
 
         runnable = new RenderThread();
         thread = new Thread(runnable);

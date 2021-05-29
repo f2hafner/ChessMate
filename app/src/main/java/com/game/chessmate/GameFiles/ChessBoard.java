@@ -1,10 +1,12 @@
 package com.game.chessmate.GameFiles;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
+
 
 import com.game.chessmate.GameActivity;
 import com.game.chessmate.GameFiles.PlayingPieces.Bishop;
@@ -27,6 +29,12 @@ public class ChessBoard {
     // Thread-Save Singleton
     private static final class InstanceHolder {
         static final ChessBoard INSTANCE = new ChessBoard();
+
+        //Intent cheatIntent = activity.getIntent();
+        //String cheatMessage = cheatIntent.getStringExtra("cheatButtonMessage");
+        //String cheatResult;
+
+
     }
 
     public static ChessBoard getInstance() {
@@ -57,6 +65,11 @@ public class ChessBoard {
         piecesPlayer2 = new ArrayList<>();
         legalMovesSelected = new ArrayList<>();
     }
+
+
+
+
+
 
     /**
      * Initializes the 2D Array of Fields, its ChessPieces and calculates the Field size(Rectangle size) with the width of the canvas
@@ -133,6 +146,8 @@ public class ChessBoard {
      *
      * @param event the event with the x and y coordinates of the touch event.
      */
+
+    ///////////////////////////////////////////////////////////////////////////////
 /*    public void handleFieldClick(MotionEvent event) {
         int touchX = (int) event.getX();
         int touchY = (int) event.getY();

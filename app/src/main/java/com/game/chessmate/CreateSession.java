@@ -18,6 +18,7 @@ public class CreateSession extends AppCompatActivity {
         setContentView(R.layout.activity_create_session);
         getSupportActionBar().hide();
 
+
         Button createSession=(Button) findViewById(R.id.createSessionButton);
         Button joinSession=(Button) findViewById(R.id.joinSessionButton);
         Button options =(Button) findViewById(R.id.optionsButton);

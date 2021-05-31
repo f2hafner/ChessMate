@@ -1,18 +1,11 @@
 package com.game.chessmate.GameFiles.Networking;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
-import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Listener;
 import com.game.chessmate.GameFiles.Networking.NetObjects.NetObjectRegistrator;
-import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionRequest;
-import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionResponse;
 
 import java.io.IOException;
-import java.net.InetAddress;
 
 /** The ChessMateClient class implements a Client that allows players to connect to a Server. */
 public class ChessMateClient{

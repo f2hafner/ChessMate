@@ -1,17 +1,12 @@
 package com.game.chessmate;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
-import com.game.chessmate.GameFiles.ChessBoard;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.game.chessmate.GameFiles.Deck;
 
 public class GameActivity extends AppCompatActivity {

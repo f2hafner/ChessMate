@@ -9,7 +9,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertSame;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DeckTest {

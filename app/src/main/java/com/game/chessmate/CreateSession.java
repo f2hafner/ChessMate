@@ -1,7 +1,6 @@
 package com.game.chessmate;
 
 import android.content.Intent;
-import android.net.Network;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,9 +9,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.game.chessmate.GameFiles.NetworkManager;
-import com.game.chessmate.GameFiles.Networking.ChessMateClient;
-import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionRequest;
 import com.game.chessmate.GameFiles.Networking.NetworkTasks;
 
 import java.util.concurrent.ExecutionException;

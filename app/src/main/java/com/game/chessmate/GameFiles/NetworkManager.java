@@ -2,15 +2,6 @@ package com.game.chessmate.GameFiles;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import com.game.chessmate.GameFiles.Networking.ChessMateClient;
-import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionRequest;
-
-import java.io.IOException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CompletableFuture;
-
 /** The NetworkManager class functions as the framework for networked interaction. */
 public class NetworkManager extends Thread{
     private static final class InstanceHolder {static final NetworkManager INSTANCE = new NetworkManager();}

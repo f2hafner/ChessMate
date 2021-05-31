@@ -2,7 +2,6 @@ package com.game.chessmate.GameFiles;
 
 
 import org.junit.Test;
-import org.junit.function.ThrowingRunnable;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

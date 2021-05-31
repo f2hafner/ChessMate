@@ -1,12 +1,8 @@
 package com.game.chessmate.GameFiles;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.widget.Toast;
 
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceType;

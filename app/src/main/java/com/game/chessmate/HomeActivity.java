@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.game.chessmate.GameFiles.ChessBoard;
-
 public class HomeActivity extends AppCompatActivity {
 
     @Override

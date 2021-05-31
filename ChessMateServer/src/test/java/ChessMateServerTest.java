@@ -1,15 +1,12 @@
-package com.game.chessmate.GameFiles.Networking;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.Before;
 
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
 public class ChessMateServerTest {
-
-    ChessMateServer server;
 
     @Before
     public void init(){

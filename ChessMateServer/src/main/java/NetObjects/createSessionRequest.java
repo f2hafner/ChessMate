@@ -1,4 +1,4 @@
-package com.game.chessmate.GameFiles.Networking.NetObjects;
+package NetObjects;
 
 public class createSessionRequest {
     String name;

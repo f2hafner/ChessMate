@@ -22,4 +22,10 @@ public class MainActivity extends AppCompatActivity {
         ResourceLoader loader = new ResourceLoader(getResources(), width, this);
         loader.execute();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //TODO CLIENT CLOSE
+    }
 }

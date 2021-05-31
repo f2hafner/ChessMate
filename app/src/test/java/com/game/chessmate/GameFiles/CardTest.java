@@ -15,26 +15,26 @@ public class CardTest {
     String n2="Dark Mirror";
     String n3="Death Dance";
     String n4="Disintegration";
-    String n5="Abduction";
-    String n6="Bombard";
-    String n7="Coup";
-    String n8="Confabulation";
-    String n9="Champion";
-    String n10="Rebirth";
-    String n11="Revelation";
-    String n12="Spoils of War";
-    String n13="Think Again";
-    String n14="Vulture";
-    String n15="Long Jump";
-    String n16="Lost Castle";
-    String n17="Man of Straw";
+    String n5="Champion";
+    String n6="Rebirth";
+    String n7="Revelation";
+    String n8="Long Jump";
+    String n9="Lost Castle";
+    String n10="Man of Straw";
+    String n11="Mystic Shield";
+    String n12="Forbidden City";
+    String n13="Holy Quest";
+    String n14="Bombard";
+    String n15="Coup";
+    String n16="Hand of Fate";
+    String n17="Funeral Pyre";
     String n18="Martyr";
-    String n19="Mystic Shield";
+    String n19="Confabulation";
     String n20="Fog of War";
-    String n21="Forbidden City";
-    String n22="Holy Quest";
-    String n23="Funeral Pyre";
-    String n24="Hand of Fate";
+    String n21="Spoils of War";
+    String n22="Think Again";
+    String n23="Vulture";
+    String n24="Abduction";
 
     Card card;
 
@@ -124,7 +124,7 @@ public class CardTest {
 
     @Test
     public void testContinuingTillEnd(){
-        card=new Card(21);
+        card=new Card(15);
         assertTrue(card.isContinuingUntilEnd());
 
         card=new Card(0);
@@ -133,7 +133,7 @@ public class CardTest {
 
     @Test
     public void testContinuingTillCaptured(){
-        card=new Card(8);
+        card=new Card(19);
         assertTrue(card.isContinuingUntilCaptured());
 
         card=new Card(0);

@@ -142,7 +142,11 @@ public class Field extends View {
         color.setColor(Color.YELLOW);
     }
 
-    public void setBlocked(){this.blocked=true;}
+    public  void setPlayingPieceShield(){color.setColor(Color.BLUE);}
+
+    public void setBlocked(){
+        this.blocked=true;
+    color.setColor(Color.RED);}
 
     public boolean isBlocked(){return this.blocked;}
 

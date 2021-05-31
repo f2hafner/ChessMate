@@ -15,8 +15,11 @@ import com.game.chessmate.GameFiles.PlayingPieces.Knight;
 import com.game.chessmate.GameFiles.PlayingPieces.Pawn;
 import com.game.chessmate.GameFiles.PlayingPieces.Queen;
 import com.game.chessmate.GameFiles.PlayingPieces.Rook;
+import com.game.chessmate.R;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * The ChessBoard class handles creation and maintenance of the ChessBoard
@@ -251,5 +254,23 @@ public class ChessBoard {
      */
     public Field[][] getBoardFields() {
         return boardFields;
+    }
+
+    /**
+     * Gets pieces player 1.
+     *
+     * @return the pieces player 1
+     */
+    public ArrayList<ChessPiece> getPiecesPlayer1() {
+        return piecesPlayer1;
+    }
+
+    /**
+     * Gets pieces player 2.
+     *
+     * @return the pieces player 2
+     */
+    public ArrayList<ChessPiece> getPiecesPlayer2() {
+        return piecesPlayer2;
     }
 }

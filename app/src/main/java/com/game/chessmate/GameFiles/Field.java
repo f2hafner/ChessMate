@@ -28,6 +28,7 @@ public class Field extends View {
     private Rect rectangle;
     private ChessPiece currentPiece;
     private boolean update;
+    private boolean blocked=false;
 
     /**
      * Constructor of Field. Set coordinates, compute color of the Rectangle with x and y, and construct the rectangle
@@ -125,5 +126,11 @@ public class Field extends View {
         this.update = update;
     }
 
+    public  void setPlayingPieceShield(){color.setColor(Color.BLUE);}
 
+    public void setBlocked(){
+        this.blocked=true;
+        color.setColor(Color.RED);}
+
+    public boolean isBlocked(){return this.blocked;}
 }

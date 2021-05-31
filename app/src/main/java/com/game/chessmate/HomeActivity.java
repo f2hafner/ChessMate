@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.chessmate.GameFiles.ChessBoard;
+
 public class HomeActivity extends AppCompatActivity {
 
     @Override
@@ -21,9 +23,7 @@ public class HomeActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                openNewActivity();
-            }
+            public void onClick(View v) { openNewActivity();            }
         });
 
 

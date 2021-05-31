@@ -13,12 +13,17 @@ import org.mockito.Mockito;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class FieldTest {
     Field field;
 
-    @Mock
+ /*   @Mock
     Context context;
 
     @Mock
@@ -27,14 +32,11 @@ public class FieldTest {
     @Mock
     Rect rectangle;
 
-
-
     @Before
     public void init(){
         context= Mockito.mock(Context.class);
         bishop=Mockito.mock(Bishop.class);
         rectangle=Mockito.mock(Rect.class);
-
         field = new Field(0, 0, context, null);
     }
 
@@ -73,11 +75,29 @@ public class FieldTest {
         assertEquals(0,field.getFieldY());
     }
 
-  /*  @Test
-    public void setLegalMoveColourTest(){
+   /* @Test
+    public void ifSetupRectangle_ThenRectangleNotNull() {
+        Rect rect = new Rect();
+        field.setupRectangle(rect);
+        assertNotNull("Rectangle of Field is null.", field.getRectangle());
+    }
+
+    @Test
+    public void ifSetupRectangle_ThenRectangleHasCorrectOffsets() {
+        Rect rect = new Rect();
+        field.setupRectangle(rect);
+        rect = field.getRectangle();
+        assertEquals(0,rect.top);
+        assertEquals(0,rect.left);
+        assertEquals(0,rect.bottom);
+        assertEquals(0,rect.right);
+    }
+
+ /*   @Test
+    public void setLegalMoveColourTest() {
         field.setAsLegal();
 
-        assertEquals(Color.YELLOW,field.color);
-  */
+        assertEquals(Color.YELLOW, field.color);
+    }*/
 
 }

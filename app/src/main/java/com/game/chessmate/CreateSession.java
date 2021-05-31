@@ -1,7 +1,9 @@
 package com.game.chessmate;
 
 import android.content.Intent;
+import android.net.Network;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -9,6 +11,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.game.chessmate.GameFiles.NetworkManager;
+import com.game.chessmate.GameFiles.Networking.ChessMateClient;
+import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionRequest;
+import com.game.chessmate.GameFiles.Networking.NetworkTasks;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class CreateSession extends AppCompatActivity {
 
@@ -29,18 +39,23 @@ public class CreateSession extends AppCompatActivity {
         namedisplay.setText("Welcome "+ name);
 
         createSession.setOnClickListener(v -> {
-
-            NetworkManager.getInstance().createSession(name);
-            //TODO createSession reaction on error
-
-            Intent createSessionIntent=new Intent(this,Lobby.class);
-            createSessionIntent.putExtra("name",name);
-            startActivity(createSessionIntent);
-
+            ExecutorService service = Executors.newFixedThreadPool(10);
+            Future<String> future = service.submit(new NetworkTasks.CreateSession(name));
+            try{
+                String lobbycode = future.get();
+                Log.i("NETWORK","LobbyCode: "+lobbycode);
+                Intent createSessionIntent = new Intent(this,Lobby.class);
+                createSessionIntent.putExtra("name",name);
+                createSessionIntent.putExtra("lobbycode",lobbycode);
+                startActivity(createSessionIntent);
+            } catch (InterruptedException | ExecutionException e){
+                e.printStackTrace();
+            }
             //warum komm funktioniert der zurueck button nicht
         });
 
         joinSession.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {            }
         });

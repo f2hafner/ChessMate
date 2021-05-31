@@ -33,7 +33,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         //Intent cheatIntent = new Intent(this, ChessBoard.class);
         //cheatIntent.putExtra("cheatButtonMessage", cheatButton.getText().toString());
         //startActivity(cheatIntent);
-        final Intent cheatIntent = new Intent(GameActivity.this, ChessBoard.class);
+
 
         cheatButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,22 +41,29 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
                 if (cheatButton.getText().toString().matches("Cheat Off")) {
                     cheatButton.setText("Cheat On");
+                    isCheatOn = true;
                     cheatButton.setBackgroundColor(getResources().getColor(R.color.purple_200));
-                    cheatIntent.putExtra("cheatButtonSetting", true);
+
                 } else if (cheatButton.getText().toString().matches("Cheat On")) {
                     cheatButton.setText("Cheat Off");
+                    isCheatOn = false;
                     cheatButton.setBackgroundColor(getResources().getColor(R.color.black));
-                    cheatIntent.putExtra("Key cheatButtonSetting", false);
+
                 }
-                startActivity(cheatIntent);
             }
         });
     }
 
 
-    public Button getCheatButton() {
+    public  Button getCheatButton() {
         Button cheatButton = findViewById(R.id.cheatButton);
         return cheatButton;
+    }
+    private static boolean isCheatOn = false;
+
+
+    public static boolean cheatButtonStatus(){
+        return isCheatOn;
     }
 
     @Override
@@ -75,6 +82,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
             if (getCheatButton().equals("Cheat On")) {
+
 
             }
         }

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.game.chessmate.GameActivity;
 import com.game.chessmate.GameFiles.PlayingPieces.Bishop;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
@@ -146,10 +147,11 @@ public class ChessBoard {
                     if(lastSelectedField == null){//this is the first click on a field
                         if (clickedField.getCurrentPiece() != null) {
                             lastSelectedField = clickedField;
-                        //  if(GameActivity.getCheatButton()){
-                            //this.legalMovesSelected = clickedField.getCurrentPiece().getCheatFunctionMoves();}
-                           // else {
-                            this.legalMovesSelected = clickedField.getCurrentPiece().getLegalFields();
+                         if(GameActivity.cheatButtonStatus()){
+                             this.legalMovesSelected = clickedField.getCurrentPiece().getCheatFunctionMoves();}
+                            else {
+                             this.legalMovesSelected = clickedField.getCurrentPiece().getLegalFields();
+                         }
                             if(!legalMovesSelected.isEmpty()){
                                 drawLegalMoves(legalMovesSelected);
                             }

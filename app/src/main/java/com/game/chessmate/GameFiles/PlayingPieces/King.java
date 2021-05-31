@@ -3,6 +3,7 @@ package com.game.chessmate.GameFiles.PlayingPieces;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 

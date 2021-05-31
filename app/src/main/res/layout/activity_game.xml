@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".GameActivity">
@@ -14,4 +15,67 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/cardView1"
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="51dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/card_background" />
+
+    <ImageView
+        android:id="@+id/cardView2"
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginBottom="51dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cardView1"
+        app:srcCompat="@drawable/card_background" />
+
+    <ImageView
+        android:id="@+id/cardView3"
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="51dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cardView2"
+        app:srcCompat="@drawable/card_background" />
+
+    <ImageView
+        android:id="@+id/exactView"
+        android:layout_width="300dp"
+        android:layout_height="481dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="144dp"
+        android:layout_marginEnd="50dp"
+        android:visibility="gone"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.977"
+        app:layout_constraintStart_toEndOf="@+id/cardView1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/abduction" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="85dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="296dp"
+        android:layout_marginBottom="10dp"
+        android:text="Back"
+        android:visibility="invisible"
+        app:backgroundTint="#FF5722"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView1" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -48,11 +48,13 @@ public class ChessBoard {
     private ArrayList<PlayingPiece> piecesPlayer2;
     private ArrayList<Field> legalMoves;
 
+
     private ChessBoard() {
         this.boardFields = new Field[8][8];
         piecesPlayer1 = new ArrayList<>();
         piecesPlayer2 = new ArrayList<>();
         legalMoves = new ArrayList<>();
+
     }
 
     /**

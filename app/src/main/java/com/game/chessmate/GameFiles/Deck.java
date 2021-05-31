@@ -1,7 +1,5 @@
 package com.game.chessmate.GameFiles;
 
-import com.game.chessmate.GameFiles.Card;
-
 import java.util.Random;
 
 public class Deck {
@@ -10,6 +8,8 @@ public class Deck {
     private int size=25;
     private int initialCardNumber=3;
     private int currentCard=0;
+    public Card[]cardsPlayer1;
+    private Card[]cardsPlayer2;
 
     public Deck(){
         deck=new Card[size];
@@ -18,6 +18,11 @@ public class Deck {
         for (int i=0;i<size;i++){
             deck[i]=new Card(i);
         }
+
+        shuffle();
+
+        cardsPlayer1=getInitialCards();
+        cardsPlayer2=getInitialCards();
     }
 
     public Card[] getInitialCards(){
@@ -69,6 +74,4 @@ public class Deck {
     }
 
     public void setCurrentCard(int number){currentCard=number;}
-
-
 }

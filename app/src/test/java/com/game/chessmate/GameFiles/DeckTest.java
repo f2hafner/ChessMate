@@ -30,11 +30,11 @@ public class DeckTest {
     @Test
     public void testInitialCards(){
 
-        cards=deck.getInitialCards();
+        //the first card of the initial card array should be the next card not owned
+        cards=deck.getDeck();
+        Card[]initial=deck.getInitialCards();
 
-        assertEquals("Cowardice",cards[0].getName());
-        assertEquals("Crusade",cards[1].getName());
-        assertEquals("Dark Mirror",cards[2].getName());
+        assertEquals(cards[6],initial[0]);
     }
 
     @Test
@@ -55,11 +55,16 @@ public class DeckTest {
 
     @Test
     public void testDrawCard(){
-        assertEquals("Cowardice",deck.drawCard().getName());
-        deck.getDeck()[0].setOwned();
-        assertNotEquals("Cowardice",deck.drawCard().getName());
+        cards=deck.getDeck();
 
+        //check if deck and reference deck are equal
+        assertEquals(cards[0],deck.getDeck()[0]);
+
+        //check if next drawen card is the next card, which isn't owned
+        assertEquals(cards[6],deck.drawCard());
+
+        //if the current card is the last card in the set, the next card drawn should be the first again
         deck.setCurrentCard(25);
-        assertNotEquals("Cowardice",deck.drawCard());
+        assertNotEquals(cards[0],deck.drawCard());
     }
 }

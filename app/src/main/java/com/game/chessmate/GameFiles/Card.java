@@ -269,28 +269,33 @@ public class Card {
     }
 
     public void cowardice(PlayingPiece oponentPiece){
-        //move opponent pawn one or two fields backward
+        //move opponent pawn one or two fields backward (no occupied square)
 
 
     }
 
     public void crusade(PlayingPiece playingPiece){
+        //bishop moves one more time (when it doesn't capture a piece)
 
     }
 
     public void darkMirror(PlayingPiece playingPiece, PlayingPiece oponentPiece){
+        //
 
     }
 
     public void deathDance(PlayingPiece playingPiece, PlayingPiece oponentPiece){
+        //
 
     }
 
     public void disintegration(PlayingPiece playingPiece){
+        //
 
     }
 
     public void abduction(PlayingPiece oponentPiece){
+        //
 
     }
 

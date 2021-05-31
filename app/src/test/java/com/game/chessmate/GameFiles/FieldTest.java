@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 public class FieldTest {
     Field field;
 
-    @Mock
+ /*   @Mock
     Context context;
 
     @Mock
@@ -75,7 +75,7 @@ public class FieldTest {
         assertEquals(0,field.getFieldY());
     }
 
-    @Test
+   /* @Test
     public void ifSetupRectangle_ThenRectangleNotNull() {
         Rect rect = new Rect();
         field.setupRectangle(rect);

@@ -1,5 +1,6 @@
 package com.game.chessmate.GameFiles;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 public class Deck {
@@ -20,7 +21,7 @@ public class Deck {
             deck[i]=new Card(i);
         }
 
-        rand=new Random();
+        rand=new SecureRandom();
         shuffle();
 
         cardsPlayer1=getInitialCards();

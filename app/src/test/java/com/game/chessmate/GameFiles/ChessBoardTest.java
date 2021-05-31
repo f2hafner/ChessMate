@@ -1,11 +1,8 @@
 package com.game.chessmate.GameFiles;
 
 import android.content.res.Resources;
-
-import com.game.chessmate.GameFiles.PlayingPieces.Pawn;
 import com.game.chessmate.GameFiles.PlayingPieces.PlayingPiece;
 import com.game.chessmate.GameFiles.PlayingPieces.PlayingPieceType;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,11 +11,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.exceptions.base.MockitoAssertionError;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -29,15 +23,12 @@ public class ChessBoardTest {
     private ChessBoard chessBoard;
 
     @Mock
-    private static Field field;
-    @Mock
     private static BoardView view;
     @Mock
     private static Resources resources;
 
     @BeforeClass
     public static void init() {
-        field = Mockito.mock(Field.class);
         view = Mockito.mock(BoardView.class);
         resources = Mockito.mock(Resources.class);
     }

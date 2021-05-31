@@ -8,8 +8,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.widget.Toast;
 
-import com.game.chessmate.GameFiles.PlayingPieces.PlayingPiece;
-import com.game.chessmate.GameFiles.PlayingPieces.PlayingPieceType;
+import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
+import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceType;
 import com.game.chessmate.R;
 
 public class Card {
@@ -210,7 +210,7 @@ public class Card {
         }
     }
 
-    public void activateCard(PlayingPiece playingPiece1, PlayingPiece playingPiece2, Field field, Card[]cardsPlayer1,Card[]cardsPlayer2,Deck deck){
+    public void activateCard(ChessPiece playingPiece1, ChessPiece playingPiece2, Field field, Card[]cardsPlayer1, Card[]cardsPlayer2, Deck deck){
         switch (id){
             case 0:
                 cowardice(playingPiece1);
@@ -290,47 +290,47 @@ public class Card {
         }
     }
 
-    public void cowardice(PlayingPiece oponentPiece){
+    public void cowardice(ChessPiece oponentPiece){
         //move opponent pawn one or two fields backward (no occupied square)
         // TODO: 31.05.2021 implement
 
     }
 
-    public void crusade(PlayingPiece playingPiece){
+    public void crusade(ChessPiece playingPiece){
         //bishop moves one more time (when it doesn't capture a piece)
-        if (playingPiece.getPlayingPieceType()== PlayingPieceType.BISHOP){
+        if (playingPiece.getPlayingPieceType()== ChessPieceType.BISHOP){
             playingPiece.getLegalFields();
         }
     }
 
-    public void darkMirror(PlayingPiece playingPiece, PlayingPiece oponentPiece){
+    public void darkMirror(ChessPiece playingPiece, ChessPiece oponentPiece){
         //one pawns can capture by moving diagonally backward instead of forward
         // TODO: 31.05.2021 implement after implementing capturing-Function
     }
 
-    public void deathDance(PlayingPiece playingPiece, PlayingPiece oponentPiece){
+    public void deathDance(ChessPiece playingPiece, ChessPiece oponentPiece){
         //Exchange the position of any of your pieces with any adjacent enemy piece
        Field temp=playingPiece.getPosition();
        playingPiece.setPosition(oponentPiece.getPosition());
        oponentPiece.setPosition(temp);
     }
 
-    public void disintegration(PlayingPiece playingPiece){
+    public void disintegration(ChessPiece playingPiece){
         //Remove one of your own pawns (It is now dead and cannot be brought back into play)
         // TODO: 31.05.2021 implement after capturing-Function is implemented
     }
 
-    public void abduction(PlayingPiece oponentPiece){
+    public void abduction(ChessPiece oponentPiece){
         //opponent must look away from the board for ten seconds, as you remove any one of his pieces except the king. He then has ten seconds to look at the board If he remembers correctly, the piece is put back in its place.
 
     }
 
-    public void bombard(PlayingPiece playingPiece){
+    public void bombard(ChessPiece playingPiece){
         //On this move, one of your rooks can move in its normal straight line, jump over any piece or one obstruction on the board, and continue in a straight line. (At the end of its move, the rook may make a normal capture)
 
     }
 
-    public void coup(PlayingPiece playingPiece){
+    public void coup(ChessPiece playingPiece){
         //Your king becomes a prince (prince moves like a king but can be captured). Choose one of your pieces, except a rook or a queen, and mark it. (This piece keeps its standard move, but is the new king)
 
     }
@@ -340,12 +340,12 @@ public class Card {
 
     }
 
-    public void champion(PlayingPiece playingPiece){
+    public void champion(ChessPiece playingPiece){
         //Any one knight becomes a Champion. Place a marker underneath it. (a Champion jumps to the opposite corner of a 3 by 4 rectangle).
 
     }
 
-    public void rebirth(PlayingPiece oponentPiece){
+    public void rebirth(ChessPiece oponentPiece){
         //Move one enemy piece to any square it could have occupied at the beginning of the game. The square must be empty or contain one of your pieces. If one of your pieces is in the square, it is captured.
         switch (oponentPiece.getPlayingPieceType()){
             case BISHOP:
@@ -363,7 +363,7 @@ public class Card {
         }
     }
 
-    public void revelation(PlayingPiece playingPiece1,PlayingPiece playingPiece2){
+    public void revelation(ChessPiece playingPiece1,ChessPiece playingPiece2){
         //Replace one of your knights or one of your opponent's knights by a bishop owned by the same player.
         Field temp=playingPiece1.getPosition();
         playingPiece1.setPosition(playingPiece2.getPosition());
@@ -372,7 +372,7 @@ public class Card {
         // TODO: 31.05.2021 check if the Pieces belong to same player
     }
 
-    public void spoilsOfWar(PlayingPiece playingPiece, PlayingPiece oponentPiece){
+    public void spoilsOfWar(ChessPiece playingPiece, ChessPiece oponentPiece){
         //when you capture one of your opponent's pieces. The capturing piece changes permanently into a piece of the kind it captured. For instance, if one of your pawns captures a knight, it becomes a knight.
 
     }
@@ -387,7 +387,7 @@ public class Card {
 
     }
 
-    public void longJump(PlayingPiece playingPiece, Field field){
+    public void longJump(ChessPiece playingPiece, Field field){
         //Move one of your knights to any square whose color is different from the one it currently occupies. You cannot capture a piece with this move.
 
         playingPiece.setPosition(field);
@@ -395,14 +395,14 @@ public class Card {
         // TODO: 31.05.2021 move only if color of field is different from current color
     }
 
-    public void lostCastle(PlayingPiece playingPiece, PlayingPiece oponentPiece){
+    public void lostCastle(ChessPiece playingPiece, ChessPiece oponentPiece){
         //Swap your rook with one of your oponents rooks
         Field temp=playingPiece.getPosition();
         playingPiece.setPosition(oponentPiece.getPosition());
         oponentPiece.setPosition(temp);
     }
 
-    public void manOfStraw(PlayingPiece playingPiece1, PlayingPiece playingPiece2){
+    public void manOfStraw(ChessPiece playingPiece1, ChessPiece playingPiece2){
         //Play this card when your king is in check (even checkmate). It swaps positions with any one of your pawns, as long as the new position does not place it in check.
 
         Field temp=playingPiece1.getPosition();
@@ -419,7 +419,7 @@ public class Card {
 
     public void mysticShield(Field field){
         //protect 1 of your pieces for the next turn
-        field.getCurrentPiece().setProtected();
+        field.getCurrentPiece().setProtected(true);
         field.setPlayingPieceShield();
 
         // TODO: 18.05.2021 shield only for the next turn 
@@ -440,9 +440,9 @@ public class Card {
 
     }
 
-    public void holyQuest(PlayingPiece playingPiece1,PlayingPiece playingPiece2){
+    public void holyQuest(ChessPiece playingPiece1,ChessPiece playingPiece2){
         //Swap the positions of a bishop and a knight belonging to your opponent.
-        if (playingPiece1.getPlayingPieceType()==PlayingPieceType.BISHOP&&playingPiece2.getPlayingPieceType()==PlayingPieceType.KNIGHT) {
+        if (playingPiece1.getPlayingPieceType()==ChessPieceType.BISHOP&&playingPiece2.getPlayingPieceType()==ChessPieceType.KNIGHT) {
             Field temp = playingPiece1.getPosition();
             playingPiece1.setPosition(playingPiece2.getPosition());
             playingPiece2.setPosition(temp);
@@ -464,7 +464,7 @@ public class Card {
 
         int j=0;
         for (int i=0;i<player1.length;i++){
-            if (temp[i].getName()!="Hand of Fate") {
+            if (temp[i].getName().equals("Hand of Fate")) {
                 player2[j] = temp[i];
                 j++;
             }

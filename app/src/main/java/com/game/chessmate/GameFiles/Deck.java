@@ -10,6 +10,7 @@ public class Deck {
     private int currentCard=0;
     public Card[]cardsPlayer1;
     private Card[]cardsPlayer2;
+    private Random rand;
 
     public Deck(){
         deck=new Card[size];
@@ -19,6 +20,7 @@ public class Deck {
             deck[i]=new Card(i);
         }
 
+        rand=new Random();
         shuffle();
 
         cardsPlayer1=getInitialCards();
@@ -48,7 +50,6 @@ public class Deck {
         Card temp;
         int random;
 
-        Random rand=new Random();
 
         for (int i=0;i<size;i++){
             random=rand.nextInt(size);

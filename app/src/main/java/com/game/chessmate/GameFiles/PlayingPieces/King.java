@@ -1,9 +1,8 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
 import android.content.Context;
-import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -21,11 +20,10 @@ public class King extends ChessPiece {
     /**
      * Instantiates a new King.
      *
-     * @param resources the resource name
-     * @param position  the position
+     * @param position     the position
      */
-    public King(Field position, Resources resources, int drawableId, Context context, @Nullable AttributeSet attrs, ChessPieceColour color) {
-        super(context, attrs, position, resources, drawableId, color);
+    public King(Field position, Bitmap sprite, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){
+        super(context, attrs, position, sprite, color);
     }
 
     /**
@@ -37,17 +35,16 @@ public class King extends ChessPiece {
 
     /**
      * Method determines all legal fields, that type of chess piece is allowed to move to and returns them as an ArrayList.
-     *
      * @return ArrayList of fields that are legal for the chess Piece to move to.
      */
     public ArrayList<Field> getLegalFields() {
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
         ArrayList<Field> legalFields = new ArrayList<>();
 
-        for (int i = currentPosition.getFieldX() - 1; i <= currentPosition.getFieldX() + 1; i++) {
-            for (int j = currentPosition.getFieldY() - 1; j <= currentPosition.getFieldY() + 1; j++) {
-                if (i >= 0 && i <= 7 && j >= 0 && j <= 7) {
-                    if (!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())) {
+        for(int i = currentPosition.getFieldX()-1; i <= currentPosition.getFieldX()+1; i++){
+            for(int j = currentPosition.getFieldY()-1; j <= currentPosition.getFieldY()+1; j++){
+                if(i>=0 && i<=7 && j>=0 && j<=7){
+                    if(!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())){
                         if (currentFields[i][j].getCurrentPiece() == null) {
                             legalFields.add(currentFields[i][j]);
                         } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour) {

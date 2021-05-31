@@ -1,7 +1,7 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
 import android.content.Context;
-import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -18,11 +18,10 @@ public class Queen extends ChessPiece {
     /**
      * Instantiates a new Queen.
      *
-     * @param resources the resource name
      * @param position     the position
      */
-    public Queen(Field position, Resources resources, int drawableId, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){
-        super(context, attrs, position, resources, drawableId, color);
+    public Queen(Field position, Bitmap sprite, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){
+        super(context, attrs, position, sprite, color);
     }
 
     public ChessPieceType getPlayingPieceType() {

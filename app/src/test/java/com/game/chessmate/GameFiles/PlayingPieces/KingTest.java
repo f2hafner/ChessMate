@@ -1,7 +1,6 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 
 import com.game.chessmate.GameFiles.Field;
@@ -24,14 +23,10 @@ public class KingTest {
     private Field position;
 
     @Mock
-    private Resources resources;
+    private Bitmap sprite;
 
     @Mock
     private Context context;
-
-   // //@Mock
-    Bitmap sprite;
-
 
     King king;
 
@@ -45,10 +40,9 @@ public class KingTest {
         //       when(position.getX()).thenReturn(0);
         //     when(position.getY()).thenReturn(0);
 
-        resources=Mockito.mock(Resources.class);
-        sprite=null;
+        sprite =Mockito.mock(Bitmap.class);
 
-        king=new King(position,resources,drawableId,context,null,colour);
+        king=new King(position, sprite,context,null,colour);
 
         king.setColor(colour);
 

@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 
 
 import com.game.chessmate.GameActivity;
@@ -19,7 +21,6 @@ import com.game.chessmate.GameFiles.PlayingPieces.Pawn;
 import com.game.chessmate.GameFiles.PlayingPieces.Queen;
 import com.game.chessmate.GameFiles.PlayingPieces.Rook;
 import com.game.chessmate.R;
-import com.game.chessmate.GameActivity;
 import java.util.ArrayList;
 
 /**
@@ -30,9 +31,7 @@ public class ChessBoard {
     private static final class InstanceHolder {
         static final ChessBoard INSTANCE = new ChessBoard();
 
-        //Intent cheatIntent = activity.getIntent();
-        //String cheatMessage = cheatIntent.getStringExtra("cheatButtonMessage");
-        //String cheatResult;
+
 
 
     }
@@ -58,6 +57,8 @@ public class ChessBoard {
     private ArrayList<ChessPiece> piecesPlayer2;
     private ArrayList<Field> legalMovesSelected;
     private Field lastSelectedField = null;
+
+
 
     private ChessBoard() {
         this.boardFields = new Field[8][8];
@@ -201,6 +202,12 @@ public class ChessBoard {
         }
     }*/
 
+    //Intent cheatIntent = activity.getIntent();
+    //String cheatMessage = cheatIntent.getStringExtra("cheatButtonMessage");
+    //String cheatResult;
+
+
+
     public void handleFieldClick(MotionEvent event) {
         int touchX = (int)event.getX();
         int touchY = (int)event.getY();
@@ -221,7 +228,9 @@ public class ChessBoard {
                     if(lastSelectedField == null){//this is the first click on a field
                         if (clickedField.getCurrentPiece() != null) {
                             lastSelectedField = clickedField;
-                            //this.legalMovesSelected = clickedField.getCurrentPiece().getCheatFunctionMoves();
+                        //  if(GameActivity.getCheatButton()){
+                            //this.legalMovesSelected = clickedField.getCurrentPiece().getCheatFunctionMoves();}
+                           // else {
                             this.legalMovesSelected = clickedField.getCurrentPiece().getLegalFields();
                             if(!legalMovesSelected.isEmpty()){
                                 drawLegalMoves(legalMovesSelected);

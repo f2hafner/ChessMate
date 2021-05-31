@@ -1,7 +1,11 @@
 package com.game.chessmate;
 
+import android.app.Service;
 import android.content.Intent;
-import android.net.wifi.p2p.WifiP2pManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,15 +14,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.game.chessmate.GameFiles.ChessBoard;
 
-import java.util.EventListener;
+public class GameActivity extends AppCompatActivity implements SensorEventListener {
 
-public class GameActivity extends AppCompatActivity {
+    Sensor sensor;
+    SensorManager sensorManager;
 
 
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
         Button cheatButton = getCheatButton();
 
@@ -31,30 +39,50 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (cheatButton.getText().toString().matches("Cheat Off")){
+                if (cheatButton.getText().toString().matches("Cheat Off")) {
                     cheatButton.setText("Cheat On");
                     cheatButton.setBackgroundColor(getResources().getColor(R.color.purple_200));
                     cheatIntent.putExtra("cheatButtonSetting", true);
-                }
-                else if(cheatButton.getText().toString().matches("Cheat On")){
+                } else if (cheatButton.getText().toString().matches("Cheat On")) {
                     cheatButton.setText("Cheat Off");
                     cheatButton.setBackgroundColor(getResources().getColor(R.color.black));
                     cheatIntent.putExtra("Key cheatButtonSetting", false);
                 }
                 startActivity(cheatIntent);
             }
-
         });
-
-
     }
-
-
 
 
     public Button getCheatButton() {
         Button cheatButton = findViewById(R.id.cheatButton);
         return cheatButton;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
+            if (getCheatButton().equals("Cheat On")) {
+
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 }
 

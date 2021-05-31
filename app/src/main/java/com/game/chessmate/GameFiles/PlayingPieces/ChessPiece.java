@@ -1,11 +1,8 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -19,6 +16,8 @@ import java.util.ArrayList;
 abstract public class ChessPiece extends View {
 
     /**
+     * The Current position.
+     *
      * @currentPosition current Field of this PlayingPiece
      * @targetPosition Target Field of this PlayingPiece when moving.
      * @sprite Bitmap of this PlayingPiece
@@ -36,65 +35,43 @@ abstract public class ChessPiece extends View {
     private boolean updateMovementOffset;
     private int movementSpeed = 15;
     private boolean updateView;
-    private Resources resources;
-    private int drawableId;
+    private boolean firstMove = true;
 
-    public ChessPiece(Context context, Field position, Resources resources, int drawableId, ChessPieceColour colour) {
+    public ChessPiece(Context context, Field position, Bitmap sprite, ChessPieceColour colour) {
         super(context);
         this.currentPosition = position;
         this.targetPosition = null;
-        this.resources=resources;
-        this.drawableId=drawableId;
         this.colour = colour;
         this.offset = new Vector(0,0);
         this.updateMovementOffset = false;
         this.updateView = false;
+        this.sprite = sprite;
     }
 
-    public ChessPiece(Context context, @Nullable AttributeSet attrs, Field position, Resources resources, int drawableId, ChessPieceColour colour) {
+    public ChessPiece(Context context, @Nullable AttributeSet attrs, Field position, Bitmap sprite, ChessPieceColour colour) {
         super(context, attrs);
         this.currentPosition = position;
         this.targetPosition = null;
-        this.resources=resources;
-        this.drawableId=drawableId;
         this.colour = colour;
         this.offset = new Vector(0,0);
         this.updateMovementOffset = false;
         this.updateView = false;
+        this.sprite = sprite;
     }
 
-    public ChessPiece(Context context, @Nullable AttributeSet attrs, int defStyleAttr, Field position, Resources resources, int drawableId, ChessPieceColour colour) {
+    public ChessPiece(Context context, @Nullable AttributeSet attrs, int defStyleAttr, Field position, Bitmap sprite, ChessPieceColour colour) {
         super(context, attrs, defStyleAttr);
         this.currentPosition = position;
         this.targetPosition = null;
-        this.resources=resources;
-        this.drawableId=drawableId;
         this.colour = colour;
         this.offset = new Vector(0,0);
         this.updateMovementOffset = false;
         this.updateView = false;
+        this.sprite = sprite;
     }
 
     abstract public ChessPieceType getPlayingPieceType();
     abstract public ArrayList<Field> getLegalFields();
-
-    /**
-     * Extracts the bitmap of this ChessPiece from Ressources
-     */
-    public void createBitmap(){
-        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
-        scaleBitmapToFieldSize();
-    }
-
-    /**
-     * Scales the bitmap of this PlayingPiece to the size of the rectangle container.
-     */
-    private void scaleBitmapToFieldSize() {
-        Rect rectangle = this.currentPosition.getRectangle();
-        int width = rectangle.width();
-        int height = rectangle.height();
-        this.sprite = Bitmap.createScaledBitmap(this.sprite, width, height, false);
-    }
 
     public Field getPosition() {
         return this.currentPosition;
@@ -127,7 +104,7 @@ abstract public class ChessPiece extends View {
     }
 
     /**
-     * Marks this PlayingPiece for the Renderthread to update and start moving to @targetField
+     * Marks this PlayingPiece for the Render-thread to update and start moving to @targetField
      * @param targetField
      */
     public void move(Field targetField) {
@@ -173,5 +150,12 @@ abstract public class ChessPiece extends View {
 
     public void setUpdateView(boolean update) {
         this.updateView = update;
+    }
+
+    public void setFirstMove(boolean value){
+        this.firstMove = value;
+    }
+    public boolean getFirstMove(){
+        return this.firstMove;
     }
 }

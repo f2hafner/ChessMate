@@ -1,6 +1,6 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.game.chessmate.GameFiles.Field;
@@ -16,35 +16,33 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class KingTest {
-    PlayingPieceColour colour;
+    ChessPieceColour colour;
     int drawableId;
 
     @Mock
     private Field position;
 
     @Mock
-    private Resources resources;
+    private Bitmap sprite;
 
-   // //@Mock
-    Bitmap sprite;
-
+    @Mock
+    private Context context;
 
     King king;
 
 
     @Before
     public void init(){
-        colour= PlayingPieceColour.WHITE;
+        colour= ChessPieceColour.WHITE;
 
-
+        context= Mockito.mock(Context.class);
         position= Mockito.mock(Field.class);
         //       when(position.getX()).thenReturn(0);
         //     when(position.getY()).thenReturn(0);
 
-        resources=Mockito.mock(Resources.class);
-        sprite=null;
+        sprite =Mockito.mock(Bitmap.class);
 
-        king=new King(position,resources,drawableId,colour);
+        king=new King(position, sprite,context,null,colour);
 
         king.setColor(colour);
 
@@ -53,7 +51,7 @@ public class KingTest {
 
     @Test
     public void returnPlayingPieceTypeTest() {
-        assertEquals(PlayingPieceType.KING,king.getPlayingPieceType());
+        assertEquals(ChessPieceType.KING,king.getPlayingPieceType());
     }
 
     @Test
@@ -70,7 +68,7 @@ public class KingTest {
     public void getColour(){
         assertEquals(colour,king.getColour());
 
-        colour=PlayingPieceColour.BLACK;
+        colour= ChessPieceColour.BLACK;
         king.setColor(colour);
 
         assertEquals(colour,king.getColour());

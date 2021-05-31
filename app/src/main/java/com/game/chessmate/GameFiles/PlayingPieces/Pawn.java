@@ -1,83 +1,32 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.*;
+import android.util.AttributeSet;
 
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
+import androidx.annotation.Nullable;
 
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
-import com.game.chessmate.R;
 
 import java.util.ArrayList;
 
 /** class implementing the Pawn playing piece */
-public class Pawn implements PlayingPiece {
+public class Pawn extends ChessPiece {
 
-    private boolean isProtected=false;
-    private Field currentPosition;
-    private Bitmap sprite;
-    private PlayingPieceColour colour;
-    private boolean firstMove = true;
-    private Resources resources;
-    int drawableId;
-
-    public Pawn(Field position, Resources resources, int drawableId, PlayingPieceColour colour){
-        this.currentPosition=position;
-        this.resources=resources;
-        this.drawableId=drawableId;
-        this.colour=colour;
+    /**
+     * Instantiates a new Pawn.
+     *
+     * @param position     the position
+     */
+    public Pawn(Field position, Bitmap sprite, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){
+        super(context, attrs, position, sprite, color);
     }
 
-    private void scaleBitmapToFieldSize() {
-        Rect rectangle = this.currentPosition.getRectangle();
-        int width = rectangle.width();
-        int height = rectangle.height();
-        this.sprite = Bitmap.createScaledBitmap(this.sprite, width, height, false);
+    public ChessPieceType getPlayingPieceType() {
+        return ChessPieceType.PAWN;
     }
 
-    public void createBitmap(){
-        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
-        scaleBitmapToFieldSize();
-    }
-
-    //TODO implement Interface methods
-    @Override
-    public PlayingPieceType getPlayingPieceType() {
-        return PlayingPieceType.PAWN;
-    }
-
-    @Override
-    public Field getPosition() {
-        return this.currentPosition;
-    }
-
-    @Override
-    public void setPosition(Field position) {
-        this.currentPosition=position;
-    }
-
-    @Override
-    public void setProtected() {
-        isProtected=true;
-    }
-
-    @Override
-    public boolean isProtected() {
-        return this.isProtected;
-    }
-
-    @Override
-    public Bitmap getDrawable() {
-        return this.sprite;
-    }
-
-    @Override
     public ArrayList<Field> getLegalFields() {
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
         ArrayList<Field> legalFields = new ArrayList<>();
@@ -92,7 +41,7 @@ public class Pawn implements PlayingPiece {
             } else {
                 return legalFields;
             }
-            if (firstMove && i - 2 < 8) {
+            if (this.getFirstMove() && i - 2 < 8) {
                 if (currentFields[i - 2][j].getCurrentPiece() == null) {
                     legalFields.add(currentFields[i - 2][j]);
                 } else if (currentFields[i - 2][j].getCurrentPiece().getColour() != this.colour) {
@@ -104,16 +53,4 @@ public class Pawn implements PlayingPiece {
         }
         return legalFields;
     }
-
-
-    @Override
-    public PlayingPieceColour getColour() {
-        return this.colour;
-    }
-
-    @Override
-    public void setColor(PlayingPieceColour colour) {
-        this.colour=colour;
-    }
-
 }

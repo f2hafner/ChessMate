@@ -2,23 +2,13 @@ package com.game.chessmate.GameFiles;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Canvas;
-import android.os.AsyncTask;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
-
-import com.game.chessmate.HomeActivity;
-import com.game.chessmate.MainActivity;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * The View in which the Chessboard is embedded.
@@ -26,6 +16,8 @@ import static android.content.ContentValues.TAG;
 public class BoardView extends ViewGroup {
 
     private ChessBoard board;
+    private Thread thread;
+    private RenderThread runnable;
 
     /**
      * Instantiates a new Board view.
@@ -42,11 +34,14 @@ public class BoardView extends ViewGroup {
 
         this.setOnTouchListener(boardClickListener);
         board = ChessBoard.getInstance();
-        board.initChessBoard(this, getResources(), width);
+        board.initChessBoard(this, width);
+
+        runnable = new RenderThread();
+        thread = new Thread(runnable);
     }
 
     /**
-     * @param boardClickListener This is used to catch onTouchEvents on the Chessboard.
+     * @param boardClickListener catch onTouchEvents on the Chessboard.
      */
     private View.OnTouchListener boardClickListener = new View.OnTouchListener() {
         @Override
@@ -71,8 +66,10 @@ public class BoardView extends ViewGroup {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         for (int i = 0; i < this.getChildCount(); i++) {
-            Field field = (Field)this.getChildAt(i);
             this.getChildAt(i).layout(l,t,r,b);
         }
+
+        runnable.setRunning(true);
+        thread.start();
     }
 }

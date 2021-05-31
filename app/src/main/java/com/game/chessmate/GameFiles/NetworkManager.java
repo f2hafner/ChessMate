@@ -25,14 +25,12 @@ public class NetworkManager {
         serverInstance = ChessMateServer.getInstance();
         try { serverInstance.start(); }
         catch (IOException e) {
-            e.printStackTrace();
             Log.e("NETWORK","FAILED TO START SERVER");
         }
         // Client creation
         clientInstance = ChessMateClient.getInstance();
         try { clientInstance.start(); }
         catch (IOException e) {
-            e.printStackTrace();
             Log.e("NETWORK","FAILED TO START CLIENT");
         }
     }

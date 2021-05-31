@@ -1,9 +1,10 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Rect;
+import android.util.AttributeSet;
+
+import androidx.annotation.Nullable;
 
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
@@ -11,69 +12,25 @@ import com.game.chessmate.GameFiles.Field;
 import java.util.ArrayList;
 
 /** class implementing the Rook playing piece */
-public class Rook implements PlayingPiece {
-    private boolean isProtected=false;
-    private Field currentPosition;
-    private Bitmap sprite;
-    private PlayingPieceColour colour;
-    private Resources resources;
-    int drawableId;
+public class Rook extends ChessPiece {
 
-    public Rook(Field position, Resources resources, int drawableId, PlayingPieceColour colour){
-        this.currentPosition=position;
-        this.resources=resources;
-        this.drawableId=drawableId;
-        this.colour=colour;
+    /**
+     * Instantiates a new Rook.
+     *
+     * @param position     the position
+     */
+    public Rook(Field position, Bitmap sprite, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){
+        super(context, attrs, position, sprite, color);
     }
 
-    private void scaleBitmapToFieldSize() {
-        Rect rectangle = this.currentPosition.getRectangle();
-        int width = rectangle.width();
-        int height = rectangle.height();
-        this.sprite = Bitmap.createScaledBitmap(this.sprite, width, height, false);
-    }
-
-    public void createBitmap(){
-        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
-        scaleBitmapToFieldSize();
-    }
-
-    //TODO implement Interface methods
-    @Override
-    public PlayingPieceType getPlayingPieceType() {
-        return PlayingPieceType.ROOK;
-    }
-
-    @Override
-    public Field getPosition() {
-        return this.currentPosition;
-    }
-
-    @Override
-    public void setPosition(Field position) {
-        this.currentPosition=position;
-    }
-
-    @Override
-    public void setProtected() {
-        isProtected=true;
-    }
-
-    @Override
-    public boolean isProtected() {
-        return this.isProtected;
-    }
-
-    @Override
-    public Bitmap getDrawable() {
-        return this.sprite;
+    public ChessPieceType getPlayingPieceType() {
+        return ChessPieceType.ROOK;
     }
 
     /**
      * Method determines all legal fields, that type of chess piece is allowed to move to and returns them as an ArrayList.
      * @return ArrayList of fields that are legal for the chess Piece to move to.
      */
-    @Override
     public ArrayList<Field> getLegalFields() {
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
         ArrayList<Field> legalFields = new ArrayList<>();
@@ -111,15 +68,4 @@ public class Rook implements PlayingPiece {
         }
         return legalFields;
     }
-
-
-    @Override
-    public PlayingPieceColour getColour() {
-        return this.colour;
-    }
-
-    @Override
-    public void setColor(PlayingPieceColour colour) {
-        this.colour=colour;}
-
 }

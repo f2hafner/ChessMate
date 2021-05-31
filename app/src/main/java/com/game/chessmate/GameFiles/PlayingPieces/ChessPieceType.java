@@ -1,6 +1,6 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
-public enum PlayingPieceType {
+public enum ChessPieceType {
     PAWN,
     BISHOP,
     KNIGHT,

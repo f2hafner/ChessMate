@@ -26,9 +26,17 @@ import static android.content.ContentValues.TAG;
 public class ChessBoard {
     // Thread-Save Singleton
     private static final class InstanceHolder {
+        /**
+         * The Instance.
+         */
         static final ChessBoard INSTANCE = new ChessBoard();
     }
 
+    /**
+     * Get instance chess board.
+     *
+     * @return the chess board
+     */
     public static ChessBoard getInstance(){ return ChessBoard.InstanceHolder.INSTANCE; }
 
     /**
@@ -182,7 +190,6 @@ public class ChessBoard {
      * @return returns the size 1 Rectangle should have
      */
     private int calculateRectSize(int width) {
-        Log.d(TAG, "calculateRectSize: "+ view.getMeasuredWidth());
         float canvasWidth = width;
         float offset = canvasWidth % 8;
         int rectSize = (int)canvasWidth / this.boardSize - (int)offset;
@@ -236,5 +243,23 @@ public class ChessBoard {
      */
     public Field[][] getBoardFields() {
         return boardFields;
+    }
+
+    /**
+     * Gets pieces player 1.
+     *
+     * @return the pieces player 1
+     */
+    public ArrayList<PlayingPiece> getPiecesPlayer1() {
+        return piecesPlayer1;
+    }
+
+    /**
+     * Gets pieces player 2.
+     *
+     * @return the pieces player 2
+     */
+    public ArrayList<PlayingPiece> getPiecesPlayer2() {
+        return piecesPlayer2;
     }
 }

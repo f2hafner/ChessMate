@@ -46,7 +46,7 @@ public class Field extends View {
         this.y = y;
 
         this.color = new Paint();
- //       setRectangleDefaultColor();
+        setRectangleDefaultColor();
         rectangle = new Rect();
         setupRectangle(rectangle);
     }

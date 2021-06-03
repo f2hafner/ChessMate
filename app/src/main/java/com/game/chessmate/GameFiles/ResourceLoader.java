@@ -33,9 +33,9 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
     private static Bitmap knightPlayer2;
     private static Bitmap queenPlayer2;
     private static Bitmap kingPlayer2;
-    private Resources resources;
-    private int fieldSize;
-    private Context context;
+    private static Resources resources;
+    private static int fieldSize;
+    private static Context context;
 
     /**
      * Instantiates a new Resource loader.
@@ -51,25 +51,9 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
         fieldSize = board.calculateRectSize(screenWidth);
     }
 
-    /**
-     * Loads the sprites of the chess pieces into bitmaps.
-     */
     @Override
     protected Void doInBackground(Void... voids) {
-        pawnPlayer1 = loadBitmap(R.drawable.pawn_player1);
-        bishopPlayer1 = loadBitmap(R.drawable.bishop_player1);
-        rookPlayer1 = loadBitmap(R.drawable.rook_player1);
-        knightPlayer1 = loadBitmap(R.drawable.knight_player1);
-        queenPlayer1 = loadBitmap(R.drawable.queen_player1);
-        kingPlayer1 = loadBitmap(R.drawable.king_player1);
-
-        pawnPlayer2 = loadBitmap(R.drawable.pawn_player2);
-        bishopPlayer2 = loadBitmap(R.drawable.bishop_player2);
-        rookPlayer2 = loadBitmap(R.drawable.rook_player2);
-        knightPlayer2 = loadBitmap(R.drawable.knight_player2);
-        queenPlayer2 = loadBitmap(R.drawable.queen_player2);
-        kingPlayer2 = loadBitmap(R.drawable.king_player2);
-
+        loadBitmapFromResources();
         return null;
     }
 
@@ -86,12 +70,31 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
     }
 
     /**
+     * Loads the sprites of the chess pieces into bitmaps.
+     */
+    private static void loadBitmapFromResources() {
+        pawnPlayer1 = loadBitmap(R.drawable.pawn_player1);
+        bishopPlayer1 = loadBitmap(R.drawable.bishop_player1);
+        rookPlayer1 = loadBitmap(R.drawable.rook_player1);
+        knightPlayer1 = loadBitmap(R.drawable.knight_player1);
+        queenPlayer1 = loadBitmap(R.drawable.queen_player1);
+        kingPlayer1 = loadBitmap(R.drawable.king_player1);
+
+        pawnPlayer2 = loadBitmap(R.drawable.pawn_player2);
+        bishopPlayer2 = loadBitmap(R.drawable.bishop_player2);
+        rookPlayer2 = loadBitmap(R.drawable.rook_player2);
+        knightPlayer2 = loadBitmap(R.drawable.knight_player2);
+        queenPlayer2 = loadBitmap(R.drawable.queen_player2);
+        kingPlayer2 = loadBitmap(R.drawable.king_player2);
+    }
+
+    /**
      * Extracts the bitmap of this ChessPiece from resources
      *
      * @param drawableId the drawable id
      * @return the bitmap
      */
-    public Bitmap loadBitmap(int drawableId){
+    public static Bitmap loadBitmap(int drawableId){
         Bitmap bitmap = decodeFromResources(drawableId);
         return scaleBitmapToFieldSize(bitmap);
     }
@@ -99,7 +102,7 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
     /**
      * Scales the bitmap of this PlayingPiece to the size of the rectangle container.
      */
-    private Bitmap scaleBitmapToFieldSize(Bitmap bitmap) {
+    private static Bitmap scaleBitmapToFieldSize(Bitmap bitmap) {
         return Bitmap.createScaledBitmap(bitmap, fieldSize, fieldSize, false);
     }
 
@@ -108,7 +111,7 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
      * @param drawableId
      * @return
      */
-    private Bitmap decodeFromResources(int drawableId) {
+    private static Bitmap decodeFromResources(int drawableId) {
         Bitmap bitmap;
         bitmap = BitmapFactory.decodeResource(resources, drawableId);
         if (bitmap == null) {

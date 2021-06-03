@@ -142,7 +142,7 @@ public class ChessBoard {
                         lastSelectedField = null;
                         resetLegalMoves();
                     }
-                    if(lastSelectedField == null){//this is the first click on a field
+                    if(lastSelectedField == null){ //this is the first click on a field
                         if (clickedField.getCurrentPiece() != null) {
                             lastSelectedField = clickedField;
                             this.legalMovesSelected = clickedField.getCurrentPiece().getLegalFields();

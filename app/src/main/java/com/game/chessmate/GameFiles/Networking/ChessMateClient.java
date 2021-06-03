@@ -1,18 +1,14 @@
 package com.game.chessmate.GameFiles.Networking;
 
-import com.esotericsoftware.kryo.Kryo;
+import android.util.Log;
+
 import com.esotericsoftware.kryonet.Client;
-import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Listener;
-import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionRequest;
-import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionResponse;
+import com.game.chessmate.GameFiles.Networking.NetObjects.NetObjectRegistrator;
 
 import java.io.IOException;
 
-/**
- * The ChessMateClient class implements a Client that allows players to connect to a Server.
- */
-public class ChessMateClient {
+/** The ChessMateClient class implements a Client that allows players to connect to a Server. */
+public class ChessMateClient{
     // Thread-Save Singleton
     private static final class InstanceHolder {
         static final ChessMateClient INSTANCE = new ChessMateClient();
@@ -20,53 +16,60 @@ public class ChessMateClient {
     public static ChessMateClient getInstance(){ return ChessMateClient.InstanceHolder.INSTANCE; }
 
     // Local Variables
-    private int TCP_PORT    = 54555;
-    private int UDP_PORT    = 54777;
-    private String HOST_IP  = "192.168.0.4";
-    private int TIMEOUT     = 5000; // milliseconds
-    private Client clientInstance;
+    static Client clientInstance;
+    static int TCP_PORT = 54555, UDP_PORT = 54777, TIMEOUT = 5000;
+    public static String HOST_IP = "192.168.0.188";
+    private Object response;
 
     // Constructors
     ChessMateClient(){
-        clientInstance = new Client();
-        registerClasses();
+        init();
     }
 
     // Class Methods
-
-    /**
-     * registers the Request and Response Classes to kryonet
-     */
-    private void registerClasses(){
-        Kryo kryo = clientInstance.getKryo();
-        //TODO add Requests and Responses
-        kryo.register(createSessionRequest.class);
-        kryo.register(createSessionResponse.class);
+    /** starts the Client */
+    public static void init(){
+        try {
+            clientInstance = new Client();
+            NetObjectRegistrator.register(clientInstance.getKryo());
+            clientInstance.start();
+            clientInstance.connect(TIMEOUT,HOST_IP,TCP_PORT,UDP_PORT);
+            Log.i("NETWORK", "Client started!");
+            //clientInstance.addListener(new ChessMateClient());
+        } catch (IOException e) {
+            Log.e("NETWORK", "[C]>Error no server found!");
+        }
     }
 
-    /**
-     * starts the Client
-     */
-    public void start() throws IOException {
-        //TODO implement specific Start function
-        clientInstance.start();
-        clientInstance.connect(TIMEOUT, HOST_IP, TCP_PORT, UDP_PORT);
+    /*public void createSession(Object o){
+        if(o instanceof createSessionRequest){
+            createSessionRequest req = (createSessionRequest) o;
+            Log.i("NETWORK","[C]>SessionRequest: " + req.getName());
+            clientInstance.sendTCP(req);
+        }
+    }*/
 
-        /*
-        SomeRequest request = new SomeRequest();
-        request.text = "Request Text";
-        clientInstance.sendTCP(request);
-        */
-        clientInstance.addListener(new Listener() {
-            public void received (Connection connection, Object object) {
-                /*
-                if (object instanceof SomeResponse) {
-                    SomeResponse response = (SomeResponse)object;
-                    System.out.println(response.text);
+    /*public Object receive() {
+        clientInstance.addListener(new Listener(){
+            public void received(Connection connection, Object object) {
+                if(object instanceof createSessionResponse){
+                    createSessionResponse req = (createSessionResponse) object;
+                    Log.i("NETWORK","[T:"+Thread.currentThread().getName()+"] "+"[C]>SessionResponse: " + req.getLobbyCode());
+                    response = req.getLobbyCode();
                 }
-                */
             }
         });
+        return response;
+    }*/
+
+    public String getLobbyCode(){ return (String) this.response;}
+
+    public void setResNull(){
+        response = null;
+    }
+
+    public static void close(){
+        Log.i("NETWORK", "[C]>CLIENT DISCONNECTED!");
     }
 
     // Getter and Setter
@@ -85,4 +88,6 @@ public class ChessMateClient {
     public void setUDP_PORT(int port){
         UDP_PORT = port;
     }
+
+    public Client getClient(){ return clientInstance; }
 }

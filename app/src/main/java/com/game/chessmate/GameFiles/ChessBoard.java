@@ -2,7 +2,6 @@ package com.game.chessmate.GameFiles;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 

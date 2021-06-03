@@ -4,7 +4,6 @@ package com.game.chessmate.GameFiles.PlayingPieces;
 import android.content.Context;
 import android.graphics.Bitmap;
 
-import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.R;
 
@@ -15,11 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 
 @RunWith(MockitoJUnitRunner.class)

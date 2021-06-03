@@ -16,7 +16,7 @@ import com.game.chessmate.GameFiles.PlayingPieces.Knight;
 import com.game.chessmate.GameFiles.PlayingPieces.Pawn;
 import com.game.chessmate.GameFiles.PlayingPieces.Queen;
 import com.game.chessmate.GameFiles.PlayingPieces.Rook;
-import com.game.chessmate.R;
+
 import java.util.ArrayList;
 
 /**
@@ -46,6 +46,8 @@ public class ChessBoard {
     private ArrayList<ChessPiece> piecesPlayer1;
     private ArrayList<ChessPiece> piecesPlayer2;
     private ArrayList<Field> legalMovesSelected;
+    private ArrayList<Field> legalMovesForCheat;
+
     private Field lastSelectedField = null;
 
     private ChessBoard() {
@@ -127,6 +129,12 @@ public class ChessBoard {
      *
      * @param event the event with the x and y coordinates of the touch event.
      */
+
+    private static Field startPossition;
+    private static Field endPossition;
+    private static ChessPiece movedPiece;
+    private static boolean moveWasLegal = false;
+
     public void handleFieldClick(MotionEvent event) {
         int touchX = (int)event.getX();
         int touchY = (int)event.getY();
@@ -139,7 +147,8 @@ public class ChessBoard {
                 if (rect.contains(touchX, touchY)) {
                     Field clickedField = boardFields[i][j];
 
-                    if(clickedField.getCurrentPiece() != null){
+
+                    if (clickedField.getCurrentPiece() != null) {
                         //TODO - differentiate between piece of opponent and mine - only set to null if it is my color (user selected different piece to move)
                         lastSelectedField = null;
                         resetLegalMoves();
@@ -147,22 +156,45 @@ public class ChessBoard {
                     if(lastSelectedField == null){//this is the first click on a field
                         if (clickedField.getCurrentPiece() != null) {
                             lastSelectedField = clickedField;
-                         if(GameActivity.cheatButtonStatus()){
-                             this.legalMovesSelected = clickedField.getCurrentPiece().getCheatFunctionMoves();}
-                            else {
-                             this.legalMovesSelected = clickedField.getCurrentPiece().getLegalFields();
-                         }
-                            if(!legalMovesSelected.isEmpty()){
+
+                            // position for CheatFunction
+                            // Log.d("position1", lastSelectedField.toString());
+                            startPossition = clickedField;
+                            movedPiece = startPossition.getCurrentPiece();
+
+
+                            if (GameActivity.cheatButtonStatus()) {
+                                this.legalMovesSelected = clickedField.getCurrentPiece().getCheatFunctionMoves();
+                            } else {
+                                this.legalMovesSelected = clickedField.getCurrentPiece().getLegalFields();
+                            }
+                            if (!legalMovesSelected.isEmpty()) {
                                 drawLegalMoves(legalMovesSelected);
                             }
                         }
-                    }else{//this is the second click
-                        if(legalMovesSelected.contains(clickedField)){
+                    } else {//this is the second click
+                        if (legalMovesSelected.contains(clickedField)) {
+                            // postition for CheatFunction
+                            endPossition = clickedField;
+                            // Log.d("position2", clickedField.toString());
                             lastSelectedField.getCurrentPiece().move(clickedField);
                             lastSelectedField.getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
                             lastSelectedField = null;
                             resetLegalMoves();
-                        }else{
+
+
+                            if (GameActivity.cheatButtonStatus()) {
+                                //TODO  Pawn first move of 2 Fields is still false
+                                legalMovesForCheat = movedPiece.getLegalFields();
+                                if ((legalMovesForCheat.contains(endPossition))) {
+                                    moveWasLegal = true;
+                                    Log.d("Move********TRUE", String.valueOf(moveWasLegal));
+                                } else {moveWasLegal = false;
+                                    Log.d("Move_______FALSE", String.valueOf(moveWasLegal));
+                                }
+                            }
+
+                        } else {
                             lastSelectedField = null;
                         }
                     }
@@ -170,6 +202,19 @@ public class ChessBoard {
                 }
             }
         }
+    }
+
+
+    public static boolean getwasMoveLegal(){
+        return moveWasLegal;
+    }
+
+    public static Field getStartPossition() {
+        return startPossition;
+    }
+
+    public static Field getEndPossition() {
+        return endPossition;
     }
 
     private void resetLegalMoves() {
@@ -256,5 +301,23 @@ public class ChessBoard {
      */
     public Field[][] getBoardFields() {
         return boardFields;
+    }
+
+    /**
+     * Gets pieces player 1.
+     *
+     * @return the pieces player 1
+     */
+    public ArrayList<ChessPiece> getPiecesPlayer1() {
+        return piecesPlayer1;
+    }
+
+    /**
+     * Gets pieces player 2.
+     *
+     * @return the pieces player 2
+     */
+    public ArrayList<ChessPiece> getPiecesPlayer2() {
+        return piecesPlayer2;
     }
 }

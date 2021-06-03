@@ -9,9 +9,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.util.Log;
 
 import com.game.chessmate.HomeActivity;
 import com.game.chessmate.R;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Resource Loader. Loads Game sprites during the splash screen.
@@ -89,27 +92,28 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
      * @return the bitmap
      */
     public Bitmap loadBitmap(int drawableId){
-        Bitmap bitmap;
-        bitmap = BitmapFactory.decodeResource(resources, drawableId);
-        bitmap = scaleBitmapToFieldSize(bitmap);
-        return bitmap;
+        Bitmap bitmap = decodeFromResources(drawableId);
+        return scaleBitmapToFieldSize(bitmap);
     }
 
     /**
      * Scales the bitmap of this PlayingPiece to the size of the rectangle container.
      */
     private Bitmap scaleBitmapToFieldSize(Bitmap bitmap) {
-        Rect rectangle = new Rect();
+        return Bitmap.createScaledBitmap(bitmap, fieldSize, fieldSize, false);
+    }
 
-        rectangle.left = 0;
-        rectangle.top = 0;
-        rectangle.right = rectangle.left + fieldSize;
-        rectangle.bottom = rectangle.top + fieldSize;
-
-        int width = rectangle.width();
-        int height = rectangle.height();
-
-        bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+    /**
+     * Decodes a bitmap from resources with @param drawableId and returns the bitmap.
+     * @param drawableId
+     * @return
+     */
+    private Bitmap decodeFromResources(int drawableId) {
+        Bitmap bitmap;
+        bitmap = BitmapFactory.decodeResource(resources, drawableId);
+        if (bitmap == null) {
+            throw new RuntimeException("Could not decode bitmap from resources. DrawableId: " + drawableId );
+        }
         return bitmap;
     }
 

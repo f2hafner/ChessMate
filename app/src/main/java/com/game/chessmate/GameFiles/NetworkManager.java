@@ -2,49 +2,49 @@ package com.game.chessmate.GameFiles;
 
 import android.util.Log;
 
-import com.game.chessmate.GameFiles.Networking.ChessMateClient;
-import com.game.chessmate.GameFiles.Networking.ChessMateServer;
-
-import java.io.IOException;
-
 /** The NetworkManager class functions as the framework for networked interaction. */
-public class NetworkManager {
-    // Thread-Save Singleton
-    private static final class InstanceHolder {
-        static final NetworkManager INSTANCE = new NetworkManager();
-    }
+public class NetworkManager extends Thread{
+    private static final class InstanceHolder {static final NetworkManager INSTANCE = new NetworkManager();}
     public static NetworkManager getInstance(){ return NetworkManager.InstanceHolder.INSTANCE; }
 
-    // Local Variables
-    private ChessMateServer serverInstance;
-    private ChessMateClient clientInstance;
+    public String name;
+    public boolean running;
+    Thread thread;
 
-    // Constructors
-    NetworkManager() {
-        // test.xml Server creation
-        serverInstance = ChessMateServer.getInstance();
-        try { serverInstance.start(); }
-        catch (IOException e) {
-            Log.e("NETWORK","FAILED TO START SERVER");
-        }
-        // Client creation
-        clientInstance = ChessMateClient.getInstance();
-        try { clientInstance.start(); }
-        catch (IOException e) {
-            Log.e("NETWORK","FAILED TO START CLIENT");
-        }
+    NetworkManager(){
+        this.start();
     }
 
-    // Class Methods
-    public void createSession(String playerName){
-        Log.i("NETWORK","CREATING SESSION...");
-        //TODO create a Session [Network Code]
+    @Override
+    public void run() {
+        Thread.currentThread().setName("NETWORK_ChessMate");
+        Log.i("NETWORK","[T:"+Thread.currentThread().getName()+"] "+"initializing");
+    }
+    /*public static CompletableFuture<String> createSession(String name) {
+        return CompletableFuture.supplyAsync(() -> {
+            Log.i("NETWORK","[T:"+Thread.currentThread().getName()+"] "+"creating Session");
+            createSessionRequest r = new createSessionRequest();
+            r.setName(name);
+            ChessMateClient.createSession(r);
+        });
     }
 
-    public void joinSession(String playerName){
-        Log.i("NETWORK","JOINING SESSION...");
-        //TODO join a Session [Network Code]
-    }
+    public String createSessionFunc(String name){
+        Runnable createSessionRun = () -> {
+            Log.i("NETWORK","[T:"+Thread.currentThread().getName()+"] "+"creating Session");
+            createSessionRequest r = new createSessionRequest();
+            r.setName(name);
+            ChessMateClient.createSession(r);
+        };
+        thread = new Thread(createSessionRun);
+        Log.i("NETWORK","[T:"+Thread.currentThread().getName()+"] "+"creating Session");
+        thread.start();
+        while(thread.isAlive()){}
+        return (String) ChessMateClient.getInstance().response;
+    }*/
 
-    // Getter and Setter
+    /*Log.e("NETWORK","FAILED TO START SERVER");
+    Log.e("NETWORK","FAILED TO START CLIENT");
+    Log.i("NETWORK","CREATING SESSION...");
+    Log.i("NETWORK","JOINING SESSION...");*/
 }

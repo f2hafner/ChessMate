@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "junit:junit:4.13.2"
+    testImplementation 'junit:junit:4.13.2'
+    implementation 'com.esotericsoftware:kryonet:2.22.0-RC1'
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -36,6 +36,7 @@ abstract public class ChessPiece extends View {
     private int movementSpeed = 15;
     private boolean updateView;
     private boolean firstMove = true;
+    private boolean isProtected=false;
 
     public ChessPiece(Context context, Field position, Bitmap sprite, ChessPieceColour colour) {
         super(context);
@@ -158,4 +159,8 @@ abstract public class ChessPiece extends View {
     public boolean getFirstMove(){
         return this.firstMove;
     }
+
+    public void setPosition(Field field){this.currentPosition=field;}
+
+    public void setProtected(boolean isProtected){this.isProtected=isProtected;}
 }

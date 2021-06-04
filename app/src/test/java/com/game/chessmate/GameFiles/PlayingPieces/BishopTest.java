@@ -70,7 +70,6 @@ public class BishopTest {
         cb.initChessBoard(view, 10);
         currentFields = cb.getBoardFields();
         bishop.setCurrentPosition(field);
-        when(field.getCurrentPiece()).thenCallRealMethod();
 
     }
 

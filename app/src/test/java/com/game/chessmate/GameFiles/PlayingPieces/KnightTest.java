@@ -26,8 +26,6 @@ public class KnightTest {
     ChessPieceColour colour;
     int drawableId;
 
-    @Mock
-    private Field field;
 
     @Mock
     private Bitmap sprite;
@@ -38,6 +36,8 @@ public class KnightTest {
     @Mock
     private BoardView view;
 
+    @Mock
+    private Field field;
 
     Knight knight;
     //for legal moves tests

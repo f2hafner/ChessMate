@@ -70,6 +70,7 @@ public class BishopTest {
         cb.initChessBoard(view, 10);
         currentFields = cb.getBoardFields();
         bishop.setCurrentPosition(field);
+        when(field.getCurrentPiece()).thenCallRealMethod();
 
     }
 
@@ -98,32 +99,28 @@ public class BishopTest {
 
         assertEquals(colour,bishop.getColour());
     }
-    //NOTE - all test seem to fail and have very unexpected actual results.
-    // However, if the testcases are manually tested via the app, then there are no problems in the legalMoves()-method. It seems like the testing environment or something is not set up correctly yet
+    //NOTE - in the testcase environment, the position of the black and white pieces is different than in the app. The position of the pieces (but not the chessboard) is changed as if the chessboard were rotated agianst the clock once - so black pieces are on the left and white pieces on the right.
 
-
-    /*Testcases do not inlcude interaction with opponent yet, as interaction with opponent has not been developed yet
+    /*Testcases do not include interaction with opponent yet, as interaction with opponent has not been developed yet
        testcases - one average testcase when piece is in the middle of the chessboard - legal moves should be restricted by pieces of same colour (later also by opponent),
-       one testcase per chessboard border left and right (2) - legal moves should be restricted by pieces of same colour and border (later also by opponent),
-       one testcase per chessboard corner of own side (2) - legal moves should be restricted by border twice and own pieces - legal moves should be zero
-       one testcase per chessboard corner of own side (2) with restricting piece of own colour moved - legal moves should only be restricted by borders twice (and later opponent)
+       one testcase per chessboard border (4) - legal moves should be restricted by pieces of same colour and border (later also by opponent),
+       one testcase per chessboard corner (4) - legal moves should be restricted by border twice and pieces
     */
     @Test
-    public void getLegalFieldsAverageCaseTest(){//-- test case fails because of one faulty fields 6,0 expected, 0,6 actual
+    public void getLegalFieldsAverageCaseTest(){
         when(field.getFieldX()).thenReturn(3);
         when(field.getFieldY()).thenReturn(3);
-        //when(field.getCurrentPiece()).thenReturn(null); //-- ??
 
         expected.add(currentFields[4][4].getFieldX() + ":" + currentFields[4][4].getFieldY());
         expected.add(currentFields[5][5].getFieldX() + ":" + currentFields[5][5].getFieldY());
         expected.add(currentFields[2][2].getFieldX() + ":" + currentFields[2][2].getFieldY());
         expected.add(currentFields[1][1].getFieldX() + ":" + currentFields[1][1].getFieldY());
-        expected.add(currentFields[0][0].getFieldX() + ":" + currentFields[0][0].getFieldY());//must be removed once opponent functionality exists - not a legal move field anymore as there is an opponent on it
+        expected.add(currentFields[0][0].getFieldX() + ":" + currentFields[0][0].getFieldY());//must be removed once opponent functionality exists - not a legal move field anymore as opponent blocks
         expected.add(currentFields[4][2].getFieldX() + ":" + currentFields[4][2].getFieldY());
         expected.add(currentFields[5][1].getFieldX() + ":" + currentFields[5][1].getFieldY());
         expected.add(currentFields[2][4].getFieldX() + ":" + currentFields[2][4].getFieldY());
         expected.add(currentFields[1][5].getFieldX() + ":" + currentFields[1][5].getFieldY());
-        expected.add(currentFields[6][0].getFieldX() + ":" + currentFields[6][0].getFieldY());//must be removed once opponent functionality exists -- legal Moves does not work??? - tests seem to fail but execution with app works!!
+        expected.add(currentFields[0][6].getFieldX() + ":" + currentFields[0][6].getFieldY());//must be removed once opponent functionality exists
 
         ArrayList<Field> temp = bishop.getLegalFields();
         ArrayList<String> actual = new ArrayList<>();
@@ -137,16 +134,15 @@ public class BishopTest {
 
 
     @Test
-    public void getLegalFieldsRightBorderTest(){//-- test fails because actual seems to be empty
-        when(field.getFieldX()).thenReturn(7);
-        when(field.getFieldY()).thenReturn(3);
-        //when(field.getCurrentPiece()).thenReturn(null); //-- ??
+    public void getLegalFieldsUpperBorderTest(){
+        when(field.getFieldX()).thenReturn(3);
+        when(field.getFieldY()).thenReturn(0);
 
-        expected.add(currentFields[6][2].getFieldX() + ":" + currentFields[6][2].getFieldY());
-        expected.add(currentFields[5][1].getFieldX() + ":" + currentFields[5][1].getFieldY());
-        expected.add(currentFields[4][0].getFieldX() + ":" + currentFields[4][0].getFieldY());//must be removed once opponent functionality exists
-        expected.add(currentFields[6][4].getFieldX() + ":" + currentFields[6][4].getFieldY());
-        expected.add(currentFields[5][5].getFieldX() + ":" + currentFields[5][5].getFieldY());
+        expected.add(currentFields[4][1].getFieldX() + ":" + currentFields[4][1].getFieldY());
+        expected.add(currentFields[5][2].getFieldX() + ":" + currentFields[5][2].getFieldY());
+        expected.add(currentFields[2][1].getFieldX() + ":" + currentFields[2][1].getFieldY());
+        expected.add(currentFields[1][2].getFieldX() + ":" + currentFields[1][2].getFieldY());
+        expected.add(currentFields[0][3].getFieldX() + ":" + currentFields[0][3].getFieldY());//must be removed once opponent functionality exists
 
         ArrayList<Field> temp = bishop.getLegalFields();
         ArrayList<String> actual = new ArrayList<>();
@@ -159,15 +155,16 @@ public class BishopTest {
 
 
     @Test
-    public void getLegalFieldsLeftBorderTest(){// -- test fails because own pieces are not restricting
+    public void getLegalFieldsLeftBorderTest(){
         when(field.getFieldX()).thenReturn(0);
         when(field.getFieldY()).thenReturn(3);
-        //when(field.getCurrentPiece()).thenReturn(null); //-- ??
 
         expected.add(currentFields[1][4].getFieldX() + ":" + currentFields[1][4].getFieldY());
-        expected.add(currentFields[2][5].getFieldX() + ":" + currentFields[2][5].getFieldY());
+        expected.add(currentFields[2][5].getFieldX() + ":" + currentFields[2][5].getFieldY());//must be removed once opponent functionality exists
+        expected.add(currentFields[3][6].getFieldX() + ":" + currentFields[3][6].getFieldY());//must be removed once opponent functionality exists
+        expected.add(currentFields[4][7].getFieldX() + ":" + currentFields[4][7].getFieldY());//must be removed once opponent functionality exists
         expected.add(currentFields[1][2].getFieldX() + ":" + currentFields[1][2].getFieldY());
-        expected.add(currentFields[2][1].getFieldX() + ":" + currentFields[2][1].getFieldY());
+        expected.add(currentFields[2][1].getFieldX() + ":" + currentFields[2][1].getFieldY());//must be removed once opponent functionality exists
         expected.add(currentFields[3][0].getFieldX() + ":" + currentFields[3][0].getFieldY());//must be removed once opponent functionality exists
 
         ArrayList<Field> temp = bishop.getLegalFields();
@@ -180,25 +177,9 @@ public class BishopTest {
     }
 
     @Test
-    public void getLegalFieldsLeftCornerTest(){//-- test fails because actual seems to not be restricted by own colour but by opponent??
-        when(field.getFieldX()).thenReturn(0);
-        when(field.getFieldY()).thenReturn(7);
-        //when(field.getCurrentPiece()).thenReturn(null); //-- ??
-
-        ArrayList<Field> temp = bishop.getLegalFields();
-        ArrayList<String> actual = new ArrayList<>();
-        for (int i = 0; i < temp.size(); i++) {
-            actual.add(temp.get(i).getFieldX() + ":" + temp.get(i).getFieldY());
-        }
-        assertEquals(expected, actual);//-- to see mistake of this test
-        assertTrue(expected.size() == actual.size() && expected.containsAll(actual) && actual.containsAll(expected));//better solution - order does not matter
-    }
-
-    @Test
-    public void getLegalFieldsRightCornerTest(){//-- somehow works?? why not left corner?
+    public void getLegalFieldsRightBorderTest(){
         when(field.getFieldX()).thenReturn(7);
-        when(field.getFieldY()).thenReturn(7);
-        //when(field.getCurrentPiece()).thenReturn(null); //-- ??
+        when(field.getFieldY()).thenReturn(3);
 
         ArrayList<Field> temp = bishop.getLegalFields();
         ArrayList<String> actual = new ArrayList<>();
@@ -209,23 +190,37 @@ public class BishopTest {
         assertTrue(expected.size() == actual.size() && expected.containsAll(actual) && actual.containsAll(expected));//better solution - order does not matter
     }
 
+    @Test
+    public void getLegalFieldsLowerBorderTest(){
+        when(field.getFieldX()).thenReturn(3);
+        when(field.getFieldY()).thenReturn(7);
 
+        expected.add(currentFields[2][6].getFieldX() + ":" + currentFields[2][6].getFieldY());
+        expected.add(currentFields[1][5].getFieldX() + ":" + currentFields[1][5].getFieldY());
+        expected.add(currentFields[0][4].getFieldX() + ":" + currentFields[0][4].getFieldY());//must be removed once opponent functionality exists
+        expected.add(currentFields[4][6].getFieldX() + ":" + currentFields[4][6].getFieldY());
+        expected.add(currentFields[5][5].getFieldX() + ":" + currentFields[5][5].getFieldY());
+
+        ArrayList<Field> temp = bishop.getLegalFields();
+        ArrayList<String> actual = new ArrayList<>();
+        for (int i = 0; i < temp.size(); i++) {
+            actual.add(temp.get(i).getFieldX() + ":" + temp.get(i).getFieldY());
+        }
+        assertEquals(expected, actual);//-- to see mistake of this test
+        assertTrue(expected.size() == actual.size() && expected.containsAll(actual) && actual.containsAll(expected));//better solution - order does not matter
+    }
 
     @Test
-    public void getLegalFieldsLeftCorner_PieceMovedTest(){//-- would only be correct if opponent restriction were to already exist? This testcase is restricted by opponents pieces? The others arent?
+    public void getLegalFieldsLeftLowerCornerTest(){
         when(field.getFieldX()).thenReturn(0);
         when(field.getFieldY()).thenReturn(7);
-        //when(field.getCurrentPiece()).thenReturn(null); //-- ??
-
-        currentFields[1][6].getCurrentPiece().move(currentFields[1][5]);
 
         expected.add(currentFields[1][6].getFieldX() + ":" + currentFields[1][6].getFieldY());
-        expected.add(currentFields[2][5].getFieldX() + ":" + currentFields[2][5].getFieldY());
-        expected.add(currentFields[3][4].getFieldX() + ":" + currentFields[3][4].getFieldY());
-        expected.add(currentFields[4][3].getFieldX() + ":" + currentFields[4][3].getFieldY());
-        expected.add(currentFields[5][2].getFieldX() + ":" + currentFields[5][2].getFieldY());
-        expected.add(currentFields[6][1].getFieldX() + ":" + currentFields[6][1].getFieldY());
-        expected.add(currentFields[7][0].getFieldX() + ":" + currentFields[7][0].getFieldY());//must be removed once opponent functionality exists
+        expected.add(currentFields[2][5].getFieldX() + ":" + currentFields[2][5].getFieldY());//must be removed once opponent functionality exists
+        expected.add(currentFields[3][4].getFieldX() + ":" + currentFields[3][4].getFieldY());//must be removed once opponent functionality exists
+        expected.add(currentFields[4][3].getFieldX() + ":" + currentFields[4][3].getFieldY());//must be removed once opponent functionality exists
+        expected.add(currentFields[5][2].getFieldX() + ":" + currentFields[5][2].getFieldY());//must be removed once opponent functionality exists
+
 
         ArrayList<Field> temp = bishop.getLegalFields();
         ArrayList<String> actual = new ArrayList<>();
@@ -237,20 +232,44 @@ public class BishopTest {
     }
 
     @Test
-    public void getLegalFieldsRightCorner_PieceMovedTest(){//actual seems to be empty again. Just like right border test.. :(
+    public void getLegalFieldsRightLowerCornerTest(){
         when(field.getFieldX()).thenReturn(7);
         when(field.getFieldY()).thenReturn(7);
-        //when(field.getCurrentPiece()).thenReturn(null); //-- ??
 
-        currentFields[6][6].getCurrentPiece().move(currentFields[6][5]);
+        ArrayList<Field> temp = bishop.getLegalFields();
+        ArrayList<String> actual = new ArrayList<>();
+        for (int i = 0; i < temp.size(); i++) {
+            actual.add(temp.get(i).getFieldX() + ":" + temp.get(i).getFieldY());
+        }
+        assertEquals(expected, actual);//-- to see mistake of this test
+        assertTrue(expected.size() == actual.size() && expected.containsAll(actual) && actual.containsAll(expected));//better solution - order does not matter
+    }
 
-        expected.add(currentFields[6][6].getFieldX() + ":" + currentFields[6][6].getFieldY());
-        expected.add(currentFields[5][5].getFieldX() + ":" + currentFields[5][5].getFieldY());
-        expected.add(currentFields[4][4].getFieldX() + ":" + currentFields[4][4].getFieldY());
-        expected.add(currentFields[3][3].getFieldX() + ":" + currentFields[3][3].getFieldY());
-        expected.add(currentFields[2][2].getFieldX() + ":" + currentFields[2][2].getFieldY());
+    @Test
+    public void getLegalFieldsLeftUpperCornerTest(){
+        when(field.getFieldX()).thenReturn(0);
+        when(field.getFieldY()).thenReturn(0);
+
         expected.add(currentFields[1][1].getFieldX() + ":" + currentFields[1][1].getFieldY());
-        expected.add(currentFields[0][0].getFieldX() + ":" + currentFields[0][0].getFieldY());//must be removed once opponent functionality exists
+        expected.add(currentFields[2][2].getFieldX() + ":" + currentFields[2][2].getFieldY());//must be removed once opponent functionality exists
+        expected.add(currentFields[3][3].getFieldX() + ":" + currentFields[3][3].getFieldY());//must be removed once opponent functionality exists
+        expected.add(currentFields[4][4].getFieldX() + ":" + currentFields[4][4].getFieldY());//must be removed once opponent functionality exists
+        expected.add(currentFields[5][5].getFieldX() + ":" + currentFields[5][5].getFieldY());//must be removed once opponent functionality exists
+
+
+        ArrayList<Field> temp = bishop.getLegalFields();
+        ArrayList<String> actual = new ArrayList<>();
+        for (int i = 0; i < temp.size(); i++) {
+            actual.add(temp.get(i).getFieldX() + ":" + temp.get(i).getFieldY());
+        }
+        assertEquals(expected, actual);//-- to see mistake of this test
+        assertTrue(expected.size() == actual.size() && expected.containsAll(actual) && actual.containsAll(expected));//better solution - order does not matter
+    }
+
+    @Test
+    public void getLegalFieldsRightUpperCornerTest(){
+        when(field.getFieldX()).thenReturn(7);
+        when(field.getFieldY()).thenReturn(0);
 
         ArrayList<Field> temp = bishop.getLegalFields();
         ArrayList<String> actual = new ArrayList<>();

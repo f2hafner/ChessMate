@@ -33,7 +33,7 @@ public class Knight extends ChessPiece {
 
         int i = currentPosition.getFieldX();
         int j = currentPosition.getFieldY();
-        for(int loops = 0; loops <8; loops++){
+        for(int loops = 0; loops <9; loops++){
             if(i<8 && i>=0 && j<8 && j>=0){
                 if(!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())){
                     if (currentFields[i][j].getCurrentPiece() == null) {

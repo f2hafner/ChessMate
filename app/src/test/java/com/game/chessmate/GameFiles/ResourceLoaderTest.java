@@ -2,11 +2,14 @@ package com.game.chessmate.GameFiles;
 
 import android.content.Context;
 import android.content.res.Resources;
+
 import com.game.chessmate.R;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 

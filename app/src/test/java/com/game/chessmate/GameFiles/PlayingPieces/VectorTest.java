@@ -1,7 +1,9 @@
 package com.game.chessmate.GameFiles.PlayingPieces;
 
 import com.game.chessmate.GameFiles.Vector;
+
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 

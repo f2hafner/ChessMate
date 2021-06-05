@@ -6,15 +6,11 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.util.Log;
 
 import com.game.chessmate.HomeActivity;
 import com.game.chessmate.R;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Resource Loader. Loads Game sprites during the splash screen.
@@ -35,7 +31,7 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
     private static Bitmap kingPlayer2;
     private static Resources resources;
     private static int fieldSize;
-    private static Context context;
+    private Context context;
 
     /**
      * Instantiates a new Resource loader.

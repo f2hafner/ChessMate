@@ -128,13 +128,13 @@ public class KnightTest {
 
 
     @Test
-    public void getLegalFieldsUpperBorderTest(){// test does not work because of bug in knight!
+    public void getLegalFieldsUpperBorderTest(){
         when(field.getFieldX()).thenReturn(3);
         when(field.getFieldY()).thenReturn(0);
 
         expected.add(currentFields[1][1].getFieldX() + ":" + currentFields[1][1].getFieldY());
-        expected.add(currentFields[2][2].getFieldX() + ":" + currentFields[2][2].getFieldY());
         expected.add(currentFields[5][1].getFieldX() + ":" + currentFields[5][1].getFieldY());
+        expected.add(currentFields[2][2].getFieldX() + ":" + currentFields[2][2].getFieldY());
         expected.add(currentFields[4][2].getFieldX() + ":" + currentFields[4][2].getFieldY());
 
         ArrayList<Field> temp = knight.getLegalFields();
@@ -148,14 +148,14 @@ public class KnightTest {
 
 
     @Test
-    public void getLegalFieldsLeftBorderTest(){//test does not work because of bug in knight!
+    public void getLegalFieldsLeftBorderTest(){
         when(field.getFieldX()).thenReturn(0);
         when(field.getFieldY()).thenReturn(3);
 
-        expected.add(currentFields[1][1].getFieldX() + ":" + currentFields[1][1].getFieldY());
         expected.add(currentFields[2][2].getFieldX() + ":" + currentFields[2][2].getFieldY());
         expected.add(currentFields[2][4].getFieldX() + ":" + currentFields[2][4].getFieldY());
         expected.add(currentFields[1][5].getFieldX() + ":" + currentFields[1][5].getFieldY());
+        expected.add(currentFields[1][1].getFieldX() + ":" + currentFields[1][1].getFieldY());
 
         ArrayList<Field> temp = knight.getLegalFields();
         ArrayList<String> actual = new ArrayList<>();
@@ -184,14 +184,15 @@ public class KnightTest {
     }
 
     @Test
-    public void getLegalFieldsLowerBorderTest(){//test does not work because of bug in knight
+    public void getLegalFieldsLowerBorderTest(){
         when(field.getFieldX()).thenReturn(3);
         when(field.getFieldY()).thenReturn(7);
 
         expected.add(currentFields[1][6].getFieldX() + ":" + currentFields[1][6].getFieldY());
+        expected.add(currentFields[5][6].getFieldX() + ":" + currentFields[5][6].getFieldY());
         expected.add(currentFields[2][5].getFieldX() + ":" + currentFields[2][5].getFieldY());
         expected.add(currentFields[4][5].getFieldX() + ":" + currentFields[4][5].getFieldY());
-        expected.add(currentFields[5][6].getFieldX() + ":" + currentFields[5][6].getFieldY());
+
 
         ArrayList<Field> temp = knight.getLegalFields();
         ArrayList<String> actual = new ArrayList<>();
@@ -203,12 +204,12 @@ public class KnightTest {
     }
 
     @Test
-    public void getLegalFieldsLeftLowerCornerTest(){//test does not work because of bug in knight
+    public void getLegalFieldsLeftLowerCornerTest(){
         when(field.getFieldX()).thenReturn(0);
         when(field.getFieldY()).thenReturn(7);
 
-        expected.add(currentFields[1][5].getFieldX() + ":" + currentFields[1][5].getFieldY());
         expected.add(currentFields[2][6].getFieldX() + ":" + currentFields[2][6].getFieldY());
+        expected.add(currentFields[1][5].getFieldX() + ":" + currentFields[1][5].getFieldY());
 
         ArrayList<Field> temp = knight.getLegalFields();
         ArrayList<String> actual = new ArrayList<>();
@@ -220,7 +221,7 @@ public class KnightTest {
     }
 
     @Test
-    public void getLegalFieldsRightLowerCornerTest(){//test does not work because of bug in knight
+    public void getLegalFieldsRightLowerCornerTest(){
         when(field.getFieldX()).thenReturn(7);
         when(field.getFieldY()).thenReturn(7);
 
@@ -236,13 +237,12 @@ public class KnightTest {
     }
 
     @Test
-    public void getLegalFieldsLeftUpperCornerTest(){//test does not work because of bug in knight
+    public void getLegalFieldsLeftUpperCornerTest(){
         when(field.getFieldX()).thenReturn(0);
         when(field.getFieldY()).thenReturn(0);
 
-        expected.add(currentFields[1][2].getFieldX() + ":" + currentFields[1][2].getFieldY());
         expected.add(currentFields[2][1].getFieldX() + ":" + currentFields[2][1].getFieldY());
-
+        expected.add(currentFields[1][2].getFieldX() + ":" + currentFields[1][2].getFieldY());
 
         ArrayList<Field> temp = knight.getLegalFields();
         ArrayList<String> actual = new ArrayList<>();

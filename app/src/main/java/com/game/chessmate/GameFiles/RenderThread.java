@@ -67,7 +67,7 @@ public class RenderThread implements Runnable {
             try {
                 Thread.sleep(waitTime);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
 
             totalTime += System.nanoTime() - startTime;

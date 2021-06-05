@@ -41,16 +41,13 @@ public class ChessBoard {
     private Field[][] boardFields;
     private int fieldSize;
     private final int boardSize = 8;
-    private ArrayList<ChessPiece> piecesPlayer1;
-    private ArrayList<ChessPiece> piecesPlayer2;
-    private ArrayList<Field> legalMovesSelected;
-    private Field lastSelectedField = null;
+    private Player player1;
+    private Player player2;
 
     private ChessBoard() {
         this.boardFields = new Field[8][8];
-        piecesPlayer1 = new ArrayList<>();
-        piecesPlayer2 = new ArrayList<>();
-        legalMovesSelected = new ArrayList<>();
+        player1 = new Player(ChessPieceColour.WHITE);
+        player2 = new Player(ChessPieceColour.BLACK);
     }
 
     /**
@@ -88,15 +85,15 @@ public class ChessBoard {
      *
      */
     private void initPiecesPlayer1(ChessPieceColour color) {
-        initPieces(ChessPieceType.PAWN,  6, 0, 8, this.piecesPlayer1, ResourceLoader.getPawnPlayer1(), color);
-        initPieces(ChessPieceType.ROOK,  7, 0, 1, this.piecesPlayer1, ResourceLoader.getRookPlayer1(),  color);
-        initPieces(ChessPieceType.ROOK,  7, 7, 1, this.piecesPlayer1, ResourceLoader.getRookPlayer1(),  color);
-        initPieces(ChessPieceType.KNIGHT,  7, 1, 1, this.piecesPlayer1, ResourceLoader.getKnightPlayer1(), color);
-        initPieces(ChessPieceType.KNIGHT,  7, 6, 1, this.piecesPlayer1, ResourceLoader.getKnightPlayer1(), color);
-        initPieces(ChessPieceType.BISHOP,  7, 2, 1, this.piecesPlayer1, ResourceLoader.getBishopPlayer1(), color);
-        initPieces(ChessPieceType.BISHOP,  7, 5, 1, this.piecesPlayer1, ResourceLoader.getBishopPlayer1(), color);
-        initPieces(ChessPieceType.QUEEN,  7, 4, 1, this.piecesPlayer1, ResourceLoader.getQueenPlayer1(), color);
-        initPieces(ChessPieceType.KING,  7, 3, 1, this.piecesPlayer1, ResourceLoader.getKingPlayer1(), color);
+        initPieces(ChessPieceType.PAWN,  6, 0, 8, player1.getChessPiecesAlive(), ResourceLoader.getPawnPlayer1(), color);
+        initPieces(ChessPieceType.ROOK,  7, 0, 1, player1.getChessPiecesAlive(), ResourceLoader.getRookPlayer1(),  color);
+        initPieces(ChessPieceType.ROOK,  7, 7, 1, player1.getChessPiecesAlive(), ResourceLoader.getRookPlayer1(),  color);
+        initPieces(ChessPieceType.KNIGHT,  7, 1, 1, player1.getChessPiecesAlive(), ResourceLoader.getKnightPlayer1(), color);
+        initPieces(ChessPieceType.KNIGHT,  7, 6, 1, player1.getChessPiecesAlive(), ResourceLoader.getKnightPlayer1(), color);
+        initPieces(ChessPieceType.BISHOP,  7, 2, 1, player1.getChessPiecesAlive(), ResourceLoader.getBishopPlayer1(), color);
+        initPieces(ChessPieceType.BISHOP,  7, 5, 1, player1.getChessPiecesAlive(), ResourceLoader.getBishopPlayer1(), color);
+        initPieces(ChessPieceType.QUEEN,  7, 4, 1, player1.getChessPiecesAlive(), ResourceLoader.getQueenPlayer1(), color);
+        initPieces(ChessPieceType.KING,  7, 3, 1, player1.getChessPiecesAlive(), ResourceLoader.getKingPlayer1(), color);
     }
 
     /**
@@ -104,15 +101,15 @@ public class ChessBoard {
      *
      */
     private void initPiecesPlayer2(ChessPieceColour color) {
-        initPieces(ChessPieceType.PAWN,  1, 0, 8, this.piecesPlayer2, ResourceLoader.getPawnPlayer2(), color);
-        initPieces(ChessPieceType.ROOK,  0, 0, 1, this.piecesPlayer2, ResourceLoader.getRookPlayer2(), color);
-        initPieces(ChessPieceType.ROOK,  0, 7, 1, this.piecesPlayer2, ResourceLoader.getRookPlayer2(), color);
-        initPieces(ChessPieceType.KNIGHT,  0, 1, 1, this.piecesPlayer2, ResourceLoader.getKnightPlayer2(), color);
-        initPieces(ChessPieceType.KNIGHT,  0, 6, 1, this.piecesPlayer2, ResourceLoader.getKnightPlayer2(), color);
-        initPieces(ChessPieceType.BISHOP,  0, 2, 1, this.piecesPlayer2, ResourceLoader.getBishopPlayer2(), color);
-        initPieces(ChessPieceType.BISHOP,  0, 5, 1, this.piecesPlayer2, ResourceLoader.getBishopPlayer2(), color);
-        initPieces(ChessPieceType.QUEEN,  0, 4, 1, this.piecesPlayer2, ResourceLoader.getQueenPlayer2(), color);
-        initPieces(ChessPieceType.KING,  0, 3, 1, this.piecesPlayer2, ResourceLoader.getKingPlayer2(), color);
+        initPieces(ChessPieceType.PAWN,  1, 0, 8, player2.getChessPiecesAlive(), ResourceLoader.getPawnPlayer2(), color);
+        initPieces(ChessPieceType.ROOK,  0, 0, 1, player2.getChessPiecesAlive(), ResourceLoader.getRookPlayer2(), color);
+        initPieces(ChessPieceType.ROOK,  0, 7, 1, player2.getChessPiecesAlive(), ResourceLoader.getRookPlayer2(), color);
+        initPieces(ChessPieceType.KNIGHT,  0, 1, 1, player2.getChessPiecesAlive(), ResourceLoader.getKnightPlayer2(), color);
+        initPieces(ChessPieceType.KNIGHT,  0, 6, 1, player2.getChessPiecesAlive(), ResourceLoader.getKnightPlayer2(), color);
+        initPieces(ChessPieceType.BISHOP,  0, 2, 1, player2.getChessPiecesAlive(), ResourceLoader.getBishopPlayer2(), color);
+        initPieces(ChessPieceType.BISHOP,  0, 5, 1, player2.getChessPiecesAlive(), ResourceLoader.getBishopPlayer2(), color);
+        initPieces(ChessPieceType.QUEEN,  0, 4, 1, player2.getChessPiecesAlive(), ResourceLoader.getQueenPlayer2(), color);
+        initPieces(ChessPieceType.KING,  0, 3, 1, player2.getChessPiecesAlive(), ResourceLoader.getKingPlayer2(), color);
     }
 
     /**
@@ -139,25 +136,25 @@ public class ChessBoard {
 
                     if(clickedField.getCurrentPiece() != null){
                         //TODO - differentiate between piece of opponent and mine - only set to null if it is my color (user selected different piece to move)
-                        lastSelectedField = null;
+                        player1.setLastSelectedField(null);
                         resetLegalMoves();
                     }
-                    if(lastSelectedField == null){ //this is the first click on a field
+                    if(player1.getLastSelectedField() == null){ //this is the first click on a field
                         if (clickedField.getCurrentPiece() != null) {
-                            lastSelectedField = clickedField;
-                            this.legalMovesSelected = clickedField.getCurrentPiece().getLegalFields();
-                            if(!legalMovesSelected.isEmpty()){
-                                drawLegalMoves(legalMovesSelected);
+                            player1.setLastSelectedField(clickedField);
+                            player1.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalFields());
+                            if(!player1.getLegalMovesSelected().isEmpty()){
+                                drawLegalMoves(player1.getLegalMovesSelected());
                             }
                         }
                     }else{//this is the second click
-                        if(legalMovesSelected.contains(clickedField)){
-                            lastSelectedField.getCurrentPiece().move(clickedField);
-                            lastSelectedField.getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
-                            lastSelectedField = null;
+                        if(player1.getLegalMovesSelected().contains(clickedField)){
+                            player1.getLastSelectedField().getCurrentPiece().move(clickedField);
+                            player1.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
+                            player1.setLastSelectedField(null);
                             resetLegalMoves();
                         }else{
-                            lastSelectedField = null;
+                            player1.setLastSelectedField(null);
                         }
                     }
 
@@ -167,7 +164,7 @@ public class ChessBoard {
     }
 
     private void resetLegalMoves() {
-        for(Field f : legalMovesSelected) {
+        for(Field f : player1.getLegalMovesSelected()) {
             f.setRectangleDefaultColor();
             f.setUpdate(true);
         }
@@ -258,7 +255,7 @@ public class ChessBoard {
      * @return the pieces player 1
      */
     public ArrayList<ChessPiece> getPiecesPlayer1() {
-        return piecesPlayer1;
+        return player1.getChessPiecesAlive();
     }
 
     /**
@@ -267,6 +264,14 @@ public class ChessBoard {
      * @return the pieces player 2
      */
     public ArrayList<ChessPiece> getPiecesPlayer2() {
-        return piecesPlayer2;
+        return player2.getChessPiecesAlive();
+    }
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
     }
 }

@@ -3,11 +3,15 @@ package com.game.chessmate.GameFiles.PlayingPieces;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.GameFiles.Vector;
 
@@ -37,6 +41,8 @@ abstract public class ChessPiece extends View {
     private boolean updateView;
     private boolean firstMove = true;
     private boolean isProtected=false;
+    private boolean isCaptured = false;
+    private ChessBoard board;
 
     protected ChessPiece(Context context, Field position, Bitmap sprite, ChessPieceColour colour) {
         super(context);
@@ -47,6 +53,7 @@ abstract public class ChessPiece extends View {
         this.updateMovementOffset = false;
         this.updateView = false;
         this.sprite = sprite;
+        this.board = ChessBoard.getInstance();
     }
 
     protected ChessPiece(Context context, @Nullable AttributeSet attrs, Field position, Bitmap sprite, ChessPieceColour colour) {
@@ -90,7 +97,14 @@ abstract public class ChessPiece extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         Field field = this.currentPosition;
-        canvas.drawBitmap(this.sprite, field.getRectangle().left + (int)offset.getX(), field.getRectangle().top + (int)offset.getY(), null);
+        if (isCaptured) {
+            Paint paint = new Paint();
+            paint.setColor(Color.TRANSPARENT);
+            canvas.drawBitmap(this.sprite, field.getRectangle().left + (int)offset.getX(), field.getRectangle().top + (int)offset.getY(), paint);
+        }
+        else {
+            canvas.drawBitmap(this.sprite, field.getRectangle().left + (int)offset.getX(), field.getRectangle().top + (int)offset.getY(), null);
+        }
     }
 
     /**
@@ -98,6 +112,9 @@ abstract public class ChessPiece extends View {
      * @param targetField
      */
     public void move(Field targetField) {
+        if (targetField.getCurrentPiece().getColour() != this.colour) {
+            targetField.getCurrentPiece().capture();
+        }
         this.targetPosition = targetField;
         this.updateMovementOffset = true;
         this.setUpdateView(true);
@@ -117,17 +134,36 @@ abstract public class ChessPiece extends View {
             this.setUpdateView(true);
         }
         else {
-            // TODO Note: When the piece moves to its destination,
-            //  the piece that olready occupies that destination does not get removed because it has its own canvas.
-            //  Cannot set it null and rerender cause null will skip the invalidate(). piece on destination
-            //  somehow needs to be removed first. maybe by setting its color to transparent.
-            this.updateMovementOffset = false;
-            this.offset = new Vector(0,0);
-            currentPosition.setCurrentPiece(null);
-            this.currentPosition = targetPosition;
-            targetPosition.setCurrentPiece(this);
-            this.setUpdateView(true);
+            afterMove();
         }
+    }
+
+    /**
+     * Cleanup work after move. Update Positions of chessPieces and update fields.
+     */
+    private void afterMove() {
+        this.updateMovementOffset = false;
+        this.offset = new Vector(0,0);
+        currentPosition.setCurrentPiece(null);
+        this.currentPosition = targetPosition;
+        targetPosition.setCurrentPiece(this);
+
+        this.setUpdateView(true);
+    }
+
+    /**
+     * Removes the drawing of this current piece from the canvas.
+     */
+    public void capture() {
+        if (this.colour == ChessPieceColour.WHITE) {
+            board.getPlayer1().addChessPiecesCaptured(this);
+            board.getPlayer1().removeChessPiecesAlive(this);
+        }
+        else if (this.colour == ChessPieceColour.BLACK) {
+            board.getPlayer2().addChessPiecesCaptured(this);
+            board.getPlayer2().removeChessPiecesAlive(this);
+        }
+        this.isCaptured = true;
     }
 
     public boolean updateMovementOffset() {

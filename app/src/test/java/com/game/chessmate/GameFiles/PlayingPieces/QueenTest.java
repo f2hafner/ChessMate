@@ -179,10 +179,10 @@ public class QueenTest {
         when(field.getFieldY()).thenReturn(3);
 
         expected.add(currentFields[1][3].getFieldX() + ":" + currentFields[1][3].getFieldY());
-        expected.add(currentFields[2][3].getFieldX() + ":" + currentFields[2][3].getFieldY());
-        expected.add(currentFields[3][3].getFieldX() + ":" + currentFields[3][3].getFieldY());
-        expected.add(currentFields[4][3].getFieldX() + ":" + currentFields[4][3].getFieldY());
-        expected.add(currentFields[5][3].getFieldX() + ":" + currentFields[5][3].getFieldY());
+        expected.add(currentFields[2][3].getFieldX() + ":" + currentFields[2][3].getFieldY());//must be removed once opponent interaction exists
+        expected.add(currentFields[3][3].getFieldX() + ":" + currentFields[3][3].getFieldY());//must be removed once opponent interaction exists
+        expected.add(currentFields[4][3].getFieldX() + ":" + currentFields[4][3].getFieldY());//must be removed once opponent interaction exists
+        expected.add(currentFields[5][3].getFieldX() + ":" + currentFields[5][3].getFieldY());//must be removed once opponent interaction exists
         expected.add(currentFields[0][2].getFieldX() + ":" + currentFields[0][2].getFieldY());
         expected.add(currentFields[0][1].getFieldX() + ":" + currentFields[0][1].getFieldY());//must be removed once opponent interaction exists
         expected.add(currentFields[0][0].getFieldX() + ":" + currentFields[0][0].getFieldY());//must be removed once opponent interaction exists

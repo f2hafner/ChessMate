@@ -68,4 +68,5 @@ public class Rook extends ChessPiece {
         }
         return legalFields;
     }
+
 }

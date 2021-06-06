@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -103,6 +104,7 @@ abstract public class ChessPiece extends View {
      */
     abstract public ArrayList<Field> getLegalFields();
 
+
     /**
      * Draws the bitmap of this PlayingPiece to the canvas in the position of the containing rectangle.
      * @param canvas
@@ -126,9 +128,11 @@ abstract public class ChessPiece extends View {
      * @param targetField the target field
      */
     public void move(Field targetField) {
-        if (targetField.getCurrentPiece().getColour() != this.colour) {
-            targetField.getCurrentPiece().capture();
-        }
+        if (targetField.hasPiece()){
+            if (targetField.getCurrentPiece().getColour() != this.colour) {
+                targetField.getCurrentPiece().capture();
+            }
+         }
         this.targetPosition = targetField;
         this.updateMovementOffset = true;
         this.setUpdateView(true);
@@ -179,6 +183,64 @@ abstract public class ChessPiece extends View {
         }
         this.isCaptured = true;
     }
+
+
+
+    // Flieds the King can move during Cheat Function on
+    public ArrayList<Field> cheatMoves() {
+        Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
+
+
+        ArrayList<Field> cheatFields = new ArrayList<>();
+
+
+
+        for (int fieldX = 0; fieldX < currentFields.length; fieldX++) {
+            for (int fieldY = 0; fieldY < currentFields[fieldX].length; fieldY++) {
+                if (!currentFields[fieldX][fieldY].hasPiece()) {
+                    cheatFields.add(currentFields[fieldX][fieldY]);
+                }
+
+            }
+        }
+
+        return cheatFields;
+    }
+
+    public ArrayList<Field> getCheatFunctionMoves() {
+
+        ArrayList<Field> legalMoves;
+        ArrayList<Field> cheatMoves;
+        legalMoves = getLegalFields();
+        cheatMoves = cheatMoves();
+
+        int size = cheatMoves.size();
+        for (int i = 0; i < legalMoves.size(); i++) {
+            if (!cheatMoves.contains(legalMoves)) {
+                size++;
+            }
+
+        }
+        ArrayList<Field> result = new ArrayList<>(size);
+
+        for (int i = 0; i < cheatMoves.size(); i++) {
+            result.add(cheatMoves.get(i));
+            for (int j = 0; j < legalMoves.size(); j++) {
+                if (!cheatMoves.contains(legalMoves.get(j))) {
+                    result.add(legalMoves.get(j));
+                }
+            }
+        }
+        Log.d("foreach", "wir sind hier");
+        for (Field f: result){
+            Log.d("Pawn cheat Moves",f.getChessCoordinates());}
+        return result;
+    }
+
+
+
+
+
 
     /**
      * Update movement offset boolean.
@@ -283,4 +345,6 @@ abstract public class ChessPiece extends View {
     public void setColor(ChessPieceColour colour) {
         this.colour=colour;
     }
+
+
 }

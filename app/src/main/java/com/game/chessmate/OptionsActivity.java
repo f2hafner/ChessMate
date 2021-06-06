@@ -30,6 +30,7 @@ public class OptionsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (music.getText().toString().matches("Music on")) {
                     music.setText("Music off");
+
                 }
                 else if (music.getText().toString().matches("Music off")) {
                     music.setText("Music on");

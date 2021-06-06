@@ -2,9 +2,11 @@ package com.game.chessmate.GameFiles;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.game.chessmate.GameActivity;
 import com.game.chessmate.GameFiles.PlayingPieces.Bishop;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
@@ -23,9 +25,17 @@ import java.util.ArrayList;
 public class ChessBoard {
     // Thread-Save Singleton
     private static final class InstanceHolder {
+        /**
+         * The Instance.
+         */
         static final ChessBoard INSTANCE = new ChessBoard();
     }
 
+    /**
+     * Get instance chess board.
+     *
+     * @return the chess board
+     */
     public static ChessBoard getInstance(){ return ChessBoard.InstanceHolder.INSTANCE; }
 
     /**
@@ -54,8 +64,8 @@ public class ChessBoard {
      * Initializes the 2D Array of Fields, its ChessPieces and calculates the Field size(Rectangle size) with the width of the canvas
      * that is being drawn on.
      *
-     * @param view      the canvas which contains the Chessboard
-     * @param width     the width
+     * @param view  the canvas which contains the Chessboard
+     * @param width the width
      */
     public void initChessBoard(BoardView view, int width){
         this.view = view;
@@ -122,6 +132,22 @@ public class ChessBoard {
      *
      * @param event the event with the x and y coordinates of the touch event.
      */
+
+    private  Field startPossition;
+    private  Field endPossition;
+    private  ChessPiece movedPiece;
+    private  boolean moveWasLegal = false;
+
+    /**
+     * Handles onTouchEvent fired by the BoardView (onTouchEvent) when the View is clicked on.
+     * Cycles through the Chessboard fields and checks if the coordinates from the touchEvent match with
+     * the coordinates from one of the Fields (Rectangles); it then translates the coordinates from the 2D Array
+     * to chessboard coordinates and logs them.
+     * Uses Rectangle that was clicked on to determine field and with that chess piece that was clicked on. Then calls Method
+     * to determine legalMoves of ChessPiece and calls method to draw legalMoves.
+     *
+     * @param event the event with the x and y coordinates of the touch event.
+     */
     public void handleFieldClick(MotionEvent event) {
         int touchX = (int)event.getX();
         int touchY = (int)event.getY();
@@ -142,17 +168,47 @@ public class ChessBoard {
                     if(player1.getLastSelectedField() == null){ //this is the first click on a field
                         if (clickedField.getCurrentPiece() != null) {
                             player1.setLastSelectedField(clickedField);
+                            // position for CheatFunction
+                            // Log.d("position1", lastSelectedField.toString());
+                            startPossition = clickedField;
+                            movedPiece = startPossition.getCurrentPiece();
                             player1.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalFields());
                             if(!player1.getLegalMovesSelected().isEmpty()){
+                                drawLegalMoves(player1.getLegalMovesSelected());
+                            }
+
+                            if (GameActivity.cheatButtonStatus()) {
+                                player1.setLegalMovesSelected(clickedField.getCurrentPiece().getCheatFunctionMoves());
+                            } else {
+                                player1.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalFields());
+                            }
+                            if (!player1.getLegalMovesSelected().isEmpty()) {
                                 drawLegalMoves(player1.getLegalMovesSelected());
                             }
                         }
                     }else{//this is the second click
                         if(player1.getLegalMovesSelected().contains(clickedField)){
+
+                            // postition for CheatFunction
+                            endPossition = clickedField;
+                            // Log.d("position2", clickedField.toString());
                             player1.getLastSelectedField().getCurrentPiece().move(clickedField);
                             player1.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
                             player1.setLastSelectedField(null);
                             resetLegalMoves();
+
+                            if (GameActivity.cheatButtonStatus()) {
+                                //TODO  Pawn first move of 2 Fields is still false
+                                player1.setLegalMovesForCheat(movedPiece.getLegalFields());
+                                if ((player1.getLegalMovesForCheat().contains(endPossition))) {
+                                    moveWasLegal = true;
+                                    Log.d("Move********TRUE", String.valueOf(moveWasLegal));
+                                } else {moveWasLegal = false;
+                                    Log.d("Move_______FALSE", String.valueOf(moveWasLegal));
+                                }
+                            }
+
+
                         }else{
                             player1.setLastSelectedField(null);
                         }
@@ -161,6 +217,34 @@ public class ChessBoard {
                 }
             }
         }
+    }
+
+
+    /**
+     * Getwas move legal boolean.
+     *
+     * @return the boolean
+     */
+    public  boolean getwasMoveLegal(){
+        return moveWasLegal;
+    }
+
+    /**
+     * Gets start possition.
+     *
+     * @return the start possition
+     */
+    public  Field getStartPossition() {
+        return startPossition;
+    }
+
+    /**
+     * Gets end possition.
+     *
+     * @return the end possition
+     */
+    public  Field getEndPossition() {
+        return endPossition;
     }
 
     private void resetLegalMoves() {
@@ -267,10 +351,20 @@ public class ChessBoard {
         return player2.getChessPiecesAlive();
     }
 
+    /**
+     * Gets player 1.
+     *
+     * @return the player 1
+     */
     public Player getPlayer1() {
         return player1;
     }
 
+    /**
+     * Gets player 2.
+     *
+     * @return the player 2
+     */
     public Player getPlayer2() {
         return player2;
     }

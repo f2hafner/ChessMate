@@ -26,6 +26,7 @@ public class NetworkManager {
             return lobbycode;
         } catch (InterruptedException | ExecutionException e){
             Log.e("NETWORK","Couldnt get Value from Future");
+            Thread.currentThread().interrupt();
         }
         return null;
     }
@@ -43,6 +44,7 @@ public class NetworkManager {
             return lobbycode;
         } catch (InterruptedException | ExecutionException e){
             Log.e("NETWORK","Couldnt get Value from Future");
+            Thread.currentThread().interrupt();
         }
         return null;
     }

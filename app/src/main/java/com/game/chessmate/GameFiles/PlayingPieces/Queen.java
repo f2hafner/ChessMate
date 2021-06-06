@@ -79,4 +79,8 @@ public class Queen extends ChessPiece {
         }
         return legalFields;
     }
+
+
+
+
 }

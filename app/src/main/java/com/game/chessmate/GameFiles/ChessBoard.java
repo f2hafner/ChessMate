@@ -25,9 +25,17 @@ import java.util.ArrayList;
 public class ChessBoard {
     // Thread-Save Singleton
     private static final class InstanceHolder {
+        /**
+         * The Instance.
+         */
         static final ChessBoard INSTANCE = new ChessBoard();
     }
 
+    /**
+     * Get instance chess board.
+     *
+     * @return the chess board
+     */
     public static ChessBoard getInstance(){ return ChessBoard.InstanceHolder.INSTANCE; }
 
     /**
@@ -56,8 +64,8 @@ public class ChessBoard {
      * Initializes the 2D Array of Fields, its ChessPieces and calculates the Field size(Rectangle size) with the width of the canvas
      * that is being drawn on.
      *
-     * @param view      the canvas which contains the Chessboard
-     * @param width     the width
+     * @param view  the canvas which contains the Chessboard
+     * @param width the width
      */
     public void initChessBoard(BoardView view, int width){
         this.view = view;
@@ -125,11 +133,21 @@ public class ChessBoard {
      * @param event the event with the x and y coordinates of the touch event.
      */
 
-    private static Field startPossition;
-    private static Field endPossition;
-    private static ChessPiece movedPiece;
-    private static boolean moveWasLegal = false;
+    private  Field startPossition;
+    private  Field endPossition;
+    private  ChessPiece movedPiece;
+    private  boolean moveWasLegal = false;
 
+    /**
+     * Handles onTouchEvent fired by the BoardView (onTouchEvent) when the View is clicked on.
+     * Cycles through the Chessboard fields and checks if the coordinates from the touchEvent match with
+     * the coordinates from one of the Fields (Rectangles); it then translates the coordinates from the 2D Array
+     * to chessboard coordinates and logs them.
+     * Uses Rectangle that was clicked on to determine field and with that chess piece that was clicked on. Then calls Method
+     * to determine legalMoves of ChessPiece and calls method to draw legalMoves.
+     *
+     * @param event the event with the x and y coordinates of the touch event.
+     */
     public void handleFieldClick(MotionEvent event) {
         int touchX = (int)event.getX();
         int touchY = (int)event.getY();
@@ -202,15 +220,30 @@ public class ChessBoard {
     }
 
 
-    public static boolean getwasMoveLegal(){
+    /**
+     * Getwas move legal boolean.
+     *
+     * @return the boolean
+     */
+    public  boolean getwasMoveLegal(){
         return moveWasLegal;
     }
 
-    public static Field getStartPossition() {
+    /**
+     * Gets start possition.
+     *
+     * @return the start possition
+     */
+    public  Field getStartPossition() {
         return startPossition;
     }
 
-    public static Field getEndPossition() {
+    /**
+     * Gets end possition.
+     *
+     * @return the end possition
+     */
+    public  Field getEndPossition() {
         return endPossition;
     }
 
@@ -318,10 +351,20 @@ public class ChessBoard {
         return player2.getChessPiecesAlive();
     }
 
+    /**
+     * Gets player 1.
+     *
+     * @return the player 1
+     */
     public Player getPlayer1() {
         return player1;
     }
 
+    /**
+     * Gets player 2.
+     *
+     * @return the player 2
+     */
     public Player getPlayer2() {
         return player2;
     }

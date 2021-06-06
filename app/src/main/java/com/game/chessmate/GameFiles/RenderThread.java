@@ -63,7 +63,9 @@ public class RenderThread implements Runnable {
             }
             timeMillis = (System.nanoTime() - startTime) / 1000000;
             waitTime = targetTime - timeMillis;
-
+            if(waitTime < 0){
+                waitTime = 0;
+            }
             try {
                 Thread.sleep(waitTime);
             } catch (InterruptedException e) {

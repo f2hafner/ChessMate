@@ -12,6 +12,7 @@ public class Player {
 
     private ArrayList<ChessPiece> chessPiecesAlive;
     private ArrayList<ChessPiece> chessPiecesCaptured;
+    private ArrayList<Field> legalMovesForCheat;
     private ArrayList<Field> legalMovesSelected;
     private Field lastSelectedField;
     private ChessPieceColour color;
@@ -126,5 +127,13 @@ public class Player {
      */
     public void setLastSelectedField(Field lastSelectedField) {
         this.lastSelectedField = lastSelectedField;
+    }
+
+    public ArrayList<Field> getLegalMovesForCheat() {
+        return legalMovesForCheat;
+    }
+
+    public void setLegalMovesForCheat(ArrayList<Field> legalMovesForCheat) {
+        this.legalMovesForCheat = legalMovesForCheat;
     }
 }

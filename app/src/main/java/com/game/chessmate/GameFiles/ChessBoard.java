@@ -160,9 +160,9 @@ public class ChessBoard {
                             }
 
                             if (GameActivity.cheatButtonStatus()) {
-                                player1.getLegalMovesSelected() = clickedField.getCurrentPiece().getCheatFunctionMoves();
+                                player1.setLegalMovesSelected(clickedField.getCurrentPiece().getCheatFunctionMoves());
                             } else {
-                                player1.getLegalMovesSelected() = clickedField.getCurrentPiece().getLegalFields();
+                                player1.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalFields());
                             }
                             if (!player1.getLegalMovesSelected().isEmpty()) {
                                 drawLegalMoves(player1.getLegalMovesSelected());
@@ -181,8 +181,8 @@ public class ChessBoard {
 
                             if (GameActivity.cheatButtonStatus()) {
                                 //TODO  Pawn first move of 2 Fields is still false
-                                legalMovesForCheat = movedPiece.getLegalFields();
-                                if ((legalMovesForCheat.contains(endPossition))) {
+                                player1.setLegalMovesForCheat(movedPiece.getLegalFields());
+                                if ((player1.getLegalMovesForCheat().contains(endPossition))) {
                                     moveWasLegal = true;
                                     Log.d("Move********TRUE", String.valueOf(moveWasLegal));
                                 } else {moveWasLegal = false;

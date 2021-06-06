@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Handler;
 
@@ -30,8 +29,8 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
     private static Bitmap knightPlayer2;
     private static Bitmap queenPlayer2;
     private static Bitmap kingPlayer2;
-    private Resources resources;
-    private int fieldSize;
+    private static Resources resources;
+    private static int fieldSize;
     private Context context;
 
     /**
@@ -48,25 +47,9 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
         fieldSize = board.calculateRectSize(screenWidth);
     }
 
-    /**
-     * Loads the sprites of the chess pieces into bitmaps.
-     */
     @Override
     protected Void doInBackground(Void... voids) {
-        pawnPlayer1 = loadBitmap(R.drawable.pawn_player1);
-        bishopPlayer1 = loadBitmap(R.drawable.bishop_player1);
-        rookPlayer1 = loadBitmap(R.drawable.rook_player1);
-        knightPlayer1 = loadBitmap(R.drawable.knight_player1);
-        queenPlayer1 = loadBitmap(R.drawable.queen_player1);
-        kingPlayer1 = loadBitmap(R.drawable.king_player1);
-
-        pawnPlayer2 = loadBitmap(R.drawable.pawn_player2);
-        bishopPlayer2 = loadBitmap(R.drawable.bishop_player2);
-        rookPlayer2 = loadBitmap(R.drawable.rook_player2);
-        knightPlayer2 = loadBitmap(R.drawable.knight_player2);
-        queenPlayer2 = loadBitmap(R.drawable.queen_player2);
-        kingPlayer2 = loadBitmap(R.drawable.king_player2);
-
+        loadBitmapFromResources();
         return null;
     }
 
@@ -83,33 +66,53 @@ public class ResourceLoader extends AsyncTask<Void, Void, Void> {
     }
 
     /**
+     * Loads the sprites of the chess pieces into bitmaps.
+     */
+    private static void loadBitmapFromResources() {
+        pawnPlayer1 = loadBitmap(R.drawable.pawn_player1);
+        bishopPlayer1 = loadBitmap(R.drawable.bishop_player1);
+        rookPlayer1 = loadBitmap(R.drawable.rook_player1);
+        knightPlayer1 = loadBitmap(R.drawable.knight_player1);
+        queenPlayer1 = loadBitmap(R.drawable.queen_player1);
+        kingPlayer1 = loadBitmap(R.drawable.king_player1);
+
+        pawnPlayer2 = loadBitmap(R.drawable.pawn_player2);
+        bishopPlayer2 = loadBitmap(R.drawable.bishop_player2);
+        rookPlayer2 = loadBitmap(R.drawable.rook_player2);
+        knightPlayer2 = loadBitmap(R.drawable.knight_player2);
+        queenPlayer2 = loadBitmap(R.drawable.queen_player2);
+        kingPlayer2 = loadBitmap(R.drawable.king_player2);
+    }
+
+    /**
      * Extracts the bitmap of this ChessPiece from resources
      *
      * @param drawableId the drawable id
      * @return the bitmap
      */
-    public Bitmap loadBitmap(int drawableId){
-        Bitmap bitmap;
-        bitmap = BitmapFactory.decodeResource(resources, drawableId);
-        bitmap = scaleBitmapToFieldSize(bitmap);
-        return bitmap;
+    public static Bitmap loadBitmap(int drawableId){
+        Bitmap bitmap = decodeFromResources(drawableId);
+        return scaleBitmapToFieldSize(bitmap);
     }
 
     /**
      * Scales the bitmap of this PlayingPiece to the size of the rectangle container.
      */
-    private Bitmap scaleBitmapToFieldSize(Bitmap bitmap) {
-        Rect rectangle = new Rect();
+    private static Bitmap scaleBitmapToFieldSize(Bitmap bitmap) {
+        return Bitmap.createScaledBitmap(bitmap, fieldSize, fieldSize, false);
+    }
 
-        rectangle.left = 0;
-        rectangle.top = 0;
-        rectangle.right = rectangle.left + fieldSize;
-        rectangle.bottom = rectangle.top + fieldSize;
-
-        int width = rectangle.width();
-        int height = rectangle.height();
-
-        bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+    /**
+     * Decodes a bitmap from resources with @param drawableId and returns the bitmap.
+     * @param drawableId
+     * @return
+     */
+    private static Bitmap decodeFromResources(int drawableId) {
+        Bitmap bitmap;
+        bitmap = BitmapFactory.decodeResource(resources, drawableId);
+        if (bitmap == null) {
+            throw new RuntimeException("Could not decode bitmap from resources. DrawableId: " + drawableId );
+        }
         return bitmap;
     }
 

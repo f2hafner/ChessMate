@@ -3,7 +3,6 @@ package com.game.chessmate.GameFiles.PlayingPieces;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.view.View;
 
 import com.game.chessmate.GameFiles.BoardView;
 import com.game.chessmate.GameFiles.ChessBoard;
@@ -16,7 +15,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
 
 import java.util.ArrayList;
 

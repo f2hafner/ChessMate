@@ -19,7 +19,7 @@ public class Player {
     /**
      * Instantiates a new Player.
      *
-     * @param color the color
+     * @param color the color of the Player's ChessPieces
      */
     public Player(ChessPieceColour color) {
         this.chessPiecesAlive = new ArrayList<>();

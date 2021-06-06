@@ -17,6 +17,9 @@ import com.game.chessmate.GameFiles.Vector;
 
 import java.util.ArrayList;
 
+/**
+ * The type Chess piece.
+ */
 abstract public class ChessPiece extends View {
 
     /**
@@ -34,6 +37,9 @@ abstract public class ChessPiece extends View {
     protected Field currentPosition;
     private Field targetPosition;
     private Bitmap sprite;
+    /**
+     * The Colour.
+     */
     protected ChessPieceColour colour;
     private Vector offset;
     private boolean updateMovementOffset;
@@ -44,6 +50,14 @@ abstract public class ChessPiece extends View {
     private boolean isCaptured = false;
     private ChessBoard board;
 
+    /**
+     * Instantiates a new Chess piece.
+     *
+     * @param context  the context
+     * @param position the position of this ChessPiece
+     * @param sprite   the sprite of this ChessPiece
+     * @param colour   the colour of this ChessPiece
+     */
     protected ChessPiece(Context context, Field position, Bitmap sprite, ChessPieceColour colour) {
         super(context);
         this.currentPosition = position;
@@ -56,6 +70,15 @@ abstract public class ChessPiece extends View {
         this.board = ChessBoard.getInstance();
     }
 
+    /**
+     * Instantiates a new Chess piece.
+     *
+     * @param context  the context
+     * @param attrs    the attrs
+     * @param position the position
+     * @param sprite   the sprite
+     * @param colour   the colour
+     */
     protected ChessPiece(Context context, @Nullable AttributeSet attrs, Field position, Bitmap sprite, ChessPieceColour colour) {
         super(context, attrs);
         this.currentPosition = position;
@@ -67,28 +90,19 @@ abstract public class ChessPiece extends View {
         this.sprite = sprite;
     }
 
+    /**
+     * Gets playing piece type.
+     *
+     * @return the playing piece type
+     */
     abstract public ChessPieceType getPlayingPieceType();
+
+    /**
+     * Gets legal fields.
+     *
+     * @return the legal fields
+     */
     abstract public ArrayList<Field> getLegalFields();
-
-    public Field getPosition() {
-        return this.currentPosition;
-    }
-
-    public Bitmap getDrawable() {
-        return this.sprite;
-    }
-
-    public ChessPieceColour getColour() {
-        return this.colour;
-    }
-
-    public void setCurrentPosition(Field field) {
-        this.currentPosition = field;
-    }
-
-    public void setColor(ChessPieceColour colour) {
-        this.colour=colour;
-    }
 
     /**
      * Draws the bitmap of this PlayingPiece to the canvas in the position of the containing rectangle.
@@ -109,7 +123,8 @@ abstract public class ChessPiece extends View {
 
     /**
      * Marks this PlayingPiece for the Render-thread to update and start moving to @targetField
-     * @param targetField
+     *
+     * @param targetField the target field
      */
     public void move(Field targetField) {
         if (targetField.getCurrentPiece().getColour() != this.colour) {
@@ -166,26 +181,107 @@ abstract public class ChessPiece extends View {
         this.isCaptured = true;
     }
 
+    /**
+     * Update movement offset boolean.
+     *
+     * @return the boolean
+     */
     public boolean updateMovementOffset() {
         return this.updateMovementOffset;
     }
 
+    /**
+     * Gets update view.
+     *
+     * @return the update view
+     */
     public boolean getUpdateView() {
         return this.updateView;
     }
 
+    /**
+     * Sets update view.
+     *
+     * @param update the update
+     */
     public void setUpdateView(boolean update) {
         this.updateView = update;
     }
 
+    /**
+     * Set first move.
+     *
+     * @param value the value
+     */
     public void setFirstMove(boolean value){
         this.firstMove = value;
     }
+
+    /**
+     * Get first move boolean.
+     *
+     * @return the boolean
+     */
     public boolean getFirstMove(){
         return this.firstMove;
     }
 
+    /**
+     * Set position.
+     *
+     * @param field the field
+     */
     public void setPosition(Field field){this.currentPosition=field;}
 
+    /**
+     * Set protected.
+     *
+     * @param isProtected the is protected
+     */
     public void setProtected(boolean isProtected){this.isProtected=isProtected;}
+
+    /**
+     * Gets position.
+     *
+     * @return the position
+     */
+    public Field getPosition() {
+        return this.currentPosition;
+    }
+
+    /**
+     * Gets drawable.
+     *
+     * @return the drawable
+     */
+    public Bitmap getDrawable() {
+        return this.sprite;
+    }
+
+    /**
+     * Gets colour.
+     *
+     * @return the colour
+     */
+    public ChessPieceColour getColour() {
+        return this.colour;
+    }
+
+    /**
+     * Sets current position.
+     *
+     * @param field the field
+     */
+    public void setCurrentPosition(Field field) {
+        this.currentPosition = field;
+    }
+
+    /**
+     * Sets color.
+     *
+     * @param colour the colour
+     */
+    public void setColor(ChessPieceColour colour) {
+        this.colour=colour;
+    }
 }

@@ -38,6 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.528"
         app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="#FFFFFF"
         app:strokeColor="#000000" />
 
     <TextView

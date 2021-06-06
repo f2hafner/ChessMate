@@ -9,12 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.game.chessmate.GameFiles.Networking.NetworkTasks;
-
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import com.game.chessmate.GameFiles.Networking.NetworkManager;
 
 public class CreateSession extends AppCompatActivity {
 
@@ -36,25 +31,18 @@ public class CreateSession extends AppCompatActivity {
         namedisplay.setText("Welcome "+ name);
 
         createSession.setOnClickListener(v -> {
-            ExecutorService service = Executors.newFixedThreadPool(10);
-            Future<String> future = service.submit(new NetworkTasks.CreateSession(name));
-            try{
-                String lobbycode = future.get();
-                Log.i("NETWORK","LobbyCode: "+lobbycode);
-                Intent createSessionIntent = new Intent(this,Lobby.class);
+            String lobbycode = NetworkManager.createSession(name);
+            if(lobbycode!=null){
+                Intent createSessionIntent = new Intent(this, Lobby.class);
                 createSessionIntent.putExtra("name",name);
                 createSessionIntent.putExtra("lobbycode",lobbycode);
                 startActivity(createSessionIntent);
-            } catch (InterruptedException | ExecutionException e){
-                e.printStackTrace();
             }
-            //warum komm funktioniert der zurueck button nicht
         });
 
-        joinSession.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {            }
+        joinSession.setOnClickListener(v -> {
+            Intent joinSessionIntent = new Intent(this, EnterCodeActivity.class);
+            startActivity(joinSessionIntent);
         });
 
         options.setOnClickListener(v -> {
@@ -66,6 +54,5 @@ public class CreateSession extends AppCompatActivity {
                     Intent ruleIntent = new Intent(this, RuleActivity.class);
                     startActivity(ruleIntent);
         });
-
     }
 }

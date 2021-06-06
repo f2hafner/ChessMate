@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ChessMateServerTest {
 
-    @Before
+    /*@Before
     public void init(){
         server=ChessMateServer.getInstance();
     }
@@ -30,5 +30,5 @@ public class ChessMateServerTest {
         assertEquals(54777,server.getUDP_PORT());
         server.setUDP_PORT(11111);
         assertEquals(11111,server.getUDP_PORT());
-    }
+    }*/
 }

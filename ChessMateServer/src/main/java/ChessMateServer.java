@@ -46,12 +46,12 @@ public class ChessMateServer extends Thread{
                     createSessionRequest request = (createSessionRequest)o;
                     System.out.println("Request Arg: " + request.getName());
                     // Process
-                    Session session = new Session(LobbyManager.checkForFreeID());
-                    session.setPlayer1_name(request.getName());
-                    LobbyManager.getSessions().add(session);
+                    Lobby lobby = new Lobby(LobbyManager.checkForFreeID());
+                    lobby.setPlayer1_name(request.getName());
+                    LobbyManager.getSessions().add(lobby);
                     // Send
                     createSessionResponse response = new createSessionResponse();
-                    response.setLobbyCode(session.getLobbycode());
+                    response.setLobbyCode(lobby.getLobbycode());
                     System.out.println("Sending: " + response.getLobbyCode());
                     con.sendTCP(response);
                     LobbyManager.printAllSession();

@@ -1,8 +1,8 @@
 import java.util.Random;
 
-public class Session {
+public class Lobby {
     long lobbyID;
-    //TODO states enum
+    GameStates currentLobbyState;
     String lobbycode;
     byte playercount;
     String player1_name;
@@ -10,7 +10,7 @@ public class Session {
     boolean cheatFuncActive;
     //TODO moveList
 
-    Session(long lobbyID){
+    Lobby(long lobbyID){
         this.lobbyID = lobbyID;
         this.lobbycode = generateLobbyKey();
         //TODO generate add Playercount

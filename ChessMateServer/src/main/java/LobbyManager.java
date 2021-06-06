@@ -1,25 +1,25 @@
 import java.util.ArrayList;
 
 public class LobbyManager {
-    static ArrayList<Session> sessions = new ArrayList();
+    static ArrayList<Lobby> sessions = new ArrayList();
     static int sessionAmountLimit = 10;
 
-    public static int checkForFreeID() {
-        for (int i = 0; i <= sessionAmountLimit; i++) {
-            for (Session s : sessions) {
-                if(s.lobbyID!=i) return i;
-            }
-        }
-        return -1;
-    }
-
-    public static ArrayList<Session> getSessions() {
+    public static ArrayList<Lobby> getSessions() {
         return sessions;
     }
 
     public static void printAllSession(){
-        for (Session s : sessions) {
+        for (Lobby s : sessions) {
             System.out.println(s.toString());
         }
+    }
+
+    public static int getNewID(){
+        for (int i = 0; i <= sessionAmountLimit; i++) {
+            for (Lobby s : sessions) {
+                if(s.lobbyID!=i) return i;
+            }
+        }
+        return -1;
     }
 }

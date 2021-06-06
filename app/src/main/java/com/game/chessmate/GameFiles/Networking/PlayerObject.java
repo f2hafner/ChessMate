@@ -1,13 +1,15 @@
 package com.game.chessmate.GameFiles.Networking;
 
+import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
+
 public class PlayerObject {
     String name;
-    PlayerColor playerColor;
+    ChessPieceColour playerColor;
     boolean isHost;
 
-    public PlayerObject(String name, PlayerColor playerColor, boolean isHost) {
+    public PlayerObject(String name, ChessPieceColour playerColour, boolean isHost) {
         this.name = name;
-        this.playerColor = playerColor;
+        this.playerColor = playerColour;
         this.isHost = isHost;
     }
 

@@ -34,7 +34,7 @@ public class Pawn extends ChessPiece {
         int i = currentPosition.getFieldX();
         int j = currentPosition.getFieldY();
 
-        if(i-1 < 8) {
+        if(i-1 >= 0) {
             if (currentFields[i - 1][j].getCurrentPiece() == null) {
                 legalFields.add(currentFields[i - 1][j]);
             } else if (currentFields[i - 1][j].getCurrentPiece().getColour() != this.colour) {

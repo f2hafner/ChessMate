@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class LobbyManager {
     static ArrayList<Lobby> sessions = new ArrayList();
-    static int sessionAmountLimit = 10;
+    static int maxSessions = 10;
 
     public static ArrayList<Lobby> getSessions() {
         return sessions;
@@ -15,11 +15,14 @@ public class LobbyManager {
     }
 
     public static int getNewID(){
-        for (int i = 0; i <= sessionAmountLimit; i++) {
+        for (int i = 0; i <= maxSessions; i++) {
             for (Lobby s : sessions) {
-                if(s.lobbyID!=i) return i;
+                if(s.lobbyID==i){
+                    break;
+                }
             }
         }
-        return -1;
+        int id=0;
+        return id;
     }
 }

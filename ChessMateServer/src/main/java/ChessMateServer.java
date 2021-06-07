@@ -1,5 +1,6 @@
 import NetObjects.createSessionRequest;
 import NetObjects.createSessionResponse;
+import NetObjects.joinSessionRequest;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -7,7 +8,7 @@ import com.esotericsoftware.kryonet.Server;
 import java.io.IOException;
 
 public class ChessMateServer extends Thread{
-    int TCP_PORT = 53218;//54555//53216
+    int TCP_PORT = 53216;//54555
     Server serverInstance;
 
     ChessMateServer(){}
@@ -37,30 +38,40 @@ public class ChessMateServer extends Thread{
                     System.out.println("Request Arg: " + request.getName());
                     // Process
                     Lobby lobby = new Lobby();
-                    lobby._player1_join(request.getName());
+                    lobby._player1_join(con, request.getName());
                     LobbyManager.getSessions().add(lobby);
                     // Send
-                    createSessionResponse response = new createSessionResponse();
-                    response.setLobbyCode(lobby.getLobbycode());
-                    System.out.println("Sending: " + response.getLobbyCode());
-                    con.sendTCP(response);
-                    LobbyManager.printAllCurrentSession();
+                    ObjectSender.createLobbyResponse(con, lobby);
+                }
+
+                if (o instanceof joinSessionRequest) {
+                    System.out.println("[JOIN_SESSION_REQUEST]");
+                    // Receive
+                    joinSessionRequest request = (joinSessionRequest)o;
+                    System.out.println("Name: " + request.getName());
+                    System.out.println("LobbyCode: " + request.getLobbycode());
+                    // Process
+                    Lobby lobby = LobbyManager.getSessionByLobbycode(request.getLobbycode());
+                    if(lobby!=null){
+                        lobby._player2_join(con,request.getName());
+                        // Send
+                        ObjectSender.sendLobbyDataObject(con,lobby);
+                    } else {
+                        //TODO lobby doesn't exist
+                    }
                 }
                 System.out.println(con.toString() +"\t"+ o.toString() +"\n");
             }
 
             @Override
             public void connected(Connection connection) {
-                super.connected(connection);
                 System.out.println("Connected: " +connection.toString());
             }
 
             @Override
             public void disconnected(Connection connection) {
-                super.disconnected(connection);
                 System.out.println("Disconnected: " +connection.toString());
             }
         });
     }
-
 }

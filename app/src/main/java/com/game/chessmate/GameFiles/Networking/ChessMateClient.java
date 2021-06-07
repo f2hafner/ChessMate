@@ -3,7 +3,6 @@ package com.game.chessmate.GameFiles.Networking;
 import android.util.Log;
 
 import com.esotericsoftware.kryonet.Client;
-import com.game.chessmate.GameFiles.Networking.NetObjects.NetObjectRegistrator;
 
 import java.io.IOException;
 
@@ -17,7 +16,7 @@ public class ChessMateClient extends Thread {
 
     // Local Variables
     static Client clientInstance;
-    static int TCP_PORT = 53218, TIMEOUT = 5000;
+    static int TCP_PORT = 53216, TIMEOUT = 5000;
     public static String HOST_IP = "se2-demo.aau.at";
     private Object response;
     private static ClientListener clientListener;

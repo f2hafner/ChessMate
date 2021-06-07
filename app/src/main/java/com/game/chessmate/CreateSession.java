@@ -20,6 +20,7 @@ public class CreateSession extends AppCompatActivity {
         setContentView(R.layout.activity_create_session);
         getSupportActionBar().hide();
 
+        ChessMateClient.getInstance();
 
         Button createSession=(Button) findViewById(R.id.createSessionButton);
         Button joinSession=(Button) findViewById(R.id.joinSessionButton);
@@ -32,18 +33,18 @@ public class CreateSession extends AppCompatActivity {
         namedisplay.setText("Welcome "+ name);
 
         createSession.setOnClickListener(v -> {
-            ChessMateClient chessMateClient = ChessMateClient.getInstance();
             String lobbycode = NetworkManager.createSession(name);
             if(lobbycode!=null){
-                Intent createSessionIntent = new Intent(this, Lobby.class);
-                createSessionIntent.putExtra("name",name);
-                createSessionIntent.putExtra("lobbycode",lobbycode);
-                startActivity(createSessionIntent);
+                Intent toLobbyIntent = new Intent(this, Lobby.class);
+                toLobbyIntent.putExtra("playername1",name);
+                toLobbyIntent.putExtra("lobbycode",lobbycode);
+                startActivity(toLobbyIntent);
             }
         });
 
         joinSession.setOnClickListener(v -> {
             Intent joinSessionIntent = new Intent(this, EnterCodeActivity.class);
+            joinSessionIntent.putExtra("name",name);
             startActivity(joinSessionIntent);
         });
 

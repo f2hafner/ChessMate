@@ -17,7 +17,6 @@ public class LobbyManager {
     }
 
     public static void printAllCurrentSession(){
-
         if(sessions.isEmpty()){
             System.out.println("No lobbies currently online");
         } else {
@@ -29,5 +28,11 @@ public class LobbyManager {
 
     public static ArrayList<Lobby> getSessions() {
         return sessions;
+    }
+
+    public static Lobby getSessionByLobbycode(String lobbycode){
+        for (Lobby s:sessions)
+            if(s.lobbycode.equals(lobbycode)) return s;
+        return null;
     }
 }

@@ -36,6 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/EnterCodeText">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/CodeInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="ENTER GAME CODE HERE"

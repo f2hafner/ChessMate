@@ -5,4 +5,6 @@ public enum GameStates {
     WAITING_FOR_PLAYER,
     WAITING_FOR_PLAYER1_MOVE,
     WAITING_FOR_PLAYER2_MOVE,
+
+
 }

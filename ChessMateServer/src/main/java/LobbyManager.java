@@ -2,27 +2,27 @@ import java.util.ArrayList;
 
 public class LobbyManager {
     static ArrayList<Lobby> sessions = new ArrayList();
-    static int maxSessions = 10;
+    static int MAX_SESSIONS = 10;
 
-    public static ArrayList<Lobby> getSessions() {
-        return sessions;
+    public static int getNewID(){
+        for (int id = 0; id <= MAX_SESSIONS; id++)
+            if(!IDexists(id)) return id;
+        throw new IllegalStateException("MAX_SESSIONS LIMIT REACHED");
     }
 
-    public static void printAllSession(){
+    private static boolean IDexists(int id){
+        for (Lobby s : sessions)
+            if(s.lobbyID==id) return true;
+        return false;
+    }
+
+    public static void printAllCurrentSession(){
         for (Lobby s : sessions) {
             System.out.println(s.toString());
         }
     }
 
-    public static int getNewID(){
-        for (int i = 0; i <= maxSessions; i++) {
-            for (Lobby s : sessions) {
-                if(s.lobbyID==i){
-                    break;
-                }
-            }
-        }
-        int id=0;
-        return id;
+    public static ArrayList<Lobby> getSessions() {
+        return sessions;
     }
 }

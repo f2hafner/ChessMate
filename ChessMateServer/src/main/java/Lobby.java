@@ -2,9 +2,10 @@ import java.util.Random;
 
 public class Lobby {
     long lobbyID;
-    GameStates currentLobbyState;
     String lobbycode;
     byte playercount;
+    GameStates currentLobbyState;
+
     String player1_name;
     String player2_name;
     boolean cheatFuncActive;
@@ -35,13 +36,10 @@ public class Lobby {
 
     @Override
     public String toString() {
-        return "Session{" +
-                "lobbyID=" + lobbyID +
-                ", lobbycode='" + lobbycode + '\'' +
-                ", playercount=" + playercount +
-                ", player1_name='" + player1_name + '\'' +
-                ", player2_name='" + player2_name + '\'' +
-                ", cheatFuncActive=" + cheatFuncActive +
-                '}';
+        return "["+lobbyID+"]<"+playercount+"> code="+lobbycode+"\n"
+                +"\t"+"state="+currentLobbyState+"\n"
+                +"\t"+"player1="+player1_name+"\n"
+                +"\t"+"player2="+player2_name+"\n"
+                +"\t"+"cheatFuncActive="+cheatFuncActive+"\n";
     }
 }

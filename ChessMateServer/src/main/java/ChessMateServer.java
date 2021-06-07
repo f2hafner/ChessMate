@@ -8,18 +8,8 @@ import java.io.IOException;
 
 public class ChessMateServer extends Thread{
     int TCP_PORT = 53216;//54555
-    int UDP_PORT = 54777;
-    int MAX_SESSIONS = 10;
     Server serverInstance;
 
-    ChessMateServer(int TCP_PORT, int UDP_PORT, int MAX_SESSIONS){
-        this.TCP_PORT = TCP_PORT;
-        this.UDP_PORT = UDP_PORT;
-        this.MAX_SESSIONS = MAX_SESSIONS;
-    }
-    ChessMateServer(int MAX_SESSIONS){
-        this.MAX_SESSIONS = MAX_SESSIONS;
-    }
     ChessMateServer(){}
 
     @Override
@@ -55,7 +45,7 @@ public class ChessMateServer extends Thread{
                     response.setLobbyCode(lobby.getLobbycode());
                     System.out.println("Sending: " + response.getLobbyCode());
                     con.sendTCP(response);
-                    LobbyManager.printAllSession();
+                    LobbyManager.printAllCurrentSession();
                 }
                 System.out.println(con.toString() +"\t"+ o.toString() +"\n");
             }

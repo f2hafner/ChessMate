@@ -9,12 +9,31 @@ repositories {
     mavenCentral()
 }
 
+jar {
+    manifest {
+        attributes(
+
+                'Main-Class': 'Main'
+        )
+    }
+}
+
 dependencies {
     implementation "junit:junit:4.13.2"
     testImplementation 'junit:junit:4.13.2'
-    implementation 'com.esotericsoftware:kryonet:2.22.0-RC1'
+    compile 'com.esotericsoftware:kryonet:2.22.0-RC1'
 }
 
 test {
     useJUnitPlatform()
+}
+
+task goodjar (type: Jar) {
+    manifest {
+        attributes "Main-Class": "Main"
+    }
+    archiveBaseName.set(project.name + '-good')
+    from {
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    } with jar
 }

@@ -24,8 +24,6 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) { openNewActivity();            }
         });
 
-
-
         EditText enterName = findViewById(R.id.EnterName);
         String name = enterName.getText().toString();
         TextView pleaseEnterName = findViewById(R.id.pleaseEnterYourName);

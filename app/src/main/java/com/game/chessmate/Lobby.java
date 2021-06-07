@@ -21,11 +21,13 @@ public class Lobby extends AppCompatActivity {
 
 
         TextView player1 = findViewById(R.id.player1Name);
-        String name = getIntent().getExtras().getString("name");
+        String name = getIntent().getExtras().getString("playername1");
+        String name2 = getIntent().getExtras().getString("playername2");
         String lobbycode =getIntent().getExtras().getString("lobbycode");
         player1.setText(name);
         codeOutput.setText(lobbycode);
-        //TextView player2 = findViewById(R.id.player2Name);
+        TextView player2 = findViewById(R.id.player2Name);
+        player2.setText(name2);
         //player2.setVisibility(View.INVISIBLE);
 
         Button enterGameLobbyButton  = findViewById(R.id.enterGameLobbyButton);

@@ -3,6 +3,7 @@ package com.game.chessmate.GameFiles.Networking;
 import android.content.Intent;
 import android.util.Log;
 
+import com.game.chessmate.GameFiles.Networking.NetObjects.LobbyDataObject;
 import com.game.chessmate.Lobby;
 
 import java.util.concurrent.ExecutionException;
@@ -26,29 +27,28 @@ public class NetworkManager {
             return lobbycode;
         } catch (InterruptedException | ExecutionException e){
             Log.e("NETWORK","Couldnt get Value from Future");
-            Thread.currentThread().interrupt();
+            //Thread.currentThread().interrupt();
         }
         return null;
     }
 
-    public static void leaveSession() {
-        NetworkTasks.leaveSession();
-    }
-
-    public static String joinSession(String lobbycode) {
-        Future<String> future = service.submit(new NetworkTasks.joinSession(lobbycode));
+    public static LobbyDataObject joinSession(String lobbycode, String name) {
+        Future<LobbyDataObject> future = service.submit(new NetworkTasks.JoinSession(lobbycode, name));
         try{
-            String name = future.get();
-            Log.i("NETWORK","LobbyCode: "+lobbycode);
+            LobbyDataObject lobbyDataObject = future.get();
+            Log.i("NETWORK","LobbyCode: "+lobbyDataObject);
 
-            return lobbycode;
+            return lobbyDataObject;
         } catch (InterruptedException | ExecutionException e){
             Log.e("NETWORK","Couldnt get Value from Future");
-            Thread.currentThread().interrupt();
+            //Thread.currentThread().interrupt();
         }
         return null;
     }
 
-    public static void startGame() {
+    /*public static void leaveSession() {
+        NetworkTasks.leaveSession();
     }
+    public static void startGame() {
+    }*/
 }

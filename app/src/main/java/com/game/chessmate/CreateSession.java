@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.chessmate.GameFiles.Networking.ChessMateClient;
 import com.game.chessmate.GameFiles.Networking.NetworkManager;
 
 public class CreateSession extends AppCompatActivity {
@@ -31,6 +32,7 @@ public class CreateSession extends AppCompatActivity {
         namedisplay.setText("Welcome "+ name);
 
         createSession.setOnClickListener(v -> {
+            ChessMateClient chessMateClient = ChessMateClient.getInstance();
             String lobbycode = NetworkManager.createSession(name);
             if(lobbycode!=null){
                 Intent createSessionIntent = new Intent(this, Lobby.class);

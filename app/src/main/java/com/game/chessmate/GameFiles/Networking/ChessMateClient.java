@@ -8,7 +8,7 @@ import com.game.chessmate.GameFiles.Networking.NetObjects.NetObjectRegistrator;
 import java.io.IOException;
 
 /** The ChessMateClient class implements a Client that allows players to connect to a Server. */
-public class ChessMateClient{
+public class ChessMateClient extends Thread {
     // Thread-Save Singleton
     private static final class InstanceHolder {
         static final ChessMateClient INSTANCE = new ChessMateClient();
@@ -17,30 +17,31 @@ public class ChessMateClient{
 
     // Local Variables
     static Client clientInstance;
-    static int TCP_PORT = 54555, UDP_PORT = 54777, TIMEOUT = 5000;
-    public static String HOST_IP = "192.168.0.188";
+    static int TCP_PORT = 53216, TIMEOUT = 5000;
+    public static String HOST_IP = "se2-demo.aau.at";
     private Object response;
+    private static ClientListener clientListener;
 
-    // Constructors
     ChessMateClient(){
-        init();
+        this.start();
     }
 
-    // Class Methods
-    /** starts the Client */
-    public static void init(){
+    @Override
+    public void run() {
         try {
             clientInstance = new Client();
             NetObjectRegistrator.register(clientInstance.getKryo());
-            clientInstance.start();
-            clientInstance.connect(TIMEOUT,HOST_IP,TCP_PORT,UDP_PORT);
+            new Thread(clientInstance).start();
+            //clientInstance.start();
+            clientInstance.connect(TIMEOUT,HOST_IP,TCP_PORT);
+            clientListener = new ClientListener();
+            clientInstance.addListener(clientListener);
             Log.i("NETWORK", "Client started!");
             //clientInstance.addListener(new ChessMateClient());
         } catch (IOException e) {
             Log.e("NETWORK", "[C]>Error no server found!");
         }
     }
-
     /*public void createSession(Object o){
         if(o instanceof createSessionRequest){
             createSessionRequest req = (createSessionRequest) o;
@@ -79,14 +80,6 @@ public class ChessMateClient{
 
     public void setTCP_PORT(int port){
         TCP_PORT = port;
-    }
-
-    public int getUDP_PORT(){
-        return UDP_PORT;
-    }
-
-    public void setUDP_PORT(int port){
-        UDP_PORT = port;
     }
 
     public Client getClient(){ return clientInstance; }

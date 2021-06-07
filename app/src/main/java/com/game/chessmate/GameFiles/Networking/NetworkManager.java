@@ -26,16 +26,16 @@ public class NetworkManager {
             return lobbycode;
         } catch (InterruptedException | ExecutionException e){
             Log.e("NETWORK","Couldnt get Value from Future");
-            Thread.currentThread().interrupt();
+            //Thread.currentThread().interrupt();
         }
         return null;
     }
 
-    public static void leaveSession() {
+    /*public static void leaveSession() {
         NetworkTasks.leaveSession();
-    }
+    }*/
 
-    public static String joinSession(String lobbycode) {
+    /*public static String joinSession(String lobbycode) {
         Future<String> future = service.submit(new NetworkTasks.joinSession(lobbycode));
         try{
             String name = future.get();
@@ -44,11 +44,11 @@ public class NetworkManager {
             return lobbycode;
         } catch (InterruptedException | ExecutionException e){
             Log.e("NETWORK","Couldnt get Value from Future");
-            Thread.currentThread().interrupt();
+            //Thread.currentThread().interrupt();
         }
         return null;
     }
 
     public static void startGame() {
-    }
+    }*/
 }

@@ -7,7 +7,7 @@ import com.esotericsoftware.kryonet.Server;
 import java.io.IOException;
 
 public class ChessMateServer extends Thread{
-    int TCP_PORT = 54555;
+    int TCP_PORT = 53216;//54555
     int UDP_PORT = 54777;
     int MAX_SESSIONS = 10;
     Server serverInstance;
@@ -32,13 +32,14 @@ public class ChessMateServer extends Thread{
         NetObjectRegistrator.register(serverInstance.getKryo());
 
         try {
-            serverInstance.bind(TCP_PORT, UDP_PORT);
-            serverInstance.start();
+            serverInstance.bind(TCP_PORT);
+            new Thread(serverInstance).start();
         } catch (IOException e) {
             System.err.println("[S]>Error starting server!");
         }
 
         serverInstance.addListener(new Listener() {
+            @Override
             public void received (Connection con, Object o) {
                 if (o instanceof createSessionRequest) {
                     System.out.println("[CREATE_SESSION_REQUEST]");
@@ -56,6 +57,19 @@ public class ChessMateServer extends Thread{
                     con.sendTCP(response);
                     LobbyManager.printAllSession();
                 }
+                System.out.println(con.toString() +"\t"+ o.toString() +"\n");
+            }
+
+            @Override
+            public void connected(Connection connection) {
+                super.connected(connection);
+                System.out.println("Connected: " +connection.toString());
+            }
+
+            @Override
+            public void disconnected(Connection connection) {
+                super.disconnected(connection);
+                System.out.println("Disconnected: " +connection.toString());
             }
         });
     }

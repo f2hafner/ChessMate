@@ -7,12 +7,13 @@ import com.esotericsoftware.kryonet.Listener;
 import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionRequest;
 import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionResponse;
 import com.game.chessmate.GameFiles.Networking.NetObjects.joinSessionRequest;
+import com.game.chessmate.GameFiles.Networking.NetObjects.joinSessionResponse;
 import com.game.chessmate.GameFiles.Networking.NetObjects.leaveLobbyRequest;
 
 import java.util.concurrent.Callable;
 
 public class NetworkTasks {
-    public static class CreateSession implements Callable<String> {
+    public static class CreateSession implements Callable<String>{
         private final String name;
         public CreateSession(String name) {
             this.name = name;
@@ -33,6 +34,7 @@ public class NetworkTasks {
                         Log.i("NETWORK", "[T:" + Thread.currentThread().getName() + "] " + "[C]>SessionResponse: " + req.getLobbyCode());
                         lobbycode[0] = req.getLobbyCode();
                     }
+                    Log.i("NETWORK",connection.toString() +"\t"+ object.toString() +"\n");
                 }
             });
             while(lobbycode[0]==null){}
@@ -40,7 +42,7 @@ public class NetworkTasks {
         }
     }
 
-    public static class joinSession implements Callable<String> {
+    /*public static class joinSession implements Callable<String> {
         private final String lobbycode;
         public joinSession(String lobbycode) {
             this.lobbycode = lobbycode;
@@ -56,7 +58,7 @@ public class NetworkTasks {
             final String[] lobbycode = new String[1];
             ChessMateClient.getInstance().getClient().addListener(new Listener() {
                 public void received(Connection connection, Object object) {
-                    if (object instanceof createSessionResponse) {
+                    if (object instanceof joinSessionResponse) {
                         createSessionResponse req = (createSessionResponse) object;
                         Log.i("NETWORK", "[T:" + Thread.currentThread().getName() + "] " + "[C]>SessionResponse: " + req.getLobbyCode());
                         lobbycode[0] = req.getLobbyCode();
@@ -73,4 +75,9 @@ public class NetworkTasks {
         leaveLobbyRequest req = new leaveLobbyRequest();
         ChessMateClient.getInstance().getClient().sendTCP(req);
     }
+
+                String lobbycode = null;
+            while(lobbycode==null){ClientListener.getLobbycode();}
+            return lobbycode;
+    */
 }

@@ -1,3 +1,5 @@
+import NetObjects.ObjectSender;
+
 import java.util.Random;
 
 public class Lobby {
@@ -9,15 +11,19 @@ public class Lobby {
     String player1_name;
     String player2_name;
     boolean cheatFuncActive;
+    boolean clearLobby;
     //TODO moveList
 
-    Lobby(long lobbyID){
-        this.lobbyID = lobbyID;
-        this.lobbycode = generateLobbyKey();
-        //TODO generate add Playercount
+    Lobby(){
+        currentLobbyState = GameStates.INITIALIZING;
+        this.lobbyID = LobbyManager.getNewFreeID();
+        this.lobbycode = generateLobbyCode();
+        ObjectSender.createLobbyResponse();
+        playercount = 0;
+        clearLobby=false;
     }
 
-    public String generateLobbyKey(){
+    public String generateLobbyCode(){
         Random ran = new Random(System.currentTimeMillis());
         return Integer.toString(ran.nextInt(99999)+100000);
     }
@@ -29,7 +35,42 @@ public class Lobby {
     public void setPlayer2_name(String player2_name) {
         this.player2_name = player2_name;
     }
+    // Player 1
+    public void _player1_join(String name){
+        if(player1_name==null){
+            this.player1_name = name;
+            playercount++;
+        }
+    }
 
+    public void _player1_leave(){
+        if(player1_name!=null){
+            this.player1_name = null;
+            playercount--;
+            removeLobbyIfEmpty();
+        }
+    }
+    // Player 2
+    public void _player2_join(String name){
+        if(player2_name==null){
+            this.player2_name = name;
+            playercount++;
+        }
+    }
+
+    public void _player2_leave(){
+        if(player1_name!=null){
+            this.player1_name = null;
+            playercount--;
+            removeLobbyIfEmpty();
+        }
+    }
+
+    private void removeLobbyIfEmpty(){
+        if(playercount==0){
+            this.clearLobby = true;
+        }
+    }
     public String getLobbycode() {
         return lobbycode;
     }

@@ -4,7 +4,7 @@ public class LobbyManager {
     static ArrayList<Lobby> sessions = new ArrayList();
     static int MAX_SESSIONS = 10;
 
-    public static int getNewID(){
+    public static int getNewFreeID(){
         for (int id = 0; id <= MAX_SESSIONS; id++)
             if(!IDexists(id)) return id;
         throw new IllegalStateException("MAX_SESSIONS LIMIT REACHED");
@@ -17,8 +17,13 @@ public class LobbyManager {
     }
 
     public static void printAllCurrentSession(){
-        for (Lobby s : sessions) {
-            System.out.println(s.toString());
+
+        if(sessions.isEmpty()){
+            System.out.println("No lobbies currently online");
+        } else {
+            System.out.println("Online lobbies: "+sessions.size()+"/"+MAX_SESSIONS);
+            for (Lobby s : sessions)
+                System.out.println(s.toString());
         }
     }
 

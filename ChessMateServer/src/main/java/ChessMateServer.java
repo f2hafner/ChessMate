@@ -7,7 +7,7 @@ import com.esotericsoftware.kryonet.Server;
 import java.io.IOException;
 
 public class ChessMateServer extends Thread{
-    int TCP_PORT = 53216;//54555
+    int TCP_PORT = 53218;//54555//53216
     Server serverInstance;
 
     ChessMateServer(){}
@@ -20,7 +20,6 @@ public class ChessMateServer extends Thread{
     public void start(){
         serverInstance = new Server();
         NetObjectRegistrator.register(serverInstance.getKryo());
-
         try {
             serverInstance.bind(TCP_PORT);
             new Thread(serverInstance).start();
@@ -37,8 +36,8 @@ public class ChessMateServer extends Thread{
                     createSessionRequest request = (createSessionRequest)o;
                     System.out.println("Request Arg: " + request.getName());
                     // Process
-                    Lobby lobby = new Lobby(LobbyManager.getNewID());
-                    lobby.setPlayer1_name(request.getName());
+                    Lobby lobby = new Lobby();
+                    lobby._player1_join(request.getName());
                     LobbyManager.getSessions().add(lobby);
                     // Send
                     createSessionResponse response = new createSessionResponse();

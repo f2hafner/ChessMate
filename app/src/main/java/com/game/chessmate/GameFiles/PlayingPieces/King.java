@@ -45,7 +45,7 @@ public class King extends ChessPiece {
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
         ArrayList<Field> legalFields = new ArrayList<>();
 
-        if(isChecked(currentFields,this.currentPosition,null)){
+      /*  if(isChecked(currentFields,this.currentPosition,null)){
             if(isInCheckMate(currentFields)){
                 legalFields=possibleMovesinCheck;
             }
@@ -54,7 +54,7 @@ public class King extends ChessPiece {
             }
         }
 
-        else {
+        else {*/
             for (int i = currentPosition.getFieldX() - 1; i <= currentPosition.getFieldX() + 1; i++) {
                 for (int j = currentPosition.getFieldY() - 1; j <= currentPosition.getFieldY() + 1; j++) {
                     if (i >= 0 && i <= 7 && j >= 0 && j <= 7) {
@@ -68,7 +68,7 @@ public class King extends ChessPiece {
                     }
                 }
             }
-        }
+        /*}*/
         return legalFields;
     }
 

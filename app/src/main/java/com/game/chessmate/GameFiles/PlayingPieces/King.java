@@ -16,6 +16,10 @@ import java.util.ArrayList;
  */
 public class King extends ChessPiece {
 
+    private ChessPiece checksKing=null;
+    private ArrayList<Field>possibleMovesinCheck;
+    private boolean gameOver=false;
+
 
     /**
      * Instantiates a new King.
@@ -42,14 +46,25 @@ public class King extends ChessPiece {
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
         ArrayList<Field> legalFields = new ArrayList<>();
 
-        for (int i = currentPosition.getFieldX() - 1; i <= currentPosition.getFieldX() + 1; i++) {
-            for (int j = currentPosition.getFieldY() - 1; j <= currentPosition.getFieldY() + 1; j++) {
-                if (i >= 0 && i <= 7 && j >= 0 && j <= 7) {
-                    if (!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())) {
-                        if (currentFields[i][j].getCurrentPiece() == null) {
-                            legalFields.add(currentFields[i][j]);
-                        } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour) {
-                            legalFields.add(currentFields[i][j]);
+        if(isChecked(currentFields,this.currentPosition,null)){
+            if(isInCheckMate(currentFields)){
+                legalFields=possibleMovesinCheck;
+            }
+            else{
+                gameOver=true;
+            }
+        }
+
+        else {
+            for (int i = currentPosition.getFieldX() - 1; i <= currentPosition.getFieldX() + 1; i++) {
+                for (int j = currentPosition.getFieldY() - 1; j <= currentPosition.getFieldY() + 1; j++) {
+                    if (i >= 0 && i <= 7 && j >= 0 && j <= 7) {
+                        if (!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())) {
+                            if (currentFields[i][j].getCurrentPiece() == null) {
+                                legalFields.add(currentFields[i][j]);
+                            } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour) {
+                                legalFields.add(currentFields[i][j]);
+                            }
                         }
                     }
                 }
@@ -58,5 +73,72 @@ public class King extends ChessPiece {
         return legalFields;
     }
 
+    public boolean isChecked(Field [][] fields, Field kingPosition, ChessPiece possibleCapture){
+        ChessPieceColour oponentColour;
+        ArrayList<Field>legalFields;
+
+        if(this.getColour()==ChessPieceColour.BLACK){
+            oponentColour=ChessPieceColour.WHITE;
+        }
+        else{
+            oponentColour=ChessPieceColour.BLACK;
+        }
+
+        for (int i=0;i<fields.length;i++){
+            for (int j=0;j<fields.length;j++){
+                if (fields[i][j].getCurrentPiece()!=null&&fields[i][j].getCurrentPiece().getColour()==oponentColour&&fields[i][j].getCurrentPiece()!=possibleCapture){
+                    legalFields=fields[i][j].getCurrentPiece().getLegalFields();
+                    for (Field field :legalFields){
+                        if (field.equals(kingPosition)){
+                            checksKing=fields[i][j].getCurrentPiece();
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isInCheckMate(Field[][]fields){
+        ArrayList<Field>legalFields;
+        ChessPiece temp=checksKing;
+
+        for (int i=0;i<fields.length;i++) {
+            for (int j = 0; j < fields.length; j++) {
+                if (fields[i][j].getCurrentPiece() != null && fields[i][j].getCurrentPiece().getColour() == this.getColour()) {
+                    legalFields = fields[i][j].getCurrentPiece().getLegalFields();
+                    for (Field field : legalFields) {
+                        if (field.equals(checksKing.getPosition())) {
+                            if (!isChecked(fields, this.currentPosition, checksKing)) {
+                                checksKing.capture();
+                                checksKing = null;
+                                return false;
+                            }
+                            checksKing=temp;
+                        }
+                    }
+                }
+            }
+        }
+
+        legalFields=this.getLegalFields();
+
+        for (Field field :legalFields){
+            if (!isChecked(fields,field,null)) {
+                possibleMovesinCheck.add(field);
+                return false;
+            }
+        }
+
+        if (!possibleMovesinCheck.isEmpty()){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public boolean isGameOver(){return this.gameOver;}
 }
 

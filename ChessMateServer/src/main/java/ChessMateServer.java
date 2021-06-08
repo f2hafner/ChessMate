@@ -1,6 +1,7 @@
 import NetObjects.createSessionRequest;
 import NetObjects.createSessionResponse;
 import NetObjects.joinSessionRequest;
+import NetObjects.startGameRequest;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -56,6 +57,22 @@ public class ChessMateServer extends Thread{
                         lobby._player2_join(con,request.getName());
                         // Send
                         ObjectSender.sendLobbyDataObject(con,lobby);
+                        ObjectSender.sendLobbyDataObject(lobby.player1.connection,lobby);
+                    } else {
+                        //TODO lobby doesn't exist
+                    }
+                }
+
+                if (o instanceof startGameRequest) {
+                    System.out.println("[START_GAME_REQUEST]");
+                    // Receive
+                    startGameRequest request = (startGameRequest)o;
+                    // Process
+                    Lobby lobby = LobbyManager.getSessionByLobbycode(request.getLobbycode());
+                    if(lobby!=null){
+                        // Send
+                        ObjectSender.sendStartGameParameters(con,lobby.player1);
+                        ObjectSender.sendStartGameParameters(lobby.player2.connection,lobby.player2);
                     } else {
                         //TODO lobby doesn't exist
                     }

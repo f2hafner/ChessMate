@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.game.chessmate.GameFiles.Networking.NetObjects.LobbyDataObject;
+import com.game.chessmate.GameFiles.Networking.NetObjects.startGameParameters;
 import com.game.chessmate.Lobby;
 
 import java.util.concurrent.ExecutionException;
@@ -39,6 +40,20 @@ public class NetworkManager {
             Log.i("NETWORK","LobbyCode: "+lobbyDataObject);
 
             return lobbyDataObject;
+        } catch (InterruptedException | ExecutionException e){
+            Log.e("NETWORK","Couldnt get Value from Future");
+            //Thread.currentThread().interrupt();
+        }
+        return null;
+    }
+
+    public static startGameParameters startGame(String lobbycode) {
+        Future<startGameParameters> future = service.submit(new NetworkTasks.startGame(lobbycode));
+        try{
+            startGameParameters parameters = future.get();
+            Log.i("NETWORK","LobbyCode: "+parameters);
+
+            return parameters;
         } catch (InterruptedException | ExecutionException e){
             Log.e("NETWORK","Couldnt get Value from Future");
             //Thread.currentThread().interrupt();

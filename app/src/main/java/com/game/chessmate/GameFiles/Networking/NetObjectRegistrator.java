@@ -1,12 +1,16 @@
 package com.game.chessmate.GameFiles.Networking;
 
 import com.esotericsoftware.kryo.Kryo;
+import com.game.chessmate.GameFiles.Networking.NetObjects.FieldDataObject;
+import com.game.chessmate.GameFiles.Networking.NetObjects.GameDataObject;
 import com.game.chessmate.GameFiles.Networking.NetObjects.GameStates;
 import com.game.chessmate.GameFiles.Networking.NetObjects.LobbyDataObject;
 import com.game.chessmate.GameFiles.Networking.NetObjects.PlayerDataObject;
 import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionRequest;
 import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionResponse;
 import com.game.chessmate.GameFiles.Networking.NetObjects.joinSessionRequest;
+import com.game.chessmate.GameFiles.Networking.NetObjects.startGameRequest;
+import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
 
 /**
  * registers the Request and Response Classes to kryonet
@@ -19,5 +23,9 @@ public class NetObjectRegistrator {
         k.register(GameStates.class);
         k.register(LobbyDataObject.class);
         k.register(PlayerDataObject.class);
+        k.register(ChessPieceColour.class);
+        k.register(FieldDataObject.class);
+        k.register(GameDataObject.class);
+        k.register(startGameRequest.class);
     }
 }

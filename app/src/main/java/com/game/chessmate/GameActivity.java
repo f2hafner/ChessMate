@@ -1,6 +1,7 @@
 package com.game.chessmate;
 
 import android.app.Service;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -126,21 +127,47 @@ public class GameActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.back);
 
 
-        //close card
-        button.setOnClickListener(new View.OnClickListener() {
+        //Select Card
+        exactView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 exactView.setVisibility(View.GONE);
                 switch (id) {
                     case 1:
                         card1.setVisibility(View.VISIBLE);
+                        card1.setBackgroundColor(Color.RED);
                         break;
                     case 2:
                         card2.setVisibility(View.VISIBLE);
+                        card2.setBackgroundColor(Color.RED);
                         break;
                     case 3:
                         card3.setVisibility(View.VISIBLE);
+                        card3.setBackgroundColor(Color.RED);
+                        break;
+                }
+
+            }
+        });
+
+        //close card
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exactView.setVisibility(View.GONE);
+                button.setVisibility(View.INVISIBLE);
+                switch (id) {
+                    case 1:
+                        card1.setVisibility(View.VISIBLE);
+                        card1.setBackgroundColor(Color.WHITE);
+                        break;
+                    case 2:
+                        card2.setVisibility(View.VISIBLE);
+                        card2.setBackgroundColor(Color.WHITE);
+                        break;
+                    case 3:
+                        card3.setVisibility(View.VISIBLE);
+                        card3.setBackgroundColor(Color.WHITE);
                         break;
                 }
                 id = 0;

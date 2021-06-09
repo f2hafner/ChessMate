@@ -129,11 +129,11 @@ abstract public class ChessPiece extends View {
      * @param targetField the target field
      */
     public void move(Field targetField) {
-        if (targetField.hasPiece()) {
+        /*if (targetField.hasPiece()) {
             if (targetField.getCurrentPiece().getColour() != this.colour) {
                 targetField.getCurrentPiece().capture();
             }
-        }
+        }*/
         this.targetPosition = targetField;
         this.updateMovementOffset = true;
         this.setUpdateView(true);

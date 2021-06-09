@@ -161,9 +161,10 @@ public class ChessBoard {
                     Field clickedField = boardFields[i][j];
 
                     if(clickedField.getCurrentPiece() != null){
-                        //TODO - differentiate between piece of opponent and mine - only set to null if it is my color (user selected different piece to move)
-                        player1.setLastSelectedField(null);
-                        resetLegalMoves();
+                        if(clickedField.getCurrentPiece().getColour() == player1.getColor()){
+                            player1.setLastSelectedField(null);
+                            resetLegalMoves();
+                        }
                     }
                     if(player1.getLastSelectedField() == null){ //this is the first click on a field
                         if (clickedField.getCurrentPiece() != null) {
@@ -192,6 +193,14 @@ public class ChessBoard {
                             // postition for CheatFunction
                             endPossition = clickedField;
                             // Log.d("position2", clickedField.toString());
+
+
+                            if(clickedField.getCurrentPiece() != null){
+                                if(clickedField.getCurrentPiece().getColour() != player1.getColor()){
+                                    clickedField.getCurrentPiece().capture();
+                                    Log.d("debug", "CAPTURE");
+                                }
+                            }
                             player1.getLastSelectedField().getCurrentPiece().move(clickedField);
                             player1.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
                             player1.setLastSelectedField(null);
@@ -250,6 +259,7 @@ public class ChessBoard {
     private void resetLegalMoves() {
         for(Field f : player1.getLegalMovesSelected()) {
             f.setRectangleDefaultColor();
+            f.setAsIllegal();
             f.setUpdate(true);
         }
     }

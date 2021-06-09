@@ -1,6 +1,7 @@
 package com.game.chessmate;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -54,6 +55,9 @@ public class Lobby extends AppCompatActivity {
 
                 if(object instanceof startGameParameters){
                     runOnUiThread(() -> {
+                        ChessPieceColour color = ((startGameParameters) object).getInitColour();
+                        NetworkManager.setInitialColor(color);
+                        Log.i("COLOR","COLORlobby: "+((startGameParameters) object).getInitColour());
                         Intent toGameIntentPlayer2 = new Intent(Lobby.this, GameActivity.class);
                         startActivity(toGameIntentPlayer2);
                     });
@@ -63,10 +67,12 @@ public class Lobby extends AppCompatActivity {
 
         enterGameLobbyButton.setOnClickListener(v -> {
             runOnUiThread(() -> {
-
+                ChessMateClient.getInstance().getClient().removeListener(lobbyUpdateListener);
+                NetworkManager.startGame(lobbycode);
+                Intent toGameIntentPlayer2 = new Intent(Lobby.this, GameActivity.class);
+                startActivity(toGameIntentPlayer2);
             });
-            ChessMateClient.getInstance().getClient().removeListener(lobbyUpdateListener);
-            NetworkManager.startGame(lobbycode);
+
         });
 
         ChessMateClient.getInstance().getClient().addListener(lobbyUpdateListener);

@@ -142,9 +142,20 @@ public class Field extends View {
 
     public  void setPlayingPieceShield(){color.setColor(Color.BLUE);}
 
-    public void setBlocked(){
-        this.blocked=true;
-        color.setColor(Color.RED);}
+    public void setBlocked() {
+        this.blocked = true;
+        color.setColor(Color.RED);
+    }
 
     public boolean isBlocked(){return this.blocked;}
+
+    public void markChampion(){
+        color.setColor(Color.YELLOW);
+    }
+
+    public boolean isEven (){
+        if ((this.x+this.y)%2==0)
+            return true;
+        return false;
+    }
 }

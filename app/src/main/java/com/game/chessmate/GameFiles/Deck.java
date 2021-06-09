@@ -6,7 +6,7 @@ import java.util.Random;
 public class Deck {
     private  Card[] deck;
     private Card[] used;
-    private int size=6;//10;//25
+    private int size=10;//25
     private int initialCardNumber=3;
     private int currentCard=0;
     public Card[]cardsPlayer1;
@@ -25,7 +25,7 @@ public class Deck {
         shuffle();
 
         cardsPlayer1=getInitialCards();
-        cardsPlayer2=getInitialCards();
+      //  cardsPlayer2=getInitialCards();
     }
 
     public Card[] getInitialCards(){
@@ -38,6 +38,12 @@ public class Deck {
             currentCard++;
             j++;
         }
+
+        for (int i=0;i<size;i++) {
+            if (deck[i].getId()==9)
+            temp[0]=deck[i];
+        }
+
 
         return temp;
     }

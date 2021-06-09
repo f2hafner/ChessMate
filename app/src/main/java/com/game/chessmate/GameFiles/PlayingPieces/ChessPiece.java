@@ -52,6 +52,8 @@ abstract public class ChessPiece extends View {
     private boolean isCaptured = false;
     private ChessBoard board;
     protected boolean opponentEncountered = false;
+    private boolean isChampion=false;
+    private boolean lostCastle=false;
 
     /**
      * Instantiates a new Chess piece.
@@ -130,14 +132,25 @@ abstract public class ChessPiece extends View {
      * @param targetField the target field
      */
     public void move(Field targetField) {
-        if (targetField.hasPiece()) {
+
+        if (this.isChampion){
+            this.getPosition().setRectangleDefaultColor();
+            this.getPosition().invalidate();
+        }
+
+        if (targetField.hasPiece()&&lostCastle==false) {
             if (targetField.getCurrentPiece().getColour() != this.colour) {
                 targetField.getCurrentPiece().capture();
             }
         }
+        else
+            this.setLostCastle(false);
+
         this.targetPosition = targetField;
         this.updateMovementOffset = true;
         this.setUpdateView(true);
+
+
     }
 
     /**
@@ -167,6 +180,11 @@ abstract public class ChessPiece extends View {
         currentPosition.setCurrentPiece(null);
         this.currentPosition = targetPosition;
         targetPosition.setCurrentPiece(this);
+
+        if (this.isChampion()){
+            targetPosition.markChampion();
+            targetPosition.invalidate();
+        }
 
         this.setUpdateView(true);
     }
@@ -243,8 +261,105 @@ abstract public class ChessPiece extends View {
         return result;
     }
 
+    //get LegalFields for Rebirth card
+    public ArrayList<Field> getRebirthFields(Field [][] currentFields){
+        ArrayList<Field> legalMoves=new ArrayList<>();
+
+        switch (this.getPlayingPieceType()){
+            case BISHOP:
+                if (currentFields[0][2].getCurrentPiece()==null||currentFields[0][2].getCurrentPiece().getColour()!=this.colour)
+                    legalMoves.add(currentFields[0][2]);
+                if (currentFields[0][5].getCurrentPiece()==null||currentFields[0][5].getCurrentPiece().getColour()!=this.colour)
+                    legalMoves.add(currentFields[0][5]);
+                break;
+            case KING:
+                if (currentFields[0][3].getCurrentPiece()==null||currentFields[0][3].getCurrentPiece().getColour()!=this.colour)
+                    legalMoves.add(currentFields[0][3]);
+                break;
+            case KNIGHT:
+                if(currentFields[0][1].getCurrentPiece()==null||currentFields[0][1].getCurrentPiece().getColour()!=this.colour)
+                    legalMoves.add(currentFields[0][1]);
+                if(currentFields[0][6].getCurrentPiece()==null||currentFields[0][6].getCurrentPiece().getColour()!=this.colour)
+                    legalMoves.add(currentFields[0][6]);
+                break;
+            case PAWN:
+
+                if(currentFields[1][0].getCurrentPiece()==null||currentFields[1][0].getCurrentPiece().getColour()!=this.colour)
+                    legalMoves.add(currentFields[1][0]);
+                if(currentFields[1][1].getCurrentPiece()==null||currentFields[1][1].getCurrentPiece().getColour()!=this.colour)
+                    legalMoves.add(currentFields[1][1]);
+                if(currentFields[1][2].getCurrentPiece()==null||currentFields[1][2].getCurrentPiece().getColour()!=this.colour)
+                    legalMoves.add(currentFields[1][2]);
+                if(currentFields[1][3].getCurrentPiece()==null||currentFields[1][3].getCurrentPiece().getColour()!=this.colour)
+                    legalMoves.add(currentFields[1][3]);
+                if(currentFields[1][4].getCurrentPiece()==null||currentFields[1][4].getCurrentPiece().getColour()!=this.colour)
+                    legalMoves.add(currentFields[1][4]);
+                if(currentFields[1][5].getCurrentPiece()==null||currentFields[1][5].getCurrentPiece().getColour()!=this.colour)
+                    legalMoves.add(currentFields[1][5]);
+                if(currentFields[1][6].getCurrentPiece()==null||currentFields[1][6].getCurrentPiece().getColour()!=this.colour)
+                    legalMoves.add(currentFields[1][6]);
+                if(currentFields[1][7].getCurrentPiece()==null||currentFields[1][7].getCurrentPiece().getColour()!=this.colour)
+                    legalMoves.add(currentFields[1][7]);
+                break;
+            case QUEEN:
+                if(currentFields[0][4].getCurrentPiece()==null||currentFields[0][4].getCurrentPiece().getColour()!=this.colour)
+                    legalMoves.add(currentFields[0][4]);
+                break;
+            case ROOK:
+                if (currentFields[0][0].getCurrentPiece()==null||currentFields[0][0].getCurrentPiece().getColour()!=this.colour)
+                    legalMoves.add(currentFields[0][0]);
+                if(currentFields[0][7].getCurrentPiece()==null||currentFields[0][7].getCurrentPiece().getColour()!=this.colour)
+                    legalMoves.add(currentFields[0][7]);
+                break;
+        }
+
+        return legalMoves;
+    }
 
 
+    public ArrayList<Field> getReplacePossibilities(Field [][] currentFields){
+        ArrayList<Field> legalFields=new ArrayList<>();
+
+        if(this.getPlayingPieceType()==ChessPieceType.KNIGHT) {
+            for (int i = 0; i < currentFields.length; i++) {
+                for (int j = 0; j < currentFields[i].length; j++) {
+                    if (currentFields[i][j].getCurrentPiece() != null && currentFields[i][j].getCurrentPiece().getPlayingPieceType() == ChessPieceType.BISHOP && currentFields[i][j].getCurrentPiece().getColour() == this.getColour()) {
+                        legalFields.add(currentFields[i][j]);
+                    }
+                }
+            }
+        }
+        else{
+            for (int i = 0; i < currentFields.length; i++) {
+                for (int j = 0; j < currentFields[i].length; j++) {
+                    if (currentFields[i][j].getCurrentPiece() != null && currentFields[i][j].getCurrentPiece().getPlayingPieceType() == ChessPieceType.ROOK && currentFields[i][j].getCurrentPiece().getColour() != this.getColour()) {
+                        legalFields.add(currentFields[i][j]);
+                    }
+                }
+            }
+        }
+
+        return legalFields;
+    }
+
+    public ArrayList<Field> getLongJumpPossibilities(Field field,Field[][] currentFields){
+        ArrayList<Field> legalFields=new ArrayList<>();
+        boolean oppositeColour=true;
+
+        if (field.isEven()){
+            oppositeColour=false;
+        }
+
+        for (int i=0;i<currentFields.length;i++){
+            for (int j=0;j<currentFields[i].length;j++){
+                if (currentFields[i][j].getCurrentPiece()==null&&currentFields[i][j].isEven()==oppositeColour){
+                    legalFields.add(currentFields[i][j]);
+                }
+            }
+        }
+
+        return legalFields;
+    }
 
 
 
@@ -352,5 +467,12 @@ abstract public class ChessPiece extends View {
         this.colour=colour;
     }
 
+    public void setChampion(){
+        if (this.getPlayingPieceType()==ChessPieceType.KNIGHT)
+            isChampion=true;
+    }
 
+    public boolean isChampion(){return this.isChampion;}
+
+    public void setLostCastle(boolean lostCastle){this.lostCastle=lostCastle;}
 }

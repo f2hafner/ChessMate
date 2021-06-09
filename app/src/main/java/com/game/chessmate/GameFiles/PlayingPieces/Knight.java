@@ -27,6 +27,11 @@ public class Knight extends ChessPiece {
         return ChessPieceType.KNIGHT;
     }
 
+
+    /**
+     * Method determines all legal fields, that type of chess piece is allowed to move to and returns them as an ArrayList.
+     * @return ArrayList of fields that are legal for the chess Piece to move to.
+     */
     public ArrayList<Field> getLegalFields() {
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
         ArrayList<Field> legalFields = new ArrayList<>();

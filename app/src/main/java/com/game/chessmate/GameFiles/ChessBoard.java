@@ -19,8 +19,6 @@ import com.game.chessmate.GameFiles.PlayingPieces.Rook;
 
 import java.util.ArrayList;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * The ChessBoard class handles creation and maintenance of the ChessBoard
  */
@@ -55,11 +53,13 @@ public class ChessBoard {
     private final int boardSize = 8;
     private Player localPlayer;
     private Player enemyPlayer;
+    private boolean isInverted;
 
     private ChessBoard() {
         this.boardFields = new Field[8][8];
         localPlayer = new Player(ChessPieceColour.WHITE);
         enemyPlayer = new Player(ChessPieceColour.BLACK);
+        isInverted = localPlayer.getColor() == ChessPieceColour.WHITE ? false : true;
     }
 
     /**
@@ -73,8 +73,8 @@ public class ChessBoard {
         this.view = view;
         this.fieldSize = calculateRectSize(width);
         initFields();
-        initPiecesPlayer1(localPlayer.getColor());
-        initPiecesPlayer2(enemyPlayer.getColor());
+        initPiecesLocalPlayer(localPlayer.getColor());
+        initPiecesEnemyPlayer(enemyPlayer.getColor());
     }
 
     /**
@@ -96,32 +96,46 @@ public class ChessBoard {
      * Initializes the pieces for player1. See initPieces for details on the creation.
      *
      */
-    private void initPiecesPlayer1(ChessPieceColour color) {
-        initPieces(ChessPieceType.PAWN,  6, 0, 8, localPlayer.getChessPiecesAlive(), ResourceLoader.getPawnPlayer1(), color);
-        initPieces(ChessPieceType.ROOK,  7, 0, 1, localPlayer.getChessPiecesAlive(), ResourceLoader.getRookPlayer1(),  color);
-        initPieces(ChessPieceType.ROOK,  7, 7, 1, localPlayer.getChessPiecesAlive(), ResourceLoader.getRookPlayer1(),  color);
-        initPieces(ChessPieceType.KNIGHT,  7, 1, 1, localPlayer.getChessPiecesAlive(), ResourceLoader.getKnightPlayer1(), color);
-        initPieces(ChessPieceType.KNIGHT,  7, 6, 1, localPlayer.getChessPiecesAlive(), ResourceLoader.getKnightPlayer1(), color);
-        initPieces(ChessPieceType.BISHOP,  7, 2, 1, localPlayer.getChessPiecesAlive(), ResourceLoader.getBishopPlayer1(), color);
-        initPieces(ChessPieceType.BISHOP,  7, 5, 1, localPlayer.getChessPiecesAlive(), ResourceLoader.getBishopPlayer1(), color);
-        initPieces(ChessPieceType.QUEEN,  7, 4, 1, localPlayer.getChessPiecesAlive(), ResourceLoader.getQueenPlayer1(), color);
-        initPieces(ChessPieceType.KING,  7, 3, 1, localPlayer.getChessPiecesAlive(), ResourceLoader.getKingPlayer1(), color);
+    private void initPiecesLocalPlayer(ChessPieceColour color) {
+        Bitmap pawn = localPlayer.getColor() == ChessPieceColour.WHITE ? ResourceLoader.getPawnWhite() : ResourceLoader.getPawnBlack();
+        Bitmap rook = localPlayer.getColor() == ChessPieceColour.WHITE ? ResourceLoader.getRookWhite() : ResourceLoader.getRookBlack();
+        Bitmap knight = localPlayer.getColor() == ChessPieceColour.WHITE ? ResourceLoader.getKnightWhite() : ResourceLoader.getKnightBlack();
+        Bitmap bishop = localPlayer.getColor() == ChessPieceColour.WHITE ? ResourceLoader.getBishopWhite() : ResourceLoader.getBishopBlack();
+        Bitmap queen = localPlayer.getColor() == ChessPieceColour.WHITE ? ResourceLoader.getQueenWhite() : ResourceLoader.getQueenBlack();
+        Bitmap king = localPlayer.getColor() == ChessPieceColour.WHITE ? ResourceLoader.getKingWhite() : ResourceLoader.getKingBlack();
+
+        initPieces(ChessPieceType.PAWN,  6, 0, 8, localPlayer.getChessPiecesAlive(), pawn, color);
+        initPieces(ChessPieceType.ROOK,  7, 0, 1, localPlayer.getChessPiecesAlive(), rook,  color);
+        initPieces(ChessPieceType.ROOK,  7, 7, 1, localPlayer.getChessPiecesAlive(), rook,  color);
+        initPieces(ChessPieceType.KNIGHT,  7, 1, 1, localPlayer.getChessPiecesAlive(), knight, color);
+        initPieces(ChessPieceType.KNIGHT,  7, 6, 1, localPlayer.getChessPiecesAlive(), knight, color);
+        initPieces(ChessPieceType.BISHOP,  7, 2, 1, localPlayer.getChessPiecesAlive(), bishop, color);
+        initPieces(ChessPieceType.BISHOP,  7, 5, 1, localPlayer.getChessPiecesAlive(), bishop, color);
+        initPieces(ChessPieceType.QUEEN,  7, 4, 1, localPlayer.getChessPiecesAlive(), queen, color);
+        initPieces(ChessPieceType.KING,  7, 3, 1, localPlayer.getChessPiecesAlive(), king, color);
     }
 
     /**
      * Initializes the pieces for player2. See initPieces for details on the creation.
      *
      */
-    private void initPiecesPlayer2(ChessPieceColour color) {
-        initPieces(ChessPieceType.PAWN,  1, 0, 8, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getPawnPlayer2(), color);
-        initPieces(ChessPieceType.ROOK,  0, 0, 1, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getRookPlayer2(), color);
-        initPieces(ChessPieceType.ROOK,  0, 7, 1, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getRookPlayer2(), color);
-        initPieces(ChessPieceType.KNIGHT,  0, 1, 1, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getKnightPlayer2(), color);
-        initPieces(ChessPieceType.KNIGHT,  0, 6, 1, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getKnightPlayer2(), color);
-        initPieces(ChessPieceType.BISHOP,  0, 2, 1, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getBishopPlayer2(), color);
-        initPieces(ChessPieceType.BISHOP,  0, 5, 1, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getBishopPlayer2(), color);
-        initPieces(ChessPieceType.QUEEN,  0, 4, 1, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getQueenPlayer2(), color);
-        initPieces(ChessPieceType.KING,  0, 3, 1, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getKingPlayer2(), color);
+    private void initPiecesEnemyPlayer(ChessPieceColour color) {
+        Bitmap pawn = enemyPlayer.getColor() == ChessPieceColour.WHITE ? ResourceLoader.getPawnWhite() : ResourceLoader.getPawnBlack();
+        Bitmap rook = enemyPlayer.getColor() == ChessPieceColour.WHITE ? ResourceLoader.getRookWhite() : ResourceLoader.getRookBlack();
+        Bitmap knight = enemyPlayer.getColor() == ChessPieceColour.WHITE ? ResourceLoader.getKnightWhite() : ResourceLoader.getKnightBlack();
+        Bitmap bishop = enemyPlayer.getColor() == ChessPieceColour.WHITE ? ResourceLoader.getBishopWhite() : ResourceLoader.getBishopBlack();
+        Bitmap queen = enemyPlayer.getColor() == ChessPieceColour.WHITE ? ResourceLoader.getQueenWhite() : ResourceLoader.getQueenBlack();
+        Bitmap king = enemyPlayer.getColor() == ChessPieceColour.WHITE ? ResourceLoader.getKingWhite() : ResourceLoader.getKingBlack();
+
+        initPieces(ChessPieceType.PAWN,  1, 0, 8, enemyPlayer.getChessPiecesAlive(), pawn, color);
+        initPieces(ChessPieceType.ROOK,  0, 0, 1, enemyPlayer.getChessPiecesAlive(), rook, color);
+        initPieces(ChessPieceType.ROOK,  0, 7, 1, enemyPlayer.getChessPiecesAlive(), rook, color);
+        initPieces(ChessPieceType.KNIGHT,  0, 1, 1, enemyPlayer.getChessPiecesAlive(), knight, color);
+        initPieces(ChessPieceType.KNIGHT,  0, 6, 1, enemyPlayer.getChessPiecesAlive(), knight, color);
+        initPieces(ChessPieceType.BISHOP,  0, 2, 1, enemyPlayer.getChessPiecesAlive(), bishop, color);
+        initPieces(ChessPieceType.BISHOP,  0, 5, 1, enemyPlayer.getChessPiecesAlive(), bishop, color);
+        initPieces(ChessPieceType.QUEEN,  0, 4, 1, enemyPlayer.getChessPiecesAlive(), queen, color);
+        initPieces(ChessPieceType.KING,  0, 3, 1, enemyPlayer.getChessPiecesAlive(), king, color);
     }
 
     /**
@@ -163,7 +177,6 @@ public class ChessBoard {
                     Field clickedField = boardFields[i][j];
 
                     if(clickedField.getCurrentPiece() != null){
-                        Log.d(TAG, "handleFieldClick: " + localPlayer.getColor());
                         if(clickedField.getCurrentPiece().getColour() == localPlayer.getColor()){
                             localPlayer.setLastSelectedField(null);
                             resetLegalMoves();

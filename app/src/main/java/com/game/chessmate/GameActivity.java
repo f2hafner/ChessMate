@@ -13,8 +13,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.chessmate.GameFiles.CheatFunktion;
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Deck;
+
+import com.game.chessmate.GameFiles.Networking.NetObjects.PlayerDataObject;
+import com.game.chessmate.GameFiles.Networking.PlayerObject;
+import com.game.chessmate.GameFiles.Player;
 
 /**
  * The type Game activity.
@@ -64,7 +69,9 @@ public class GameActivity extends AppCompatActivity {
 
         if (sensor == null) {
             Toast.makeText(this, "your device has no light sensore, so you wont be able to use the cheat funktion", Toast.LENGTH_SHORT).show();
-            //TODO stop cheat function when no sensor is avaliable
+            CheatFunktion.setCheatFunction(false);
+        }else{ CheatFunktion.setCheatFunction(true);
+
         }
         maxValue = sensor.getMaximumRange();
         //Log.d("Sensor", String.valueOf(maxValue));
@@ -74,7 +81,11 @@ public class GameActivity extends AppCompatActivity {
                 float lightValue = sensorEvent.values[0];
                 //float closeSensor = maxValue/100;
                 if (lightValue <= 500 && cheatButtonStatus()) {
+
                     if (ChessBoard.getInstance().getwasMoveLegal()) {
+
+
+
 
                         //TODO Player has to stop for one round
                     } else {
@@ -104,12 +115,14 @@ public class GameActivity extends AppCompatActivity {
 
                 if (cheatButton.getText().toString().matches("Cheat Off")) {
                     cheatButton.setText("Cheat On");
+                    cheatButton.setTextColor(getApplication().getResources().getColor(R.color.black));
                     isCheatOn = true;
-                    cheatButton.setBackgroundColor(getResources().getColor(R.color.purple_200));
+                    cheatButton.setBackgroundColor(getResources().getColor(R.color.white));
 
                 } else if (cheatButton.getText().toString().matches("Cheat On")) {
                     cheatButton.setText("Cheat Off");
                     isCheatOn = false;
+                    cheatButton.setTextColor(getApplication().getResources().getColor(R.color.white));
                     cheatButton.setBackgroundColor(getResources().getColor(R.color.black));
 
                 }

@@ -8,22 +8,29 @@ import com.game.chessmate.GameFiles.Networking.NetObjects.PlayerDataObject;
 public class CheatFunktion {
 
     private static boolean cheatFunction;
-    private int playerWhiteWrongCheatReveal = 0;
-    private int playerBlackWrongCheatReveal = 0;
+    private int playerLocalWrongCheatReveal = 0;
+    private int playerEnemyWrongCheatReveal = 0;
 
-    Player playerWhite = ChessBoard.getInstance().getLocalPlayer();
-    Player playerBlack = ChessBoard.getInstance().getEnemyPlayer();
+    Player playerLocal = ChessBoard.getInstance().getLocalPlayer();
+    Player playerEnemy = ChessBoard.getInstance().getEnemyPlayer();
 
 
     public  void playerDidCheat() {
         Field startPosition = ChessBoard.getInstance().getStartPossition();
-        if (playerBlack.getCheatOn() && !ChessBoard.getInstance().getwasMoveLegal()) {
+        if (playerEnemy.getCheatOn() && !ChessBoard.getInstance().getwasMoveLegal()) {
             ChessBoard.getInstance().getMovedPiece().move(startPosition);
-        } else if (playerWhite.getCheatOn() && !ChessBoard.getInstance().getwasMoveLegal())
+        } else if (playerLocal.getCheatOn() && !ChessBoard.getInstance().getwasMoveLegal())
         ChessBoard.getInstance().getMovedPiece().move(startPosition);
     }
 
     public  void playerDidNotCheat(){
+        if (playerEnemy.getCheatOn() && ChessBoard.getInstance().getwasMoveLegal()) {
+            playerLocalWrongCheatReveal++;
+        }
+        if (playerLocal.getCheatOn() && ChessBoard.getInstance().getwasMoveLegal()) {
+            playerEnemyWrongCheatReveal++;
+        }
+
 
     }
 

@@ -169,6 +169,7 @@ public class ChessBoard {
         int touchY = (int)event.getY();
         Rect rect;
 
+
         for (int i = 0; i < boardFields.length; i++) {
             for (int j = 0; j < boardFields[i].length; j++) {
                 rect = boardFields[i][j].getRectangle();
@@ -277,7 +278,7 @@ public class ChessBoard {
         return endPossition;
     }
 
-    private void resetLegalMoves() {
+    public void resetLegalMoves() {
         for(Field f : localPlayer.getLegalMovesSelected()) {
             f.setRectangleDefaultColor();
             f.setAsIllegal();

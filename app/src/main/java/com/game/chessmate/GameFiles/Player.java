@@ -1,6 +1,5 @@
 package com.game.chessmate.GameFiles;
 
-import com.game.chessmate.GameFiles.Networking.PlayerObject;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
 
@@ -32,8 +31,6 @@ public class Player {
         this.color = color;
         this.cheatOn = false;
     }
-
-
 
 
     public boolean getCheatOn() {

@@ -117,6 +117,7 @@ public class GameActivity extends AppCompatActivity {
                     cheatButton.setText("Cheat On");
                     player.setCheatOn(true);
 
+
                     cheatButton.setTextColor(getApplication().getResources().getColor(R.color.black));
                     isCheatOn = true;
                     cheatButton.setBackgroundColor(getResources().getColor(R.color.white));
@@ -124,6 +125,7 @@ public class GameActivity extends AppCompatActivity {
                 } else if (cheatButton.getText().toString().matches("Cheat On")) {
                     cheatButton.setText("Cheat Off");
                     isCheatOn = false;
+                    ChessBoard.getInstance().resetLegalMoves();
                     player.setCheatOn(false);
                     cheatButton.setTextColor(getApplication().getResources().getColor(R.color.white));
                     cheatButton.setBackgroundColor(getResources().getColor(R.color.black));

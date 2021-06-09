@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.game.chessmate.GameActivity;
+import com.game.chessmate.GameFiles.Networking.NetworkManager;
 import com.game.chessmate.GameFiles.PlayingPieces.Bishop;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
@@ -57,9 +58,7 @@ public class ChessBoard {
 
     private ChessBoard() {
         this.boardFields = new Field[8][8];
-        localPlayer = new Player(ChessPieceColour.WHITE);
-        enemyPlayer = new Player(ChessPieceColour.BLACK);
-        isInverted = localPlayer.getColor() == ChessPieceColour.WHITE ? false : true;
+        //isInverted = localPlayer.getColor() == ChessPieceColour.WHITE ? false : true;
     }
 
     /**
@@ -73,6 +72,12 @@ public class ChessBoard {
         this.view = view;
         this.fieldSize = calculateRectSize(width);
         initFields();
+        localPlayer = new Player(NetworkManager.getInitialColor());
+        if(NetworkManager.getInitialColor()==ChessPieceColour.WHITE){
+            enemyPlayer = new Player(ChessPieceColour.BLACK);
+        } else {
+            enemyPlayer = new Player(ChessPieceColour.WHITE);
+        }
         initPiecesLocalPlayer(localPlayer.getColor());
         initPiecesEnemyPlayer(enemyPlayer.getColor());
     }

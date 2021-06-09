@@ -18,13 +18,12 @@ import com.game.chessmate.GameFiles.Networking.NetworkManager;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
 
 public class Lobby extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
         getSupportActionBar().hide();
-
+        boolean isHost = false;
 
 
         TextView codeOutput = findViewById(R.id.CodeOutput);
@@ -42,16 +41,6 @@ public class Lobby extends AppCompatActivity {
         Button enterGameLobbyButton = findViewById(R.id.enterGameLobbyButton);
         enterGameLobbyButton.setVisibility(View.INVISIBLE);
 
-        enterGameLobbyButton.setOnClickListener(v -> {
-            startGameParameters startParameter = NetworkManager.startGame(lobbycode);
-            if(startParameter!=null){
-                Intent toGameIntent = new Intent(this, GameActivity.class);
-                if(startParameter.getInitColour() == ChessPieceColour.BLACK)
-                    toGameIntent.putExtra("initcolour",true);
-                startActivity(toGameIntent);
-            }
-        });
-
         Listener lobbyUpdateListener = new Listener(){
             public void received(Connection connection, Object object) {
                 if(object instanceof LobbyDataObject){
@@ -62,8 +51,24 @@ public class Lobby extends AppCompatActivity {
                         enterGameLobbyButton.setVisibility(View.VISIBLE);
                     });
                 }
+
+                if(object instanceof startGameParameters){
+                    runOnUiThread(() -> {
+                        Intent toGameIntentPlayer2 = new Intent(Lobby.this, GameActivity.class);
+                        startActivity(toGameIntentPlayer2);
+                    });
+                }
             }
         };
+
+        enterGameLobbyButton.setOnClickListener(v -> {
+            runOnUiThread(() -> {
+
+            });
+            ChessMateClient.getInstance().getClient().removeListener(lobbyUpdateListener);
+            NetworkManager.startGame(lobbycode);
+        });
+
         ChessMateClient.getInstance().getClient().addListener(lobbyUpdateListener);
     }
 }

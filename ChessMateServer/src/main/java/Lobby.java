@@ -1,7 +1,4 @@
-import NetObjects.ChessPieceColour;
-import NetObjects.GameStates;
-import NetObjects.LobbyDataObject;
-import NetObjects.PlayerDataObject;
+import NetObjects.*;
 import com.esotericsoftware.kryonet.Connection;
 
 import java.util.Random;
@@ -100,5 +97,15 @@ public class Lobby {
     public void updateLobby(){
         if(playercount==0){ this.clearLobby = true; } // removeLobbyIfEmpty
         if(playercount==2){ currentLobbyState = GameStates.READY; } // lobby can be started
+    }
+
+    public static FieldDataObject mirrorFunc(FieldDataObject field){
+        FieldDataObject mirroredField = new FieldDataObject();
+        //TODO implement mirror function with standard ChessBoard size 8x8
+        mirroredField.setX(123);
+        mirroredField.setX(123);
+        mirroredField.getX();
+        mirroredField.getX();
+        return field;
     }
 }

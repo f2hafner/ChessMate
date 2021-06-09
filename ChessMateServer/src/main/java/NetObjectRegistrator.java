@@ -13,5 +13,6 @@ public class NetObjectRegistrator {
         k.register(FieldDataObject.class);
         k.register(GameDataObject.class);
         k.register(startGameRequest.class);
+        k.register(startGameParameters.class);
     }
 }

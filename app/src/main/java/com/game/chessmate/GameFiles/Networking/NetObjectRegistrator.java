@@ -9,6 +9,7 @@ import com.game.chessmate.GameFiles.Networking.NetObjects.PlayerDataObject;
 import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionRequest;
 import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionResponse;
 import com.game.chessmate.GameFiles.Networking.NetObjects.joinSessionRequest;
+import com.game.chessmate.GameFiles.Networking.NetObjects.startGameParameters;
 import com.game.chessmate.GameFiles.Networking.NetObjects.startGameRequest;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
 
@@ -27,5 +28,6 @@ public class NetObjectRegistrator {
         k.register(FieldDataObject.class);
         k.register(GameDataObject.class);
         k.register(startGameRequest.class);
+        k.register(startGameParameters.class);
     }
 }

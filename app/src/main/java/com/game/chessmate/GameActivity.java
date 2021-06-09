@@ -60,8 +60,6 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         getSupportActionBar().hide();
 
-        boolean startparameter = getIntent().getExtras().getBoolean("initcolour"); // if true init chessboard in black as main colour
-
         sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 

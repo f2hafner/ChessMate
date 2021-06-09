@@ -3,7 +3,7 @@ package NetObjects;
 public class FieldDataObject {
     int x;
     int y;
-    FieldDataObject(){}
+    public FieldDataObject(){}
 
     public int getX() {
         return x;

@@ -20,7 +20,7 @@ public class ObjectSender {
     public static void sendStartGameParameters(Connection con, PlayerObject p){
         startGameParameters parameters = new startGameParameters();
         parameters.setInitColour(p.chessPieceColour);
-        System.out.println("Sending: " + parameters);
+        System.out.println("Sending: " + parameters.getInitColour().toString());
         con.sendTCP(parameters);
     }
 }

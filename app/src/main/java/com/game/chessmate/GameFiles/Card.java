@@ -209,13 +209,13 @@ public class Card {
     public void activateCard(ChessPiece playingPiece1, ChessPiece playingPiece2, Field field, Card[]cardsPlayer1, Card[]cardsPlayer2, Deck deck){
         switch (id){
             case 0:
-                cowardice(playingPiece1);
+                cowardice(playingPiece1,field);
                 break;
             case 1:
                 crusade(playingPiece1);
                 break;
             case 2:
-                darkMirror(playingPiece1,playingPiece2);
+                darkMirror(playingPiece1,field);
                 break;
             case 3:
                 deathDance(playingPiece1,playingPiece2);
@@ -286,22 +286,20 @@ public class Card {
         }
     }
 
-    public void cowardice(ChessPiece oponentPiece){
+    public void cowardice(ChessPiece oponentPiece,Field field){
         //move opponent pawn one or two fields backward (no occupied square)
-        // TODO: 31.05.2021 implement
+        oponentPiece.move(field);
 
     }
 
+    //todo sinnvoll?
     public void crusade(ChessPiece playingPiece){
         //bishop moves one more time (when it doesn't capture a piece)
-        if (playingPiece.getPlayingPieceType()== ChessPieceType.BISHOP){
-            playingPiece.getLegalFields();
-        }
     }
 
-    public void darkMirror(ChessPiece playingPiece, ChessPiece oponentPiece){
+    public void darkMirror(ChessPiece playingPiece, Field field){
         //one pawns can capture by moving diagonally backward instead of forward
-        // TODO: 31.05.2021 implement after implementing capturing-Function
+        playingPiece.move(field);
     }
 
     public void deathDance(ChessPiece playingPiece, ChessPiece oponentPiece){
@@ -502,5 +500,7 @@ public class Card {
         return false;
     }
 
-    public void setOwned(){owned=true;}
+    public void setOwned(boolean owned){this.owned=owned;}
+
+    public int getId(){return this.id;}
 }

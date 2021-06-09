@@ -6,7 +6,7 @@ import java.util.Random;
 public class Deck {
     private  Card[] deck;
     private Card[] used;
-    private int size=25;
+    private int size=6;//10;//25
     private int initialCardNumber=3;
     private int currentCard=0;
     public Card[]cardsPlayer1;
@@ -34,7 +34,7 @@ public class Deck {
 
         while (j<initialCardNumber){
             temp[j]=deck[currentCard];
-            deck[currentCard].setOwned();
+            deck[currentCard].setOwned(true);
             currentCard++;
             j++;
         }
@@ -61,7 +61,7 @@ public class Deck {
     }
 
     public Card drawCard() {
-        if (currentCard == 25) {
+        if (currentCard == size) {
             shuffle();
             currentCard=0;
         }
@@ -70,7 +70,7 @@ public class Deck {
             currentCard++;
         }
 
-        deck[currentCard].setOwned();
+        deck[currentCard].setOwned(true);
 
         return deck[currentCard];
     }

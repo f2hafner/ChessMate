@@ -138,6 +138,10 @@ public class ChessBoard {
     private  ChessPiece movedPiece;
     private  boolean moveWasLegal = false;
 
+    private ChessPiece cardPiece1;
+    private ChessPiece cardPiece2;
+    private Field cardField;
+
     /**
      * Handles onTouchEvent fired by the BoardView (onTouchEvent) when the View is clicked on.
      * Cycles through the Chessboard fields and checks if the coordinates from the touchEvent match with
@@ -217,6 +221,120 @@ public class ChessBoard {
                 }
             }
         }
+    }
+
+    public void doCardAction(MotionEvent event, int id, Deck deck){
+        int touchX = (int)event.getX();
+        int touchY = (int)event.getY();
+        Rect rect;
+        ArrayList<Field> legalMoves;
+
+        for (int i = 0; i < boardFields.length; i++) {
+            for (int j = 0; j < boardFields[i].length; j++) {
+                rect = boardFields[i][j].getRectangle();
+
+                if (rect.contains(touchX, touchY)) {
+                    Field clickedField = boardFields[i][j];
+
+                    switch (deck.cardsPlayer1[id].getId()){
+                        case 0: //cowardice
+                            legalMoves=new ArrayList<>();
+
+                            if(player1.getLastSelectedField() == null) { //first click
+                                if (clickedField.getCurrentPiece() != null&&clickedField.getCurrentPiece().getPlayingPieceType()==ChessPieceType.PAWN) {
+                                    if(clickedField.getFieldX()+1!=-1&&clickedField.getFieldX()+1!=boardFields.length) {
+                                        legalMoves.add(boardFields[clickedField.getFieldX()+1][clickedField.getFieldY()]);
+                                    }
+                                    if(clickedField.getFieldX()+2!=-1&&clickedField.getFieldX()+2!=boardFields.length) {
+                                        legalMoves.add(boardFields[clickedField.getFieldX()+2][clickedField.getFieldY()]);
+                                    }
+
+                                    player1.setLegalMovesSelected(legalMoves);
+                                    drawLegalMoves(legalMoves);
+                                    player1.setLastSelectedField(clickedField);
+                                    cardPiece1 = clickedField.getCurrentPiece();
+                                }
+                            }
+                            if(player1.getLastSelectedField()!=null){ //second click
+                                if (clickedField.getCurrentPiece()==null){
+                                    deck.cardsPlayer1[id].activateCard(cardPiece1,null,clickedField,null,null,deck);
+                                    player1.setLastSelectedField(null);
+                                    resetLegalMoves();
+                                    deck.cardsPlayer1[id].setOwned(false);
+                                    deck.cardsPlayer1[id]=deck.drawCard();
+                                    GameActivity.unselectAfterCardActivation();
+                                }
+                            }
+                            break;
+
+                        case 1: //crusade
+                            if(player1.getLastSelectedField() == null){ //this is the first click on a field
+                                if (clickedField.getCurrentPiece() != null) {
+                                    player1.setLastSelectedField(clickedField);
+
+                                    player1.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalFields());
+                                    if(!player1.getLegalMovesSelected().isEmpty()){
+                                        drawLegalMoves(player1.getLegalMovesSelected());
+                                    }
+
+                                    if (GameActivity.cheatButtonStatus()) {
+                                        player1.setLegalMovesSelected(clickedField.getCurrentPiece().getCheatFunctionMoves());
+                                    } else {
+                                        player1.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalFields());
+                                    }
+                                    if (!player1.getLegalMovesSelected().isEmpty()) {
+                                        drawLegalMoves(player1.getLegalMovesSelected());
+                                    }
+                                }
+                            }else {//this is the second click
+                                if (player1.getLegalMovesSelected().contains(clickedField)) {
+
+                                    player1.getLastSelectedField().getCurrentPiece().move(clickedField);
+                                    player1.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
+                                    player1.setLastSelectedField(null);
+                                    resetLegalMoves();
+                                }
+                                deck.cardsPlayer1[id].setOwned(false);
+                                deck.cardsPlayer1[id]=deck.drawCard();
+                                GameActivity.unselectAfterCardActivation();
+                            }
+                            break;
+
+                        case 2: //darkMirror
+                            legalMoves=new ArrayList<>();
+
+                            if(player1.getLastSelectedField() == null) { //first click
+                                if (clickedField.getCurrentPiece() != null&&clickedField.getCurrentPiece().getPlayingPieceType()==ChessPieceType.PAWN) {
+                                    if(clickedField.getFieldX()+1!=-1&&clickedField.getFieldX()+1!=boardFields.length&&clickedField.getFieldY()-1!=-1&&clickedField.getFieldY()-1!=boardFields.length&&clickedField.getFieldY()+1!=-1&&clickedField.getFieldY()+1!=boardFields.length) {
+                                        legalMoves.add(boardFields[clickedField.getFieldX()+1][clickedField.getFieldY()-1]);
+                                        legalMoves.add(boardFields[clickedField.getFieldX()+1][clickedField.getFieldY()+1]);
+                                    }
+
+                                    player1.setLegalMovesSelected(legalMoves);
+                                    drawLegalMoves(legalMoves);
+                                    player1.setLastSelectedField(clickedField);
+                                    cardPiece1 = clickedField.getCurrentPiece();
+                                }
+                            }
+                            if(player1.getLastSelectedField()!=null){ //second click
+                                if (clickedField.getCurrentPiece()==null){
+                                    deck.cardsPlayer1[id].activateCard(cardPiece1,null,clickedField,null,null,deck);
+                                    player1.setLastSelectedField(null);
+                                    resetLegalMoves();
+                                    deck.cardsPlayer1[id].setOwned(false);
+                                    deck.cardsPlayer1[id]=deck.drawCard();
+                                    GameActivity.unselectAfterCardActivation();
+                                }
+                            }
+                            break;
+
+
+                    }
+
+                }
+            }
+        }
+
     }
 
 

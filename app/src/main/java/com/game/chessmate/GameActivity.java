@@ -21,31 +21,12 @@ import com.game.chessmate.GameFiles.Deck;
  * The type Game activity.
  */
 public class GameActivity extends AppCompatActivity {
-    /**
-     * The Card 1.
-     */
-    ImageView card1, /**
-     * The Card 2.
-     */
-    card2, /**
-     * The Card 3.
-     */
-    card3, /**
-     * The Exact view.
-     */
-    exactView;
-    /**
-     * The Button.
-     */
-    Button button;
-    /**
-     * The Deck.
-     */
-    Deck deck;
-    /**
-     * The Id.
-     */
-    int id = 0;
+
+    private static ImageView card1, card2, card3, exactView;
+    private static Button button;
+    private static Deck deck;
+    private static int id = 3;
+    private static boolean selected;
 
 
     private Sensor sensor;
@@ -60,6 +41,114 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         getSupportActionBar().hide();
 
+
+
+        //init deck of cards
+        deck = new Deck();
+
+        card1 = (ImageView) findViewById(R.id.cardView1);
+        card2 = (ImageView) findViewById(R.id.cardView2);
+        card3 = (ImageView) findViewById(R.id.cardView3);
+        exactView = (ImageView) findViewById(R.id.exactView);
+        button = (Button) findViewById(R.id.back);
+
+
+        //Select Card
+        exactView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //mark card selected
+                exactView.setVisibility(View.GONE);
+                selected=true;
+                switch (id) {
+                    case 0:
+                        card1.setVisibility(View.VISIBLE);
+                        card1.setBackgroundColor(Color.RED);
+                        break;
+                    case 1:
+                        card2.setVisibility(View.VISIBLE);
+                        card2.setBackgroundColor(Color.RED);
+                        break;
+                    case 2:
+                        card3.setVisibility(View.VISIBLE);
+                        card3.setBackgroundColor(Color.RED);
+                        break;
+                }
+            }
+        });
+
+        //close card
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exactView.setVisibility(View.GONE);
+                button.setVisibility(View.INVISIBLE);
+                switch (id) {
+                    case 0:
+                        card1.setVisibility(View.VISIBLE);
+                        card1.setBackgroundColor(Color.WHITE);
+                        break;
+                    case 1:
+                        card2.setVisibility(View.VISIBLE);
+                        card2.setBackgroundColor(Color.WHITE);
+                        break;
+                    case 2:
+                        card3.setVisibility(View.VISIBLE);
+                        card3.setBackgroundColor(Color.WHITE);
+                        break;
+                }
+                id = 3;
+                selected=false;
+            }
+        });
+
+
+        //click on first card
+        card1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(id==3||id==0) {
+                    exactView.setImageResource(deck.cardsPlayer1[0].getDrawableId());
+                    exactView.setVisibility(View.VISIBLE);
+                    card1.setVisibility(View.INVISIBLE);
+                    button.setVisibility(View.VISIBLE);
+                    id = 0;
+                }
+            }
+        });
+
+        //click on second card
+        card2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(id==3||id==1) {
+                    exactView.setImageResource(deck.cardsPlayer1[1].getDrawableId());
+                    exactView.setVisibility(View.VISIBLE);
+                    card2.setVisibility(View.INVISIBLE);
+                    button.setVisibility(View.VISIBLE);
+                    id = 1;
+                }
+            }
+        });
+
+        //click on third card
+        card3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(id==3||id==2) {
+                    exactView.setImageResource(deck.cardsPlayer1[2].getDrawableId());
+                    exactView.setVisibility(View.VISIBLE);
+                    card3.setVisibility(View.INVISIBLE);
+                    button.setVisibility(View.VISIBLE);
+                    id = 2;
+                }
+            }
+        });
+
+
+
+
+    //Cheat-Function
         sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
@@ -116,100 +205,6 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         });
-
-        //init deck of cards
-        deck = new Deck();
-
-        card1 = (ImageView) findViewById(R.id.cardView1);
-        card2 = (ImageView) findViewById(R.id.cardView2);
-        card3 = (ImageView) findViewById(R.id.cardView3);
-        exactView = (ImageView) findViewById(R.id.exactView);
-        button = (Button) findViewById(R.id.back);
-
-
-        //Select Card
-        exactView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                exactView.setVisibility(View.GONE);
-                switch (id) {
-                    case 1:
-                        card1.setVisibility(View.VISIBLE);
-                        card1.setBackgroundColor(Color.RED);
-                        break;
-                    case 2:
-                        card2.setVisibility(View.VISIBLE);
-                        card2.setBackgroundColor(Color.RED);
-                        break;
-                    case 3:
-                        card3.setVisibility(View.VISIBLE);
-                        card3.setBackgroundColor(Color.RED);
-                        break;
-                }
-
-            }
-        });
-
-        //close card
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                exactView.setVisibility(View.GONE);
-                button.setVisibility(View.INVISIBLE);
-                switch (id) {
-                    case 1:
-                        card1.setVisibility(View.VISIBLE);
-                        card1.setBackgroundColor(Color.WHITE);
-                        break;
-                    case 2:
-                        card2.setVisibility(View.VISIBLE);
-                        card2.setBackgroundColor(Color.WHITE);
-                        break;
-                    case 3:
-                        card3.setVisibility(View.VISIBLE);
-                        card3.setBackgroundColor(Color.WHITE);
-                        break;
-                }
-                id = 0;
-            }
-        });
-
-
-        //click on first card
-        card1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                exactView.setImageResource(deck.cardsPlayer1[0].getDrawableId());
-                exactView.setVisibility(View.VISIBLE);
-                card1.setVisibility(View.INVISIBLE);
-                button.setVisibility(View.VISIBLE);
-                id = 1;
-            }
-        });
-
-        //click on second card
-        card2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                exactView.setImageResource(deck.cardsPlayer1[1].getDrawableId());
-                exactView.setVisibility(View.VISIBLE);
-                card2.setVisibility(View.INVISIBLE);
-                button.setVisibility(View.VISIBLE);
-                id = 2;
-            }
-        });
-
-        //click on third card
-        card3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                exactView.setImageResource(deck.cardsPlayer1[2].getDrawableId());
-                exactView.setVisibility(View.VISIBLE);
-                card3.setVisibility(View.INVISIBLE);
-                button.setVisibility(View.VISIBLE);
-                id = 3;
-            }
-        });
     }
 
 
@@ -246,6 +241,36 @@ public class GameActivity extends AppCompatActivity {
      */
     public static boolean cheatButtonStatus() {
         return isCheatOn;
+    }
+
+    public static boolean isSelected(){
+        return selected;
+    }
+
+    public static int getId(){
+        return id;
+    }
+
+    public static Deck getDeck(){return deck;}
+
+    public static void unselectAfterCardActivation(){
+        button.setVisibility(View.INVISIBLE);
+        switch (id) {
+            case 0:
+                card1.setVisibility(View.VISIBLE);
+                card1.setBackgroundColor(Color.WHITE);
+                break;
+            case 1:
+                card2.setVisibility(View.VISIBLE);
+                card2.setBackgroundColor(Color.WHITE);
+                break;
+            case 2:
+                card3.setVisibility(View.VISIBLE);
+                card3.setBackgroundColor(Color.WHITE);
+                break;
+        }
+        id = 3;
+        selected=false;
     }
 }
 

@@ -1,5 +1,6 @@
 package com.game.chessmate.GameFiles;
 
+import com.game.chessmate.GameFiles.Networking.PlayerObject;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
 
@@ -16,6 +17,7 @@ public class Player {
     private ArrayList<Field> legalMovesSelected;
     private Field lastSelectedField;
     private ChessPieceColour color;
+    private boolean cheatOn;
 
     /**
      * Instantiates a new Player.
@@ -28,6 +30,18 @@ public class Player {
         this.legalMovesSelected = new ArrayList<>();
         this.lastSelectedField = null;
         this.color = color;
+        this.cheatOn = false;
+    }
+
+
+
+
+    public boolean getCheatOn() {
+        return cheatOn;
+    }
+
+    public void setCheatOn(boolean cheatOn) {
+        this.cheatOn = cheatOn;
     }
 
     /**

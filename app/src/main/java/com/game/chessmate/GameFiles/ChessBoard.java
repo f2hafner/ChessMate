@@ -136,6 +136,9 @@ public class ChessBoard {
     private  Field startPossition;
     private  Field endPossition;
     private  ChessPiece movedPiece;
+
+
+
     private  boolean moveWasLegal = false;
 
     /**
@@ -201,10 +204,6 @@ public class ChessBoard {
                                     Log.d("debug", "CAPTURE");
                                 }
                             }
-                            player1.getLastSelectedField().getCurrentPiece().move(clickedField);
-                            player1.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
-                            player1.setLastSelectedField(null);
-                            resetLegalMoves();
 
                             if (GameActivity.cheatButtonStatus()) {
                                 //TODO  Pawn first move of 2 Fields is still false
@@ -216,6 +215,13 @@ public class ChessBoard {
                                     Log.d("Move_______FALSE", String.valueOf(moveWasLegal));
                                 }
                             }
+
+                            player1.getLastSelectedField().getCurrentPiece().move(clickedField);
+                            player1.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
+                            player1.setLastSelectedField(null);
+                            resetLegalMoves();
+
+
 
 
                         }else{
@@ -377,5 +383,13 @@ public class ChessBoard {
      */
     public Player getPlayer2() {
         return player2;
+    }
+
+    public ChessPiece getMovedPiece() {
+        return movedPiece;
+    }
+
+    public void setMovedPiece(ChessPiece movedPiece) {
+        this.movedPiece = movedPiece;
     }
 }

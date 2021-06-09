@@ -8,9 +8,24 @@ import com.game.chessmate.GameFiles.Networking.NetObjects.PlayerDataObject;
 public class CheatFunktion {
 
     private static boolean cheatFunction;
+    private int playerWhiteWrongCheatReveal = 0;
+    private int playerBlackWrongCheatReveal = 0;
 
-    Player player1;
-    Player player2;
+    Player playerWhite = ChessBoard.getInstance().getPlayer1();
+    Player playerBlack = ChessBoard.getInstance().getPlayer2();
+
+
+    public  void playerDidCheat() {
+        Field startPosition = ChessBoard.getInstance().getStartPossition();
+        if (playerBlack.getCheatOn() && !ChessBoard.getInstance().getwasMoveLegal()) {
+            ChessBoard.getInstance().getMovedPiece().move(startPosition);
+        } else if (playerWhite.getCheatOn() && !ChessBoard.getInstance().getwasMoveLegal())
+        ChessBoard.getInstance().getMovedPiece().move(startPosition);
+    }
+
+    public  void playerDidNotCheat(){
+
+    }
 
 
 

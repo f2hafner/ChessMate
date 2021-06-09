@@ -81,11 +81,10 @@ public class GameActivity extends AppCompatActivity {
                 float lightValue = sensorEvent.values[0];
                 //float closeSensor = maxValue/100;
                 if (lightValue <= 500 && cheatButtonStatus()) {
-
                     if (ChessBoard.getInstance().getwasMoveLegal()) {
 
 
-
+                        //TODO do methode from CheatFunktionClass
 
                         //TODO Player has to stop for one round
                     } else {
@@ -107,14 +106,17 @@ public class GameActivity extends AppCompatActivity {
 
 
         Button cheatButton = getCheatButton();
+        Player player = ChessBoard.getInstance().getPlayer1();
 
 
         cheatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //TODO How to distinguish who pressed the button
                 if (cheatButton.getText().toString().matches("Cheat Off")) {
                     cheatButton.setText("Cheat On");
+                    player.setCheatOn(true);
+
                     cheatButton.setTextColor(getApplication().getResources().getColor(R.color.black));
                     isCheatOn = true;
                     cheatButton.setBackgroundColor(getResources().getColor(R.color.white));
@@ -122,6 +124,7 @@ public class GameActivity extends AppCompatActivity {
                 } else if (cheatButton.getText().toString().matches("Cheat On")) {
                     cheatButton.setText("Cheat Off");
                     isCheatOn = false;
+                    player.setCheatOn(false);
                     cheatButton.setTextColor(getApplication().getResources().getColor(R.color.white));
                     cheatButton.setBackgroundColor(getResources().getColor(R.color.black));
 

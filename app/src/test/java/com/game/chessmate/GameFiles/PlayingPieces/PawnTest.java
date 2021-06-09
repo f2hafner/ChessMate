@@ -288,6 +288,20 @@ public class PawnTest {
         assertTrue(expected.size() == actual.size() && expected.containsAll(actual) && actual.containsAll(expected));//better solution - order does not matter
     }
 
+    @Test
+    public void getLegalFieldsOpponentEncounteredTest(){
+        when(field.getFieldX()).thenReturn(2);
+        when(field.getFieldY()).thenReturn(0);
+
+        expected.add(currentFields[1][0].getFieldX() + ":" + currentFields[1][0].getFieldY());
+        ArrayList<Field> temp = pawn.getLegalFields();
+        ArrayList<String> actual = new ArrayList<>();
+        for (int i = 0; i < temp.size(); i++) {
+            actual.add(temp.get(i).getFieldX() + ":" + temp.get(i).getFieldY());
+        }
+        assertEquals(expected, actual);//-- to see mistake of this test
+        assertTrue(expected.size() == actual.size() && expected.containsAll(actual) && actual.containsAll(expected));//better solution - order does not matter
+    }
 
 
 }

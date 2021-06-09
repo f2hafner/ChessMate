@@ -49,6 +49,7 @@ abstract public class ChessPiece extends View {
     private boolean isProtected=false;
     private boolean isCaptured = false;
     private ChessBoard board;
+    protected boolean opponentEncountered = false;
 
     /**
      * Instantiates a new Chess piece.

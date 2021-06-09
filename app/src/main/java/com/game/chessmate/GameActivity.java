@@ -1,5 +1,4 @@
 package com.game.chessmate;
-
 import android.app.Service;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -58,7 +57,6 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         getSupportActionBar().hide();
-
         sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 

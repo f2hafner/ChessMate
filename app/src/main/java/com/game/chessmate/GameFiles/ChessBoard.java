@@ -19,6 +19,8 @@ import com.game.chessmate.GameFiles.PlayingPieces.Rook;
 
 import java.util.ArrayList;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * The ChessBoard class handles creation and maintenance of the ChessBoard
  */
@@ -51,13 +53,13 @@ public class ChessBoard {
     private Field[][] boardFields;
     private int fieldSize;
     private final int boardSize = 8;
-    private Player player1;
-    private Player player2;
+    private Player localPlayer;
+    private Player enemyPlayer;
 
     private ChessBoard() {
         this.boardFields = new Field[8][8];
-        player1 = new Player(ChessPieceColour.WHITE);
-        player2 = new Player(ChessPieceColour.BLACK);
+        localPlayer = new Player(ChessPieceColour.WHITE);
+        enemyPlayer = new Player(ChessPieceColour.BLACK);
     }
 
     /**
@@ -71,8 +73,8 @@ public class ChessBoard {
         this.view = view;
         this.fieldSize = calculateRectSize(width);
         initFields();
-        initPiecesPlayer1(ChessPieceColour.WHITE);
-        initPiecesPlayer2(ChessPieceColour.BLACK);
+        initPiecesPlayer1(localPlayer.getColor());
+        initPiecesPlayer2(enemyPlayer.getColor());
     }
 
     /**
@@ -95,15 +97,15 @@ public class ChessBoard {
      *
      */
     private void initPiecesPlayer1(ChessPieceColour color) {
-        initPieces(ChessPieceType.PAWN,  6, 0, 8, player1.getChessPiecesAlive(), ResourceLoader.getPawnPlayer1(), color);
-        initPieces(ChessPieceType.ROOK,  7, 0, 1, player1.getChessPiecesAlive(), ResourceLoader.getRookPlayer1(),  color);
-        initPieces(ChessPieceType.ROOK,  7, 7, 1, player1.getChessPiecesAlive(), ResourceLoader.getRookPlayer1(),  color);
-        initPieces(ChessPieceType.KNIGHT,  7, 1, 1, player1.getChessPiecesAlive(), ResourceLoader.getKnightPlayer1(), color);
-        initPieces(ChessPieceType.KNIGHT,  7, 6, 1, player1.getChessPiecesAlive(), ResourceLoader.getKnightPlayer1(), color);
-        initPieces(ChessPieceType.BISHOP,  7, 2, 1, player1.getChessPiecesAlive(), ResourceLoader.getBishopPlayer1(), color);
-        initPieces(ChessPieceType.BISHOP,  7, 5, 1, player1.getChessPiecesAlive(), ResourceLoader.getBishopPlayer1(), color);
-        initPieces(ChessPieceType.QUEEN,  7, 4, 1, player1.getChessPiecesAlive(), ResourceLoader.getQueenPlayer1(), color);
-        initPieces(ChessPieceType.KING,  7, 3, 1, player1.getChessPiecesAlive(), ResourceLoader.getKingPlayer1(), color);
+        initPieces(ChessPieceType.PAWN,  6, 0, 8, localPlayer.getChessPiecesAlive(), ResourceLoader.getPawnPlayer1(), color);
+        initPieces(ChessPieceType.ROOK,  7, 0, 1, localPlayer.getChessPiecesAlive(), ResourceLoader.getRookPlayer1(),  color);
+        initPieces(ChessPieceType.ROOK,  7, 7, 1, localPlayer.getChessPiecesAlive(), ResourceLoader.getRookPlayer1(),  color);
+        initPieces(ChessPieceType.KNIGHT,  7, 1, 1, localPlayer.getChessPiecesAlive(), ResourceLoader.getKnightPlayer1(), color);
+        initPieces(ChessPieceType.KNIGHT,  7, 6, 1, localPlayer.getChessPiecesAlive(), ResourceLoader.getKnightPlayer1(), color);
+        initPieces(ChessPieceType.BISHOP,  7, 2, 1, localPlayer.getChessPiecesAlive(), ResourceLoader.getBishopPlayer1(), color);
+        initPieces(ChessPieceType.BISHOP,  7, 5, 1, localPlayer.getChessPiecesAlive(), ResourceLoader.getBishopPlayer1(), color);
+        initPieces(ChessPieceType.QUEEN,  7, 4, 1, localPlayer.getChessPiecesAlive(), ResourceLoader.getQueenPlayer1(), color);
+        initPieces(ChessPieceType.KING,  7, 3, 1, localPlayer.getChessPiecesAlive(), ResourceLoader.getKingPlayer1(), color);
     }
 
     /**
@@ -111,15 +113,15 @@ public class ChessBoard {
      *
      */
     private void initPiecesPlayer2(ChessPieceColour color) {
-        initPieces(ChessPieceType.PAWN,  1, 0, 8, player2.getChessPiecesAlive(), ResourceLoader.getPawnPlayer2(), color);
-        initPieces(ChessPieceType.ROOK,  0, 0, 1, player2.getChessPiecesAlive(), ResourceLoader.getRookPlayer2(), color);
-        initPieces(ChessPieceType.ROOK,  0, 7, 1, player2.getChessPiecesAlive(), ResourceLoader.getRookPlayer2(), color);
-        initPieces(ChessPieceType.KNIGHT,  0, 1, 1, player2.getChessPiecesAlive(), ResourceLoader.getKnightPlayer2(), color);
-        initPieces(ChessPieceType.KNIGHT,  0, 6, 1, player2.getChessPiecesAlive(), ResourceLoader.getKnightPlayer2(), color);
-        initPieces(ChessPieceType.BISHOP,  0, 2, 1, player2.getChessPiecesAlive(), ResourceLoader.getBishopPlayer2(), color);
-        initPieces(ChessPieceType.BISHOP,  0, 5, 1, player2.getChessPiecesAlive(), ResourceLoader.getBishopPlayer2(), color);
-        initPieces(ChessPieceType.QUEEN,  0, 4, 1, player2.getChessPiecesAlive(), ResourceLoader.getQueenPlayer2(), color);
-        initPieces(ChessPieceType.KING,  0, 3, 1, player2.getChessPiecesAlive(), ResourceLoader.getKingPlayer2(), color);
+        initPieces(ChessPieceType.PAWN,  1, 0, 8, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getPawnPlayer2(), color);
+        initPieces(ChessPieceType.ROOK,  0, 0, 1, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getRookPlayer2(), color);
+        initPieces(ChessPieceType.ROOK,  0, 7, 1, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getRookPlayer2(), color);
+        initPieces(ChessPieceType.KNIGHT,  0, 1, 1, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getKnightPlayer2(), color);
+        initPieces(ChessPieceType.KNIGHT,  0, 6, 1, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getKnightPlayer2(), color);
+        initPieces(ChessPieceType.BISHOP,  0, 2, 1, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getBishopPlayer2(), color);
+        initPieces(ChessPieceType.BISHOP,  0, 5, 1, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getBishopPlayer2(), color);
+        initPieces(ChessPieceType.QUEEN,  0, 4, 1, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getQueenPlayer2(), color);
+        initPieces(ChessPieceType.KING,  0, 3, 1, enemyPlayer.getChessPiecesAlive(), ResourceLoader.getKingPlayer2(), color);
     }
 
     /**
@@ -161,55 +163,58 @@ public class ChessBoard {
                     Field clickedField = boardFields[i][j];
 
                     if(clickedField.getCurrentPiece() != null){
-                        if(clickedField.getCurrentPiece().getColour() == player1.getColor()){
-                            player1.setLastSelectedField(null);
+                        Log.d(TAG, "handleFieldClick: " + localPlayer.getColor());
+                        if(clickedField.getCurrentPiece().getColour() == localPlayer.getColor()){
+                            localPlayer.setLastSelectedField(null);
                             resetLegalMoves();
                         }
                     }
-                    if(player1.getLastSelectedField() == null){ //this is the first click on a field
+                    if(localPlayer.getLastSelectedField() == null){ //this is the first click on a field
                         if (clickedField.getCurrentPiece() != null) {
-                            player1.setLastSelectedField(clickedField);
+                            localPlayer.setLastSelectedField(clickedField);
                             // position for CheatFunction
                             // Log.d("position1", lastSelectedField.toString());
                             startPossition = clickedField;
                             movedPiece = startPossition.getCurrentPiece();
-                            player1.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalFields());
-                            if(!player1.getLegalMovesSelected().isEmpty()){
-                                drawLegalMoves(player1.getLegalMovesSelected());
+                            localPlayer.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalFields());
+                            if(!localPlayer.getLegalMovesSelected().isEmpty()){
+                                drawLegalMoves(localPlayer.getLegalMovesSelected());
                             }
 
                             if (GameActivity.cheatButtonStatus()) {
-                                player1.setLegalMovesSelected(clickedField.getCurrentPiece().getCheatFunctionMoves());
+                                localPlayer.setLegalMovesSelected(clickedField.getCurrentPiece().getCheatFunctionMoves());
                             } else {
-                                player1.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalFields());
+                                localPlayer.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalFields());
                             }
-                            if (!player1.getLegalMovesSelected().isEmpty()) {
-                                drawLegalMoves(player1.getLegalMovesSelected());
+                            if (!localPlayer.getLegalMovesSelected().isEmpty()) {
+                                drawLegalMoves(localPlayer.getLegalMovesSelected());
                             }
                         }
                     }else{//this is the second click
-                        if(player1.getLegalMovesSelected().contains(clickedField)){
+                        if(localPlayer.getLegalMovesSelected().contains(clickedField)){
 
                             // postition for CheatFunction
                             endPossition = clickedField;
                             // Log.d("position2", clickedField.toString());
 
-
+                            /*
                             if(clickedField.getCurrentPiece() != null){
                                 if(clickedField.getCurrentPiece().getColour() != player1.getColor()){
                                     clickedField.getCurrentPiece().capture();
                                     Log.d("debug", "CAPTURE");
                                 }
                             }
-                            player1.getLastSelectedField().getCurrentPiece().move(clickedField);
-                            player1.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
-                            player1.setLastSelectedField(null);
+
+                             */
+                            localPlayer.getLastSelectedField().getCurrentPiece().move(clickedField);
+                            localPlayer.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
+                            localPlayer.setLastSelectedField(null);
                             resetLegalMoves();
 
                             if (GameActivity.cheatButtonStatus()) {
                                 //TODO  Pawn first move of 2 Fields is still false
-                                player1.setLegalMovesForCheat(movedPiece.getLegalFields());
-                                if ((player1.getLegalMovesForCheat().contains(endPossition))) {
+                                localPlayer.setLegalMovesForCheat(movedPiece.getLegalFields());
+                                if ((localPlayer.getLegalMovesForCheat().contains(endPossition))) {
                                     moveWasLegal = true;
                                     Log.d("Move********TRUE", String.valueOf(moveWasLegal));
                                 } else {moveWasLegal = false;
@@ -219,7 +224,7 @@ public class ChessBoard {
 
 
                         }else{
-                            player1.setLastSelectedField(null);
+                            localPlayer.setLastSelectedField(null);
                         }
                     }
 
@@ -257,7 +262,7 @@ public class ChessBoard {
     }
 
     private void resetLegalMoves() {
-        for(Field f : player1.getLegalMovesSelected()) {
+        for(Field f : localPlayer.getLegalMovesSelected()) {
             f.setRectangleDefaultColor();
             f.setAsIllegal();
             f.setUpdate(true);
@@ -349,7 +354,7 @@ public class ChessBoard {
      * @return the pieces player 1
      */
     public ArrayList<ChessPiece> getPiecesPlayer1() {
-        return player1.getChessPiecesAlive();
+        return localPlayer.getChessPiecesAlive();
     }
 
     /**
@@ -358,7 +363,7 @@ public class ChessBoard {
      * @return the pieces player 2
      */
     public ArrayList<ChessPiece> getPiecesPlayer2() {
-        return player2.getChessPiecesAlive();
+        return enemyPlayer.getChessPiecesAlive();
     }
 
     /**
@@ -366,8 +371,8 @@ public class ChessBoard {
      *
      * @return the player 1
      */
-    public Player getPlayer1() {
-        return player1;
+    public Player getLocalPlayer() {
+        return localPlayer;
     }
 
     /**
@@ -375,7 +380,7 @@ public class ChessBoard {
      *
      * @return the player 2
      */
-    public Player getPlayer2() {
-        return player2;
+    public Player getEnemyPlayer() {
+        return enemyPlayer;
     }
 }

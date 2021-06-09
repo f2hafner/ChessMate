@@ -34,12 +34,14 @@ public class Queen extends ChessPiece {
         for(int loops = 0; loops <8; loops++){
             int i = currentPosition.getFieldX();
             int j = currentPosition.getFieldY();
+            opponentEncountered = false;
             while(i<8 && i>=0 && j<8 && j>=0){
-                if(!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())){
+                if(!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY()) && !opponentEncountered){
                     if (currentFields[i][j].getCurrentPiece() == null) {
                         legalFields.add(currentFields[i][j]);
                     } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour) {
                         legalFields.add(currentFields[i][j]);
+                        opponentEncountered = true;
                     }else{
                         break;
                     }

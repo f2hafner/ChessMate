@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -25,10 +26,12 @@ public class Field extends View {
     private int x;
     private int y;
     public Paint color;
+    public Paint colorLegal;
     private Rect rectangle;
     private ChessPiece currentPiece;
     private boolean update;
     private boolean blocked=false;
+    private boolean legal = false;
 
     /**
      * Constructor of Field. Set coordinates, compute color of the Rectangle with x and y, and construct the rectangle
@@ -39,6 +42,8 @@ public class Field extends View {
         this.y = y;
 
         this.color = new Paint();
+        this.colorLegal = new Paint();
+        this.colorLegal.setColor(Color.parseColor("#74ff52"));
         setRectangleDefaultColor();
         rectangle = new Rect();
         setupRectangle(rectangle);
@@ -50,6 +55,11 @@ public class Field extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawRect(rectangle, color);
+        if(legal){
+            Log.d("debug", "draw circle");
+            int fieldSize = ChessBoard.getInstance().getFieldSize();
+            canvas.drawCircle(fieldSize*this.y+fieldSize/2,fieldSize*this.x+fieldSize/2, fieldSize/4, colorLegal);
+        }
     }
 
     /**
@@ -115,7 +125,11 @@ public class Field extends View {
     }
 
     public void setAsLegal(){
-        color.setColor(Color.YELLOW);
+        this.legal = true;
+    }
+
+    public void setAsIllegal(){
+        this.legal = false;
     }
 
     public boolean getUpdate() {

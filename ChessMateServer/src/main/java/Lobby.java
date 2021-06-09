@@ -1,6 +1,4 @@
-import NetObjects.GameStates;
-import NetObjects.LobbyDataObject;
-import NetObjects.PlayerDataObject;
+import NetObjects.*;
 import com.esotericsoftware.kryonet.Connection;
 
 import java.util.Random;
@@ -35,8 +33,9 @@ public class Lobby {
     // Player 1
     public void _player1_join(Connection con, String name){
         if(this.player1==null){
-            player1 = new PlayerObject(con, name);
+            player1 = new PlayerObject(con, name, ChessPieceColour.WHITE);
             playercount++;
+            updateLobby();
         }
     }
 
@@ -44,14 +43,15 @@ public class Lobby {
         if(player1!=null){
             player1 = null;
             playercount--;
-            removeLobbyIfEmpty();
+            updateLobby();
         }
     }
     // Player 2
     public void _player2_join(Connection con, String name){
         if(this.player2==null){
-            player2 = new PlayerObject(con, name);
+            player2 = new PlayerObject(con, name, ChessPieceColour.BLACK);
             playercount++;
+            updateLobby();
         }
     }
 
@@ -59,13 +59,7 @@ public class Lobby {
         if(player2!=null){
             player2 = null;
             playercount--;
-            removeLobbyIfEmpty();
-        }
-    }
-
-    private void removeLobbyIfEmpty(){
-        if(playercount==0){
-            this.clearLobby = true;
+            updateLobby();
         }
     }
 
@@ -98,5 +92,20 @@ public class Lobby {
                 +"\t"+"player1="+player1+"\n"
                 +"\t"+"player2="+player2+"\n"
                 +"\t"+"cheatFuncActive="+cheatFuncActive;
+    }
+
+    public void updateLobby(){
+        if(playercount==0){ this.clearLobby = true; } // removeLobbyIfEmpty
+        if(playercount==2){ currentLobbyState = GameStates.READY; } // lobby can be started
+    }
+
+    public static FieldDataObject mirrorFunc(FieldDataObject field){
+        FieldDataObject mirroredField = new FieldDataObject();
+        //TODO implement mirror function with standard ChessBoard size 8x8
+        mirroredField.setX(123);
+        mirroredField.setX(123);
+        mirroredField.getX();
+        mirroredField.getX();
+        return field;
     }
 }

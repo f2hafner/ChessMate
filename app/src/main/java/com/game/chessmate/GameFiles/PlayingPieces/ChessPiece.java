@@ -17,6 +17,8 @@ import com.game.chessmate.GameFiles.Vector;
 
 import java.util.ArrayList;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * The type Chess piece.
  */
@@ -68,7 +70,6 @@ abstract public class ChessPiece extends View {
         this.updateMovementOffset = false;
         this.updateView = false;
         this.sprite = sprite;
-        this.board = ChessBoard.getInstance();
     }
 
     /**
@@ -129,11 +130,11 @@ abstract public class ChessPiece extends View {
      * @param targetField the target field
      */
     public void move(Field targetField) {
-        /*if (targetField.hasPiece()) {
+        if (targetField.hasPiece()) {
             if (targetField.getCurrentPiece().getColour() != this.colour) {
                 targetField.getCurrentPiece().capture();
             }
-        }*/
+        }
         this.targetPosition = targetField;
         this.updateMovementOffset = true;
         this.setUpdateView(true);
@@ -174,20 +175,24 @@ abstract public class ChessPiece extends View {
      * Removes the drawing of this current piece from the canvas.
      */
     public void capture() {
-        if (this.colour == ChessPieceColour.WHITE) {
-            board.getPlayer1().addChessPiecesCaptured(this);
-            board.getPlayer1().removeChessPiecesAlive(this);
+        this.board = ChessBoard.getInstance();
+
+        if (board.getLocalPlayer().getColor() == this.colour) {
+            board.getLocalPlayer().addChessPiecesCaptured(this);
+            board.getLocalPlayer().removeChessPiecesAlive(this);
         }
-        else if (this.colour == ChessPieceColour.BLACK) {
-            board.getPlayer2().addChessPiecesCaptured(this);
-            board.getPlayer2().removeChessPiecesAlive(this);
+        else if(board.getEnemyPlayer().getColor() == this.colour) {
+            board.getEnemyPlayer().addChessPiecesCaptured(this);
+            board.getEnemyPlayer().removeChessPiecesAlive(this);
         }
+        Log.d(TAG, "capture: localplayercaptured" + board.getLocalPlayer().getChessPiecesCaptured());
+        Log.d(TAG, "capture: enemyplayercaptured" + board.getEnemyPlayer().getChessPiecesCaptured());
+
         this.isCaptured = true;
+        this.setUpdateView(true);
     }
 
-
-
-    // Flieds the King can move during Cheat Function on
+    // Fields the King can move during Cheat Function on
     public ArrayList<Field> cheatMoves() {
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
 

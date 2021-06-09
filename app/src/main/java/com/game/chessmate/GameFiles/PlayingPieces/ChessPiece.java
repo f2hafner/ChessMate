@@ -185,8 +185,8 @@ abstract public class ChessPiece extends View {
             board.getEnemyPlayer().addChessPiecesCaptured(this);
             board.getEnemyPlayer().removeChessPiecesAlive(this);
         }
-        Log.d(TAG, "capture: player1" + board.getLocalPlayer().getChessPiecesCaptured());
-        Log.d(TAG, "capture: player2" + board.getEnemyPlayer().getChessPiecesCaptured());
+        Log.d(TAG, "capture: localplayercaptured" + board.getLocalPlayer().getChessPiecesCaptured());
+        Log.d(TAG, "capture: enemyplayercaptured" + board.getEnemyPlayer().getChessPiecesCaptured());
 
         this.isCaptured = true;
         this.setUpdateView(true);

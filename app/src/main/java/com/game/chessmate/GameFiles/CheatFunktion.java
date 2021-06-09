@@ -11,8 +11,8 @@ public class CheatFunktion {
     private int playerWhiteWrongCheatReveal = 0;
     private int playerBlackWrongCheatReveal = 0;
 
-    Player playerWhite = ChessBoard.getInstance().getPlayer1();
-    Player playerBlack = ChessBoard.getInstance().getPlayer2();
+    Player playerWhite = ChessBoard.getInstance().getLocalPlayer();
+    Player playerBlack = ChessBoard.getInstance().getEnemyPlayer();
 
 
     public  void playerDidCheat() {

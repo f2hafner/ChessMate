@@ -106,7 +106,7 @@ public class GameActivity extends AppCompatActivity {
 
 
         Button cheatButton = getCheatButton();
-        Player player = ChessBoard.getInstance().getPlayer1();
+        Player player = ChessBoard.getInstance().getLocalPlayer();
 
 
         cheatButton.setOnClickListener(new View.OnClickListener() {

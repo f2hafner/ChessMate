@@ -98,7 +98,7 @@ public class BishopTest {
     }
     //NOTE - in the testcase environment, the position of the black and white pieces is different than in the app. The position of the pieces (but not the chessboard) is changed as if the chessboard were rotated agianst the clock once - so black pieces are on the left and white pieces on the right.
 
-    /*Testcases do not include interaction with opponent yet, as interaction with opponent has not been developed yet
+    /*
        testcases - one average testcase when piece is in the middle of the chessboard - legal moves should be restricted by pieces of same colour (later also by opponent),
        one testcase per chessboard border (4) - legal moves should be restricted by pieces of same colour and border (later also by opponent),
        one testcase per chessboard corner (4) - legal moves should be restricted by border twice and pieces
@@ -112,12 +112,12 @@ public class BishopTest {
         expected.add(currentFields[5][5].getFieldX() + ":" + currentFields[5][5].getFieldY());
         expected.add(currentFields[2][2].getFieldX() + ":" + currentFields[2][2].getFieldY());
         expected.add(currentFields[1][1].getFieldX() + ":" + currentFields[1][1].getFieldY());
-        expected.add(currentFields[0][0].getFieldX() + ":" + currentFields[0][0].getFieldY());//must be removed once opponent functionality exists - not a legal move field anymore as opponent blocks
+        //expected.add(currentFields[0][0].getFieldX() + ":" + currentFields[0][0].getFieldY());//must be removed once opponent functionality exists - not a legal move field anymore as opponent blocks
         expected.add(currentFields[4][2].getFieldX() + ":" + currentFields[4][2].getFieldY());
         expected.add(currentFields[5][1].getFieldX() + ":" + currentFields[5][1].getFieldY());
         expected.add(currentFields[2][4].getFieldX() + ":" + currentFields[2][4].getFieldY());
         expected.add(currentFields[1][5].getFieldX() + ":" + currentFields[1][5].getFieldY());
-        expected.add(currentFields[0][6].getFieldX() + ":" + currentFields[0][6].getFieldY());//must be removed once opponent functionality exists
+        //expected.add(currentFields[0][6].getFieldX() + ":" + currentFields[0][6].getFieldY());//must be removed once opponent functionality exists
 
         ArrayList<Field> temp = bishop.getLegalFields();
         ArrayList<String> actual = new ArrayList<>();
@@ -139,7 +139,7 @@ public class BishopTest {
         expected.add(currentFields[5][2].getFieldX() + ":" + currentFields[5][2].getFieldY());
         expected.add(currentFields[2][1].getFieldX() + ":" + currentFields[2][1].getFieldY());
         expected.add(currentFields[1][2].getFieldX() + ":" + currentFields[1][2].getFieldY());
-        expected.add(currentFields[0][3].getFieldX() + ":" + currentFields[0][3].getFieldY());//must be removed once opponent functionality exists
+        //expected.add(currentFields[0][3].getFieldX() + ":" + currentFields[0][3].getFieldY());//must be removed once opponent functionality exists
 
         ArrayList<Field> temp = bishop.getLegalFields();
         ArrayList<String> actual = new ArrayList<>();
@@ -157,12 +157,12 @@ public class BishopTest {
         when(field.getFieldY()).thenReturn(3);
 
         expected.add(currentFields[1][4].getFieldX() + ":" + currentFields[1][4].getFieldY());
-        expected.add(currentFields[2][5].getFieldX() + ":" + currentFields[2][5].getFieldY());//must be removed once opponent functionality exists
-        expected.add(currentFields[3][6].getFieldX() + ":" + currentFields[3][6].getFieldY());//must be removed once opponent functionality exists
-        expected.add(currentFields[4][7].getFieldX() + ":" + currentFields[4][7].getFieldY());//must be removed once opponent functionality exists
+        //expected.add(currentFields[2][5].getFieldX() + ":" + currentFields[2][5].getFieldY());//must be removed once opponent functionality exists
+        //expected.add(currentFields[3][6].getFieldX() + ":" + currentFields[3][6].getFieldY());//must be removed once opponent functionality exists
+        //expected.add(currentFields[4][7].getFieldX() + ":" + currentFields[4][7].getFieldY());//must be removed once opponent functionality exists
         expected.add(currentFields[1][2].getFieldX() + ":" + currentFields[1][2].getFieldY());
-        expected.add(currentFields[2][1].getFieldX() + ":" + currentFields[2][1].getFieldY());//must be removed once opponent functionality exists
-        expected.add(currentFields[3][0].getFieldX() + ":" + currentFields[3][0].getFieldY());//must be removed once opponent functionality exists
+        //expected.add(currentFields[2][1].getFieldX() + ":" + currentFields[2][1].getFieldY());//must be removed once opponent functionality exists
+        //expected.add(currentFields[3][0].getFieldX() + ":" + currentFields[3][0].getFieldY());//must be removed once opponent functionality exists
 
         ArrayList<Field> temp = bishop.getLegalFields();
         ArrayList<String> actual = new ArrayList<>();
@@ -194,7 +194,7 @@ public class BishopTest {
 
         expected.add(currentFields[2][6].getFieldX() + ":" + currentFields[2][6].getFieldY());
         expected.add(currentFields[1][5].getFieldX() + ":" + currentFields[1][5].getFieldY());
-        expected.add(currentFields[0][4].getFieldX() + ":" + currentFields[0][4].getFieldY());//must be removed once opponent functionality exists
+        //expected.add(currentFields[0][4].getFieldX() + ":" + currentFields[0][4].getFieldY());//must be removed once opponent functionality exists
         expected.add(currentFields[4][6].getFieldX() + ":" + currentFields[4][6].getFieldY());
         expected.add(currentFields[5][5].getFieldX() + ":" + currentFields[5][5].getFieldY());
 
@@ -213,10 +213,10 @@ public class BishopTest {
         when(field.getFieldY()).thenReturn(7);
 
         expected.add(currentFields[1][6].getFieldX() + ":" + currentFields[1][6].getFieldY());
-        expected.add(currentFields[2][5].getFieldX() + ":" + currentFields[2][5].getFieldY());//must be removed once opponent functionality exists
-        expected.add(currentFields[3][4].getFieldX() + ":" + currentFields[3][4].getFieldY());//must be removed once opponent functionality exists
-        expected.add(currentFields[4][3].getFieldX() + ":" + currentFields[4][3].getFieldY());//must be removed once opponent functionality exists
-        expected.add(currentFields[5][2].getFieldX() + ":" + currentFields[5][2].getFieldY());//must be removed once opponent functionality exists
+        //expected.add(currentFields[2][5].getFieldX() + ":" + currentFields[2][5].getFieldY());//must be removed once opponent functionality exists
+        //expected.add(currentFields[3][4].getFieldX() + ":" + currentFields[3][4].getFieldY());//must be removed once opponent functionality exists
+        //expected.add(currentFields[4][3].getFieldX() + ":" + currentFields[4][3].getFieldY());//must be removed once opponent functionality exists
+        //expected.add(currentFields[5][2].getFieldX() + ":" + currentFields[5][2].getFieldY());//must be removed once opponent functionality exists
 
 
         ArrayList<Field> temp = bishop.getLegalFields();
@@ -248,10 +248,10 @@ public class BishopTest {
         when(field.getFieldY()).thenReturn(0);
 
         expected.add(currentFields[1][1].getFieldX() + ":" + currentFields[1][1].getFieldY());
-        expected.add(currentFields[2][2].getFieldX() + ":" + currentFields[2][2].getFieldY());//must be removed once opponent functionality exists
-        expected.add(currentFields[3][3].getFieldX() + ":" + currentFields[3][3].getFieldY());//must be removed once opponent functionality exists
-        expected.add(currentFields[4][4].getFieldX() + ":" + currentFields[4][4].getFieldY());//must be removed once opponent functionality exists
-        expected.add(currentFields[5][5].getFieldX() + ":" + currentFields[5][5].getFieldY());//must be removed once opponent functionality exists
+        //expected.add(currentFields[2][2].getFieldX() + ":" + currentFields[2][2].getFieldY());//must be removed once opponent functionality exists
+        //expected.add(currentFields[3][3].getFieldX() + ":" + currentFields[3][3].getFieldY());//must be removed once opponent functionality exists
+        //expected.add(currentFields[4][4].getFieldX() + ":" + currentFields[4][4].getFieldY());//must be removed once opponent functionality exists
+        //expected.add(currentFields[5][5].getFieldX() + ":" + currentFields[5][5].getFieldY());//must be removed once opponent functionality exists
 
 
         ArrayList<Field> temp = bishop.getLegalFields();

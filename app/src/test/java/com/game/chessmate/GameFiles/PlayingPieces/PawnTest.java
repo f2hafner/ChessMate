@@ -96,7 +96,7 @@ public class PawnTest {
     }
 
     //NOTE - in the testcase environment, the position of the black and white pieces is different than in the app. The position of the pieces (but not the chessboard) is changed as if the chessboard were rotated agianst the clock once - so black pieces are on the left and white pieces on the right.
-    /*Testcases do not include interaction with opponent, as interaction is not implemented yet
+    /*
        testcases - one average testcase when piece is in the middle of the chessboard - legal moves should be restricted by pieces of same colour (later also by opponent),
        one testcase per chessboard border (4) - legal moves should be restricted by pieces of same colour and border (later also by opponent),
        one testcase per chessboard corner (4) - legal moves should be restricted by border twice and pieces
@@ -288,6 +288,20 @@ public class PawnTest {
         assertTrue(expected.size() == actual.size() && expected.containsAll(actual) && actual.containsAll(expected));//better solution - order does not matter
     }
 
+    @Test
+    public void getLegalFieldsOpponentEncounteredTest(){
+        when(field.getFieldX()).thenReturn(2);
+        when(field.getFieldY()).thenReturn(0);
+
+        expected.add(currentFields[1][0].getFieldX() + ":" + currentFields[1][0].getFieldY());
+        ArrayList<Field> temp = pawn.getLegalFields();
+        ArrayList<String> actual = new ArrayList<>();
+        for (int i = 0; i < temp.size(); i++) {
+            actual.add(temp.get(i).getFieldX() + ":" + temp.get(i).getFieldY());
+        }
+        assertEquals(expected, actual);//-- to see mistake of this test
+        assertTrue(expected.size() == actual.size() && expected.containsAll(actual) && actual.containsAll(expected));//better solution - order does not matter
+    }
 
 
 }

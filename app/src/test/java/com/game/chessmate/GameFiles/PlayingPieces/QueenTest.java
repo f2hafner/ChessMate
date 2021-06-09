@@ -95,7 +95,7 @@ public class QueenTest {
     }
 
     //NOTE - in the testcase environment, the position of the black and white pieces is different than in the app. The position of the pieces (but not the chessboard) is changed as if the chessboard were rotated agianst the clock once - so black pieces are on the left and white pieces on the right.
-    /*Testcases do not include interaction with opponent, as interaction is not implemented yet
+    /*
        testcases - one average testcase when piece is in the middle of the chessboard - legal moves should be restricted by pieces of same colour (later also by opponent),
        one testcase per chessboard border (4) - legal moves should be restricted by pieces of same colour and border (later also by opponent),
        one testcase per chessboard corner (4) - legal moves should be restricted by border twice and pieces
@@ -110,7 +110,7 @@ public class QueenTest {
         expected.add(currentFields[5][3].getFieldX() + ":" + currentFields[5][3].getFieldY());
         expected.add(currentFields[2][3].getFieldX() + ":" + currentFields[2][3].getFieldY());
         expected.add(currentFields[1][3].getFieldX() + ":" + currentFields[1][3].getFieldY());
-        expected.add(currentFields[0][3].getFieldX() + ":" + currentFields[0][3].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][3].getFieldX() + ":" + currentFields[0][3].getFieldY());//must be removed once opponent interaction exists
         expected.add(currentFields[3][2].getFieldX() + ":" + currentFields[3][2].getFieldY());
         expected.add(currentFields[3][1].getFieldX() + ":" + currentFields[3][1].getFieldY());
         expected.add(currentFields[3][0].getFieldX() + ":" + currentFields[3][0].getFieldY());
@@ -120,12 +120,12 @@ public class QueenTest {
         expected.add(currentFields[3][7].getFieldX() + ":" + currentFields[3][7].getFieldY());
         expected.add(currentFields[2][2].getFieldX() + ":" + currentFields[2][2].getFieldY());
         expected.add(currentFields[1][1].getFieldX() + ":" + currentFields[1][1].getFieldY());
-        expected.add(currentFields[0][0].getFieldX() + ":" + currentFields[0][0].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][0].getFieldX() + ":" + currentFields[0][0].getFieldY());//must be removed once opponent interaction exists
         expected.add(currentFields[4][4].getFieldX() + ":" + currentFields[4][4].getFieldY());
         expected.add(currentFields[5][5].getFieldX() + ":" + currentFields[5][5].getFieldY());
         expected.add(currentFields[2][4].getFieldX() + ":" + currentFields[2][4].getFieldY());
         expected.add(currentFields[1][5].getFieldX() + ":" + currentFields[1][5].getFieldY());
-        expected.add(currentFields[0][6].getFieldX() + ":" + currentFields[0][6].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][6].getFieldX() + ":" + currentFields[0][6].getFieldY());//must be removed once opponent interaction exists
         expected.add(currentFields[4][2].getFieldX() + ":" + currentFields[4][2].getFieldY());
         expected.add(currentFields[5][1].getFieldX() + ":" + currentFields[5][1].getFieldY());
 
@@ -149,7 +149,7 @@ public class QueenTest {
         expected.add(currentFields[5][0].getFieldX() + ":" + currentFields[5][0].getFieldY());
         expected.add(currentFields[2][0].getFieldX() + ":" + currentFields[2][0].getFieldY());
         expected.add(currentFields[1][0].getFieldX() + ":" + currentFields[1][0].getFieldY());
-        expected.add(currentFields[0][0].getFieldX() + ":" + currentFields[0][0].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][0].getFieldX() + ":" + currentFields[0][0].getFieldY());//must be removed once opponent interaction exists
         expected.add(currentFields[3][1].getFieldX() + ":" + currentFields[3][1].getFieldY());
         expected.add(currentFields[3][2].getFieldX() + ":" + currentFields[3][2].getFieldY());
         expected.add(currentFields[3][3].getFieldX() + ":" + currentFields[3][3].getFieldY());
@@ -161,7 +161,7 @@ public class QueenTest {
         expected.add(currentFields[5][2].getFieldX() + ":" + currentFields[5][2].getFieldY());
         expected.add(currentFields[2][1].getFieldX() + ":" + currentFields[2][1].getFieldY());
         expected.add(currentFields[1][2].getFieldX() + ":" + currentFields[1][2].getFieldY());
-        expected.add(currentFields[0][3].getFieldX() + ":" + currentFields[0][3].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][3].getFieldX() + ":" + currentFields[0][3].getFieldY());//must be removed once opponent interaction exists
 
         ArrayList<Field> temp = queen.getLegalFields();
         ArrayList<String> actual = new ArrayList<>();
@@ -179,24 +179,24 @@ public class QueenTest {
         when(field.getFieldY()).thenReturn(3);
 
         expected.add(currentFields[1][3].getFieldX() + ":" + currentFields[1][3].getFieldY());
-        expected.add(currentFields[2][3].getFieldX() + ":" + currentFields[2][3].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[3][3].getFieldX() + ":" + currentFields[3][3].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[4][3].getFieldX() + ":" + currentFields[4][3].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[5][3].getFieldX() + ":" + currentFields[5][3].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[2][3].getFieldX() + ":" + currentFields[2][3].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[3][3].getFieldX() + ":" + currentFields[3][3].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[4][3].getFieldX() + ":" + currentFields[4][3].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[5][3].getFieldX() + ":" + currentFields[5][3].getFieldY());//must be removed once opponent interaction exists
         expected.add(currentFields[0][2].getFieldX() + ":" + currentFields[0][2].getFieldY());
-        expected.add(currentFields[0][1].getFieldX() + ":" + currentFields[0][1].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[0][0].getFieldX() + ":" + currentFields[0][0].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][1].getFieldX() + ":" + currentFields[0][1].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][0].getFieldX() + ":" + currentFields[0][0].getFieldY());//must be removed once opponent interaction exists
         expected.add(currentFields[0][4].getFieldX() + ":" + currentFields[0][4].getFieldY());
-        expected.add(currentFields[0][5].getFieldX() + ":" + currentFields[0][5].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[0][6].getFieldX() + ":" + currentFields[0][6].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[0][7].getFieldX() + ":" + currentFields[0][7].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][5].getFieldX() + ":" + currentFields[0][5].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][6].getFieldX() + ":" + currentFields[0][6].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][7].getFieldX() + ":" + currentFields[0][7].getFieldY());//must be removed once opponent interaction exists
         expected.add(currentFields[1][4].getFieldX() + ":" + currentFields[1][4].getFieldY());
-        expected.add(currentFields[2][5].getFieldX() + ":" + currentFields[2][5].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[3][6].getFieldX() + ":" + currentFields[3][6].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[4][7].getFieldX() + ":" + currentFields[4][7].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[2][5].getFieldX() + ":" + currentFields[2][5].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[3][6].getFieldX() + ":" + currentFields[3][6].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[4][7].getFieldX() + ":" + currentFields[4][7].getFieldY());//must be removed once opponent interaction exists
         expected.add(currentFields[1][2].getFieldX() + ":" + currentFields[1][2].getFieldY());
-        expected.add(currentFields[2][1].getFieldX() + ":" + currentFields[2][1].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[3][0].getFieldX() + ":" + currentFields[3][0].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[2][1].getFieldX() + ":" + currentFields[2][1].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[3][0].getFieldX() + ":" + currentFields[3][0].getFieldY());//must be removed once opponent interaction exists
 
         ArrayList<Field> temp = queen.getLegalFields();
         ArrayList<String> actual = new ArrayList<>();
@@ -231,7 +231,7 @@ public class QueenTest {
         expected.add(currentFields[5][7].getFieldX() + ":" + currentFields[5][7].getFieldY());
         expected.add(currentFields[2][7].getFieldX() + ":" + currentFields[2][7].getFieldY());
         expected.add(currentFields[1][7].getFieldX() + ":" + currentFields[1][7].getFieldY());
-        expected.add(currentFields[0][7].getFieldX() + ":" + currentFields[0][7].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][7].getFieldX() + ":" + currentFields[0][7].getFieldY());//must be removed once opponent interaction exists
         expected.add(currentFields[3][6].getFieldX() + ":" + currentFields[3][6].getFieldY());
         expected.add(currentFields[3][5].getFieldX() + ":" + currentFields[3][5].getFieldY());
         expected.add(currentFields[3][4].getFieldX() + ":" + currentFields[3][4].getFieldY());
@@ -241,7 +241,7 @@ public class QueenTest {
         expected.add(currentFields[3][0].getFieldX() + ":" + currentFields[3][0].getFieldY());
         expected.add(currentFields[2][6].getFieldX() + ":" + currentFields[2][6].getFieldY());
         expected.add(currentFields[1][5].getFieldX() + ":" + currentFields[1][5].getFieldY());
-        expected.add(currentFields[0][4].getFieldX() + ":" + currentFields[0][4].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][4].getFieldX() + ":" + currentFields[0][4].getFieldY());//must be removed once opponent interaction exists
         expected.add(currentFields[4][6].getFieldX() + ":" + currentFields[4][6].getFieldY());
         expected.add(currentFields[5][5].getFieldX() + ":" + currentFields[5][5].getFieldY());
 
@@ -260,22 +260,22 @@ public class QueenTest {
         when(field.getFieldY()).thenReturn(7);
 
         expected.add(currentFields[1][7].getFieldX() + ":" + currentFields[1][7].getFieldY());
-        expected.add(currentFields[2][7].getFieldX() + ":" + currentFields[2][7].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[3][7].getFieldX() + ":" + currentFields[3][7].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[4][7].getFieldX() + ":" + currentFields[4][7].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[5][7].getFieldX() + ":" + currentFields[5][7].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[2][7].getFieldX() + ":" + currentFields[2][7].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[3][7].getFieldX() + ":" + currentFields[3][7].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[4][7].getFieldX() + ":" + currentFields[4][7].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[5][7].getFieldX() + ":" + currentFields[5][7].getFieldY());//must be removed once opponent interaction exists
         expected.add(currentFields[0][6].getFieldX() + ":" + currentFields[0][6].getFieldY());
-        expected.add(currentFields[0][5].getFieldX() + ":" + currentFields[0][5].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[0][4].getFieldX() + ":" + currentFields[0][4].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[0][3].getFieldX() + ":" + currentFields[0][3].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[0][2].getFieldX() + ":" + currentFields[0][2].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[0][1].getFieldX() + ":" + currentFields[0][1].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[0][0].getFieldX() + ":" + currentFields[0][0].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][5].getFieldX() + ":" + currentFields[0][5].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][4].getFieldX() + ":" + currentFields[0][4].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][3].getFieldX() + ":" + currentFields[0][3].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][2].getFieldX() + ":" + currentFields[0][2].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][1].getFieldX() + ":" + currentFields[0][1].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][0].getFieldX() + ":" + currentFields[0][0].getFieldY());//must be removed once opponent interaction exists
         expected.add(currentFields[1][6].getFieldX() + ":" + currentFields[1][6].getFieldY());
-        expected.add(currentFields[2][5].getFieldX() + ":" + currentFields[2][5].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[3][4].getFieldX() + ":" + currentFields[3][4].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[4][3].getFieldX() + ":" + currentFields[4][3].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[5][2].getFieldX() + ":" + currentFields[5][2].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[2][5].getFieldX() + ":" + currentFields[2][5].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[3][4].getFieldX() + ":" + currentFields[3][4].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[4][3].getFieldX() + ":" + currentFields[4][3].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[5][2].getFieldX() + ":" + currentFields[5][2].getFieldY());//must be removed once opponent interaction exists
 
         ArrayList<Field> temp = queen.getLegalFields();
         ArrayList<String> actual = new ArrayList<>();
@@ -306,22 +306,22 @@ public class QueenTest {
         when(field.getFieldY()).thenReturn(0);
 
         expected.add(currentFields[1][0].getFieldX() + ":" + currentFields[1][0].getFieldY());
-        expected.add(currentFields[2][0].getFieldX() + ":" + currentFields[2][0].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[3][0].getFieldX() + ":" + currentFields[3][0].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[4][0].getFieldX() + ":" + currentFields[4][0].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[5][0].getFieldX() + ":" + currentFields[5][0].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[2][0].getFieldX() + ":" + currentFields[2][0].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[3][0].getFieldX() + ":" + currentFields[3][0].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[4][0].getFieldX() + ":" + currentFields[4][0].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[5][0].getFieldX() + ":" + currentFields[5][0].getFieldY());//must be removed once opponent interaction exists
         expected.add(currentFields[0][1].getFieldX() + ":" + currentFields[0][1].getFieldY());
-        expected.add(currentFields[0][2].getFieldX() + ":" + currentFields[0][2].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[0][3].getFieldX() + ":" + currentFields[0][3].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[0][4].getFieldX() + ":" + currentFields[0][4].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[0][5].getFieldX() + ":" + currentFields[0][5].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[0][6].getFieldX() + ":" + currentFields[0][6].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[0][7].getFieldX() + ":" + currentFields[0][7].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][2].getFieldX() + ":" + currentFields[0][2].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][3].getFieldX() + ":" + currentFields[0][3].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][4].getFieldX() + ":" + currentFields[0][4].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][5].getFieldX() + ":" + currentFields[0][5].getFieldY());//must be removed once opponent interaction exists
+        // expected.add(currentFields[0][6].getFieldX() + ":" + currentFields[0][6].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[0][7].getFieldX() + ":" + currentFields[0][7].getFieldY());//must be removed once opponent interaction exists
         expected.add(currentFields[1][1].getFieldX() + ":" + currentFields[1][1].getFieldY());
-        expected.add(currentFields[2][2].getFieldX() + ":" + currentFields[2][2].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[3][3].getFieldX() + ":" + currentFields[3][3].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[4][4].getFieldX() + ":" + currentFields[4][4].getFieldY());//must be removed once opponent interaction exists
-        expected.add(currentFields[5][5].getFieldX() + ":" + currentFields[5][5].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[2][2].getFieldX() + ":" + currentFields[2][2].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[3][3].getFieldX() + ":" + currentFields[3][3].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[4][4].getFieldX() + ":" + currentFields[4][4].getFieldY());//must be removed once opponent interaction exists
+        //expected.add(currentFields[5][5].getFieldX() + ":" + currentFields[5][5].getFieldY());//must be removed once opponent interaction exists
 
 
         ArrayList<Field> temp = queen.getLegalFields();

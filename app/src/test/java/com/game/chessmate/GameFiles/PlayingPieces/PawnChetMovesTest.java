@@ -265,8 +265,8 @@ public class PawnChetMovesTest {
         expected.add(currentFields[5][6].getFieldX() + ":" + currentFields[5][6].getFieldY());
         expected.add(currentFields[5][7].getFieldX() + ":" + currentFields[5][7].getFieldY());
 
-        //TODO fix Pawn move
-        expected.add(currentFields[1][6].getFieldX() + ":" + currentFields[1][7].getFieldY());
+
+        expected.add(currentFields[1][6].getFieldX() + ":" + currentFields[1][6].getFieldY());
 
         ArrayList<Field> temp = pawn.getCheatFunctionMoves();
         ArrayList<String> actual = new ArrayList<>();

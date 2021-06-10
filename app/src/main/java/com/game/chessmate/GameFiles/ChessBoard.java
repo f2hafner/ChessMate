@@ -170,6 +170,7 @@ public class ChessBoard {
         int touchX = (int) event.getX();
         int touchY = (int) event.getY();
         Rect rect;
+        resetLegalMoves();
 
 
         for (int i = 0; i < boardFields.length; i++) {
@@ -212,11 +213,6 @@ public class ChessBoard {
 
                             endPosition = clickedField;
 
-                            localPlayer.getLastSelectedField().getCurrentPiece().move(clickedField);
-                            localPlayer.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
-                            localPlayer.setLastSelectedField(null);
-                            resetLegalMoves();
-
                             if (GameActivity.cheatButtonStatus()) {
                                 localPlayer.setLegalMovesForCheat(movedPiece.getLegalFields());
                                 if ((localPlayer.getLegalMovesForCheat().contains(endPosition))) {
@@ -227,6 +223,12 @@ public class ChessBoard {
                                     Log.d("Move_______FALSE", String.valueOf(moveWasLegal));
                                 }
                             }
+                            localPlayer.getLastSelectedField().getCurrentPiece().move(clickedField);
+                            localPlayer.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
+                            localPlayer.setLastSelectedField(null);
+                            resetLegalMoves();
+
+
 
                         } else {
                             localPlayer.setLastSelectedField(null);
@@ -266,7 +268,7 @@ public class ChessBoard {
         return endPosition;
     }
 
-    private void resetLegalMoves() {
+    public void resetLegalMoves() {
         for (Field f : localPlayer.getLegalMovesSelected()) {
             f.setRectangleDefaultColor();
             f.setAsIllegal();

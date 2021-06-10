@@ -80,16 +80,17 @@ public class GameActivity extends AppCompatActivity {
             public void onSensorChanged(SensorEvent sensorEvent) {
                 float lightValue = sensorEvent.values[0];
                 //float closeSensor = maxValue/100;
-                if (lightValue <= 500 && cheatButtonStatus()) {
+                if (lightValue <= 500  ) {
+                    //Todo light sensor from enemy player and cheat on from local player
                     if (ChessBoard.getInstance().getwasMoveLegal()) {
+                        CheatFunktion cheatFunktion = new CheatFunktion(GameActivity.this);
+                        cheatFunktion.playerDidNotCheat();
 
 
-                        //TODO do methode from CheatFunktionClass
-
-                        //TODO Player has to stop for one round
                     } else {
-                        ChessBoard.getInstance().getStartPossition();
-                        //TODO move piece back to start possition
+                        CheatFunktion cheatFunktion = new CheatFunktion(GameActivity.this);
+                        cheatFunktion.playerDidCheat();
+
 
                     }
                     //Log.d("SENSOR", String.valueOf(lightValue));

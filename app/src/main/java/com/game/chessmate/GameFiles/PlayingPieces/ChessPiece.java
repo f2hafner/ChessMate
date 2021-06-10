@@ -48,7 +48,7 @@ abstract public class ChessPiece extends View {
     private int movementSpeed = 15;
     private boolean updateView;
     private boolean firstMove = true;
-    private boolean isProtected=false;
+    private boolean isProtected = false;
     private boolean isCaptured = false;
     private ChessBoard board;
     protected boolean opponentEncountered = false;
@@ -66,7 +66,7 @@ abstract public class ChessPiece extends View {
         this.currentPosition = position;
         this.targetPosition = null;
         this.colour = colour;
-        this.offset = new Vector(0,0);
+        this.offset = new Vector(0, 0);
         this.updateMovementOffset = false;
         this.updateView = false;
         this.sprite = sprite;
@@ -86,7 +86,7 @@ abstract public class ChessPiece extends View {
         this.currentPosition = position;
         this.targetPosition = null;
         this.colour = colour;
-        this.offset = new Vector(0,0);
+        this.offset = new Vector(0, 0);
         this.updateMovementOffset = false;
         this.updateView = false;
         this.sprite = sprite;
@@ -109,6 +109,7 @@ abstract public class ChessPiece extends View {
 
     /**
      * Draws the bitmap of this PlayingPiece to the canvas in the position of the containing rectangle.
+     *
      * @param canvas
      */
     @Override
@@ -117,10 +118,9 @@ abstract public class ChessPiece extends View {
         if (isCaptured) {
             Paint paint = new Paint();
             paint.setColor(Color.TRANSPARENT);
-            canvas.drawBitmap(this.sprite, field.getRectangle().left + (int)offset.getX(), field.getRectangle().top + (int)offset.getY(), paint);
-        }
-        else {
-            canvas.drawBitmap(this.sprite, field.getRectangle().left + (int)offset.getX(), field.getRectangle().top + (int)offset.getY(), null);
+            canvas.drawBitmap(this.sprite, field.getRectangle().left + (int) offset.getX(), field.getRectangle().top + (int) offset.getY(), paint);
+        } else {
+            canvas.drawBitmap(this.sprite, field.getRectangle().left + (int) offset.getX(), field.getRectangle().top + (int) offset.getY(), null);
         }
     }
 
@@ -149,11 +149,10 @@ abstract public class ChessPiece extends View {
         Vector target = new Vector(targetPosition.getRectangle().left, targetPosition.getRectangle().top);
         Vector vector = target.sub(start);
 
-        if((offset.getX() != vector.getX()) || (offset.getY() != vector.getY())){
+        if ((offset.getX() != vector.getX()) || (offset.getY() != vector.getY())) {
             offset = offset.add(vector.div(this.movementSpeed));
             this.setUpdateView(true);
-        }
-        else {
+        } else {
             afterMove();
         }
     }
@@ -163,7 +162,7 @@ abstract public class ChessPiece extends View {
      */
     private void afterMove() {
         this.updateMovementOffset = false;
-        this.offset = new Vector(0,0);
+        this.offset = new Vector(0, 0);
         currentPosition.setCurrentPiece(null);
         this.currentPosition = targetPosition;
         targetPosition.setCurrentPiece(this);
@@ -180,8 +179,7 @@ abstract public class ChessPiece extends View {
         if (board.getLocalPlayer().getColor() == this.colour) {
             board.getLocalPlayer().addChessPiecesCaptured(this);
             board.getLocalPlayer().removeChessPiecesAlive(this);
-        }
-        else if(board.getEnemyPlayer().getColor() == this.colour) {
+        } else if (board.getEnemyPlayer().getColor() == this.colour) {
             board.getEnemyPlayer().addChessPiecesCaptured(this);
             board.getEnemyPlayer().removeChessPiecesAlive(this);
         }
@@ -200,7 +198,6 @@ abstract public class ChessPiece extends View {
         ArrayList<Field> cheatFields = new ArrayList<>();
 
 
-
         for (int fieldX = 0; fieldX < currentFields.length; fieldX++) {
             for (int fieldY = 0; fieldY < currentFields[fieldX].length; fieldY++) {
                 if (!currentFields[fieldX][fieldY].hasPiece()) {
@@ -209,7 +206,7 @@ abstract public class ChessPiece extends View {
 
             }
         }
-
+        Log.d("AMOUNT", String.valueOf(cheatFields.size()));
         return cheatFields;
     }
 
@@ -231,15 +228,17 @@ abstract public class ChessPiece extends View {
 
         for (int i = 0; i < cheatMoves.size(); i++) {
             result.add(cheatMoves.get(i));
-            for (int j = 0; j < legalMoves.size(); j++) {
-                if (!cheatMoves.contains(legalMoves.get(j))) {
-                    result.add(legalMoves.get(j));
-                }
+        }
+        for (int j = 0; j < legalMoves.size(); j++) {
+            if (!result.contains(legalMoves.get(j))) {
+                result.add(legalMoves.get(j));
             }
         }
-        Log.d("foreach", "wir sind hier");
-        for (Field f: result){
-            Log.d("Pawn cheat Moves",f.getChessCoordinates());}
+
+
+        Log.d("ALLLL FIIIIELDS", String.valueOf(result.size()));
+       // for (Field f: result){
+         //   Log.d("Pawn cheat Moves",f.getChessCoordinates());}
         return result;
     }
 

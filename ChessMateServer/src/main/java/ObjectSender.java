@@ -1,7 +1,4 @@
-import NetObjects.ChessPieceColour;
-import NetObjects.LobbyDataObject;
-import NetObjects.createSessionResponse;
-import NetObjects.startGameParameters;
+import NetObjects.*;
 import com.esotericsoftware.kryonet.Connection;
 
 public class ObjectSender {
@@ -22,5 +19,13 @@ public class ObjectSender {
         parameters.setInitColour(p.chessPieceColour);
         System.out.println("Sending: " + parameters.getInitColour().toString());
         con.sendTCP(parameters);
+    }
+
+    public static void sendGameDataObject(Connection con, Lobby lobby, GameDataObject g){
+        GameDataObject gameDataObject = g;
+        gameDataObject.setOrigin(Lobby.mirrorFunc(g.getOrigin()));
+        gameDataObject.setTarget(Lobby.mirrorFunc(g.getTarget()));
+        System.out.println("Sending: " + gameDataObject);
+        con.sendTCP(gameDataObject);
     }
 }

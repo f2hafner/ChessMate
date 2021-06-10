@@ -75,7 +75,6 @@ public class Lobby extends AppCompatActivity {
                 startActivity(toGameIntentPlayer2);
                 ChessBoard.getInstance().setGameState(GameState.ACTIVE);
             });
-
         });
 
         ChessMateClient.getInstance().getClient().addListener(lobbyUpdateListener);

@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
+import com.game.chessmate.GameFiles.Networking.NetworkManager;
 import com.game.chessmate.GameFiles.Vector;
 
 import java.util.ArrayList;
@@ -165,6 +166,7 @@ abstract public class ChessPiece extends View {
         this.updateMovementOffset = false;
         this.offset = new Vector(0,0);
         currentPosition.setCurrentPiece(null);
+        NetworkManager.sendMove(currentPosition,targetPosition);
         this.currentPosition = targetPosition;
         targetPosition.setCurrentPiece(this);
 

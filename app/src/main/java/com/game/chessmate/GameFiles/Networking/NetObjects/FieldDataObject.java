@@ -3,7 +3,7 @@ package com.game.chessmate.GameFiles.Networking.NetObjects;
 public class FieldDataObject {
     int x;
     int y;
-    FieldDataObject(){}
+    public FieldDataObject(){}
 
     public int getX() {
         return x;

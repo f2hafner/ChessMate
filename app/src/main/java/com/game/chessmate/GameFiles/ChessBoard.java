@@ -189,6 +189,7 @@ public class ChessBoard {
      * @param event the event with the x and y coordinates of the touch event.
      */
     public void handleFieldClick(MotionEvent event) {
+        Log.i(TAG, "handleFieldClick: " + gameState);
         if (gameState == GameState.WAITING) {
             return;
         }

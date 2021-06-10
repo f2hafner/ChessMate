@@ -76,7 +76,6 @@ public class NetworkManager {
 
     public static void sendMove(Field currentField, Field targetField){
         Log.i(TAG, "sendMove: " + "sendmove was called");
-        ChessBoard.getInstance().setGameState(GameState.WAITING);
         FieldDataObject currentFieldObject = new FieldDataObject();
         currentFieldObject.setX(currentField.getFieldX());
         currentFieldObject.setY(currentField.getFieldY());
@@ -91,7 +90,7 @@ public class NetworkManager {
         ChessMateClient.getInstance().getClient().sendTCP(gameDataObject);
     }
 
-    private static Listener getGameCycleListener(){
+    public static Listener getGameCycleListener(){
         Listener gameCycleListener = new Listener(){
             public void received(Connection connection, Object object) {
                 if(object instanceof GameDataObject){
@@ -105,11 +104,10 @@ public class NetworkManager {
     }
 
     public static void receiveMove(FieldDataObject origin, FieldDataObject target){
+        Log.i(TAG, "receiveMove: receivemove was called");
         Field originField = ChessBoard.getInstance().getBoardFields()[origin.getX()][origin.getY()];
         Field targetField = ChessBoard.getInstance().getBoardFields()[target.getX()][target.getY()];
         originField.getCurrentPiece().move(targetField);
-        //NetworkManager.sendMove(originField,targetField);
-        ChessBoard.getInstance().setGameState(GameState.ACTIVE);
     }
 
     public static ChessPieceColour getInitialColor() {

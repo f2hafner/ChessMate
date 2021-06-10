@@ -164,8 +164,7 @@ abstract public class ChessPiece extends View {
      * Cleanup work after move. Update Positions of chessPieces and update fields.
      */
     private void afterMove() {
-        Log.i(TAG, "afterMove: " + ChessBoard.getInstance());
-        Log.i("GAMESTATE","afterMove: " + ChessBoard.getInstance().getGameState());
+        Log.i("GAMESTATE","afterMovestart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE){
             NetworkManager.sendMove(currentPosition, targetPosition);
         }
@@ -176,6 +175,14 @@ abstract public class ChessPiece extends View {
         targetPosition.setCurrentPiece(this);
 
         this.setUpdateView(true);
+
+        if (ChessBoard.getInstance().getGameState() == GameState.WAITING) {
+            ChessBoard.getInstance().setGameState(GameState.ACTIVE);
+        }
+        else if(ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+            ChessBoard.getInstance().setGameState(GameState.WAITING);
+        }
+        Log.i("GAMESTATE","afterMoveend: " + ChessBoard.getInstance().getGameState());
     }
 
     /**

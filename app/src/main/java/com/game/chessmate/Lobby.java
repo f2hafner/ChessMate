@@ -61,6 +61,7 @@ public class Lobby extends AppCompatActivity {
                         Log.i("COLOR","COLORlobby: "+((startGameParameters) object).getInitColour());
                         Intent toGameIntentPlayer2 = new Intent(Lobby.this, GameActivity.class);
                         startActivity(toGameIntentPlayer2);
+                        ChessMateClient.getInstance().getClient().addListener(NetworkManager.getGameCycleListener());
                         ChessBoard.getInstance().setGameState(GameState.WAITING);
                     });
                 }

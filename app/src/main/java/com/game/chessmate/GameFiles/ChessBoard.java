@@ -54,11 +54,10 @@ public class ChessBoard {
     private final int boardSize = 8;
     private Player localPlayer;
     private Player enemyPlayer;
-    private boolean isInverted;
+    private GameState gameState;
 
     private ChessBoard() {
         this.boardFields = new Field[8][8];
-        //isInverted = localPlayer.getColor() == ChessPieceColour.WHITE ? false : true;
     }
 
     /**
@@ -170,6 +169,9 @@ public class ChessBoard {
      * @param event the event with the x and y coordinates of the touch event.
      */
     public void handleFieldClick(MotionEvent event) {
+        if (gameState == GameState.WAITING) {
+            return;
+        }
         int touchX = (int)event.getX();
         int touchY = (int)event.getY();
         Rect rect;
@@ -400,5 +402,13 @@ public class ChessBoard {
      */
     public Player getEnemyPlayer() {
         return enemyPlayer;
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 }

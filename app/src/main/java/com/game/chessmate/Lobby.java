@@ -1,7 +1,6 @@
 package com.game.chessmate;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.game.chessmate.GameFiles.ChessBoard;
+import com.game.chessmate.GameFiles.GameState;
 import com.game.chessmate.GameFiles.Networking.ChessMateClient;
 import com.game.chessmate.GameFiles.Networking.NetObjects.LobbyDataObject;
 import com.game.chessmate.GameFiles.Networking.NetObjects.startGameParameters;
@@ -60,6 +61,7 @@ public class Lobby extends AppCompatActivity {
                         Log.i("COLOR","COLORlobby: "+((startGameParameters) object).getInitColour());
                         Intent toGameIntentPlayer2 = new Intent(Lobby.this, GameActivity.class);
                         startActivity(toGameIntentPlayer2);
+                        ChessBoard.getInstance().setGameState(GameState.WAITING);
                     });
                 }
             }
@@ -71,6 +73,7 @@ public class Lobby extends AppCompatActivity {
                 NetworkManager.startGame(lobbycode);
                 Intent toGameIntentPlayer2 = new Intent(Lobby.this, GameActivity.class);
                 startActivity(toGameIntentPlayer2);
+                ChessBoard.getInstance().setGameState(GameState.ACTIVE);
             });
 
         });

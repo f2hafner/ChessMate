@@ -1,10 +1,13 @@
 package com.game.chessmate.GameFiles;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.game.chessmate.GameActivity;
 import com.game.chessmate.GameFiles.Networking.NetworkManager;
@@ -17,8 +20,11 @@ import com.game.chessmate.GameFiles.PlayingPieces.Knight;
 import com.game.chessmate.GameFiles.PlayingPieces.Pawn;
 import com.game.chessmate.GameFiles.PlayingPieces.Queen;
 import com.game.chessmate.GameFiles.PlayingPieces.Rook;
+import com.game.chessmate.R;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * The ChessBoard class handles creation and maintenance of the ChessBoard
@@ -169,6 +175,7 @@ public class ChessBoard {
      * @param event the event with the x and y coordinates of the touch event.
      */
     public void handleFieldClick(MotionEvent event) {
+        setGameState(GameState.ACTIVE);
         if (gameState == GameState.WAITING) {
             return;
         }
@@ -410,5 +417,7 @@ public class ChessBoard {
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+        GameActivity a = (GameActivity) view.getContext();
+        a.setGameStateView(gameState);
     }
 }

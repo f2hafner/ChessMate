@@ -1,5 +1,7 @@
 package com.game.chessmate.GameFiles;
 
+import android.widget.TextView;
+
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceType;
 import org.junit.Before;
@@ -23,9 +25,13 @@ public class ChessBoardTest {
     @Mock
     private static BoardView view;
 
+    @Mock
+    private static TextView gameStateView;
+
     @BeforeClass
     public static void init() {
         view = Mockito.mock(BoardView.class);
+        gameStateView = Mockito.mock(TextView.class);
     }
 
     @Before

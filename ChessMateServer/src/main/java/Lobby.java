@@ -101,11 +101,33 @@ public class Lobby {
 
     public static FieldDataObject mirrorFunc(FieldDataObject field){
         FieldDataObject mirroredField = new FieldDataObject();
-        //TODO implement mirror function with standard ChessBoard size 8x8
-        mirroredField.setX(123);
-        mirroredField.setX(123);
-        mirroredField.getX();
-        mirroredField.getX();
-        return field;
+
+        int[][] board = new int[8][8];
+        int[][] invertedBoard = new int[8][8];
+        board[field.getX()][field.getY()] = 1;
+        int k = -1;
+        for (int i = board.length-1; i >= 0; i--) {
+            int h = -1;
+            k++;
+            for (int j = board[0].length-1; j >= 0; j--) {
+                h++;
+                invertedBoard[k][h] = board[i][j];
+            }
+        }
+
+        int resultX = 0;
+        int resultY = 0;
+        for (int i = 0; i < invertedBoard.length; i++) {
+            for (int j = 0; j < invertedBoard[0].length; j++) {
+                if (invertedBoard[i][j] == 1) {
+                    resultX = i;
+                    resultY = j;
+                }
+            }
+        }
+
+        mirroredField.setX(resultX);
+        mirroredField.setY(resultY);
+        return mirroredField;
     }
 }

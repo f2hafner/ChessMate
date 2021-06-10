@@ -38,6 +38,7 @@ public class BoardView extends ViewGroup {
         board = ChessBoard.getInstance();
         board.initChessBoard(this, width);
 
+        GameActivity.setDeck(board.getDeck());
         runnable = new RenderThread();
         thread = new Thread(runnable);
     }
@@ -51,7 +52,7 @@ public class BoardView extends ViewGroup {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
                 if(GameActivity.isSelected()){
-                    board.doCardAction(event,GameActivity.getId(),GameActivity.getDeck());
+                    board.doCardAction(event,GameActivity.getId());
                 }
                 else {
                     board.handleFieldClick(event);

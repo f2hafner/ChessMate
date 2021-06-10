@@ -56,12 +56,17 @@ public class ChessBoard {
     private Player localPlayer;
     private Player enemyPlayer;
     private boolean isInverted;
+    private Deck deck;
 
     private ChessBoard() {
         this.boardFields = new Field[8][8];
         localPlayer = new Player(ChessPieceColour.WHITE);
         enemyPlayer = new Player(ChessPieceColour.BLACK);
         isInverted = localPlayer.getColor() == ChessPieceColour.WHITE ? false : true;
+
+        deck=new Deck();
+        localPlayer.initCards(deck.getInitialCards());
+        enemyPlayer.initCards(deck.getInitialCards());
     }
 
     /**
@@ -240,11 +245,13 @@ public class ChessBoard {
         }
     }
 
-    public void doCardAction(MotionEvent event, int id, Deck deck){
+    public void doCardAction(MotionEvent event, int id){
         int touchX = (int)event.getX();
         int touchY = (int)event.getY();
         Rect rect;
         ArrayList<Field> legalMoves;
+
+        Card [] cards=localPlayer.getCurrentCards();
 
         for (int i = 0; i < boardFields.length; i++) {
             for (int j = 0; j < boardFields[i].length; j++) {
@@ -253,7 +260,7 @@ public class ChessBoard {
                 if (rect.contains(touchX, touchY)) {
                     Field clickedField = boardFields[i][j];
 
-                    switch (deck.cardsPlayer1[id].getId()){
+                    switch (cards[id].getId()){
                         case 0: //cowardice
                             legalMoves=new ArrayList<>();
 
@@ -274,11 +281,11 @@ public class ChessBoard {
                             }
                             if(localPlayer.getLastSelectedField()!=null){ //second click
                                 if (clickedField.getCurrentPiece()==null){
-                                    deck.cardsPlayer1[id].activateCard(cardPiece1,null,clickedField,null,null,deck);
+                                    cards[id].activateCard(cardPiece1,null,clickedField,null,null,deck);
                                     localPlayer.setLastSelectedField(null);
                                     resetLegalMoves();
-                                    deck.cardsPlayer1[id].setOwned(false);
-                                    deck.cardsPlayer1[id]=deck.drawCard();
+                                    cards[id].setOwned(false);
+                                    cards[id]=deck.drawCard();
                                     GameActivity.unselectAfterCardActivation();
                                 }
                             }
@@ -311,8 +318,8 @@ public class ChessBoard {
                                     localPlayer.setLastSelectedField(null);
                                     resetLegalMoves();
                                 }
-                                deck.cardsPlayer1[id].setOwned(false);
-                                deck.cardsPlayer1[id]=deck.drawCard();
+                                cards[id].setOwned(false);
+                                cards[id]=deck.drawCard();
                                 GameActivity.unselectAfterCardActivation();
                             }
                             break;
@@ -335,11 +342,11 @@ public class ChessBoard {
                             }
                             if(localPlayer.getLastSelectedField()!=null){ //second click
                                 if (clickedField.getCurrentPiece()==null){
-                                    deck.cardsPlayer1[id].activateCard(cardPiece1,null,clickedField,null,null,deck);
+                                    cards[id].activateCard(cardPiece1,null,clickedField,null,null,deck);
                                     localPlayer.setLastSelectedField(null);
                                     resetLegalMoves();
-                                    deck.cardsPlayer1[id].setOwned(false);
-                                    deck.cardsPlayer1[id]=deck.drawCard();
+                                    cards[id].setOwned(false);
+                                    cards[id]=deck.drawCard();
                                     GameActivity.unselectAfterCardActivation();
                                 }
                             }
@@ -355,11 +362,11 @@ public class ChessBoard {
                             }
                             if(localPlayer.getLastSelectedField()!=null){ //second click
                                 if (clickedField.getCurrentPiece()!=null&&clickedField.getCurrentPiece().getColour()!=cardPiece1.getColour()){
-                                    deck.cardsPlayer1[id].activateCard(cardPiece1,clickedField.getCurrentPiece(),clickedField,null,null,deck);
+                                    cards[id].activateCard(cardPiece1,clickedField.getCurrentPiece(),clickedField,null,null,deck);
                                     localPlayer.setLastSelectedField(null);
                                     resetLegalMoves();
-                                    deck.cardsPlayer1[id].setOwned(false);
-                                    deck.cardsPlayer1[id]=deck.drawCard();
+                                    cards[id].setOwned(false);
+                                    cards[id]=deck.drawCard();
                                     GameActivity.unselectAfterCardActivation();
                                 }
                             }
@@ -367,18 +374,18 @@ public class ChessBoard {
 
                         case 4: //disintegration
                             if (clickedField.getCurrentPiece() != null) {
-                                deck.cardsPlayer1[id].activateCard(cardPiece1,clickedField.getCurrentPiece(),null,null,null,deck);
-                                deck.cardsPlayer1[id].setOwned(false);
-                                deck.cardsPlayer1[id]=deck.drawCard();
+                                cards[id].activateCard(cardPiece1,clickedField.getCurrentPiece(),null,null,null,deck);
+                                cards[id].setOwned(false);
+                                cards[id]=deck.drawCard();
                                 GameActivity.unselectAfterCardActivation();
                             }
                             break;
 
                         case 5: //champion
                             if (clickedField.getCurrentPiece() != null&&clickedField.getCurrentPiece().getPlayingPieceType()==ChessPieceType.KNIGHT) {
-                                deck.cardsPlayer1[id].activateCard(clickedField.getCurrentPiece(),null,null,null,null,deck);
-                                deck.cardsPlayer1[id].setOwned(false);
-                                deck.cardsPlayer1[id]=deck.drawCard();
+                                cards[id].activateCard(clickedField.getCurrentPiece(),null,null,null,null,deck);
+                                cards[id].setOwned(false);
+                                cards[id]=deck.drawCard();
                                 GameActivity.unselectAfterCardActivation();
                             }
                             break;
@@ -403,8 +410,8 @@ public class ChessBoard {
                                     resetLegalMoves();
                                 }
 
-                                deck.cardsPlayer1[id].setOwned(false);
-                                deck.cardsPlayer1[id]=deck.drawCard();
+                                cards[id].setOwned(false);
+                                cards[id]=deck.drawCard();
                                 GameActivity.unselectAfterCardActivation();
                             }
                             break;
@@ -430,8 +437,8 @@ public class ChessBoard {
                                     resetLegalMoves();
                                 }
 
-                                deck.cardsPlayer1[id].setOwned(false);
-                                deck.cardsPlayer1[id]=deck.drawCard();
+                                cards[id].setOwned(false);
+                                cards[id]=deck.drawCard();
                                 GameActivity.unselectAfterCardActivation();
                             }
                             break;
@@ -456,8 +463,8 @@ public class ChessBoard {
                                     resetLegalMoves();
                                 }
 
-                                deck.cardsPlayer1[id].setOwned(false);
-                                deck.cardsPlayer1[id]=deck.drawCard();
+                                cards[id].setOwned(false);
+                                cards[id]=deck.drawCard();
                                 GameActivity.unselectAfterCardActivation();
                             }
                             break;
@@ -485,8 +492,8 @@ public class ChessBoard {
                                     resetLegalMoves();
                                 }
 
-                                deck.cardsPlayer1[id].setOwned(false);
-                                deck.cardsPlayer1[id]=deck.drawCard();
+                                cards[id].setOwned(false);
+                                cards[id]=deck.drawCard();
                                 GameActivity.unselectAfterCardActivation();
                             }
                             break;
@@ -662,4 +669,6 @@ public class ChessBoard {
     public Player getEnemyPlayer() {
         return enemyPlayer;
     }
+
+    public Deck getDeck(){return this.deck;}
 }

@@ -16,6 +16,7 @@ public class Player {
     private ArrayList<Field> legalMovesSelected;
     private Field lastSelectedField;
     private ChessPieceColour color;
+    private Card[] playerCards;
 
     /**
      * Instantiates a new Player.
@@ -136,4 +137,8 @@ public class Player {
     public void setLegalMovesForCheat(ArrayList<Field> legalMovesForCheat) {
         this.legalMovesForCheat = legalMovesForCheat;
     }
+
+    public void initCards(Card[]cards){playerCards= cards;}
+
+    public Card[] getCurrentCards(){return playerCards;}
 }

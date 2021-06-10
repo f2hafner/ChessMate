@@ -14,8 +14,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.chessmate.GameFiles.BoardView;
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Deck;
+import com.game.chessmate.GameFiles.Player;
 
 /**
  * The type Game activity.
@@ -28,6 +30,7 @@ public class GameActivity extends AppCompatActivity {
     private static int id = 3;
     private static boolean selected;
 
+    Player player;
 
     private Sensor sensor;
     private SensorManager sensorManager;
@@ -108,7 +111,8 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(id==3||id==0) {
-                    exactView.setImageResource(deck.cardsPlayer1[0].getDrawableId());
+                    player=ChessBoard.getInstance().getLocalPlayer();
+                    exactView.setImageResource(player.getCurrentCards()[0].getDrawableId());
                     exactView.setVisibility(View.VISIBLE);
                     card1.setVisibility(View.INVISIBLE);
                     button.setVisibility(View.VISIBLE);
@@ -121,8 +125,9 @@ public class GameActivity extends AppCompatActivity {
         card2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                player=ChessBoard.getInstance().getLocalPlayer();
                 if(id==3||id==1) {
-                    exactView.setImageResource(deck.cardsPlayer1[1].getDrawableId());
+                    exactView.setImageResource(player.getCurrentCards()[1].getDrawableId());
                     exactView.setVisibility(View.VISIBLE);
                     card2.setVisibility(View.INVISIBLE);
                     button.setVisibility(View.VISIBLE);
@@ -136,7 +141,8 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(id==3||id==2) {
-                    exactView.setImageResource(deck.cardsPlayer1[2].getDrawableId());
+                    player=ChessBoard.getInstance().getLocalPlayer();
+                    exactView.setImageResource(player.getCurrentCards()[2].getDrawableId());
                     exactView.setVisibility(View.VISIBLE);
                     card3.setVisibility(View.INVISIBLE);
                     button.setVisibility(View.VISIBLE);
@@ -251,7 +257,7 @@ public class GameActivity extends AppCompatActivity {
         return id;
     }
 
-    public static Deck getDeck(){return deck;}
+    public static void setDeck(Deck cards){deck=cards;}
 
     public static void unselectAfterCardActivation(){
         button.setVisibility(View.INVISIBLE);

@@ -5,17 +5,15 @@ import java.util.Random;
 
 public class Deck {
     private  Card[] deck;
-    private Card[] used;
     private int size=10;//25
     private int initialCardNumber=3;
     private int currentCard=0;
-    public Card[]cardsPlayer1;
-    private Card[]cardsPlayer2;
+    //public Card[]cardsPlayer1;
+    //private Card[]cardsPlayer2;
     private Random rand;
 
     public Deck(){
         deck=new Card[size];
-        used=new Card[size];
 
         for (int i=0;i<size;i++){
             deck[i]=new Card(i);
@@ -24,8 +22,9 @@ public class Deck {
         rand=new SecureRandom();
         shuffle();
 
-        cardsPlayer1=getInitialCards();
-      //  cardsPlayer2=getInitialCards();
+
+       // cardsPlayer1=getInitialCards();
+        //cardsPlayer2=getInitialCards();
     }
 
     public Card[] getInitialCards(){
@@ -39,16 +38,8 @@ public class Deck {
             j++;
         }
 
-        for (int i=0;i<size;i++) {
-            if (deck[i].getId()==9)
-            temp[0]=deck[i];
-        }
-
-
         return temp;
     }
-
-    public Card[] getDeck(){return deck;}
 
     public void setSize(int size){this.size=size;}
     public int getSize(){return size;}
@@ -82,4 +73,7 @@ public class Deck {
     }
 
     public void setCurrentCard(int number){currentCard=number;}
+
+   // public Card[] getCardsPlayer1(){return cardsPlayer1;}
+   // public Card[] getCardsPlayer2(){return cardsPlayer2;}
 }

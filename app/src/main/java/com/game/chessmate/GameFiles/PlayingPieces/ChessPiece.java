@@ -166,7 +166,6 @@ abstract public class ChessPiece extends View {
         this.updateMovementOffset = false;
         this.offset = new Vector(0,0);
         currentPosition.setCurrentPiece(null);
-        NetworkManager.sendMove(currentPosition,targetPosition);
         this.currentPosition = targetPosition;
         targetPosition.setCurrentPiece(this);
 

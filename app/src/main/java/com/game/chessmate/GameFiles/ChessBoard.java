@@ -416,8 +416,10 @@ public class ChessBoard {
     }
 
     public void setGameState(GameState gameState) {
+        if(view != null){
+            GameActivity a = (GameActivity) view.getContext();
+            a.setGameStateView(gameState);
+        }
         this.gameState = gameState;
-        GameActivity a = (GameActivity) view.getContext();
-        a.setGameStateView(gameState);
     }
 }

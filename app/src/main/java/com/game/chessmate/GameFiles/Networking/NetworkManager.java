@@ -81,6 +81,7 @@ public class NetworkManager {
         targetFieldObject.setY(targetField.getFieldY());
         GameDataObject gameDataObject = new GameDataObject();
         gameDataObject.setLobbyCode(NetworkManager.currentLobbyCode);
+        ChessBoard.getInstance().setGameState(GameState.WAITING);
         gameDataObject.setMoved(true);
         gameDataObject.setOrigin(currentFieldObject);
         gameDataObject.setTarget(targetFieldObject);
@@ -104,6 +105,7 @@ public class NetworkManager {
         Field originField = ChessBoard.getInstance().getBoardFields()[origin.getX()][origin.getY()];
         Field targetField = ChessBoard.getInstance().getBoardFields()[target.getX()][target.getY()];
         originField.getCurrentPiece().move(targetField);
+        NetworkManager.sendMove(originField,targetField);
         ChessBoard.getInstance().setGameState(GameState.ACTIVE);
     }
 

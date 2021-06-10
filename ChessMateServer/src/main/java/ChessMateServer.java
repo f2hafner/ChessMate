@@ -84,14 +84,19 @@ public class ChessMateServer extends Thread{
                     Lobby lobby = LobbyManager.getSessionByLobbycode(request.getLobbyCode());
                     if(lobby!=null){
                         // Send
+                        System.out.println("Before Decision");
                         if(lobby.currentLobbyState == GameStates.WAITING_FOR_PLAYER1_MOVE){
+                            System.out.println("Current Lobbystate was WaitForPlayer1move");
                             if(con==lobby.player1.connection){
+                                System.out.println("Connection was the same with player 1");
                                 System.out.println(lobby.player1);
                                 lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_MOVE;
                                 ObjectSender.sendGameDataObject(lobby.player2.connection, lobby, request);
                             }
                         } else {
+                            System.out.println("Current Lobbystate was WaitForPlayer2move");
                             if(con==lobby.player2.connection){
+                                System.out.println("Connection was the same with player 2");
                                 System.out.println(lobby.player2);
                                 lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_MOVE;
                                 ObjectSender.sendGameDataObject(lobby.player1.connection, lobby, request);

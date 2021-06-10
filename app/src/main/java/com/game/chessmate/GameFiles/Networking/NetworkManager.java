@@ -22,6 +22,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import static android.content.ContentValues.TAG;
+
 /** The NetworkManager class functions as the framework for networked interaction. */
 public class NetworkManager {
     private static final class InstanceHolder {static final NetworkManager INSTANCE = new NetworkManager();}
@@ -73,6 +75,8 @@ public class NetworkManager {
     }
 
     public static void sendMove(Field currentField, Field targetField){
+        Log.i(TAG, "sendMove: " + "sendmove was called");
+        ChessBoard.getInstance().setGameState(GameState.WAITING);
         FieldDataObject currentFieldObject = new FieldDataObject();
         currentFieldObject.setX(currentField.getFieldX());
         currentFieldObject.setY(currentField.getFieldY());
@@ -81,7 +85,6 @@ public class NetworkManager {
         targetFieldObject.setY(targetField.getFieldY());
         GameDataObject gameDataObject = new GameDataObject();
         gameDataObject.setLobbyCode(NetworkManager.currentLobbyCode);
-        ChessBoard.getInstance().setGameState(GameState.WAITING);
         gameDataObject.setMoved(true);
         gameDataObject.setOrigin(currentFieldObject);
         gameDataObject.setTarget(targetFieldObject);
@@ -105,7 +108,7 @@ public class NetworkManager {
         Field originField = ChessBoard.getInstance().getBoardFields()[origin.getX()][origin.getY()];
         Field targetField = ChessBoard.getInstance().getBoardFields()[target.getX()][target.getY()];
         originField.getCurrentPiece().move(targetField);
-        NetworkManager.sendMove(originField,targetField);
+        //NetworkManager.sendMove(originField,targetField);
         ChessBoard.getInstance().setGameState(GameState.ACTIVE);
     }
 

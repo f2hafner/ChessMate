@@ -121,8 +121,15 @@ public class ChessBoard {
         initPieces(ChessPieceType.KNIGHT,  7, 6, 1, localPlayer.getChessPiecesAlive(), knight, color);
         initPieces(ChessPieceType.BISHOP,  7, 2, 1, localPlayer.getChessPiecesAlive(), bishop, color);
         initPieces(ChessPieceType.BISHOP,  7, 5, 1, localPlayer.getChessPiecesAlive(), bishop, color);
-        initPieces(ChessPieceType.QUEEN,  7, 4, 1, localPlayer.getChessPiecesAlive(), queen, color);
-        initPieces(ChessPieceType.KING,  7, 3, 1, localPlayer.getChessPiecesAlive(), king, color);
+        if (color == ChessPieceColour.WHITE) {
+            initPieces(ChessPieceType.QUEEN,  7, 3, 1, localPlayer.getChessPiecesAlive(), queen, color);
+            initPieces(ChessPieceType.KING,  7, 4, 1, localPlayer.getChessPiecesAlive(), king, color);
+        }
+        else {
+            initPieces(ChessPieceType.QUEEN,  7, 4, 1, localPlayer.getChessPiecesAlive(), queen, color);
+            initPieces(ChessPieceType.KING,  7, 3, 1, localPlayer.getChessPiecesAlive(), king, color);
+        }
+
     }
 
     /**
@@ -144,8 +151,15 @@ public class ChessBoard {
         initPieces(ChessPieceType.KNIGHT,  0, 6, 1, enemyPlayer.getChessPiecesAlive(), knight, color);
         initPieces(ChessPieceType.BISHOP,  0, 2, 1, enemyPlayer.getChessPiecesAlive(), bishop, color);
         initPieces(ChessPieceType.BISHOP,  0, 5, 1, enemyPlayer.getChessPiecesAlive(), bishop, color);
-        initPieces(ChessPieceType.QUEEN,  0, 4, 1, enemyPlayer.getChessPiecesAlive(), queen, color);
-        initPieces(ChessPieceType.KING,  0, 3, 1, enemyPlayer.getChessPiecesAlive(), king, color);
+        if (color == ChessPieceColour.WHITE) {
+            initPieces(ChessPieceType.QUEEN,  0, 4, 1, enemyPlayer.getChessPiecesAlive(), queen, color);
+            initPieces(ChessPieceType.KING,  0, 3, 1, enemyPlayer.getChessPiecesAlive(), king, color);
+        }
+        else {
+            initPieces(ChessPieceType.QUEEN,  0, 3, 1, enemyPlayer.getChessPiecesAlive(), queen, color);
+            initPieces(ChessPieceType.KING,  0, 4, 1, enemyPlayer.getChessPiecesAlive(), king, color);
+        }
+
     }
 
     /**
@@ -175,7 +189,6 @@ public class ChessBoard {
      * @param event the event with the x and y coordinates of the touch event.
      */
     public void handleFieldClick(MotionEvent event) {
-        setGameState(GameState.ACTIVE);
         if (gameState == GameState.WAITING) {
             return;
         }

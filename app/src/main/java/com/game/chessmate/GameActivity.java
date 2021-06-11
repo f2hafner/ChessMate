@@ -81,15 +81,18 @@ public class GameActivity extends AppCompatActivity {
         gameStateView.setText("The Game started !");
 
         Button cheatButton = getCheatButton();
+
         Player player = ChessBoard.getInstance().getLocalPlayer();
 
         if (sensor == null) {
             Toast.makeText(this, "your device has no light sensore, so you wont be able to use the cheat funktion", Toast.LENGTH_SHORT).show();
             CheatFunktion.setCheatFunction(false);
-        }else{ CheatFunktion.setCheatFunction(true);
+        } else {
+            CheatFunktion.setCheatFunction(true);
 
         }
         maxValue = sensor.getMaximumRange();
+        CheatFunktion cheatFunktion = new CheatFunktion(GameActivity.this);
         //Log.d("Sensor", String.valueOf(maxValue));
         lightEventListener = new SensorEventListener() {
             @Override
@@ -97,23 +100,12 @@ public class GameActivity extends AppCompatActivity {
                 player.setLightValue(sensorEvent.values[0]);
                 //float closeSensor = maxValue/100;
                 if ( sensorEvent.values[0] <= 500  ) {
-                    //Todo light sensor from enemy player and cheat on from local player
-                    if (ChessBoard.getInstance().getwasMoveLegal()) {
-                        CheatFunktion cheatFunktion = new CheatFunktion(GameActivity.this);
-                        cheatFunktion.playerDidNotCheat();
-
-
-                    } else {
-                        CheatFunktion cheatFunktion = new CheatFunktion(GameActivity.this);
-                        cheatFunktion.playerDidCheat();
-
-
+                    cheatFunktion.tetermanCheat();
                     }
-                    //Log.d("SENSOR", String.valueOf(lightValue));
-                    //TODO and person who pressedn cheat button made a move then we need to check if the move was legal
-                    //  ChessBoard.getwasMoveLegal();
-                }
+                //Log.d("SENSOR", String.valueOf(lightValue));
             }
+
+
 
             @Override
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -123,6 +115,14 @@ public class GameActivity extends AppCompatActivity {
 
 
 
+         Button sensorButton = findViewById(R.id.LightSensorButton);
+        sensorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                player.setLightValue(0);
+            }
+        });
 
 
         cheatButton.setOnClickListener(new View.OnClickListener() {

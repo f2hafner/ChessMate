@@ -244,9 +244,11 @@ public class ChessBoard {
                                 localPlayer.setLegalMovesForCheat(movedPiece.getLegalFields());
                                 if ((localPlayer.getLegalMovesForCheat().contains(endPosition))) {
                                     moveWasLegal = true;
+                                    localPlayer.setWasLeganMove(true);
                                     Log.d("Move********TRUE", String.valueOf(moveWasLegal));
                                 } else {
                                     moveWasLegal = false;
+                                    localPlayer.setWasLeganMove(false);
                                     Log.d("Move_______FALSE", String.valueOf(moveWasLegal));
                                 }
                             }

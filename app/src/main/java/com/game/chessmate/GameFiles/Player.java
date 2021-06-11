@@ -18,6 +18,8 @@ public class Player {
     private ChessPieceColour color;
     private boolean cheatOn;
     private float lightValue;
+    private boolean wasLeganMove;
+    private int timesCheatFunktionUsedWrongly;
 
     /**
      * Instantiates a new Player.
@@ -31,6 +33,8 @@ public class Player {
         this.lastSelectedField = null;
         this.color = color;
         this.cheatOn = false;
+        this.wasLeganMove = true;
+        this.timesCheatFunktionUsedWrongly = 0;
     }
 
 
@@ -153,7 +157,24 @@ public class Player {
         return lightValue;
     }
 
+
     public void setLightValue(float lightValue) {
         this.lightValue = lightValue;
+    }
+
+    public boolean getWasLeganMove() {
+        return wasLeganMove;
+    }
+
+    public void setWasLeganMove(boolean wasLeganMove) {
+        this.wasLeganMove = wasLeganMove;
+    }
+
+    public int getTimesCheatFunktionUsedWrongly() {
+        return timesCheatFunktionUsedWrongly;
+    }
+
+    public void setTimesCheatFunktionUsedWrongly(int timesCheatFunktionUsedWrongly) {
+        this.timesCheatFunktionUsedWrongly = timesCheatFunktionUsedWrongly;
     }
 }

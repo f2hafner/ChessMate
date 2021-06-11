@@ -1,6 +1,4 @@
-import NetObjects.createSessionRequest;
-import NetObjects.createSessionResponse;
-import NetObjects.joinSessionRequest;
+import NetObjects.*;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -56,10 +54,59 @@ public class ChessMateServer extends Thread{
                         lobby._player2_join(con,request.getName());
                         // Send
                         ObjectSender.sendLobbyDataObject(con,lobby);
+                        ObjectSender.sendLobbyDataObject(lobby.player1.connection,lobby);
                     } else {
                         //TODO lobby doesn't exist
                     }
                 }
+
+                if (o instanceof startGameRequest) {
+                    System.out.println("[START_GAME_REQUEST]");
+                    // Receive
+                    startGameRequest request = (startGameRequest)o;
+                    // Process
+                    Lobby lobby = LobbyManager.getSessionByLobbycode(request.getLobbycode());
+                    if(lobby!=null){
+                        // Send
+                        lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_MOVE;
+                        ObjectSender.sendStartGameParameters(con,lobby.player1);
+                        ObjectSender.sendStartGameParameters(lobby.player2.connection,lobby.player2);
+                    } else {
+                        //TODO lobby doesn't exist
+                    }
+                }
+
+                if (o instanceof GameDataObject) {
+                    System.out.println("[GameDataObject]");
+                    // Receive
+                    GameDataObject request = (GameDataObject)o;
+                    // Process
+                    Lobby lobby = LobbyManager.getSessionByLobbycode(request.getLobbyCode());
+                    if(lobby!=null){
+                        // Send
+                        System.out.println("Before Decision");
+                        if(lobby.currentLobbyState == GameStates.WAITING_FOR_PLAYER1_MOVE){
+                            System.out.println("Current Lobbystate was WaitForPlayer1move");
+                            if(con==lobby.player1.connection){
+                                System.out.println("Connection was the same with player 1");
+                                System.out.println(lobby.player1);
+                                lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_MOVE;
+                                ObjectSender.sendGameDataObject(lobby.player2.connection, lobby, request);
+                            }
+                        } else {
+                            System.out.println("Current Lobbystate was WaitForPlayer2move");
+                            if(con==lobby.player2.connection){
+                                System.out.println("Connection was the same with player 2");
+                                System.out.println(lobby.player2);
+                                lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_MOVE;
+                                ObjectSender.sendGameDataObject(lobby.player1.connection, lobby, request);
+                            }
+                        }
+                    } else {
+                        //TODO lobby doesn't exist
+                    }
+                }
+
                 System.out.println(con.toString() +"\t"+ o.toString() +"\n");
             }
 

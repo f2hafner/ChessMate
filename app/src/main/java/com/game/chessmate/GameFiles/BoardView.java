@@ -38,7 +38,6 @@ public class BoardView extends ViewGroup {
         board = ChessBoard.getInstance();
         board.initChessBoard(this, width);
 
-        GameActivity.setDeck(board.getDeck());
         runnable = new RenderThread();
         thread = new Thread(runnable);
     }

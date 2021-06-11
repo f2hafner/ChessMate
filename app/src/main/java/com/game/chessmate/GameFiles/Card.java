@@ -20,7 +20,7 @@ public class Card {
     private int id;
     private int drawableId;
 
-    private Bitmap sprite;
+    ArrayList<Field> legalMoves;
 
     public Card (int number) throws IllegalArgumentException{
         id=number;
@@ -208,135 +208,237 @@ public class Card {
         }
     }
 
-    public void activateCard(ChessPiece playingPiece1, ChessPiece playingPiece2, Field field, Card[]cardsPlayer1, Card[]cardsPlayer2, Deck deck){
-        switch (id){
-            case 0:
-                cowardice(playingPiece1,field);
-                break;
-            case 1:
-                crusade(playingPiece1);
-                break;
-            case 2:
-                darkMirror(playingPiece1,field);
-                break;
-            case 3:
-                deathDance(playingPiece1,playingPiece2);
-                break;
-            case 4:
-                disintegration(playingPiece1);
-                break;
-            case 5:
-                champion(playingPiece1);
-                break;
-            case 6:
-                rebirth(playingPiece2);
-                break;
-            case 7:
-                revelation(playingPiece1);
-                break;
-            case 8:
-                longJump(playingPiece1,field);
-                break;
-            case 9:
-                lostCastle(playingPiece1,playingPiece2);
-                break;
-            case 10:
-                manOfStraw(playingPiece1,playingPiece2);
-                break;
-            case 11:
-                mysticShield(field);
-                break;
-            case 12:
-                forbiddenCity(field);
-                break;
-            case 13:
-                holyQuest(playingPiece1,playingPiece2);
-                break;
-            case 14:
-                bombard(playingPiece1);
-                break;
-            case 15:
-                coup(playingPiece1);
-                break;
-            case 16:
-                handOfFate(cardsPlayer1,cardsPlayer2,deck);
-                break;
-            case 17:
-                funeralPyre();
-                break;
-            case 18:
-                martyr();
-                break;
-            case 19:
-                confabulation();
-                break;
-            case 20:
-                fogOfWar();
-                break;
-            case 21:
-                spoilsOfWar(playingPiece1,playingPiece2);
-                break;
-            case 22:
-                thinkAgain();
-                break;
-            case 23:
-                vulture();
-                break;
-            case 24:
-                abduction(playingPiece2);
-                break;
+    //move opponent pawn one or two fields backward (no occupied square)
+    public ArrayList<Field> cowardice(int clickNumber,ChessPiece oponentPiece,Field field,Field[][]currentFields){
+        if (clickNumber==1){ //first click -> getLegalMoves
+            if(field.getFieldX()+1!=-1&&field.getFieldX()+1!=currentFields.length) {
+                legalMoves.add(currentFields[field.getFieldX()+1][field.getFieldY()]);
+            }
+            if(field.getFieldX()+2!=-1&&field.getFieldX()+2!=currentFields.length) {
+                legalMoves.add(currentFields[field.getFieldX()+2][field.getFieldY()]);
+            }
         }
+        else //second click -> Move
+            oponentPiece.move(field);
+
+        return legalMoves;
     }
 
-    public void cowardice(ChessPiece oponentPiece,Field field){
-        //move opponent pawn one or two fields backward (no occupied square)
-        oponentPiece.move(field);
-
-    }
-
-    //todo sinnvoll?
-    public void crusade(ChessPiece playingPiece){
-        //bishop moves one more time (when it doesn't capture a piece)
-    }
-
-    public void darkMirror(ChessPiece playingPiece, Field field){
-        //one pawns can capture by moving diagonally backward instead of forward
+    //bishop moves one more time (when it doesn't capture a piece)
+    public void crusade(ChessPiece playingPiece, Field field){
         playingPiece.move(field);
     }
 
-    public void deathDance(ChessPiece playingPiece, ChessPiece oponentPiece){
-        //Exchange the position of any of your pieces with any adjacent enemy piece
-       Field temp=playingPiece.getPosition();
-       playingPiece.setPosition(oponentPiece.getPosition());
-       oponentPiece.setPosition(temp);
+    //one pawns can capture by moving diagonally backward instead of forward
+    public ArrayList<Field> darkMirror(int clickNumber, ChessPiece playingPiece, Field field, Field[][] currentFields){
+        legalMoves=new ArrayList<>();
+
+        if (clickNumber==1){//first Click
+            if(field.getFieldX()+1!=-1&&field.getFieldX()+1!=currentFields.length&&field.getFieldY()-1!=-1&&field.getFieldY()-1!=currentFields.length&&field.getFieldY()+1!=-1&&field.getFieldY()+1!=currentFields.length) {
+                legalMoves.add(currentFields[field.getFieldX()+1][field.getFieldY()-1]);
+                legalMoves.add(currentFields[field.getFieldX()+1][field.getFieldY()+1]);
+            }
+        }
+        else //second Click
+            playingPiece.move(field);
+
+        return legalMoves;
     }
 
+    //Exchange the position of any of your pieces with any adjacent enemy piece
+    public ArrayList<Field> deathDance(int cardNumber, ChessPiece playingPiece, ChessPiece oponentPiece,Field[][] currentFields){
+      legalMoves=new ArrayList<>();
+
+       if (cardNumber==1){//first click
+           Field field=playingPiece.getPosition();
+           Field temp;
+
+           //down
+           temp=currentFields[field.getFieldX()+1][field.getFieldY()];
+           if (temp!=null&&temp.getCurrentPiece()!=null&&temp.getCurrentPiece().getColour()!=playingPiece.getColour())
+               legalMoves.add(temp);
+           //up
+           temp=currentFields[field.getFieldX()-1][field.getFieldY()];
+           if (temp!=null&&temp.getCurrentPiece()!=null&&temp.getCurrentPiece().getColour()!=playingPiece.getColour())
+               legalMoves.add(temp);
+           //left
+           temp=currentFields[field.getFieldX()][field.getFieldY()-1];
+           if (temp!=null&&temp.getCurrentPiece()!=null&&temp.getCurrentPiece().getColour()!=playingPiece.getColour())
+               legalMoves.add(temp);
+           //right
+           temp=currentFields[field.getFieldX()][field.getFieldY()+1];
+           if (temp!=null&&temp.getCurrentPiece()!=null&&temp.getCurrentPiece().getColour()!=playingPiece.getColour())
+               legalMoves.add(temp);
+           //down-left
+           temp=currentFields[field.getFieldX()+1][field.getFieldY()-1];
+           if (temp!=null&&temp.getCurrentPiece()!=null&&temp.getCurrentPiece().getColour()!=playingPiece.getColour())
+               legalMoves.add(temp);
+           //down-right
+           temp=currentFields[field.getFieldX()+1][field.getFieldY()+1];
+           if (temp!=null&&temp.getCurrentPiece()!=null&&temp.getCurrentPiece().getColour()!=playingPiece.getColour())
+               legalMoves.add(temp);
+           //up-left
+           temp=currentFields[field.getFieldX()-1][field.getFieldY()-1];
+           if (temp!=null&&temp.getCurrentPiece()!=null&&temp.getCurrentPiece().getColour()!=playingPiece.getColour())
+               legalMoves.add(temp);
+           //up-right
+           temp=currentFields[field.getFieldX()-1][field.getFieldY()+1];
+           if (temp!=null&&temp.getCurrentPiece()!=null&&temp.getCurrentPiece().getColour()!=playingPiece.getColour())
+               legalMoves.add(temp);
+       }
+       else {//second Click
+           Field temp = playingPiece.getPosition();
+           playingPiece.setPosition(oponentPiece.getPosition());
+           oponentPiece.setPosition(temp);
+       }
+
+       return legalMoves;
+    }
+
+    //Remove one of your own pawns (It is now dead and cannot be brought back into play)
     public void disintegration(ChessPiece playingPiece){
-        //Remove one of your own pawns (It is now dead and cannot be brought back into play)
         playingPiece.capture();
     }
 
+    //Any one knight becomes a Champion. Place a marker underneath it. (a Champion jumps to the opposite corner of a 3 by 4 rectangle).
     public void champion(ChessPiece playingPiece){
-        //Any one knight becomes a Champion. Place a marker underneath it. (a Champion jumps to the opposite corner of a 3 by 4 rectangle).
         playingPiece.setChampion();
         playingPiece.getPosition().markChampion();
         playingPiece.getPosition().invalidate();
     }
 
-    //todo sinnvoll?
-    public void rebirth(ChessPiece oponentPiece){
-        //Move one enemy piece to any square it could have occupied at the beginning of the game. The square must be empty or contain one of your pieces. If one of your pieces is in the square, it is captured.
+    //Move one enemy piece to any square it could have occupied at the beginning of the game. The square must be empty or contain one of your pieces. If one of your pieces is in the square, it is captured.
+    public ArrayList<Field> rebirth(int cardNumber,ChessPiece oponentPiece,Field field,Field[][] currentFields){
+        legalMoves=new ArrayList<>();
 
+        if (cardNumber==1) {//first Click
+            switch (oponentPiece.getPlayingPieceType()) {
+                case BISHOP:
+                    if (currentFields[0][2].getCurrentPiece() == null || currentFields[0][2].getCurrentPiece().getColour() != oponentPiece.getColour())
+                        legalMoves.add(currentFields[0][2]);
+                    if (currentFields[0][5].getCurrentPiece() == null || currentFields[0][5].getCurrentPiece().getColour() != oponentPiece.getColour())
+                        legalMoves.add(currentFields[0][5]);
+                    break;
+
+                case KING:
+                    if (currentFields[0][3].getCurrentPiece() == null || currentFields[0][3].getCurrentPiece().getColour() != oponentPiece.getColour())
+                        legalMoves.add(currentFields[0][3]);
+                    break;
+
+                case KNIGHT:
+                    if (currentFields[0][1].getCurrentPiece() == null || currentFields[0][1].getCurrentPiece().getColour() != oponentPiece.getColour())
+                        legalMoves.add(currentFields[0][1]);
+                    if (currentFields[0][6].getCurrentPiece() == null || currentFields[0][6].getCurrentPiece().getColour() != oponentPiece.getColour())
+                        legalMoves.add(currentFields[0][6]);
+                    break;
+
+                case PAWN:
+                    if (currentFields[1][0].getCurrentPiece() == null || currentFields[1][0].getCurrentPiece().getColour() != oponentPiece.getColour())
+                        legalMoves.add(currentFields[1][0]);
+                    if (currentFields[1][1].getCurrentPiece() == null || currentFields[1][1].getCurrentPiece().getColour() != oponentPiece.getColour())
+                        legalMoves.add(currentFields[1][1]);
+                    if (currentFields[1][2].getCurrentPiece() == null || currentFields[1][2].getCurrentPiece().getColour() != oponentPiece.getColour())
+                        legalMoves.add(currentFields[1][2]);
+                    if (currentFields[1][3].getCurrentPiece() == null || currentFields[1][3].getCurrentPiece().getColour() != oponentPiece.getColour())
+                        legalMoves.add(currentFields[1][3]);
+                    if (currentFields[1][4].getCurrentPiece() == null || currentFields[1][4].getCurrentPiece().getColour() != oponentPiece.getColour())
+                        legalMoves.add(currentFields[1][4]);
+                    if (currentFields[1][5].getCurrentPiece() == null || currentFields[1][5].getCurrentPiece().getColour() != oponentPiece.getColour())
+                        legalMoves.add(currentFields[1][5]);
+                    if (currentFields[1][6].getCurrentPiece() == null || currentFields[1][6].getCurrentPiece().getColour() != oponentPiece.getColour())
+                        legalMoves.add(currentFields[1][6]);
+                    if (currentFields[1][7].getCurrentPiece() == null || currentFields[1][7].getCurrentPiece().getColour() != oponentPiece.getColour())
+                        legalMoves.add(currentFields[1][7]);
+                    break;
+
+                case QUEEN:
+                    if (currentFields[0][4].getCurrentPiece() == null || currentFields[0][4].getCurrentPiece().getColour() != oponentPiece.getColour())
+                        legalMoves.add(currentFields[0][4]);
+                    break;
+
+                case ROOK:
+                    if (currentFields[0][0].getCurrentPiece() == null || currentFields[0][0].getCurrentPiece().getColour() != oponentPiece.getColour())
+                        legalMoves.add(currentFields[0][0]);
+                    if (currentFields[0][7].getCurrentPiece() == null || currentFields[0][7].getCurrentPiece().getColour() != oponentPiece.getColour())
+                        legalMoves.add(currentFields[0][7]);
+                    break;
+            }
+        }
+        else //second Click
+            oponentPiece.move(field);
+
+        return legalMoves;
     }
 
-    //todo sinnvoll?
-    public void revelation(ChessPiece playingPiece){
-        //Replace one of your knights or one of your opponent's knights by a bishop owned by the same player.
+    //Replace one of your knights or one of your opponent's knights by a bishop owned by the same player.
+    public ArrayList<Field> revelation(int cardNumber, ChessPiece playingPiece1, ChessPiece playingPiece2, Field[][] currentFields){
+        legalMoves=new ArrayList<>();
+
+        if (cardNumber==1){//first Click
+            for (int i = 0; i < currentFields.length; i++) {
+                for (int j = 0; j < currentFields[i].length; j++) {
+                    if (currentFields[i][j].getCurrentPiece() != null && currentFields[i][j].getCurrentPiece().getPlayingPieceType() == ChessPieceType.BISHOP && currentFields[i][j].getCurrentPiece().getColour() == playingPiece1.getColour()) {
+                        legalMoves.add(currentFields[i][j]);
+                    }
+                }
+            }
+        }
+        else{//second Click
+            Field temp=playingPiece2.getPosition();
+            playingPiece2.move(playingPiece1.getPosition());
+            playingPiece1.move(temp);
+        }
+
+        return legalMoves;
     }
 
-    //todo sinnvoll?
-    public void longJump(ChessPiece playingPiece, Field field){
-        //Move one of your knights to any square whose color is different from the one it currently occupies. You cannot capture a piece with this move.
+    //Move one of your knights to any square whose color is different from the one it currently occupies. You cannot capture a piece with this move.
+    public ArrayList<Field> longJump(int cardNumber, ChessPiece playingPiece, Field field, Field[][] currentFields){
+        legalMoves=new ArrayList<>();
+
+        if (cardNumber==1){//first Click
+            boolean fieldIsEven=true;
+
+            if (playingPiece.getPosition().isEven()){
+                fieldIsEven=false;
+            }
+
+            for (int i=0;i<currentFields.length;i++){
+                for (int j=0;j<currentFields[i].length;j++){
+                    if (currentFields[i][j].getCurrentPiece()==null&&currentFields[i][j].isEven()==fieldIsEven){
+                        legalMoves.add(currentFields[i][j]);
+                    }
+                }
+            }
+        }
+        else{
+            playingPiece.move(field);
+
+        }
+
+        return legalMoves;
+    }
+
+    //Swap your rook with one of your oponents rooks
+    public ArrayList<Field> lostCastle(int cardNumber,ChessPiece playingPiece, ChessPiece oponentPiece,Field[][] currentFields){
+        legalMoves=new ArrayList<>();
+
+        if (cardNumber==1) {//first click
+            for (int i = 0; i < currentFields.length; i++) {
+                for (int j = 0; j < currentFields[i].length; j++) {
+                    if (currentFields[i][j].getCurrentPiece() != null && currentFields[i][j].getCurrentPiece().getPlayingPieceType() == ChessPieceType.ROOK && currentFields[i][j].getCurrentPiece().getColour() != playingPiece.getColour()) {
+                        legalMoves.add(currentFields[i][j]);
+                    }
+                }
+            }
+        }
+        else{//second click
+            Field temp=playingPiece.getPosition();
+            playingPiece.move(oponentPiece.getPosition());
+            oponentPiece.move(temp);
+        }
+
+        return legalMoves;
     }
 
     public void abduction(ChessPiece oponentPiece){
@@ -359,10 +461,7 @@ public class Card {
 
     }
 
-    public void lostCastle(ChessPiece playingPiece, ChessPiece oponentPiece){
-        //Swap your rook with one of your oponents rooks
 
-    }
 
     public void spoilsOfWar(ChessPiece playingPiece, ChessPiece oponentPiece){
         //when you capture one of your opponent's pieces. The capturing piece changes permanently into a piece of the kind it captured. For instance, if one of your pawns captures a knight, it becomes a knight.
@@ -451,13 +550,6 @@ public class Card {
         }
 
         player2[player2.length]=deck.drawCard();
-    }
-
-
-
-
-    public void createBitmap(Resources resources, int drawableId){
-        this.sprite = BitmapFactory.decodeResource(resources, drawableId);
     }
 
     public boolean isContinuingUntilEnd(){

@@ -26,7 +26,6 @@ public class GameActivity extends AppCompatActivity {
 
     private static ImageView card1, card2, card3, exactView;
     private static Button button;
-    private static Deck deck;
     private static int id = 3;
     private static boolean selected;
 
@@ -44,10 +43,6 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         getSupportActionBar().hide();
 
-
-
-        //init deck of cards
-        deck = new Deck();
 
         card1 = (ImageView) findViewById(R.id.cardView1);
         card2 = (ImageView) findViewById(R.id.cardView2);
@@ -256,8 +251,6 @@ public class GameActivity extends AppCompatActivity {
     public static int getId(){
         return id;
     }
-
-    public static void setDeck(Deck cards){deck=cards;}
 
     public static void unselectAfterCardActivation(){
         button.setVisibility(View.INVISIBLE);

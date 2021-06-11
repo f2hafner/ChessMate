@@ -17,6 +17,7 @@ public class Player {
     private Field lastSelectedField;
     private ChessPieceColour color;
     private boolean cheatOn;
+    private float lightValue;
 
     /**
      * Instantiates a new Player.
@@ -146,5 +147,13 @@ public class Player {
 
     public void setLegalMovesForCheat(ArrayList<Field> legalMovesForCheat) {
         this.legalMovesForCheat = legalMovesForCheat;
+    }
+
+    public float getLightValue() {
+        return lightValue;
+    }
+
+    public void setLightValue(float lightValue) {
+        this.lightValue = lightValue;
     }
 }

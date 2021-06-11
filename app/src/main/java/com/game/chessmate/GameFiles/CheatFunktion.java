@@ -22,6 +22,7 @@ public class CheatFunktion {
         Field startPosition = ChessBoard.getInstance().getStartPossition();
         if (playerEnemy.getCheatOn() && !ChessBoard.getInstance().getwasMoveLegal()) {
             ChessBoard.getInstance().getMovedPiece().move(startPosition);
+
         } else if (playerLocal.getCheatOn() && !ChessBoard.getInstance().getwasMoveLegal())
             ChessBoard.getInstance().getMovedPiece().move(startPosition);
     }

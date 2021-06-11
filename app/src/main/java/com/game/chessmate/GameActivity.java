@@ -66,6 +66,8 @@ public class GameActivity extends AppCompatActivity {
 
         sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        Button cheatButton = getCheatButton();
+        Player player = ChessBoard.getInstance().getLocalPlayer();
 
         if (sensor == null) {
             Toast.makeText(this, "your device has no light sensore, so you wont be able to use the cheat funktion", Toast.LENGTH_SHORT).show();
@@ -78,9 +80,9 @@ public class GameActivity extends AppCompatActivity {
         lightEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
-                float lightValue = sensorEvent.values[0];
+                player.setLightValue(sensorEvent.values[0]);
                 //float closeSensor = maxValue/100;
-                if (lightValue <= 500  ) {
+                if ( sensorEvent.values[0] <= 500  ) {
                     //Todo light sensor from enemy player and cheat on from local player
                     if (ChessBoard.getInstance().getwasMoveLegal()) {
                         CheatFunktion cheatFunktion = new CheatFunktion(GameActivity.this);
@@ -106,8 +108,7 @@ public class GameActivity extends AppCompatActivity {
         };
 
 
-        Button cheatButton = getCheatButton();
-        Player player = ChessBoard.getInstance().getLocalPlayer();
+
 
 
         cheatButton.setOnClickListener(new View.OnClickListener() {
@@ -117,8 +118,6 @@ public class GameActivity extends AppCompatActivity {
                 if (cheatButton.getText().toString().matches("Cheat Off")) {
                     cheatButton.setText("Cheat On");
                     player.setCheatOn(true);
-
-
                     cheatButton.setTextColor(getApplication().getResources().getColor(R.color.black));
                     isCheatOn = true;
                     cheatButton.setBackgroundColor(getResources().getColor(R.color.white));

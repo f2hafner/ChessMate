@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
+import com.game.chessmate.GameFiles.GameState;
+import com.game.chessmate.GameFiles.Networking.NetworkManager;
 import com.game.chessmate.GameFiles.Vector;
 
 import java.util.ArrayList;
@@ -161,6 +163,10 @@ abstract public class ChessPiece extends View {
      * Cleanup work after move. Update Positions of chessPieces and update fields.
      */
     private void afterMove() {
+        Log.i("GAMESTATE","afterMovestart: " + ChessBoard.getInstance().getGameState());
+        if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE){
+            NetworkManager.sendMove(currentPosition, targetPosition);
+        }
         this.updateMovementOffset = false;
         this.offset = new Vector(0, 0);
         currentPosition.setCurrentPiece(null);
@@ -168,6 +174,14 @@ abstract public class ChessPiece extends View {
         targetPosition.setCurrentPiece(this);
 
         this.setUpdateView(true);
+
+        if (ChessBoard.getInstance().getGameState() == GameState.WAITING) {
+            ChessBoard.getInstance().setGameState(GameState.ACTIVE);
+        }
+        else if(ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+            ChessBoard.getInstance().setGameState(GameState.WAITING);
+        }
+        Log.i("GAMESTATE","afterMoveend: " + ChessBoard.getInstance().getGameState());
     }
 
     /**

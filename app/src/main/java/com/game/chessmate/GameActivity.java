@@ -1,21 +1,27 @@
 package com.game.chessmate;
-
 import android.app.Service;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.chessmate.GameFiles.BoardView;
 import com.game.chessmate.GameFiles.CheatFunktion;
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Deck;
+import com.game.chessmate.GameFiles.GameState;
+import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
 
 import com.game.chessmate.GameFiles.Networking.NetObjects.PlayerDataObject;
 import com.game.chessmate.GameFiles.Networking.PlayerObject;
@@ -56,6 +62,7 @@ public class GameActivity extends AppCompatActivity {
     private SensorManager sensorManager;
     private SensorEventListener lightEventListener;
     private float maxValue;
+    private TextView gameStateView;
 
 
     @Override
@@ -66,6 +73,13 @@ public class GameActivity extends AppCompatActivity {
 
         sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        gameStateView = findViewById(R.id.gameStateView);
+        gameStateView.setTextSize(18);
+        gameStateView.setTextColor(Color.BLACK);
+        gameStateView.setGravity(1);
+        gameStateView.setTypeface(null, Typeface.BOLD);
+        gameStateView.setText("The Game started !");
+
         Button cheatButton = getCheatButton();
         Player player = ChessBoard.getInstance().getLocalPlayer();
 
@@ -237,6 +251,20 @@ public class GameActivity extends AppCompatActivity {
      */
     public static boolean cheatButtonStatus() {
         return isCheatOn;
+    }
+
+    public void setGameStateView(GameState gameState) {
+        gameStateView = findViewById(R.id.gameStateView);
+        if (gameStateView != null) {
+            Log.i("TAG", "setGameStateView: " + gameStateView);
+            switch (gameState){
+                case ACTIVE: gameStateView.setText("Your Turn !"); break;
+                case WAITING: gameStateView.setText("Waiting for enemy..."); break;
+                case WIN: gameStateView.setText("You Won !"); break;
+                case LOOSE: gameStateView.setText("You Lost"); break;
+                default: gameStateView.setText("..."); break;
+            }
+        }
     }
 }
 

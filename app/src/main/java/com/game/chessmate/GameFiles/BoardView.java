@@ -4,11 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+
+import com.game.chessmate.R;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * The View in which the Chessboard is embedded.
@@ -18,6 +24,7 @@ public class BoardView extends ViewGroup {
     private ChessBoard board;
     private Thread thread;
     private RenderThread runnable;
+    TextView gameStateView;
 
     /**
      * Instantiates a new Board view.
@@ -31,7 +38,6 @@ public class BoardView extends ViewGroup {
         DisplayMetrics metrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels;
-
         this.setOnTouchListener(boardClickListener);
         board = ChessBoard.getInstance();
         board.initChessBoard(this, width);

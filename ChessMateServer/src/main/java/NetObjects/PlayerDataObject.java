@@ -2,7 +2,16 @@ package NetObjects;
 
 public class PlayerDataObject {
     String name;
-    boolean color;
+
+    public ChessPieceColour getChessPieceColour() {
+        return chessPieceColour;
+    }
+
+    public void setChessPieceColour(ChessPieceColour chessPieceColour) {
+        this.chessPieceColour = chessPieceColour;
+    }
+
+    ChessPieceColour chessPieceColour;
 
     public PlayerDataObject(){}
 
@@ -10,15 +19,7 @@ public class PlayerDataObject {
         return name;
     }
 
-    public boolean isColor() {
-        return color;
-    }
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setColor(boolean color) {
-        this.color = color;
     }
 }

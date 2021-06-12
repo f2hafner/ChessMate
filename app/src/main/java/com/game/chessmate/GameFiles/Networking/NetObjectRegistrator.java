@@ -6,6 +6,7 @@ import com.game.chessmate.GameFiles.Networking.NetObjects.GameDataObject;
 import com.game.chessmate.GameFiles.Networking.NetObjects.GameStates;
 import com.game.chessmate.GameFiles.Networking.NetObjects.LobbyDataObject;
 import com.game.chessmate.GameFiles.Networking.NetObjects.PlayerDataObject;
+import com.game.chessmate.GameFiles.Networking.NetObjects.SensorActivationObject;
 import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionRequest;
 import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionResponse;
 import com.game.chessmate.GameFiles.Networking.NetObjects.joinSessionRequest;
@@ -30,5 +31,6 @@ public class NetObjectRegistrator {
         k.register(startGameRequest.class);
         k.register(startGameParameters.class);
         k.register(GameDataObject.class);
+        k.register(SensorActivationObject.class);
     }
 }

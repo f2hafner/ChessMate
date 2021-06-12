@@ -87,6 +87,7 @@ public class NetworkManager {
         gameDataObject.setMoved(true);
         gameDataObject.setOrigin(currentFieldObject);
         gameDataObject.setTarget(targetFieldObject);
+        gameDataObject.setCheatActivated(ChessBoard.getInstance().getwasMoveLegal());
         ChessMateClient.getInstance().getClient().sendTCP(gameDataObject);
     }
 

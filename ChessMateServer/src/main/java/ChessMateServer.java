@@ -76,6 +76,21 @@ public class ChessMateServer extends Thread{
                     }
                 }
 
+                if(o instanceof SensorActivationObject){
+                    System.out.println("[SENSOR_PACKET]");
+                    SensorActivationObject request = (SensorActivationObject)o;
+                    Lobby lobby = LobbyManager.getSessionByLobbycode(request.getLobbyCode());
+                    if(lobby!=null){
+                        if(lobby.cheatFuncActive){
+                            //ON SENSOR ACTIVATED
+                            System.out.println("Sensor got activated and other player cheated");
+                            lobby.cheatFuncActive = false;
+                        } else {
+                            System.out.println("Sensor got activated and other player did not cheat");
+                        }
+                    }
+                }
+
                 if (o instanceof GameDataObject) {
                     System.out.println("[GameDataObject]");
                     // Receive
@@ -84,6 +99,11 @@ public class ChessMateServer extends Thread{
                     Lobby lobby = LobbyManager.getSessionByLobbycode(request.getLobbyCode());
                     if(lobby!=null){
                         // Send
+                        if(lobby.cheatFuncActive){
+                            //WHEN PLAYER PROCEEDED WITH MOVE INSTEAD OF SENSORACTIVATION
+                            lobby.cheatFuncActive = false;
+                        }
+                        lobby.cheatFuncActive = request.isCheatActivated();
                         System.out.println("Before Decision");
                         if(lobby.currentLobbyState == GameStates.WAITING_FOR_PLAYER1_MOVE){
                             System.out.println("Current Lobbystate was WaitForPlayer1move");

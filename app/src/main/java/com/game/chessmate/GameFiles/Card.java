@@ -27,40 +27,40 @@ public class Card {
     public Card (int number) throws IllegalArgumentException{
         id=number;
         switch (number){
-            case 0:
+            case 0: //works
                 name="Cowardice";
                 desc="Move one of your opponent's pawns one or two squares backward. It may not enter or cross an occupied square.";
                 useCase="[i] Play this card immediately after your move";
                 drawableId=R.drawable.cowardice;
                 break;
-            case 1:
+            case 1: //bugged // remove
                 name="Crusade";
                 desc="Play this card when you move a bishop without capturing a piece. This bishop immediately moves one more time.";
                 useCase="[i] Play this card after your bishop's first move.";
                 drawableId=R.drawable.crusade;
                 break;
-            case 2:
+            case 2: //works
                 name="Dark Mirror";
                 desc="On this move, one of your pawns can capture by moving diagonally backward instead of forward.";
                 useCase="[i] Play this card on your turn, instead of making a regular move.";
                 drawableId=R.drawable.dark_mirror;
                 break;
 
-            case 3:
+            case 3: //bugged, needs sendSwap in Network
                 name="Death Dance";
                 desc="Exchange the position of any of your pieces with any adjacent enemy piece.";
                 useCase="[i] Play this card on your turn, instead of making a regular move.";
                 drawableId=R.drawable.death_dance;
                 break;
 
-            case 4:
+            case 4: //bugged, enemy also has to capture
                 name="Disintegration";
                 desc="Remove one of your own pawns from the chessboard, and set it aside. It is now dead, and cannot be brought back into play with another card.";
                 useCase="[i] Play this card immediately before or after your move.";
                 drawableId=R.drawable.disintegration;
                 break;
 
-            case 5:
+            case 5: //bugged; opponents color doesn't get set
                 name="Champion";
                 desc="Any one knight in play becomes a Champion. Place a marker underneath it. Instead of jumping like a knight, to the opposite corner of a 2 by 3 rectangle, a Champion jumps to the opposite corner of a 3 by 4 rectangle.";
                 useCase="[i] Play this card immediately after your move. Continuing Effect until piece is captured.";
@@ -68,42 +68,42 @@ public class Card {
                 drawableId=R.drawable.champion;
                 break;
 
-            case 6:
+            case 6: //works
                 name="Rebirth";
                 desc="Move one enemy piece to any square it could have occupied at the beginning of the game. The square must be empty or contain one of your pieces. If one of your pieces is in the square, it is captured.";
                 useCase="[i] Play this card immediately after your move.";
                 drawableId=R.drawable.rebirth;
                 break;
 
-            case 7:
+            case 7: // bugged, needs sendSwap in Network
                 name="Revelation";
                 desc="Replace one of your knights or one of your opponent's knights by a bishop owned by the same player.";
                 useCase="[i] Play this card immediately after your move.";
                 drawableId=R.drawable.revelation;
                 break;
 
-            case 8:
+            case 8: //works
                 name="Long Jump";
                 desc="Move one of your knights to any square whose color is different from the one it currently occupies. You cannot capture a piece with this move.";
                 useCase="[i] Play this card on your turn, instead of making a regular move.";
                 drawableId=R.drawable.long_jump;
                 break;
 
-            case 9:
+            case 9: //bugged, needs sendSwap in Network
                 name="Lost Castle";
                 desc="Swap the positions of one of your rooks and one of your opponent's rooks.";
                 useCase="[i] Play this card on your turn, instead of making a regular move.";
                 drawableId=R.drawable.lost_castle;
                 break;
 
-            case 10:
+            case 10: // bugged, network
                 name="Mystic Shield";
                 desc="The piece you just moved cannot be captured by your opponent on his next turn. If you moved more than one piece, you must designate only one to be protected.";
                 useCase="[i] Play this card immediately after your move.";
                 drawableId=R.drawable.mystic_shield;
                 break;
 
-            case 11:
+            case 11: //bugged, other player can still move on it
                 name="Forbidden City";
                 desc="Place a marker in any unoccupied square. No piece can enter this square, or pass through it, for the rest of the game. Knights and other \"jumping\" pieces may still pass over it.";
                 useCase="[i] Play this card immediately after your move. Continuing Effect until the end of game.";
@@ -111,21 +111,21 @@ public class Card {
                 drawableId=R.drawable.forbidden_city;
                 break;
 
-            case 12:
+            case 12: // bugged, needs sendSwap in Network
                 name="Holy Quest";
                 desc="Swap the positions of a bishop and a knight belonging to your opponent.";
                 useCase="[i] Play this card immediately after your move.";
                 drawableId=R.drawable.holy_quest;
                 break;
 
-            case 13:
+            case 13: //bugged, network -  hard to do
                 name="Hand of Fate";
                 desc="Exchange your hand with your opponent's. He must draw another card to replace this one.";
                 useCase="[i] Play this card before your move.";
                 drawableId=R.drawable.hand_of_fate;
                 break;
 
-            case 14:
+            case 14: // bugged, network - hard to do
                 name="Vulture";
                 desc="Take the last card played by your opponent and put it in your hand. (If each player has his own deck of cards, you must also discard your top undrawn card.)";
                 useCase="[i] Play this card immediately after your opponent plays a card.";

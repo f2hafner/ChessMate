@@ -81,12 +81,16 @@ public class ChessBoard {
         this.view = view;
         this.fieldSize = calculateRectSize(width);
         initFields();
-        localPlayer = new Player(NetworkManager.getInitialColor());
+        localPlayer = new Player(ChessPieceColour.WHITE);//NetworkManager.getInitialColor());
+        enemyPlayer = new Player(ChessPieceColour.BLACK);
+        /*
         if(NetworkManager.getInitialColor()==ChessPieceColour.WHITE){
             enemyPlayer = new Player(ChessPieceColour.BLACK);
         } else {
             enemyPlayer = new Player(ChessPieceColour.WHITE);
         }
+
+         */
         initPiecesLocalPlayer(localPlayer.getColor());
         initPiecesEnemyPlayer(enemyPlayer.getColor());
     }
@@ -192,9 +196,12 @@ public class ChessBoard {
      */
     public void handleFieldClick(MotionEvent event) {
         Log.i(TAG, "handleFieldClick: " + gameState);
+        /*
         if (gameState == GameState.WAITING) {
             return;
         }
+        */
+
         int touchX = (int)event.getX();
         int touchY = (int)event.getY();
         Rect rect;
@@ -216,7 +223,7 @@ public class ChessBoard {
 
                     if (localPlayer.getLastSelectedField() == null) { //this is the first click on a field with a piece that is movable
                         if (clickedField.getCurrentPiece() != null) {
-                            if (clickedField.getCurrentPiece().getColour() == localPlayer.getColor()) { //only local player is allowed to move
+                            if (true){//clickedField.getCurrentPiece().getColour() == localPlayer.getColor()) { //only local player is allowed to move
                                 localPlayer.setLastSelectedField(clickedField);
                                 // position for CheatFunction
                                 // Log.d("position1", lastSelectedField.toString());

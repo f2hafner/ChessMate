@@ -47,7 +47,7 @@ public class Pawn extends ChessPiece {
             } else {
                 return legalFields;
             }
-            if (this.getFirstMove() && i - 2 < 8 && !opponentEncountered) {
+            if (this.getFirstMove() && i - 2 > 0 && !opponentEncountered) {
                 if (currentFields[i - 2][j].getCurrentPiece() == null) {
                     legalFields.add(currentFields[i - 2][j]);
                 } else if (currentFields[i - 2][j].getCurrentPiece().getColour() != this.colour) {

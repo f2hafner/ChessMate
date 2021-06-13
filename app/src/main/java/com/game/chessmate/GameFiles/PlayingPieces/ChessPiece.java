@@ -53,7 +53,6 @@ abstract public class ChessPiece extends View {
     private ChessBoard board;
     protected boolean opponentEncountered = false;
     private boolean isChampion=false;
-    private boolean lostCastle=false;
 
     /**
      * Instantiates a new Chess piece.
@@ -131,20 +130,33 @@ abstract public class ChessPiece extends View {
      *
      * @param targetField the target field
      */
-    public void move(Field targetField) {
+    public void move(Field targetField, Field[][] currentFields) {
 
         if (this.isChampion){
             this.getPosition().setRectangleDefaultColor();
             this.getPosition().invalidate();
         }
 
-        if (targetField.hasPiece()&&lostCastle==false) {
+        if (targetField.hasPiece()&&targetField.getCurrentPiece().isProtected==false) {
             if (targetField.getCurrentPiece().getColour() != this.colour) {
                 targetField.getCurrentPiece().capture();
             }
         }
-        else
-            this.setLostCastle(false);
+        else if(targetField.hasPiece()&&targetField.getCurrentPiece().isProtected==true) {
+            targetField.getCurrentPiece().setProtected(false);
+        }
+
+        for (int i=0;i<8;i++){
+            for (int j=0;j<8;j++){
+                if (currentFields[i][j].isProtected()) {
+                    currentFields[i][j].setRectangleDefaultColor();
+                    currentFields[i][j].setProtected(false);
+                    currentFields[i][j].getCurrentPiece().setProtected(false);
+                    currentFields[i][j].invalidate();
+
+                }
+            }
+        }
 
         this.targetPosition = targetField;
         this.updateMovementOffset = true;
@@ -371,6 +383,4 @@ abstract public class ChessPiece extends View {
     }
 
     public boolean isChampion(){return this.isChampion;}
-
-    public void setLostCastle(boolean lostCastle){this.lostCastle=lostCastle;}
 }

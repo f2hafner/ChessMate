@@ -5,11 +5,9 @@ import java.util.Random;
 
 public class Deck {
     private  Card[] deck;
-    private int size=10;//25
+    private int size=15;//25
     private int initialCardNumber=3;
     private int currentCard=0;
-    //public Card[]cardsPlayer1;
-    //private Card[]cardsPlayer2;
     private Random rand;
 
     public Deck(){
@@ -21,10 +19,6 @@ public class Deck {
 
         rand=new SecureRandom();
         shuffle();
-
-
-       // cardsPlayer1=getInitialCards();
-        //cardsPlayer2=getInitialCards();
     }
 
     public Card[] getInitialCards(){
@@ -36,6 +30,11 @@ public class Deck {
             deck[currentCard].setOwned(true);
             currentCard++;
             j++;
+        }
+
+        for (int i=0;i<size;i++){
+            if (deck[i].getId()==7)
+                temp[0]=deck[i];
         }
 
         return temp;
@@ -59,12 +58,15 @@ public class Deck {
 
     public Card drawCard() {
         if (currentCard == size) {
-            shuffle();
             currentCard=0;
         }
 
+        shuffle();
+
         while (deck[currentCard].isOwned()){
             currentCard++;
+            if (currentCard==size)
+                currentCard=0;
         }
 
         deck[currentCard].setOwned(true);
@@ -74,6 +76,5 @@ public class Deck {
 
     public void setCurrentCard(int number){currentCard=number;}
 
-   // public Card[] getCardsPlayer1(){return cardsPlayer1;}
-   // public Card[] getCardsPlayer2(){return cardsPlayer2;}
+    public Card [] getDeck(){return deck;}
 }

@@ -227,10 +227,12 @@ public class ChessBoard {
                                 } else {
                                     localPlayer.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalFields());
                                 }
+
+                                //overwrite normal legal moves if king is in check - TODO checkmate
                                 localKing = getLocalKing();
-
-                                //TODO
-
+                                if(localKing.isChecked(boardFields)){
+                                    localPlayer.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalMovesInCheck());
+                                }
 
                                 if (!localPlayer.getLegalMovesSelected().isEmpty()) {
                                     drawLegalMoves(localPlayer.getLegalMovesSelected());
@@ -267,7 +269,7 @@ public class ChessBoard {
         }
     }
     //searches for local king and returns - could also be used for game over
-    private ChessPiece getLocalKing() {
+    public ChessPiece getLocalKing() {
         for (int i = 0; i < boardFields.length; i++) {
             for (int j = 0; j < boardFields[i].length; j++) {
                 if (boardFields[i][j].getCurrentPiece() != null) {

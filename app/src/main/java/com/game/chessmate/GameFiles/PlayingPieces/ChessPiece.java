@@ -367,4 +367,34 @@ abstract public class ChessPiece extends View {
     }
 
 
+    //same for every piece except king - king overrides and checks whether he is still in check
+    public boolean isChecked(Field[][] boardFields){
+        ChessPiece localKing = ChessBoard.getInstance().getLocalKing();
+        return localKing.isChecked(ChessBoard.getInstance().getBoardFields());
+    }
+
+    //king is in check - this legal moves is called instead -- same for every chesspiece
+    public ArrayList<Field> getLegalMovesInCheck(){
+        ArrayList<Field> legalFields = this.getLegalFields();
+        Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
+        ChessPiece localKing = ChessBoard.getInstance().getLocalKing();
+        ArrayList<Field> legalMovesInCheck = new ArrayList<Field>();
+
+        for (Field f : legalFields) {
+            if (!wouldbeChecked(currentFields, f)) {//checks whether king would be in check if currentpieces position were field - same for king
+                legalMovesInCheck.add(f);
+            }
+        }
+        return legalMovesInCheck;
+    }
+
+    //same for every piece except king - king overrides
+    protected boolean wouldbeChecked(Field[][] currentFields, Field f){
+        ChessPiece localKing = ChessBoard.getInstance().getLocalKing();
+        Field realPosition = this.currentPosition;
+        this.currentPosition = f; //what would happen if chesspiece had this field as position
+        boolean result = localKing.isChecked(currentFields);//would king still be in check?
+        this.currentPosition = realPosition; //resetting to real position
+        return result;
+    }
 }

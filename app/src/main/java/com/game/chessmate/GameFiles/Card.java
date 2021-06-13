@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.game.chessmate.GameActivity;
 import com.game.chessmate.GameFiles.Networking.NetworkManager;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceType;
@@ -23,6 +24,7 @@ public class Card {
     private int drawableId;
 
     ArrayList<Field> legalMoves;
+    Field [][] currentFields;
 
     public Card (int number) throws IllegalArgumentException{
         id=number;
@@ -33,34 +35,29 @@ public class Card {
                 useCase="[i] Play this card immediately after your move";
                 drawableId=R.drawable.cowardice;
                 break;
-            case 1: //bugged // remove
-                name="Crusade";
-                desc="Play this card when you move a bishop without capturing a piece. This bishop immediately moves one more time.";
-                useCase="[i] Play this card after your bishop's first move.";
-                drawableId=R.drawable.crusade;
-                break;
-            case 2: //works
+
+            case 1: //works
                 name="Dark Mirror";
                 desc="On this move, one of your pawns can capture by moving diagonally backward instead of forward.";
                 useCase="[i] Play this card on your turn, instead of making a regular move.";
                 drawableId=R.drawable.dark_mirror;
                 break;
 
-            case 3: //bugged, needs sendSwap in Network
+            case 2: //bugged, needs sendSwap in Network
                 name="Death Dance";
                 desc="Exchange the position of any of your pieces with any adjacent enemy piece.";
                 useCase="[i] Play this card on your turn, instead of making a regular move.";
                 drawableId=R.drawable.death_dance;
                 break;
 
-            case 4: //bugged, enemy also has to capture
+            case 3: //bugged, enemy also has to capture
                 name="Disintegration";
                 desc="Remove one of your own pawns from the chessboard, and set it aside. It is now dead, and cannot be brought back into play with another card.";
                 useCase="[i] Play this card immediately before or after your move.";
                 drawableId=R.drawable.disintegration;
                 break;
 
-            case 5: //bugged; opponents color doesn't get set
+            case 4: //bugged; opponents color doesn't get set
                 name="Champion";
                 desc="Any one knight in play becomes a Champion. Place a marker underneath it. Instead of jumping like a knight, to the opposite corner of a 2 by 3 rectangle, a Champion jumps to the opposite corner of a 3 by 4 rectangle.";
                 useCase="[i] Play this card immediately after your move. Continuing Effect until piece is captured.";
@@ -68,42 +65,42 @@ public class Card {
                 drawableId=R.drawable.champion;
                 break;
 
-            case 6: //works
+            case 5: //works
                 name="Rebirth";
                 desc="Move one enemy piece to any square it could have occupied at the beginning of the game. The square must be empty or contain one of your pieces. If one of your pieces is in the square, it is captured.";
                 useCase="[i] Play this card immediately after your move.";
                 drawableId=R.drawable.rebirth;
                 break;
 
-            case 7: // bugged, needs sendSwap in Network
+            case 6: // bugged, needs sendSwap in Network
                 name="Revelation";
                 desc="Replace one of your knights or one of your opponent's knights by a bishop owned by the same player.";
                 useCase="[i] Play this card immediately after your move.";
                 drawableId=R.drawable.revelation;
                 break;
 
-            case 8: //works
+            case 7: //works
                 name="Long Jump";
                 desc="Move one of your knights to any square whose color is different from the one it currently occupies. You cannot capture a piece with this move.";
                 useCase="[i] Play this card on your turn, instead of making a regular move.";
                 drawableId=R.drawable.long_jump;
                 break;
 
-            case 9: //bugged, needs sendSwap in Network
+            case 8: //bugged, needs sendSwap in Network
                 name="Lost Castle";
                 desc="Swap the positions of one of your rooks and one of your opponent's rooks.";
                 useCase="[i] Play this card on your turn, instead of making a regular move.";
                 drawableId=R.drawable.lost_castle;
                 break;
 
-            case 10: // bugged, network
+            case 9: // bugged, network
                 name="Mystic Shield";
                 desc="The piece you just moved cannot be captured by your opponent on his next turn. If you moved more than one piece, you must designate only one to be protected.";
                 useCase="[i] Play this card immediately after your move.";
                 drawableId=R.drawable.mystic_shield;
                 break;
 
-            case 11: //bugged, other player can still move on it
+            case 10: //bugged, other player can still move on it
                 name="Forbidden City";
                 desc="Place a marker in any unoccupied square. No piece can enter this square, or pass through it, for the rest of the game. Knights and other \"jumping\" pieces may still pass over it.";
                 useCase="[i] Play this card immediately after your move. Continuing Effect until the end of game.";
@@ -111,11 +108,18 @@ public class Card {
                 drawableId=R.drawable.forbidden_city;
                 break;
 
-            case 12: // bugged, needs sendSwap in Network
+            case 11: // bugged, needs sendSwap in Network
                 name="Holy Quest";
                 desc="Swap the positions of a bishop and a knight belonging to your opponent.";
                 useCase="[i] Play this card immediately after your move.";
                 drawableId=R.drawable.holy_quest;
+                break;
+
+            case 12: // bugged, network - hard to do
+                name="Vulture";
+                desc="Take the last card played by your opponent and put it in your hand. (If each player has his own deck of cards, you must also discard your top undrawn card.)";
+                useCase="[i] Play this card immediately after your opponent plays a card.";
+                drawableId=R.drawable.vulture;
                 break;
 
             case 13: //bugged, network -  hard to do
@@ -125,11 +129,11 @@ public class Card {
                 drawableId=R.drawable.hand_of_fate;
                 break;
 
-            case 14: // bugged, network - hard to do
-                name="Vulture";
-                desc="Take the last card played by your opponent and put it in your hand. (If each player has his own deck of cards, you must also discard your top undrawn card.)";
-                useCase="[i] Play this card immediately after your opponent plays a card.";
-                drawableId=R.drawable.vulture;
+            case 14: //remove
+                name="Crusade";
+                desc="Play this card when you move a bishop without capturing a piece. This bishop immediately moves one more time.";
+                useCase="[i] Play this card after your bishop's first move.";
+                drawableId=R.drawable.crusade;
                 break;
 
             case 15:
@@ -210,8 +214,9 @@ public class Card {
     }
 
     //move opponent pawn one or two fields backward (no occupied square)
-    public ArrayList<Field> cowardice(int clickNumber,ChessPiece oponentPiece,Field field,Field[][]currentFields){
+    public ArrayList<Field> cowardice(int clickNumber,ChessPiece oponentPiece,Field field){
         legalMoves=new ArrayList<>();
+        currentFields=ChessBoard.getInstance().getBoardFields();
 
         if (clickNumber==1){ //first click -> getLegalMoves
             if(field.getFieldX()-1!=-1&&field.getFieldX()-1!=currentFields.length&&currentFields[field.getFieldX()-1][field.getFieldY()].getCurrentPiece()==null&&!currentFields[field.getFieldX()-1][field.getFieldY()].isBlocked()) {
@@ -222,19 +227,20 @@ public class Card {
             }
         }
         else //second click -> Move
-            oponentPiece.move(field,currentFields);
+            oponentPiece.move(field);
 
         return legalMoves;
     }
 
     //bishop moves one more time (when it doesn't capture a piece)
-    public void crusade(ChessPiece playingPiece, Field field, Field[][] currentFields){
-        playingPiece.move(field,currentFields);
+    public void crusade(ChessPiece playingPiece, Field field){
+        playingPiece.move(field);
     }
 
     //one pawns can capture by moving diagonally backward instead of forward
-    public ArrayList<Field> darkMirror(int clickNumber, ChessPiece playingPiece, Field field, Field[][] currentFields){
+    public ArrayList<Field> darkMirror(int clickNumber, ChessPiece playingPiece, Field field){
         legalMoves=new ArrayList<>();
+        currentFields=ChessBoard.getInstance().getBoardFields();
 
         if (clickNumber==1){//first Click
             if(field.getFieldX()+1!=-1&&field.getFieldX()+1!=currentFields.length&&field.getFieldY()-1!=-1&&field.getFieldY()-1!=currentFields.length&&currentFields[field.getFieldX()+1][field.getFieldY()-1].getCurrentPiece()!=null&&currentFields[field.getFieldX()+1][field.getFieldY()-1].getCurrentPiece().getColour()!=playingPiece.getColour()&&!currentFields[field.getFieldX()+1][field.getFieldY()-1].isProtected())
@@ -243,14 +249,15 @@ public class Card {
                 legalMoves.add(currentFields[field.getFieldX()+1][field.getFieldY()+1]);
         }
         else //second Click
-            playingPiece.move(field,currentFields);
+            playingPiece.move(field);
 
         return legalMoves;
     }
 
     //Exchange the position of any of your pieces with any adjacent enemy piece
-    public ArrayList<Field> deathDance(int cardNumber, ChessPiece playingPiece, ChessPiece oponentPiece,Field[][] currentFields){
+    public ArrayList<Field> deathDance(int cardNumber, ChessPiece playingPiece, ChessPiece oponentPiece){
       legalMoves=new ArrayList<>();
+        currentFields=ChessBoard.getInstance().getBoardFields();
 
        if (cardNumber==1){//first click
            Field field=playingPiece.getPosition();
@@ -297,23 +304,7 @@ public class Card {
                legalMoves.add(currentFields[field.getFieldX()-1][field.getFieldY()+1]);
        }
        else {//second Click
-           playingPiece.setProtected(true);
-           oponentPiece.setProtected(true);
-
-           Field field1=playingPiece.getPosition();
-           Field field2=oponentPiece.getPosition();
-
-           playingPiece.setSwapPiece(oponentPiece);
-           oponentPiece.setSwapPiece(playingPiece);
-
-           playingPiece.move(oponentPiece.getPosition(),currentFields);
-           oponentPiece.move(playingPiece.getPosition(),currentFields);
-
-           field1.setCurrentPiece(oponentPiece);
-           oponentPiece.setCurrentPosition(field1);
-
-           field2.setCurrentPiece(playingPiece);
-           playingPiece.setCurrentPosition(field2);
+          ChessBoard.getInstance().swap(playingPiece,oponentPiece);
        }
 
        return legalMoves;
@@ -321,19 +312,48 @@ public class Card {
 
     //Remove one of your own pawns (It is now dead and cannot be brought back into play)
     public void disintegration(ChessPiece playingPiece){
+        Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
+        if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece.getPosition(), null);
+        }
+
         playingPiece.capture();
+
+        if (ChessBoard.getInstance().getGameState() == GameState.WAITING) {
+            ChessBoard.getInstance().setGameState(GameState.ACTIVE);
+        }
+        else if(ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+            ChessBoard.getInstance().setGameState(GameState.WAITING);
+        }
+
+        Log.i("GAMESTATE", "afterCardend: " + ChessBoard.getInstance().getGameState());
     }
 
     //Any one knight becomes a Champion. Place a marker underneath it. (a Champion jumps to the opposite corner of a 3 by 4 rectangle).
     public void champion(ChessPiece playingPiece){
+        Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
+        if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece.getPosition(), null);
+        }
+
         playingPiece.setChampion();
         playingPiece.getPosition().markChampion();
         playingPiece.getPosition().invalidate();
+
+        if (ChessBoard.getInstance().getGameState() == GameState.WAITING) {
+            ChessBoard.getInstance().setGameState(GameState.ACTIVE);
+        }
+        else if(ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+            ChessBoard.getInstance().setGameState(GameState.WAITING);
+        }
+
+        Log.i("GAMESTATE", "afterCardend: " + ChessBoard.getInstance().getGameState());
     }
 
     //Move one enemy piece to any square it could have occupied at the beginning of the game. The square must be empty or contain one of your pieces. If one of your pieces is in the square, it is captured.
-    public ArrayList<Field> rebirth(int cardNumber,ChessPiece oponentPiece,Field field,Field[][] currentFields){
+    public ArrayList<Field> rebirth(int cardNumber,ChessPiece oponentPiece,Field field){
         legalMoves=new ArrayList<>();
+        currentFields=ChessBoard.getInstance().getBoardFields();
 
         if (cardNumber==1) {//first Click
             switch (oponentPiece.getPlayingPieceType()) {
@@ -389,14 +409,15 @@ public class Card {
             }
         }
         else //second Click
-            oponentPiece.move(field,currentFields);
+            oponentPiece.move(field);
 
         return legalMoves;
     }
 
     //Replace one of your knights or one of your opponent's knights by a bishop owned by the same player.
-    public ArrayList<Field> revelation(int cardNumber, ChessPiece playingPiece1, ChessPiece playingPiece2, Field[][] currentFields){
+    public ArrayList<Field> revelation(int cardNumber, ChessPiece playingPiece1, ChessPiece playingPiece2){
         legalMoves=new ArrayList<>();
+        currentFields=ChessBoard.getInstance().getBoardFields();
 
         if (cardNumber==1){//first Click
             for (int i = 0; i < currentFields.length; i++) {
@@ -408,28 +429,16 @@ public class Card {
             }
         }
         else{//second Click
-            Field field1=playingPiece1.getPosition();
-            Field field2=playingPiece2.getPosition();
-
-             playingPiece1.setSwapPiece(playingPiece2);
-             playingPiece2.setSwapPiece(playingPiece1);
-
-             playingPiece1.move(playingPiece2.getPosition(),currentFields);
-             playingPiece2.move(playingPiece1.getPosition(),currentFields);
-
-             field1.setCurrentPiece(playingPiece2);
-             playingPiece2.setCurrentPosition(field1);
-
-             field2.setCurrentPiece(playingPiece1);
-             playingPiece1.setCurrentPosition(field2);
+            ChessBoard.getInstance().swap(playingPiece1,playingPiece2);
         }
 
         return legalMoves;
     }
 
     //Move one of your knights to any square whose color is different from the one it currently occupies. You cannot capture a piece with this move.
-    public ArrayList<Field> longJump(int cardNumber, ChessPiece playingPiece, Field field, Field[][] currentFields){
+    public ArrayList<Field> longJump(int cardNumber, ChessPiece playingPiece, Field field){
         legalMoves=new ArrayList<>();
+        currentFields=ChessBoard.getInstance().getBoardFields();
 
         if (cardNumber==1){//first Click
             boolean fieldIsEven=true;
@@ -447,7 +456,7 @@ public class Card {
             }
         }
         else{
-            playingPiece.move(field,currentFields);
+            playingPiece.move(field);
 
         }
 
@@ -455,8 +464,9 @@ public class Card {
     }
 
     //Swap your rook with one of your oponents rooks
-    public ArrayList<Field> lostCastle(int cardNumber,ChessPiece playingPiece, ChessPiece oponentPiece,Field[][] currentFields){
+    public ArrayList<Field> lostCastle(int cardNumber,ChessPiece playingPiece, ChessPiece oponentPiece){
         legalMoves=new ArrayList<>();
+        currentFields=ChessBoard.getInstance().getBoardFields();
 
         if (cardNumber==1) {//first click
             for (int i = 0; i < currentFields.length; i++) {
@@ -468,45 +478,57 @@ public class Card {
             }
         }
         else{//second click
-            playingPiece.setProtected(true);
-            oponentPiece.setProtected(true);
-
-            Field field1=playingPiece.getPosition();
-            Field field2=oponentPiece.getPosition();
-
-            playingPiece.setSwapPiece(oponentPiece);
-            oponentPiece.setSwapPiece(playingPiece);
-
-            playingPiece.move(oponentPiece.getPosition(),currentFields);
-            oponentPiece.move(playingPiece.getPosition(),currentFields);
-
-            field1.setCurrentPiece(oponentPiece);
-            oponentPiece.setCurrentPosition(field1);
-
-            field2.setCurrentPiece(playingPiece);
-            playingPiece.setCurrentPosition(field2);
+            ChessBoard.getInstance().swap(playingPiece,oponentPiece);
 
         }
-
         return legalMoves;
     }
 
     //protect 1 of your pieces for the next turn
     public void mysticShield(Field field){
+        Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
+        if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),field, null);
+        }
+
         field.getCurrentPiece().setProtected(true);
         field.setPlayingPieceShield();
         field.invalidate();
+
+        if (ChessBoard.getInstance().getGameState() == GameState.WAITING) {
+            ChessBoard.getInstance().setGameState(GameState.ACTIVE);
+        }
+        else if(ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+            ChessBoard.getInstance().setGameState(GameState.WAITING);
+        }
+
+        Log.i("GAMESTATE", "afterCardend: " + ChessBoard.getInstance().getGameState());
     }
 
     //block field till end of game (cannot be movedTo)
     public void forbiddenCity(Field field){
+        Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
+        if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),field, null);
+        }
+
             field.setBlocked();
             field.invalidate();
+
+        if (ChessBoard.getInstance().getGameState() == GameState.WAITING) {
+            ChessBoard.getInstance().setGameState(GameState.ACTIVE);
+        }
+        else if(ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+            ChessBoard.getInstance().setGameState(GameState.WAITING);
+        }
+
+        Log.i("GAMESTATE", "afterCardend: " + ChessBoard.getInstance().getGameState());
     }
 
     //Swap the positions of a bishop and a knight belonging to your opponent.
-    public ArrayList<Field> holyQuest(int cardNumber, ChessPiece playingPiece1, ChessPiece playingPiece2, Field[][] currentFields){
+    public ArrayList<Field> holyQuest(int cardNumber, ChessPiece playingPiece1, ChessPiece playingPiece2){
         legalMoves=new ArrayList<>();
+        currentFields=ChessBoard.getInstance().getBoardFields();
 
         if (cardNumber==1){//first Click
             for (int i = 0; i < currentFields.length; i++) {
@@ -518,23 +540,7 @@ public class Card {
             }
         }
         else{//second Click
-            playingPiece1.setProtected(true);
-            playingPiece2.setProtected(true);
-
-            Field field1=playingPiece1.getPosition();
-            Field field2=playingPiece2.getPosition();
-
-            playingPiece1.setSwapPiece(playingPiece2);
-            playingPiece2.setSwapPiece(playingPiece1);
-
-            playingPiece1.move(playingPiece2.getPosition(),currentFields);
-            playingPiece2.move(playingPiece1.getPosition(),currentFields);
-
-            field1.setCurrentPiece(playingPiece2);
-            playingPiece2.setCurrentPosition(field1);
-
-            field2.setCurrentPiece(playingPiece1);
-            playingPiece1.setCurrentPosition(field2);
+            ChessBoard.getInstance().swap(playingPiece1,playingPiece2);
         }
 
         return legalMoves;
@@ -548,9 +554,26 @@ public class Card {
     }
 
     //Take the last card played by your opponent and put it in your hand.
-    public void vulture(Player localPlayer,Deck deck){
-        localPlayer.getCurrentCards()[deck.getInitialCardNumber()-1].setOwned(false);
-        localPlayer.getCurrentCards()[deck.getInitialCardNumber()-1]=deck.getLastCardPlayed();
+    public void vulture(int id ,Player localPlayer,Deck deck){
+        Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
+        if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),null, null);
+        }
+
+        Card temp=localPlayer.getCurrentCards()[id]; //set new Last Card played
+        localPlayer.getCurrentCards()[id].setOwned(false); //set current card free again
+        localPlayer.getCurrentCards()[id]=deck.getLastCardPlayed(); //get last Card Played
+        deck.setLastCardPlayed(temp); //set new last Card Played
+        GameActivity.unselectAfterCardActivation(); //mark card "unselected"
+
+        if (ChessBoard.getInstance().getGameState() == GameState.WAITING) {
+            ChessBoard.getInstance().setGameState(GameState.ACTIVE);
+        }
+        else if(ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+            ChessBoard.getInstance().setGameState(GameState.WAITING);
+        }
+
+        Log.i("GAMESTATE", "afterCardend: " + ChessBoard.getInstance().getGameState());
     }
 
     public void abduction(ChessPiece oponentPiece){

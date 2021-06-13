@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
+import com.game.chessmate.GameFiles.GameState;
+import com.game.chessmate.GameFiles.Networking.NetworkManager;
 import com.game.chessmate.GameFiles.Vector;
 
 import java.util.ArrayList;
@@ -53,6 +55,8 @@ abstract public class ChessPiece extends View {
     private ChessBoard board;
     protected boolean opponentEncountered = false;
     private boolean isChampion=false;
+    private boolean isSwapped=false;
+    private ChessPiece swapPiece=null;
 
     /**
      * Instantiates a new Chess piece.
@@ -178,15 +182,23 @@ abstract public class ChessPiece extends View {
             offset = offset.add(vector.div(this.movementSpeed));
             this.setUpdateView(true);
         }
-        else {
+        else if(!isSwapped){
             afterMove();
         }
+        else
+            afterswap();
+
     }
 
     /**
      * Cleanup work after move. Update Positions of chessPieces and update fields.
      */
     private void afterMove() {
+        Log.i("GAMESTATE","afterMovestart: " + ChessBoard.getInstance().getGameState());
+        if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE){
+            NetworkManager.sendMove(currentPosition, targetPosition);
+        }
+
         this.updateMovementOffset = false;
         this.offset = new Vector(0,0);
         currentPosition.setCurrentPiece(null);
@@ -199,6 +211,34 @@ abstract public class ChessPiece extends View {
         }
 
         this.setUpdateView(true);
+
+        if (ChessBoard.getInstance().getGameState() == GameState.WAITING) {
+            ChessBoard.getInstance().setGameState(GameState.ACTIVE);
+        }
+        else if(ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+            ChessBoard.getInstance().setGameState(GameState.WAITING);
+        }
+        Log.i("GAMESTATE","afterMoveend: " + ChessBoard.getInstance().getGameState());
+    }
+
+    public void afterswap(){
+        Log.i("GAMESTATE","afterMovestart: " + ChessBoard.getInstance().getGameState());
+        if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE){
+            NetworkManager.sendMove(this.currentPosition, this.targetPosition);
+        }
+
+        this.updateMovementOffset=false;
+        this.offset=new Vector(0,0);
+        swapPiece=null;
+        isSwapped=false;
+
+        if (ChessBoard.getInstance().getGameState() == GameState.WAITING) {
+            ChessBoard.getInstance().setGameState(GameState.ACTIVE);
+        }
+        else if(ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+            ChessBoard.getInstance().setGameState(GameState.WAITING);
+        }
+        Log.i("GAMESTATE","afterSwapend: " + ChessBoard.getInstance().getGameState());
     }
 
     /**
@@ -383,4 +423,17 @@ abstract public class ChessPiece extends View {
     }
 
     public boolean isChampion(){return this.isChampion;}
+
+    public void setTargetPosition(Field position){this.targetPosition=position;}
+
+    public void setUpdateMovementOffset(boolean Boolean){this.updateMovementOffset=Boolean;}
+
+    public void resetOffset(){this.offset=new Vector(0,0);}
+
+    public Field getTargetPosition(){return this.targetPosition;}
+
+    public void setSwapPiece(ChessPiece piece){
+        isSwapped=true;
+        swapPiece=piece;
+    }
 }

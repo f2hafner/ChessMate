@@ -9,6 +9,7 @@ public class Deck {
     private int initialCardNumber=3;
     private int currentCard=0;
     private Random rand;
+    private Card lastCardPlayed=null;
 
     public Deck(){
         deck=new Card[size];
@@ -30,11 +31,6 @@ public class Deck {
             deck[currentCard].setOwned(true);
             currentCard++;
             j++;
-        }
-
-        for (int i=0;i<size;i++){
-            if (deck[i].getId()==7)
-                temp[0]=deck[i];
         }
 
         return temp;
@@ -77,4 +73,10 @@ public class Deck {
     public void setCurrentCard(int number){currentCard=number;}
 
     public Card [] getDeck(){return deck;}
+
+    public Card getLastCardPlayed(){return lastCardPlayed;}
+
+    public void setLastCardPlayed(Card card){this.lastCardPlayed=card;}
+
+    public int getInitialCardNumber(){return this.initialCardNumber;}
 }

@@ -1,10 +1,9 @@
 package com.game.chessmate.GameFiles;
 
-import android.content.res.Resources;
+import android.widget.TextView;
 
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceType;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,11 +11,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -26,13 +24,14 @@ public class ChessBoardTest {
 
     @Mock
     private static BoardView view;
+
     @Mock
-    private static Resources resources;
+    private static TextView gameStateView;
 
     @BeforeClass
     public static void init() {
         view = Mockito.mock(BoardView.class);
-        resources = Mockito.mock(Resources.class);
+        gameStateView = Mockito.mock(TextView.class);
     }
 
     @Before
@@ -63,14 +62,12 @@ public class ChessBoardTest {
         }
     }
 
-    /*@Test
+    @Test
     public void ifChessBoardInit_ThenViewHasViewHasCorrectChildCount() {
-        try {
-            Mockito.verify(view, Mockito.times(64)).addView(any());
-        } catch (MockitoAssertionError e) {
-            throw new MockitoAssertionError("Was expecting addView to be called 64 times for standard chessboard size");
-        }
-    }*/
+
+            Mockito.verify(view, Mockito.times(96)).addView(any());
+
+    }
 
     @Test
     public void ifChessBoardInit_ThenPlayerChessPiecesNotNull() {
@@ -82,11 +79,11 @@ public class ChessBoardTest {
         }
     }
 
-   /* @Test
+    @Test
     public void ifChessBoardInit_ThenEachPlayerHasTheirRespectiveChessPieces() {
         assertEquals("Player 1 has less or more pieces than expected.", 0, computeChessPiecesPerPlayerCount(chessBoard.getPiecesPlayer1()));
         assertEquals("Player 2 has less or more pieces than expected.", 0, computeChessPiecesPerPlayerCount(chessBoard.getPiecesPlayer2()));
-    }*/
+    }
 
     private int computeChessPiecesPerPlayerCount(ArrayList<ChessPiece> piecesPlayer) {
         int pawnCount = 8;

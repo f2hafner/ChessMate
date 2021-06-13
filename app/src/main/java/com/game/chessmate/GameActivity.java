@@ -1,15 +1,17 @@
 package com.game.chessmate;
-
 import android.app.Service;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +20,8 @@ import com.game.chessmate.GameFiles.BoardView;
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Deck;
 import com.game.chessmate.GameFiles.Player;
+import com.game.chessmate.GameFiles.GameState;
+import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
 
 /**
  * The type Game activity.
@@ -35,6 +39,7 @@ public class GameActivity extends AppCompatActivity {
     private SensorManager sensorManager;
     private SensorEventListener lightEventListener;
     private float maxValue;
+    private TextView gameStateView;
 
 
     @Override
@@ -42,6 +47,68 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         getSupportActionBar().hide();
+        sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        gameStateView = findViewById(R.id.gameStateView);
+        gameStateView.setTextSize(18);
+        gameStateView.setTextColor(Color.BLACK);
+        gameStateView.setGravity(1);
+        gameStateView.setTypeface(null, Typeface.BOLD);
+        gameStateView.setText("The Game started !");
+
+        if (sensor == null) {
+            Toast.makeText(this, "your device has no light sensore, so you wont be able to use the cheat funktion", Toast.LENGTH_SHORT).show();
+            //TODO stop cheat function when no sensor is avaliable
+        }
+        maxValue = sensor.getMaximumRange();
+        //Log.d("Sensor", String.valueOf(maxValue));
+        lightEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                float lightValue = sensorEvent.values[0];
+                //float closeSensor = maxValue/100;
+                if (lightValue <= 500 && cheatButtonStatus()) {
+                    if (ChessBoard.getInstance().getwasMoveLegal()) {
+
+                        //TODO Player has to stop for one round
+                    } else {
+                        ChessBoard.getInstance().getStartPossition();
+                        //TODO move piece back to start possition
+
+                    }
+                    //Log.d("SENSOR", String.valueOf(lightValue));
+                    //TODO and person who pressedn cheat button made a move then we need to check if the move was legal
+                    //  ChessBoard.getwasMoveLegal();
+                }
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
+
+
+        Button cheatButton = getCheatButton();
+
+
+        cheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (cheatButton.getText().toString().matches("Cheat Off")) {
+                    cheatButton.setText("Cheat On");
+                    isCheatOn = true;
+                    cheatButton.setBackgroundColor(getResources().getColor(R.color.purple_200));
+
+                } else if (cheatButton.getText().toString().matches("Cheat On")) {
+                    cheatButton.setText("Cheat Off");
+                    isCheatOn = false;
+                    cheatButton.setBackgroundColor(getResources().getColor(R.color.black));
+
+                }
+            }
+        });
 
 
         card1 = (ImageView) findViewById(R.id.cardView1);
@@ -106,8 +173,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(id==3||id==0) {
-                    player=ChessBoard.getInstance().getLocalPlayer();
-                    exactView.setImageResource(player.getCurrentCards()[0].getDrawableId());
+                    exactView.setImageResource(ChessBoard.getInstance().getCardsPlayer()[0].getDrawableId());
                     exactView.setVisibility(View.VISIBLE);
                     card1.setVisibility(View.INVISIBLE);
                     button.setVisibility(View.VISIBLE);
@@ -120,9 +186,8 @@ public class GameActivity extends AppCompatActivity {
         card2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                player=ChessBoard.getInstance().getLocalPlayer();
                 if(id==3||id==1) {
-                    exactView.setImageResource(player.getCurrentCards()[1].getDrawableId());
+                    exactView.setImageResource(ChessBoard.getInstance().getCardsPlayer()[1].getDrawableId());
                     exactView.setVisibility(View.VISIBLE);
                     card2.setVisibility(View.INVISIBLE);
                     button.setVisibility(View.VISIBLE);
@@ -136,8 +201,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(id==3||id==2) {
-                    player=ChessBoard.getInstance().getLocalPlayer();
-                    exactView.setImageResource(player.getCurrentCards()[2].getDrawableId());
+                    exactView.setImageResource(ChessBoard.getInstance().getCardsPlayer()[2].getDrawableId());
                     exactView.setVisibility(View.VISIBLE);
                     card3.setVisibility(View.INVISIBLE);
                     button.setVisibility(View.VISIBLE);
@@ -184,9 +248,6 @@ public class GameActivity extends AppCompatActivity {
 
             }
         };
-
-
-        Button cheatButton = getCheatButton();
 
 
         cheatButton.setOnClickListener(new View.OnClickListener() {
@@ -270,6 +331,20 @@ public class GameActivity extends AppCompatActivity {
         }
         id = 3;
         selected=false;
+    }
+
+    public void setGameStateView(GameState gameState) {
+        gameStateView = findViewById(R.id.gameStateView);
+        if (gameStateView != null) {
+            Log.i("TAG", "setGameStateView: " + gameStateView);
+            switch (gameState){
+                case ACTIVE: gameStateView.setText("Your Turn !"); break;
+                case WAITING: gameStateView.setText("Waiting for enemy..."); break;
+                case WIN: gameStateView.setText("You Won !"); break;
+                case LOOSE: gameStateView.setText("You Lost"); break;
+                default: gameStateView.setText("..."); break;
+            }
+        }
     }
 }
 

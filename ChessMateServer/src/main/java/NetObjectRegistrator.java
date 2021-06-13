@@ -9,5 +9,12 @@ public class NetObjectRegistrator {
         k.register(GameStates.class);
         k.register(LobbyDataObject.class);
         k.register(PlayerDataObject.class);
+        k.register(ChessPieceColour.class);
+        k.register(FieldDataObject.class);
+        k.register(GameDataObject.class);
+        k.register(startGameRequest.class);
+        k.register(startGameParameters.class);
+        k.register(GameDataObject.class);
+        k.register(SensorActivationObject.class);
     }
 }

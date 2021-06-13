@@ -138,7 +138,7 @@ public class Player {
         this.legalMovesForCheat = legalMovesForCheat;
     }
 
-    public void initCards(Card[]cards){playerCards= cards;}
+    public void setCards(Card[]cards){playerCards= cards;}
 
     public Card[] getCurrentCards(){return playerCards;}
 }

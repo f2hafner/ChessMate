@@ -1,12 +1,16 @@
 package com.game.chessmate.GameFiles;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.game.chessmate.GameActivity;
+import com.game.chessmate.GameFiles.Networking.NetworkManager;
 import com.game.chessmate.GameFiles.PlayingPieces.Bishop;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
@@ -16,8 +20,11 @@ import com.game.chessmate.GameFiles.PlayingPieces.Knight;
 import com.game.chessmate.GameFiles.PlayingPieces.Pawn;
 import com.game.chessmate.GameFiles.PlayingPieces.Queen;
 import com.game.chessmate.GameFiles.PlayingPieces.Rook;
+import com.game.chessmate.R;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * The ChessBoard class handles creation and maintenance of the ChessBoard
@@ -55,7 +62,7 @@ public class ChessBoard {
     private final int boardSize = 8;
     private Player localPlayer;
     private Player enemyPlayer;
-    private boolean isInverted;
+    private GameState gameState;
 
     private Deck deck;
     private ChessPieceColour localPlayerColor;
@@ -67,11 +74,8 @@ public class ChessBoard {
         this.boardFields = new Field[8][8];
         localPlayer = new Player(ChessPieceColour.WHITE);
         enemyPlayer = new Player(ChessPieceColour.BLACK);
-        isInverted = localPlayer.getColor() == ChessPieceColour.WHITE ? false : true;
 
-        deck=new Deck();
-        localPlayer.initCards(deck.getInitialCards());
-        enemyPlayer.initCards(deck.getInitialCards());
+        deck = new Deck();
     }
 
     /**
@@ -85,8 +89,17 @@ public class ChessBoard {
         this.view = view;
         this.fieldSize = calculateRectSize(width);
         initFields();
+        localPlayer = new Player(NetworkManager.getInitialColor());
+        if (NetworkManager.getInitialColor() == ChessPieceColour.WHITE) {
+            enemyPlayer = new Player(ChessPieceColour.BLACK);
+        } else {
+            enemyPlayer = new Player(ChessPieceColour.WHITE);
+        }
         initPiecesLocalPlayer(localPlayer.getColor());
         initPiecesEnemyPlayer(enemyPlayer.getColor());
+
+        localPlayer.setCards(deck.getInitialCards());
+        enemyPlayer.setCards(deck.getInitialCards());
     }
 
     /**
@@ -122,8 +135,14 @@ public class ChessBoard {
         initPieces(ChessPieceType.KNIGHT, 7, 6, 1, localPlayer.getChessPiecesAlive(), knight, color);
         initPieces(ChessPieceType.BISHOP, 7, 2, 1, localPlayer.getChessPiecesAlive(), bishop, color);
         initPieces(ChessPieceType.BISHOP, 7, 5, 1, localPlayer.getChessPiecesAlive(), bishop, color);
-        initPieces(ChessPieceType.QUEEN, 7, 4, 1, localPlayer.getChessPiecesAlive(), queen, color);
-        initPieces(ChessPieceType.KING, 7, 3, 1, localPlayer.getChessPiecesAlive(), king, color);
+        if (color == ChessPieceColour.WHITE) {
+            initPieces(ChessPieceType.QUEEN, 7, 3, 1, localPlayer.getChessPiecesAlive(), queen, color);
+            initPieces(ChessPieceType.KING, 7, 4, 1, localPlayer.getChessPiecesAlive(), king, color);
+        } else {
+            initPieces(ChessPieceType.QUEEN, 7, 4, 1, localPlayer.getChessPiecesAlive(), queen, color);
+            initPieces(ChessPieceType.KING, 7, 3, 1, localPlayer.getChessPiecesAlive(), king, color);
+        }
+
     }
 
     /**
@@ -144,8 +163,14 @@ public class ChessBoard {
         initPieces(ChessPieceType.KNIGHT, 0, 6, 1, enemyPlayer.getChessPiecesAlive(), knight, color);
         initPieces(ChessPieceType.BISHOP, 0, 2, 1, enemyPlayer.getChessPiecesAlive(), bishop, color);
         initPieces(ChessPieceType.BISHOP, 0, 5, 1, enemyPlayer.getChessPiecesAlive(), bishop, color);
-        initPieces(ChessPieceType.QUEEN, 0, 4, 1, enemyPlayer.getChessPiecesAlive(), queen, color);
-        initPieces(ChessPieceType.KING, 0, 3, 1, enemyPlayer.getChessPiecesAlive(), king, color);
+        if (color == ChessPieceColour.WHITE) {
+            initPieces(ChessPieceType.QUEEN, 0, 4, 1, enemyPlayer.getChessPiecesAlive(), queen, color);
+            initPieces(ChessPieceType.KING, 0, 3, 1, enemyPlayer.getChessPiecesAlive(), king, color);
+        } else {
+            initPieces(ChessPieceType.QUEEN, 0, 3, 1, enemyPlayer.getChessPiecesAlive(), queen, color);
+            initPieces(ChessPieceType.KING, 0, 4, 1, enemyPlayer.getChessPiecesAlive(), king, color);
+        }
+
     }
 
     /**
@@ -163,6 +188,7 @@ public class ChessBoard {
     private Field endPosition;
     private ChessPiece movedPiece;
     private boolean moveWasLegal = false;
+
     /**
      * Handles onTouchEvent fired by the BoardView (onTouchEvent) when the View is clicked on.
      * Cycles through the Chessboard fields and checks if the coordinates from the touchEvent match with
@@ -174,6 +200,10 @@ public class ChessBoard {
      * @param event the event with the x and y coordinates of the touch event.
      */
     public void handleFieldClick(MotionEvent event) {
+        Log.i(TAG, "handleFieldClick: " + gameState);
+        if (gameState == GameState.WAITING) {
+            return;
+        }
         int touchX = (int) event.getX();
         int touchY = (int) event.getY();
         Rect rect;
@@ -219,7 +249,7 @@ public class ChessBoard {
 
                             endPosition = clickedField;
 
-                            localPlayer.getLastSelectedField().getCurrentPiece().move(clickedField,boardFields);
+                            localPlayer.getLastSelectedField().getCurrentPiece().move(clickedField, boardFields);
                             localPlayer.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
                             localPlayer.setLastSelectedField(null);
                             resetLegalMoves();
@@ -245,14 +275,14 @@ public class ChessBoard {
         }
     }
 
-    public void doCardAction(MotionEvent event, int id){
-        int touchX = (int)event.getX();
-        int touchY = (int)event.getY();
+    public void doCardAction(MotionEvent event, int id) {
+        int touchX = (int) event.getX();
+        int touchY = (int) event.getY();
         Rect rect;
         ArrayList<Field> legalMoves;
 
-        Card [] cards=localPlayer.getCurrentCards();
-        localPlayerColor=localPlayer.getColor();
+        Card[] cards = localPlayer.getCurrentCards();
+        localPlayerColor = localPlayer.getColor();
 
 
         for (int i = 0; i < boardFields.length; i++) {
@@ -263,28 +293,26 @@ public class ChessBoard {
                     Field clickedField = boardFields[i][j];
 
                     //define variables if clickedField is not empty
-                    if(clickedField.getCurrentPiece()!=null) {
+                    if (clickedField.getCurrentPiece() != null) {
                         clickedPiece = clickedField.getCurrentPiece();
                         clickedPieceColor = clickedField.getCurrentPiece().getColour();
                         clickedPieceType = clickedField.getCurrentPiece().getPlayingPieceType();
                     }
 
                     //do action depending on card
-                    switch (cards[id].getId()){
+                    switch (cards[id].getId()) {
                         case 0: //cowardice
-                            if(localPlayer.getLastSelectedField() == null) { //first click
-                                if (clickedPiece!= null && clickedPieceType==ChessPieceType.PAWN && clickedPieceColor!=localPlayerColor) {
-                                    afterFirstClickAfterCardSelection(clickedField, cards[id].cowardice(1,clickedPiece,clickedField,boardFields));
-                                }
-                                else
+                            if (localPlayer.getLastSelectedField() == null) { //first click
+                                if (clickedPiece != null && clickedPieceType == ChessPieceType.PAWN && clickedPieceColor != localPlayerColor) {
+                                    afterFirstClickAfterCardSelection(clickedField, cards[id].cowardice(1, clickedPiece, clickedField, boardFields));
+                                } else
                                     GameActivity.unselectAfterCardActivation();
                             }
-                            else{ //second click
-                                if (localPlayer.getLegalMovesSelected().contains(clickedField)){
-                                    cards[id].cowardice(2,localPlayer.getLastSelectedField().getCurrentPiece(),clickedField,boardFields);
+                            else { //second click
+                                if (localPlayer.getLegalMovesSelected().contains(clickedField)) {
+                                    cards[id].cowardice(2, localPlayer.getLastSelectedField().getCurrentPiece(), clickedField, boardFields);
                                     afterCardActivation(id);
-                                }
-                                else {
+                                } else {
                                     localPlayer.setLastSelectedField(null);
                                     resetLegalMoves();
                                     GameActivity.unselectAfterCardActivation();
@@ -293,19 +321,17 @@ public class ChessBoard {
                             break;
 
                         case 1: //crusade
-                            if(localPlayer.getLastSelectedField() == null){ //first click
-                                if (clickedPiece!=null&&clickedPieceType==ChessPieceType.BISHOP&&clickedPieceColor==localPlayerColor) {
+                            if (localPlayer.getLastSelectedField() == null) { //first click
+                                if (clickedPiece != null && clickedPieceType == ChessPieceType.BISHOP && clickedPieceColor == localPlayerColor) {
                                     afterFirstClickAfterCardSelection(clickedField, clickedPiece.getLegalFields());
-                                }
-                                else
+                                } else
                                     GameActivity.unselectAfterCardActivation();
                             }
                             else {//second click
                                 if (localPlayer.getLegalMovesSelected().contains(clickedField)) {
-                                    cards[id].crusade(localPlayer.getLastSelectedField().getCurrentPiece(),clickedField,boardFields);
+                                    cards[id].crusade(localPlayer.getLastSelectedField().getCurrentPiece(), clickedField, boardFields);
                                     afterCardActivation(id);
-                                }
-                                else {
+                                } else {
                                     localPlayer.setLastSelectedField(null);
                                     resetLegalMoves();
                                     GameActivity.unselectAfterCardActivation();
@@ -314,19 +340,17 @@ public class ChessBoard {
                             break;
 
                         case 2: //darkMirror
-                            if(localPlayer.getLastSelectedField() == null) { //first click
-                                if (clickedPiece!=null&&clickedPieceType==ChessPieceType.PAWN&&clickedPieceColor==localPlayerColor) {
-                                    afterFirstClickAfterCardSelection(clickedField, cards[id].darkMirror(1,clickedPiece,clickedField,boardFields));
-                                }
-                                else
+                            if (localPlayer.getLastSelectedField() == null) { //first click
+                                if (clickedPiece != null && clickedPieceType == ChessPieceType.PAWN && clickedPieceColor == localPlayerColor) {
+                                    afterFirstClickAfterCardSelection(clickedField, cards[id].darkMirror(1, clickedPiece, clickedField, boardFields));
+                                } else
                                     GameActivity.unselectAfterCardActivation();
                             }
                             else { //second click
-                                if (localPlayer.getLegalMovesSelected().contains(clickedField)){
-                                    cards[id].darkMirror(2,localPlayer.getLastSelectedField().getCurrentPiece(),clickedField,boardFields);
+                                if (localPlayer.getLegalMovesSelected().contains(clickedField)) {
+                                    cards[id].darkMirror(2, localPlayer.getLastSelectedField().getCurrentPiece(), clickedField, boardFields);
                                     afterCardActivation(id);
-                                }
-                                else {
+                                } else {
                                     localPlayer.setLastSelectedField(null);
                                     resetLegalMoves();
                                     GameActivity.unselectAfterCardActivation();
@@ -336,19 +360,17 @@ public class ChessBoard {
                             break;
 
                         case 3: //deathDance
-                            if(localPlayer.getLastSelectedField() == null) { //first click
-                                if (clickedPiece!=null&&clickedPieceColor==localPlayerColor) {
-                                    afterFirstClickAfterCardSelection(clickedField, cards[id].deathDance(1,clickedPiece,null,boardFields));
-                                }
-                                else
+                            if (localPlayer.getLastSelectedField() == null) { //first click
+                                if (clickedPiece != null && clickedPieceColor == localPlayerColor) {
+                                    afterFirstClickAfterCardSelection(clickedField, cards[id].deathDance(1, clickedPiece, null, boardFields));
+                                } else
                                     GameActivity.unselectAfterCardActivation();
                             }
                             else { //second click
-                                if (clickedPiece!=null&&clickedPieceColor!=localPlayerColor){
-                                    cards[id].deathDance(2,localPlayer.getLastSelectedField().getCurrentPiece(),clickedPiece,boardFields);
+                                if (clickedPiece != null && clickedPieceColor != localPlayerColor) {
+                                    cards[id].deathDance(2, localPlayer.getLastSelectedField().getCurrentPiece(), clickedPiece, boardFields);
                                     afterCardActivation(id);
-                                }
-                                else {
+                                } else {
                                     localPlayer.setLastSelectedField(null);
                                     resetLegalMoves();
                                     GameActivity.unselectAfterCardActivation();
@@ -357,7 +379,7 @@ public class ChessBoard {
                             break;
 
                         case 4: //disintegration
-                            if (clickedPiece!= null&&clickedPieceType==ChessPieceType.PAWN&&clickedPieceColor==localPlayerColor) {
+                            if (clickedPiece != null && clickedPieceType == ChessPieceType.PAWN && clickedPieceColor == localPlayerColor) {
                                 cards[id].disintegration(clickedPiece);
                                 afterCardActivation(id);
                             }
@@ -366,7 +388,7 @@ public class ChessBoard {
                             break;
 
                         case 5: //champion
-                            if (clickedPiece!=null&&clickedPieceType==ChessPieceType.KNIGHT) {
+                            if (clickedPiece != null && clickedPieceType == ChessPieceType.KNIGHT) {
                                 cards[id].champion(clickedPiece);
                                 afterCardActivation(id);
                             }
@@ -375,19 +397,17 @@ public class ChessBoard {
                             break;
 
                         case 6: //rebirth
-                            if(localPlayer.getLastSelectedField() == null){ //first click
-                                if (clickedPiece!=null&&clickedPieceColor!=localPlayerColor) {
-                                    afterFirstClickAfterCardSelection(clickedField, cards[id].rebirth(1,clickedPiece,null,boardFields));
-                                }
-                                else
+                            if (localPlayer.getLastSelectedField() == null) { //first click
+                                if (clickedPiece != null && clickedPieceColor != localPlayerColor) {
+                                    afterFirstClickAfterCardSelection(clickedField, cards[id].rebirth(1, clickedPiece, null, boardFields));
+                                } else
                                     GameActivity.unselectAfterCardActivation();
                             }
                             else {//second click
                                 if (localPlayer.getLegalMovesSelected().contains(clickedField)) {
-                                    cards[id].rebirth(2,localPlayer.getLastSelectedField().getCurrentPiece(),clickedField,boardFields);
+                                    cards[id].rebirth(2, localPlayer.getLastSelectedField().getCurrentPiece(), clickedField, boardFields);
                                     afterCardActivation(id);
-                                }
-                                else {
+                                } else {
                                     localPlayer.setLastSelectedField(null);
                                     resetLegalMoves();
                                     GameActivity.unselectAfterCardActivation();
@@ -396,19 +416,19 @@ public class ChessBoard {
                             break;
 
                         case 7: //revelation
-                            if(localPlayer.getLastSelectedField() == null){ //first click
-                                if (clickedPiece!=null&&clickedPieceType==ChessPieceType.KNIGHT) {
-                                    afterFirstClickAfterCardSelection(clickedField, cards[id].revelation(1,clickedPiece,null,boardFields));
-                                }
-                                else
+                            if (localPlayer.getLastSelectedField() == null) { //first click
+                                if (clickedPiece != null && clickedPieceType == ChessPieceType.KNIGHT) {
+                                    afterFirstClickAfterCardSelection(clickedField, cards[id].revelation(1, clickedPiece, null, boardFields));
+                                } else
                                     GameActivity.unselectAfterCardActivation();
                             }
                             else {//second click
                                 if (localPlayer.getLegalMovesSelected().contains(clickedField)) {
+                                    Field temp=localPlayer.getLastSelectedField();
                                     cards[id].revelation(2, localPlayer.getLastSelectedField().getCurrentPiece(), clickedPiece, boardFields);
+                                    clickedPiece.setCurrentPosition(temp);
                                     afterCardActivation(id);
-                                }
-                                else {
+                                } else {
                                     localPlayer.setLastSelectedField(null);
                                     resetLegalMoves();
                                     GameActivity.unselectAfterCardActivation();
@@ -417,19 +437,17 @@ public class ChessBoard {
                             break;
 
                         case 8: //longJump
-                            if(localPlayer.getLastSelectedField() == null){ //first click
-                                if (clickedPiece!=null&&clickedPieceType==ChessPieceType.KNIGHT&&clickedPieceColor==localPlayerColor) {
-                                    afterFirstClickAfterCardSelection(clickedField, cards[id].longJump(1,clickedPiece,null,boardFields));
-                                }
-                                else
+                            if (localPlayer.getLastSelectedField() == null) { //first click
+                                if (clickedPiece != null && clickedPieceType == ChessPieceType.KNIGHT && clickedPieceColor == localPlayerColor) {
+                                    afterFirstClickAfterCardSelection(clickedField, cards[id].longJump(1, clickedPiece, null, boardFields));
+                                } else
                                     GameActivity.unselectAfterCardActivation();
                             }
                             else {//second click
                                 if (localPlayer.getLegalMovesSelected().contains(clickedField)) {
                                     cards[id].longJump(2, localPlayer.getLastSelectedField().getCurrentPiece(), clickedField, boardFields);
                                     afterCardActivation(id);
-                                }
-                                else {
+                                } else {
                                     localPlayer.setLastSelectedField(null);
                                     resetLegalMoves();
                                     GameActivity.unselectAfterCardActivation();
@@ -438,19 +456,17 @@ public class ChessBoard {
                             break;
 
                         case 9: //lostCastle
-                            if(localPlayer.getLastSelectedField() == null){ //first click
-                                if (clickedPiece!=null&&clickedPieceType==ChessPieceType.ROOK) {
-                                   afterFirstClickAfterCardSelection(clickedField,cards[id].lostCastle(1,clickedPiece,null,boardFields));
-                                }
-                                else
+                            if (localPlayer.getLastSelectedField() == null) { //first click
+                                if (clickedPiece != null && clickedPieceType == ChessPieceType.ROOK) {
+                                    afterFirstClickAfterCardSelection(clickedField, cards[id].lostCastle(1, clickedPiece, null, boardFields));
+                                } else
                                     GameActivity.unselectAfterCardActivation();
                             }
                             else {//second click
                                 if (localPlayer.getLegalMovesSelected().contains(clickedField)) {
-                                    cards[id].lostCastle(2,localPlayer.getLastSelectedField().getCurrentPiece(),clickedPiece,boardFields);
+                                    cards[id].lostCastle(2, localPlayer.getLastSelectedField().getCurrentPiece(), clickedPiece, boardFields);
                                     afterCardActivation(id);
-                                }
-                                else {
+                                } else {
                                     localPlayer.setLastSelectedField(null);
                                     resetLegalMoves();
                                     GameActivity.unselectAfterCardActivation();
@@ -459,7 +475,7 @@ public class ChessBoard {
                             break;
 
                         case 10://mysticShield
-                            if(clickedPiece!=null&&clickedPieceColor==localPlayerColor){
+                            if (clickedPiece != null && clickedPieceColor == localPlayerColor) {
                                 cards[id].mysticShield(clickedField);
                                 afterCardActivation(id);
                             }
@@ -468,7 +484,7 @@ public class ChessBoard {
                             break;
 
                         case 11://forbiddenCity
-                            if (!clickedField.hasPiece()){
+                            if (!clickedField.hasPiece()) {
                                 cards[id].forbiddenCity(clickedField);
                                 afterCardActivation(id);
                             }
@@ -476,17 +492,42 @@ public class ChessBoard {
                                 GameActivity.unselectAfterCardActivation();
                             break;
 
-                        case 12:
+                        case 12://holyQuest
+                            if (localPlayer.getLastSelectedField() == null) { //first click
+                                if (clickedPiece != null && clickedPieceType == ChessPieceType.BISHOP&&clickedPieceColor==localPlayerColor) {
+                                    afterFirstClickAfterCardSelection(clickedField, cards[id].holyQuest(1, clickedPiece, null, boardFields));
+                                } else
+                                    GameActivity.unselectAfterCardActivation();
+                            }
+                            else {//second click
+                                if (localPlayer.getLegalMovesSelected().contains(clickedField)) {
+                                    cards[id].holyQuest(2, localPlayer.getLastSelectedField().getCurrentPiece(), clickedPiece, boardFields);
+                                    afterCardActivation(id);
+                                } else {
+                                    localPlayer.setLastSelectedField(null);
+                                    resetLegalMoves();
+                                    GameActivity.unselectAfterCardActivation();
+                                }
+                            }
+                            break;
+
+                        case 13://handOfFate
+                            cards[id].handOfFate(localPlayer,enemyPlayer);
+                            break;
+
+                        case 14://vulture
+                            cards[id].vulture(localPlayer,deck);
+                            break;
                     }
                 }
             }
-            clickedPiece=null;
-            clickedPieceColor=null;
-            clickedPieceType=null;
+            clickedPiece = null;
+            clickedPieceColor = null;
+            clickedPieceType = null;
         }
     }
 
-    public void afterFirstClickAfterCardSelection(Field clickedField, ArrayList<Field> legalMoves){
+    public void afterFirstClickAfterCardSelection(Field clickedField, ArrayList<Field> legalMoves) {
         localPlayer.setLastSelectedField(clickedField);
         localPlayer.setLegalMovesSelected(legalMoves);
 
@@ -495,12 +536,13 @@ public class ChessBoard {
         }
     }
 
-    public void afterCardActivation(int id){
+    public void afterCardActivation(int id) {
         localPlayer.setLastSelectedField(null);
         resetLegalMoves();
 
+        deck.setLastCardPlayed(localPlayer.getCurrentCards()[id]);
         localPlayer.getCurrentCards()[id].setOwned(false); //set card free
-        localPlayer.getCurrentCards()[id]=deck.drawCard(); //replace card
+        localPlayer.getCurrentCards()[id] = deck.drawCard(); //replace card
         GameActivity.unselectAfterCardActivation(); //mark card "unselected"
     }
 
@@ -667,5 +709,23 @@ public class ChessBoard {
         return enemyPlayer;
     }
 
-    public Deck getDeck(){return this.deck;}
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(GameState gameState) {
+        if (view != null) {
+            GameActivity a = (GameActivity) view.getContext();
+            a.setGameStateView(gameState);
+        }
+        this.gameState = gameState;
+    }
+
+    public Deck getDeck() {
+        return this.deck;
+    }
+
+    public Card[] getCardsPlayer(){
+        return localPlayer.getCurrentCards();
+    }
 }

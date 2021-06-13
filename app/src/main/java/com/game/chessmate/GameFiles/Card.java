@@ -3,7 +3,9 @@ package com.game.chessmate.GameFiles;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
+import com.game.chessmate.GameFiles.Networking.NetworkManager;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceType;
 import com.game.chessmate.R;
@@ -124,17 +126,17 @@ public class Card {
                 break;
 
             case 14:
-                name="Spoils of War";
-                desc="Play this card when you capture one of your opponent's pieces. The capturing piece changes permanently into a piece of the kind it captured. For instance, if one of your pawns captures a knight, it becomes a knight.";
-                useCase="[i] Play this card immediately after your move.";
-                drawableId=R.drawable.spoils_of_war;
-                break;
-
-            case 15:
                 name="Vulture";
                 desc="Take the last card played by your opponent and put it in your hand. (If each player has his own deck of cards, you must also discard your top undrawn card.)";
                 useCase="[i] Play this card immediately after your opponent plays a card.";
                 drawableId=R.drawable.vulture;
+                break;
+
+            case 15:
+                name="Spoils of War";
+                desc="Play this card when you capture one of your opponent's pieces. The capturing piece changes permanently into a piece of the kind it captured. For instance, if one of your pawns captures a knight, it becomes a knight.";
+                useCase="[i] Play this card immediately after your move.";
+                drawableId=R.drawable.spoils_of_war;
                 break;
 
             case 16:
@@ -394,19 +396,20 @@ public class Card {
             }
         }
         else{//second Click
-            playingPiece1.setProtected(true);
-            playingPiece2.setProtected(true);
+            Field field1=playingPiece1.getPosition();
+            Field field2=playingPiece2.getPosition();
 
-            Field temp=playingPiece1.getPosition();
-            Field temp1=playingPiece2.getPosition();
+             playingPiece1.setSwapPiece(playingPiece2);
+             playingPiece2.setSwapPiece(playingPiece1);
 
-            playingPiece1.move(currentFields[4][4],currentFields);
-            playingPiece2.move(temp,currentFields);
-            playingPiece1.move(temp1,currentFields);
+             playingPiece1.move(playingPiece2.getPosition(),currentFields);
+             playingPiece2.move(playingPiece1.getPosition(),currentFields);
 
+             field1.setCurrentPiece(playingPiece2);
+             playingPiece2.setCurrentPosition(field1);
 
-            /*playingPiece2.move(playingPiece1.getPosition(),currentFields);
-            playingPiece1.move(temp,currentFields);*/
+             field2.setCurrentPiece(playingPiece1);
+             playingPiece1.setCurrentPosition(field2);
         }
 
         return legalMoves;
@@ -456,10 +459,20 @@ public class Card {
             playingPiece.setProtected(true);
             oponentPiece.setProtected(true);
 
-            int i=oponentPiece.getPosition().getFieldX();
-            int j=oponentPiece.getPosition().getFieldY();
+            Field field1=playingPiece.getPosition();
+            Field field2=oponentPiece.getPosition();
+
+            playingPiece.setSwapPiece(oponentPiece);
+            oponentPiece.setSwapPiece(playingPiece);
+
+            playingPiece.move(oponentPiece.getPosition(),currentFields);
             oponentPiece.move(playingPiece.getPosition(),currentFields);
-            playingPiece.move(currentFields[i][j],currentFields);
+
+            field1.setCurrentPiece(oponentPiece);
+            oponentPiece.setCurrentPosition(field1);
+
+            field2.setCurrentPiece(playingPiece);
+            playingPiece.setCurrentPosition(field2);
 
         }
 
@@ -479,32 +492,53 @@ public class Card {
             field.invalidate();
     }
 
-    public void holyQuest(ChessPiece playingPiece1,ChessPiece playingPiece2){
-        //Swap the positions of a bishop and a knight belonging to your opponent.
-        if (playingPiece1.getPlayingPieceType()==ChessPieceType.BISHOP&&playingPiece2.getPlayingPieceType()==ChessPieceType.KNIGHT) {
-            Field temp = playingPiece1.getPosition();
-            playingPiece1.setPosition(playingPiece2.getPosition());
-            playingPiece2.setPosition(temp);
-        }
+    //Swap the positions of a bishop and a knight belonging to your opponent.
+    public ArrayList<Field> holyQuest(int cardNumber, ChessPiece playingPiece1, ChessPiece playingPiece2, Field[][] currentFields){
+        legalMoves=new ArrayList<>();
 
-
-    }
-
-    public void handOfFate(Card [] player1,Card[]player2, Deck deck){
-        //Exchange your hand with your opponent's. He must draw another card to replace this one.
-        Card[]temp=player1;
-
-        player1=player2;
-
-        int j=0;
-        for (int i=0;i<player1.length;i++){
-            if (temp[i].getName().equals("Hand of Fate")) {
-                player2[j] = temp[i];
-                j++;
+        if (cardNumber==1){//first Click
+            for (int i = 0; i < currentFields.length; i++) {
+                for (int j = 0; j < currentFields[i].length; j++) {
+                    if (currentFields[i][j].getCurrentPiece() != null && currentFields[i][j].getCurrentPiece().getPlayingPieceType() == ChessPieceType.KNIGHT && currentFields[i][j].getCurrentPiece().getColour() != playingPiece1.getColour()) {
+                        legalMoves.add(currentFields[i][j]);
+                    }
+                }
             }
         }
+        else{//second Click
+            playingPiece1.setProtected(true);
+            playingPiece2.setProtected(true);
 
-        player2[player2.length]=deck.drawCard();
+            Field field1=playingPiece1.getPosition();
+            Field field2=playingPiece2.getPosition();
+
+            playingPiece1.setSwapPiece(playingPiece2);
+            playingPiece2.setSwapPiece(playingPiece1);
+
+            playingPiece1.move(playingPiece2.getPosition(),currentFields);
+            playingPiece2.move(playingPiece1.getPosition(),currentFields);
+
+            field1.setCurrentPiece(playingPiece2);
+            playingPiece2.setCurrentPosition(field1);
+
+            field2.setCurrentPiece(playingPiece1);
+            playingPiece1.setCurrentPosition(field2);
+        }
+
+        return legalMoves;
+    }
+
+    //Exchange your hand with your opponent's. He must draw another card to replace this one.
+    public void handOfFate(Player player1,Player player2){
+        Card [] temp=player1.getCurrentCards();
+        player1.setCards(player2.getCurrentCards());
+        player2.setCards(temp);
+    }
+
+    //Take the last card played by your opponent and put it in your hand.
+    public void vulture(Player localPlayer,Deck deck){
+        localPlayer.getCurrentCards()[deck.getInitialCardNumber()-1].setOwned(false);
+        localPlayer.getCurrentCards()[deck.getInitialCardNumber()-1]=deck.getLastCardPlayed();
     }
 
     public void abduction(ChessPiece oponentPiece){
@@ -547,38 +581,20 @@ public class Card {
 
     }
 
-    public void vulture(){
-        //Take the last card played by your opponent and put it in your hand.
-
-    }
-
-
-
-
-
-
     public void martyr(){
         //Play this card when one of your bishops has the choice of taking two or more of your opponent's pieces. Capture as many of these pieces as you want (at least two). Your bishop is removed from play and regarded as captured.
 
     }
-
-
 
     public void fogOfWar(){
         //This card cancels the effect of any other card. Both cards are discarded. If the opposing card constituted your opponent's whole move, he may make another move, but he may not play another card.
 
     }
 
-
-
-
-
     public void funeralPyre(){
         //All captured pieces of both players are now considered dead. They cannot be returned to the chessboard throguh the play of a card.
 
     }
-
-
 
     public boolean isContinuingUntilEnd(){
         if (continuingEffectUntilEnd)

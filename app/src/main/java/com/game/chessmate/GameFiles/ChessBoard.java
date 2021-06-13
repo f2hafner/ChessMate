@@ -64,6 +64,8 @@ public class ChessBoard {
     private Player enemyPlayer;
     private GameState gameState;
 
+    private ChessPiece localKing;
+
     private ChessBoard() {
         this.boardFields = new Field[8][8];
     }
@@ -211,7 +213,8 @@ public class ChessBoard {
                             resetLegalMoves();
                         }
                     }
-                    if (localPlayer.getLastSelectedField() == null) { //this is the first click on a field
+
+                    if (localPlayer.getLastSelectedField() == null) { //this is the first click on a field with a piece that is movable
                         if (clickedField.getCurrentPiece() != null) {
                             if (clickedField.getCurrentPiece().getColour() == localPlayer.getColor()) { //only local player is allowed to move
                                 localPlayer.setLastSelectedField(clickedField);
@@ -224,9 +227,10 @@ public class ChessBoard {
                                 } else {
                                     localPlayer.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalFields());
                                 }
-                                if (!localPlayer.getLegalMovesSelected().isEmpty()) {
-                                    drawLegalMoves(localPlayer.getLegalMovesSelected());
-                                }
+                                localKing = getLocalKing();
+
+                                //TODO
+
 
                                 if (!localPlayer.getLegalMovesSelected().isEmpty()) {
                                     drawLegalMoves(localPlayer.getLegalMovesSelected());
@@ -262,7 +266,19 @@ public class ChessBoard {
             }
         }
     }
-
+    //searches for local king and returns - could also be used for game over
+    private ChessPiece getLocalKing() {
+        for (int i = 0; i < boardFields.length; i++) {
+            for (int j = 0; j < boardFields[i].length; j++) {
+                if (boardFields[i][j].getCurrentPiece() != null) {
+                    if (boardFields[i][j].getCurrentPiece().getPlayingPieceType() == ChessPieceType.KING && boardFields[i][j].getCurrentPiece().getColour() == localPlayer.getColor()) {
+                        return boardFields[i][j].getCurrentPiece();
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
     /**
      * Getwas move legal boolean.

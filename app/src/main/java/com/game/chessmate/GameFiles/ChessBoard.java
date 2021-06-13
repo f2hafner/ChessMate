@@ -238,6 +238,7 @@ public class ChessBoard {
                                 //overwrite normal legal moves if king is in check - TODO checkmate
                                 localKing = getLocalKing();
                                 if(localKing.isChecked(boardFields)){
+                                    //TODO check which pieces are threatening and colour their fields
                                     localPlayer.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalMovesInCheck());
                                 }
 
@@ -251,6 +252,7 @@ public class ChessBoard {
 
                             endPosition = clickedField;
 
+                            //TODO - only move if moving does not cause king to be in check - change legalfields again to restrict if it causes check 
                             localPlayer.getLastSelectedField().getCurrentPiece().move(clickedField);
                             localPlayer.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
                             localPlayer.setLastSelectedField(null);

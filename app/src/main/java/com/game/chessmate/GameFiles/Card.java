@@ -299,9 +299,21 @@ public class Card {
        else {//second Click
            playingPiece.setProtected(true);
            oponentPiece.setProtected(true);
-           Field temp = playingPiece.getPosition();
+
+           Field field1=playingPiece.getPosition();
+           Field field2=oponentPiece.getPosition();
+
+           playingPiece.setSwapPiece(oponentPiece);
+           oponentPiece.setSwapPiece(playingPiece);
+
            playingPiece.move(oponentPiece.getPosition(),currentFields);
-           oponentPiece.move(temp,currentFields);
+           oponentPiece.move(playingPiece.getPosition(),currentFields);
+
+           field1.setCurrentPiece(oponentPiece);
+           oponentPiece.setCurrentPosition(field1);
+
+           field2.setCurrentPiece(playingPiece);
+           playingPiece.setCurrentPosition(field2);
        }
 
        return legalMoves;

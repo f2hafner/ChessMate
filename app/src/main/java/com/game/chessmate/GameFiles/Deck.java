@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Deck {
     private  Card[] deck;
-    private int size=15;//25
+    private int size=13;//25
     private int initialCardNumber=3;
     private int currentCard=0;
     private Random rand;
@@ -79,4 +79,13 @@ public class Deck {
     public void setLastCardPlayed(Card card){this.lastCardPlayed=card;}
 
     public int getInitialCardNumber(){return this.initialCardNumber;}
+
+    public Card getSpecificCard(int cardId){
+        for (int i=0;i<size;i++){
+            if (deck[i].getId()==cardId){
+                return deck[i];
+            }
+        }
+        return null;
+    }
 }

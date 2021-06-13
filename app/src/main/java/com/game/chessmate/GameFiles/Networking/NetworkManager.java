@@ -108,7 +108,7 @@ public class NetworkManager {
         Log.i(TAG, "receiveMove: receivemove was called");
         Field originField = ChessBoard.getInstance().getBoardFields()[origin.getX()][origin.getY()];
         Field targetField = ChessBoard.getInstance().getBoardFields()[target.getX()][target.getY()];
-        originField.getCurrentPiece().move(targetField);
+        originField.getCurrentPiece().move(targetField,ChessBoard.getInstance().getBoardFields());
     }
 
     public static ChessPieceColour getInitialColor() {

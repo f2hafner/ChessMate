@@ -3,6 +3,8 @@ package com.game.chessmate.GameFiles;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.game.chessmate.GameFiles.Networking.NetObjects.GameDataObject;
+
 public class CheatFunktion {
 
     public CheatFunktion(Context context) {
@@ -31,7 +33,9 @@ public class CheatFunktion {
         return localPlayerTurn;
     }
 
-    public void tetermanCheat() {
+
+    public void teterminCheat() {
+       // GameDataObject.setCheatActivated(true);
         if (checkingIfItsLocalPlayerTurn() && playerEnemy.getWasLeganMove()) {
             playerDidNotCheat();
         }

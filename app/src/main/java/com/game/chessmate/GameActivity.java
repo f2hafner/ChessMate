@@ -100,7 +100,7 @@ public class GameActivity extends AppCompatActivity {
                 player.setLightValue(sensorEvent.values[0]);
                 //float closeSensor = maxValue/100;
                 if ( sensorEvent.values[0] <= 500  ) {
-                    cheatFunktion.tetermanCheat();
+                    cheatFunktion.teterminCheat();
                     }
                 //Log.d("SENSOR", String.valueOf(lightValue));
             }

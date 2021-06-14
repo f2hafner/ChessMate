@@ -100,15 +100,6 @@ public class GameActivity extends AppCompatActivity {
 
 
 
-         Button sensorButton = findViewById(R.id.LightSensorButton);
-        sensorButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                player.setLightValue(0);
-            }
-        });
-
 
         cheatButton.setOnClickListener(new View.OnClickListener() {
             @Override

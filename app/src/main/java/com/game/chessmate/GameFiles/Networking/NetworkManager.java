@@ -137,7 +137,6 @@ public class NetworkManager {
                     Log.i("LOG","ORG: "+ gameDataObject.getOrigin().toString()+" TRG: "+gameDataObject.getTarget().toString());
 
                     if (gameDataObject.isMoved()) {
-                        if (gameDataObject.isCheatActivated())
                         receiveMove(gameDataObject.getOrigin(), gameDataObject.getTarget());
                     }
                     else if (gameDataObject.isUsedCard()) {

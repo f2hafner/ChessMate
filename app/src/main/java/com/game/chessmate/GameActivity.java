@@ -17,11 +17,19 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.game.chessmate.GameFiles.BoardView;
+import com.game.chessmate.GameFiles.CheatFunktion;
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Deck;
+import com.game.chessmate.GameFiles.Networking.ChessMateClient;
+import com.game.chessmate.GameFiles.Networking.NetObjects.SensorActivationObject;
+import com.game.chessmate.GameFiles.Networking.NetworkManager;
 import com.game.chessmate.GameFiles.Player;
 import com.game.chessmate.GameFiles.GameState;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
+
+import com.game.chessmate.GameFiles.Networking.NetObjects.PlayerDataObject;
+import com.game.chessmate.GameFiles.Networking.PlayerObject;
+import com.game.chessmate.GameFiles.Player;
 
 /**
  * The type Game activity.
@@ -47,6 +55,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         getSupportActionBar().hide();
+
         sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         gameStateView = findViewById(R.id.gameStateView);
@@ -56,31 +65,32 @@ public class GameActivity extends AppCompatActivity {
         gameStateView.setTypeface(null, Typeface.BOLD);
         gameStateView.setText("The Game started !");
 
+        Button cheatButton = getCheatButton();
+
+        Player player = ChessBoard.getInstance().getLocalPlayer();
+
         if (sensor == null) {
             Toast.makeText(this, "your device has no light sensore, so you wont be able to use the cheat funktion", Toast.LENGTH_SHORT).show();
-            //TODO stop cheat function when no sensor is avaliable
+            CheatFunktion.setCheatFunction(false);
+        } else {
+            CheatFunktion.setCheatFunction(true);
+
         }
         maxValue = sensor.getMaximumRange();
+        CheatFunktion cheatFunktion = new CheatFunktion(GameActivity.this);
         //Log.d("Sensor", String.valueOf(maxValue));
         lightEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
-                float lightValue = sensorEvent.values[0];
+                player.setLightValue(sensorEvent.values[0]);
                 //float closeSensor = maxValue/100;
-                if (lightValue <= 500 && cheatButtonStatus()) {
-                    if (ChessBoard.getInstance().getwasMoveLegal()) {
-
-                        //TODO Player has to stop for one round
-                    } else {
-                        ChessBoard.getInstance().getStartPossition();
-                        //TODO move piece back to start possition
-
+                if ( sensorEvent.values[0] <= 500  ) {
+                    cheatFunktion.teterminCheat();
                     }
-                    //Log.d("SENSOR", String.valueOf(lightValue));
-                    //TODO and person who pressedn cheat button made a move then we need to check if the move was legal
-                    //  ChessBoard.getwasMoveLegal();
-                }
+                //Log.d("SENSOR", String.valueOf(lightValue));
             }
+
+
 
             @Override
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -89,21 +99,25 @@ public class GameActivity extends AppCompatActivity {
         };
 
 
-        Button cheatButton = getCheatButton();
 
 
         cheatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //TODO How to distinguish who pressed the button
                 if (cheatButton.getText().toString().matches("Cheat Off")) {
                     cheatButton.setText("Cheat On");
+                    player.setCheatOn(true);
+                    cheatButton.setTextColor(getApplication().getResources().getColor(R.color.black));
                     isCheatOn = true;
-                    cheatButton.setBackgroundColor(getResources().getColor(R.color.purple_200));
+                    cheatButton.setBackgroundColor(getResources().getColor(R.color.white));
 
                 } else if (cheatButton.getText().toString().matches("Cheat On")) {
                     cheatButton.setText("Cheat Off");
                     isCheatOn = false;
+                    ChessBoard.getInstance().resetLegalMoves();
+                    player.setCheatOn(false);
+                    cheatButton.setTextColor(getApplication().getResources().getColor(R.color.white));
                     cheatButton.setBackgroundColor(getResources().getColor(R.color.black));
 
                 }
@@ -222,24 +236,15 @@ public class GameActivity extends AppCompatActivity {
             //TODO stop cheat function when no sensor is avaliable
         }
         maxValue = sensor.getMaximumRange();
-        //Log.d("Sensor", String.valueOf(maxValue));
         lightEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
                 float lightValue = sensorEvent.values[0];
                 //float closeSensor = maxValue/100;
-                if (lightValue <= 500 && cheatButtonStatus()) {
-                    if (ChessBoard.getInstance().getwasMoveLegal()) {
-
-                        //TODO Player has to stop for one round
-                    } else {
-                        ChessBoard.getInstance().getStartPossition();
-                        //TODO move piece back to start possition
-
-                    }
-                    //Log.d("SENSOR", String.valueOf(lightValue));
-                    //TODO and person who pressedn cheat button made a move then we need to check if the move was legal
-                    //  ChessBoard.getwasMoveLegal();
+                if (lightValue <= 500 ) {
+                    SensorActivationObject sensorActivationObject = new SensorActivationObject();
+                    sensorActivationObject.setLobbyCode(NetworkManager.currentLobbyCode);
+                    ChessMateClient.getInstance().getClient().sendTCP(sensorActivationObject);
                 }
             }
 

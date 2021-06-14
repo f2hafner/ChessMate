@@ -5,11 +5,14 @@ public class PlayerObject {
     String name;
     Connection connection;
     ChessPieceColour chessPieceColour;
+    int maxWrongCheatReveal;
 
     public PlayerObject(Connection connection, String name,ChessPieceColour colour){
         this.connection = connection;
         this.name = name;
         this.chessPieceColour = colour;
+        this.maxWrongCheatReveal = 3;
+
     }
 
     @Override
@@ -40,5 +43,13 @@ public class PlayerObject {
 
     public void setChessPieceColour(ChessPieceColour chessPieceColour) {
         this.chessPieceColour = chessPieceColour;
+    }
+
+    public int getMaxWrongCheatReveal() {
+        return maxWrongCheatReveal;
+    }
+
+    public void setMaxWrongCheatReveal(int maxWrongCheatReveal) {
+        this.maxWrongCheatReveal = maxWrongCheatReveal;
     }
 }

@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="Music on"
+        android:text="Music off"
         app:backgroundTint="#000000"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/backButtonOptions"

@@ -17,6 +17,7 @@ import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.GameFiles.GameState;
 import com.game.chessmate.GameFiles.Networking.NetworkManager;
 import com.game.chessmate.GameFiles.Vector;
+import com.game.chessmate.OptionsActivity;
 import com.game.chessmate.R;
 
 import java.util.ArrayList;
@@ -82,6 +83,8 @@ abstract public class ChessPiece extends View {
         this.updateView = false;
         this.sprite = sprite;
         this.moveSound_end = MediaPlayer.create(context,R.raw.chessmatemove_end);
+        this.moveSound_start.setVolume(1.0f,1.0f);
+        this.moveSound_end.setVolume(1.0f,1.0f);
     }
 
     /**
@@ -139,6 +142,10 @@ abstract public class ChessPiece extends View {
     }
 
     private void startPlayingMoveSound(){
+        board = ChessBoard.getInstance();
+        if (!board.isSoundOn()){
+            return;
+        }
         try {
             moveSound_start = MediaPlayer.create(this.context, R.raw.chessmatemove_start);
             moveSound_start.start();
@@ -262,6 +269,10 @@ abstract public class ChessPiece extends View {
     }
 
     private void stopMoveSoundPlayEndSound(){
+        board = ChessBoard.getInstance();
+        if (!board.isSoundOn()){
+            return;
+        }
         moveSound_start.stop();
         moveSound_start.reset();
         moveSound_end.reset();

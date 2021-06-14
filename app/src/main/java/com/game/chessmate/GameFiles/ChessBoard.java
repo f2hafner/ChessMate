@@ -73,11 +73,11 @@ public class ChessBoard {
     private ChessPieceColour clickedPieceColor;
     private ChessPieceType clickedPieceType;
 
+    private boolean soundOn;
+
     private ChessBoard() {
         this.boardFields = new Field[8][8];
-        localPlayer = new Player(ChessPieceColour.WHITE);
-        enemyPlayer = new Player(ChessPieceColour.BLACK);
-
+        soundOn = true;
         deck = new Deck();
     }
 
@@ -833,5 +833,13 @@ public class ChessBoard {
 
     public Card getCurrentCard() {
         return currentCard;
+    }
+
+    public boolean isSoundOn() {
+        return soundOn;
+    }
+
+    public void setSoundOn(boolean soundOn) {
+        this.soundOn = soundOn;
     }
 }

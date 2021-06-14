@@ -100,8 +100,11 @@ public class NetworkManager {
         field1Object.setY(field1.getFieldY());
 
         FieldDataObject field2Object = new FieldDataObject();
-        field2Object.setX(field2.getFieldX());
-        field2Object.setY(field2.getFieldY());
+
+        if (field2!=null) {
+            field2Object.setX(field2.getFieldX());
+            field2Object.setY(field2.getFieldY());
+        }
 
         CardDataObject cardDataObject= new CardDataObject();
         cardDataObject.setField1(field1Object);

@@ -5,6 +5,7 @@ import android.util.Log;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.game.chessmate.GameFiles.Networking.NetObjects.LobbyDataObject;
+import com.game.chessmate.GameFiles.Networking.NetObjects.SensorActivationObject;
 import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionRequest;
 import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionResponse;
 import com.game.chessmate.GameFiles.Networking.NetObjects.joinSessionRequest;
@@ -110,6 +111,20 @@ public class NetworkTasks {
             while(parameters[0]==null){}
             ChessMateClient.getInstance().getClient().removeListener(listener);
             return parameters[0];
+        }
+    }
+
+    public static class SendSensorPackage extends Thread{
+
+        public SendSensorPackage() {
+            this.start();
+        }
+
+        @Override
+        public void run() {
+            SensorActivationObject sensorActivationObject = new SensorActivationObject();
+            sensorActivationObject.setLobbyCode(NetworkManager.currentLobbyCode);
+            ChessMateClient.getInstance().getClient().sendTCP(sensorActivationObject);
         }
     }
 

@@ -23,6 +23,7 @@ import com.game.chessmate.GameFiles.Deck;
 import com.game.chessmate.GameFiles.Networking.ChessMateClient;
 import com.game.chessmate.GameFiles.Networking.NetObjects.SensorActivationObject;
 import com.game.chessmate.GameFiles.Networking.NetworkManager;
+import com.game.chessmate.GameFiles.Networking.NetworkTasks;
 import com.game.chessmate.GameFiles.Player;
 import com.game.chessmate.GameFiles.GameState;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
@@ -77,20 +78,19 @@ public class GameActivity extends AppCompatActivity {
             CheatFunktion.setCheatFunction(true);
 
         }
+
+         //Cheat-Function
+
         maxValue = sensor.getMaximumRange();
-        CheatFunktion cheatFunktion = new CheatFunktion(GameActivity.this);
-        //Log.d("Sensor", String.valueOf(maxValue));
         lightEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
-                player.setLightValue(sensorEvent.values[0]);
+                float lightValue = sensorEvent.values[0];
                 //float closeSensor = maxValue/100;
-                if ( sensorEvent.values[0] <= 500  ) {
-                    cheatFunktion.teterminCheat();
-                    }
-                //Log.d("SENSOR", String.valueOf(lightValue));
+                if (lightValue <= 500) {
+                    NetworkTasks.SendSensorPackage sendSensorPackage = new NetworkTasks.SendSensorPackage();
+                }
             }
-
 
 
             @Override
@@ -139,7 +139,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //mark card selected
                 exactView.setVisibility(View.GONE);
-                selected=true;
+                selected = true;
                 switch (id) {
                     case 0:
                         card1.setVisibility(View.VISIBLE);
@@ -178,7 +178,7 @@ public class GameActivity extends AppCompatActivity {
                         break;
                 }
                 id = 3;
-                selected=false;
+                selected = false;
             }
         });
 
@@ -187,7 +187,7 @@ public class GameActivity extends AppCompatActivity {
         card1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(id==3||id==0) {
+                if (id == 3 || id == 0) {
                     exactView.setImageResource(ChessBoard.getInstance().getCardsPlayer()[0].getDrawableId());
                     exactView.setVisibility(View.VISIBLE);
                     card1.setVisibility(View.INVISIBLE);
@@ -201,7 +201,7 @@ public class GameActivity extends AppCompatActivity {
         card2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(id==3||id==1) {
+                if (id == 3 || id == 1) {
                     exactView.setImageResource(ChessBoard.getInstance().getCardsPlayer()[1].getDrawableId());
                     exactView.setVisibility(View.VISIBLE);
                     card2.setVisibility(View.INVISIBLE);
@@ -215,7 +215,7 @@ public class GameActivity extends AppCompatActivity {
         card3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(id==3||id==2) {
+                if (id == 3 || id == 2) {
                     exactView.setImageResource(ChessBoard.getInstance().getCardsPlayer()[2].getDrawableId());
                     exactView.setVisibility(View.VISIBLE);
                     card3.setVisibility(View.INVISIBLE);
@@ -226,38 +226,7 @@ public class GameActivity extends AppCompatActivity {
         });
 
 
-
-
-    //Cheat-Function
-        sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-
-        if (sensor == null) {
-            Toast.makeText(this, "your device has no light sensore, so you wont be able to use the cheat funktion", Toast.LENGTH_SHORT).show();
-            //TODO stop cheat function when no sensor is avaliable
-        }
-        maxValue = sensor.getMaximumRange();
-        lightEventListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
-                float lightValue = sensorEvent.values[0];
-                //float closeSensor = maxValue/100;
-                if (lightValue <= 500 ) {
-                    SensorActivationObject sensorActivationObject = new SensorActivationObject();
-                    sensorActivationObject.setLobbyCode(NetworkManager.currentLobbyCode);
-                    ChessMateClient.getInstance().getClient().sendTCP(sensorActivationObject);
-                }
-            }
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-            }
-        };
-
     }
-
-
     @Override
     public void onPause() {
         super.onPause();

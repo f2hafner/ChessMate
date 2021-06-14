@@ -197,7 +197,7 @@ abstract public class ChessPiece extends View {
         if (ChessBoard.getInstance().isCardActivated()){
             Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
             if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-                NetworkManager.sendCard(ChessBoard.getInstance().getDeck().getLastCardPlayed().getId(),currentPosition, targetPosition);
+                NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),currentPosition, targetPosition);
             }
         }
 

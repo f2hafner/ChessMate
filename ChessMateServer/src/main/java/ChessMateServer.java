@@ -77,11 +77,12 @@ public class ChessMateServer extends Thread{
                 }
 
                 if(o instanceof SensorActivationObject){
-                    System.out.println("[SENSOR_PACKET]");
+                   // System.out.println("[SENSOR_PACKET]");
                     SensorActivationObject request = (SensorActivationObject)o;
                     Lobby lobby = LobbyManager.getSessionByLobbycode(request.getLobbyCode());
                     if(lobby!=null){
                         if(lobby.cheatFuncActive){
+                            System.out.println("[SENSOR_PACKET]");
                             if(lobby.player1.connection == con) {
                                 if (lobby.origin != null) {
                                   FieldDataObject originField = lobby.origin;
@@ -89,7 +90,7 @@ public class ChessMateServer extends Thread{
                                   GameDataObject moveBackToOrigin = new GameDataObject();
                                   moveBackToOrigin.setOrigin(originField);
                                   moveBackToOrigin.setTarget(targetField);
-                                  System.out.println("the player reveald your cheat");
+                                  System.out.println("the player revealed your cheat");
                                   //TODO tell player 2 that his cheat was reveald
                                   ObjectSender.sendGameDataObject(lobby.player2.connection,lobby, moveBackToOrigin);
                                   lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_MOVE;
@@ -104,7 +105,7 @@ public class ChessMateServer extends Thread{
                                     GameDataObject moveBackToOrigin = new GameDataObject();
                                     moveBackToOrigin.setOrigin(originField);
                                     moveBackToOrigin.setTarget(targetField);
-                                    System.out.println("the player reveald your cheat");
+                                    System.out.println("the player revealed your cheat");
                                     //TODO tell player 1 that his cheat was reveald
                                     ObjectSender.sendGameDataObject(lobby.player1.connection,lobby, moveBackToOrigin);
                                     lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_MOVE;
@@ -142,8 +143,6 @@ public class ChessMateServer extends Thread{
                                     //TODO anzeigen wieviele Aufdeckversuche noch vorhanden sind
                                     // lobby.currentLobbyState = GameStates.GAMEOVER;
                                 }
-
-
                         }
                     }
                 }
@@ -187,7 +186,7 @@ public class ChessMateServer extends Thread{
                     }
                 }
 
-                System.out.println(con.toString() +"\t"+ o.toString() +"\n");
+                //System.out.println(con.toString() +"\t"+ o.toString() +"\n");
             }
 
             @Override

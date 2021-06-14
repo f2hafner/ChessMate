@@ -58,6 +58,7 @@ public class GameActivity extends AppCompatActivity {
 
         sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+
         gameStateView = findViewById(R.id.gameStateView);
         gameStateView.setTextSize(18);
         gameStateView.setTextColor(Color.BLACK);
@@ -254,24 +255,6 @@ public class GameActivity extends AppCompatActivity {
             }
         };
 
-
-        cheatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (cheatButton.getText().toString().matches("Cheat Off")) {
-                    cheatButton.setText("Cheat On");
-                    isCheatOn = true;
-                    cheatButton.setBackgroundColor(getResources().getColor(R.color.purple_200));
-
-                } else if (cheatButton.getText().toString().matches("Cheat On")) {
-                    cheatButton.setText("Cheat Off");
-                    isCheatOn = false;
-                    cheatButton.setBackgroundColor(getResources().getColor(R.color.black));
-
-                }
-            }
-        });
     }
 
 

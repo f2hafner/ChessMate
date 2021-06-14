@@ -10,7 +10,7 @@ public class GameDataObject {
 
     //Cards
     boolean usedCard;
-    int cardID;
+    CardDataObject cardObject;
 
     //CheatFunction
     boolean cheatActivated;
@@ -65,12 +65,12 @@ public class GameDataObject {
         this.usedCard = usedCard;
     }
 
-    public int getCardID() {
-        return cardID;
+    public CardDataObject getCardObject() {
+        return cardObject;
     }
 
-    public void setCardID(int cardID) {
-        this.cardID = cardID;
+    public void setCardObject(CardDataObject cardObject) {
+        this.cardObject = cardObject;
     }
 
     public boolean isCheatActivated() {

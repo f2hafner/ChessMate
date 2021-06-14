@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import com.game.chessmate.R;
 
 import static android.content.ContentValues.TAG;
+import com.game.chessmate.GameActivity;
 
 /**
  * The View in which the Chessboard is embedded.
@@ -53,7 +54,13 @@ public class BoardView extends ViewGroup {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-               board.handleFieldClick(event);
+
+                if(GameActivity.isSelected()){
+                    board.doCardAction(event,GameActivity.getId());
+                }
+                else {
+                    board.handleFieldClick(event);
+                }
             }
             return true;
         }

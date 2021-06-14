@@ -17,7 +17,9 @@ import java.util.ArrayList;
  */
 public class King extends ChessPiece {
 
-    private boolean gameOver = false;
+    private ChessPiece checksKing=null;
+    private ArrayList<Field>possibleMovesinCheck;
+    private boolean gameOver=false;
 
     /**
      * Instantiates a new King.

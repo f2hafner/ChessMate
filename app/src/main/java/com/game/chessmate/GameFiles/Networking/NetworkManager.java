@@ -10,6 +10,7 @@ import com.game.chessmate.GameActivity;
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.GameFiles.GameState;
+import com.game.chessmate.GameFiles.Networking.NetObjects.CardDataObject;
 import com.game.chessmate.GameFiles.Networking.NetObjects.FieldDataObject;
 import com.game.chessmate.GameFiles.Networking.NetObjects.GameDataObject;
 import com.game.chessmate.GameFiles.Networking.NetObjects.LobbyDataObject;
@@ -91,13 +92,56 @@ public class NetworkManager {
         ChessMateClient.getInstance().getClient().sendTCP(gameDataObject);
     }
 
+    public static void sendCard(int cardId, Field field1,Field field2){
+        Log.i(TAG,"sendCard: " + "sendcard was called");
+
+        FieldDataObject field1Object = new FieldDataObject();
+        field1Object.setX(field1.getFieldX());
+        field1Object.setY(field1.getFieldY());
+
+        FieldDataObject field2Object = new FieldDataObject();
+
+        if (field2!=null) {
+            field2Object.setX(field2.getFieldX());
+            field2Object.setY(field2.getFieldY());
+        }
+
+        CardDataObject cardDataObject= new CardDataObject();
+        cardDataObject.setField1(field1Object);
+        cardDataObject.setField2(field2Object);
+        cardDataObject.setId(cardId);
+
+        GameDataObject gameDataObject = new GameDataObject();
+        gameDataObject.setLobbyCode(NetworkManager.currentLobbyCode);
+        gameDataObject.setUsedCard(true);
+        gameDataObject.setCardObject(cardDataObject);
+
+        ChessMateClient.getInstance().getClient().sendTCP(gameDataObject);
+    }
+
+    public static void receiveCard(CardDataObject cardDataObject){
+        Log.i(TAG,"receiveCard:" + "receivecard was called");
+
+        int cardId=cardDataObject.getId();
+        Field currentField1 = ChessBoard.getInstance().getBoardFields()[cardDataObject.getField1().getX()][cardDataObject.getField1().getY()];
+        Field currentField2 = ChessBoard.getInstance().getBoardFields()[cardDataObject.getField2().getX()][cardDataObject.getField2().getY()];
+
+        ChessBoard.getInstance().receiveCardAction(cardId,currentField1,currentField2);
+    }
+
     public static Listener getGameCycleListener(){
         Listener gameCycleListener = new Listener(){
             public void received(Connection connection, Object object) {
                 if(object instanceof GameDataObject){
                     GameDataObject gameDataObject = (GameDataObject)object;
                     Log.i("LOG","ORG: "+ gameDataObject.getOrigin().toString()+" TRG: "+gameDataObject.getTarget().toString());
-                    receiveMove(gameDataObject.getOrigin(), gameDataObject.getTarget());
+
+                    if (gameDataObject.isMoved()) {
+                        receiveMove(gameDataObject.getOrigin(), gameDataObject.getTarget());
+                    }
+                    else if (gameDataObject.isUsedCard()) {
+                        receiveCard(gameDataObject.getCardObject());
+                    }
                 }
             }
         };

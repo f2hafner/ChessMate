@@ -41,7 +41,8 @@ public class Pawn extends ChessPiece {
         //moving to empty fields is allowed
         if(i-1 >= 0) {
             if (currentFields[i - 1][j].getCurrentPiece() == null) {
-                legalFields.add(currentFields[i - 1][j]);
+                if(!currentFields[i-1][j].isBlocked())
+                    legalFields.add(currentFields[i - 1][j]);
             } else if (currentFields[i - 1][j].getCurrentPiece().getColour() != this.colour) {
                 opponentEncountered = true;
             } else {
@@ -49,7 +50,8 @@ public class Pawn extends ChessPiece {
             }
             if (this.getFirstMove() && i - 2 > 0 && !opponentEncountered) {
                 if (currentFields[i - 2][j].getCurrentPiece() == null) {
-                    legalFields.add(currentFields[i - 2][j]);
+                    if(!currentFields[i-2][j].isBlocked())
+                        legalFields.add(currentFields[i - 2][j]);
                 } else if (currentFields[i - 2][j].getCurrentPiece().getColour() != this.colour) {
                     legalFields.add(currentFields[i - 2][j]);
                 } else {
@@ -61,14 +63,14 @@ public class Pawn extends ChessPiece {
         //attacking fields is allowed diagonally
         if(i-1>=0 && j-1>=0){
             if (currentFields[i-1][j-1].getCurrentPiece() != null) {
-                if(currentFields[i-1][j-1].getCurrentPiece().getColour() != this.colour){
+                if(currentFields[i-1][j-1].getCurrentPiece().getColour() != this.colour&&!currentFields[i-1][j-1].isProtected()){
                     legalFields.add(currentFields[i-1][j-1]);
                 }
             }
         }
         if(i-1>=0 && j+1<8){
             if (currentFields[i-1][j+1].getCurrentPiece() != null) {
-                if(currentFields[i-1][j+1].getCurrentPiece().getColour() != this.colour){
+                if(currentFields[i-1][j+1].getCurrentPiece().getColour() != this.colour&&!currentFields[i-1][j+1].isProtected()){
                     legalFields.add(currentFields[i-1][j+1]);
                 }
             }

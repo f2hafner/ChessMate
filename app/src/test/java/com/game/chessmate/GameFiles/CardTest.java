@@ -156,7 +156,7 @@ public class CardTest {
         card=new Card(0);
         assertFalse(card.isOwned());
 
-        card.setOwned();
+        card.setOwned(true);
 
         assertTrue(card.isOwned());
     }

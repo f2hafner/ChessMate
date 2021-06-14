@@ -108,7 +108,7 @@ public class ChessMateServer extends Thread{
                                     System.out.println("the player revealed your cheat");
                                     //TODO tell player 1 that his cheat was reveald
                                     ObjectSender.sendGameDataObject(lobby.player1.connection,lobby, moveBackToOrigin);
-                                    lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_MOVE;
+                                    lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_MOVE;
 
                                 }
 

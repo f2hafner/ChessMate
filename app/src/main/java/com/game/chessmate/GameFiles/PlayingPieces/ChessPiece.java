@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.MediaPlayer;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.GameFiles.GameState;
 import com.game.chessmate.GameFiles.Networking.NetworkManager;
 import com.game.chessmate.GameFiles.Vector;
+import com.game.chessmate.R;
 
 import java.util.ArrayList;
 
@@ -57,6 +59,7 @@ abstract public class ChessPiece extends View {
     private boolean isChampion=false;
     private boolean isSwapped=false;
     private ChessPiece swapPiece=null;
+    private MediaPlayer moveSound;
 
     /**
      * Instantiates a new Chess piece.
@@ -75,6 +78,8 @@ abstract public class ChessPiece extends View {
         this.updateMovementOffset = false;
         this.updateView = false;
         this.sprite = sprite;
+        //this.moveSound = MediaPlayer.create(context, R.raw.water_sound);
+        Log.d(TAG, "ChessPiece: " + moveSound);
     }
 
     /**
@@ -95,6 +100,8 @@ abstract public class ChessPiece extends View {
         this.updateMovementOffset = false;
         this.updateView = false;
         this.sprite = sprite;
+        //this.moveSound = MediaPlayer.create(context, R.raw.water_sound);
+        Log.d(TAG, "ChessPiece: " + moveSound);
     }
 
     /**
@@ -135,6 +142,14 @@ abstract public class ChessPiece extends View {
      * @param targetField the target field
      */
     public void move(Field targetField) {
+        /*
+        try {
+            moveSound.start();
+        }catch (Exception e) {
+            Log.d(TAG, "move: sound could not be played" + moveSound);
+        }
+
+         */
 
         Field [][] currentFields=ChessBoard.getInstance().getBoardFields();
 
@@ -193,6 +208,11 @@ abstract public class ChessPiece extends View {
      * Cleanup work after move. Update Positions of chessPieces and update fields.
      */
     private void afterMove() {
+        /*
+        moveSound.stop();
+        moveSound.release();
+
+         */
 
         if (ChessBoard.getInstance().isCardActivated()){
             Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());

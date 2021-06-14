@@ -192,7 +192,7 @@ public class ChessBoard {
     private Field startPosition;
     private Field endPosition;
     private ChessPiece movedPiece;
-    private boolean moveWasLegal = false;
+    private boolean moveWasLegal=true;
 
     /**
      * Handles onTouchEvent fired by the BoardView (onTouchEvent) when the View is clicked on.
@@ -254,10 +254,6 @@ public class ChessBoard {
 
                             endPosition = clickedField;
 
-                            localPlayer.getLastSelectedField().getCurrentPiece().move(clickedField);
-                            localPlayer.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
-                            localPlayer.setLastSelectedField(null);
-                            resetLegalMoves();
 
 
                             if (GameActivity.cheatButtonStatus()) {

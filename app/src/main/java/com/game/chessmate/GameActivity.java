@@ -20,6 +20,9 @@ import com.game.chessmate.GameFiles.BoardView;
 import com.game.chessmate.GameFiles.CheatFunktion;
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Deck;
+import com.game.chessmate.GameFiles.Networking.ChessMateClient;
+import com.game.chessmate.GameFiles.Networking.NetObjects.SensorActivationObject;
+import com.game.chessmate.GameFiles.Networking.NetworkManager;
 import com.game.chessmate.GameFiles.Player;
 import com.game.chessmate.GameFiles.GameState;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
@@ -242,24 +245,15 @@ public class GameActivity extends AppCompatActivity {
             //TODO stop cheat function when no sensor is avaliable
         }
         maxValue = sensor.getMaximumRange();
-        //Log.d("Sensor", String.valueOf(maxValue));
         lightEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
                 float lightValue = sensorEvent.values[0];
                 //float closeSensor = maxValue/100;
-                if (lightValue <= 500 && cheatButtonStatus()) {
-                    if (ChessBoard.getInstance().getwasMoveLegal()) {
-
-                        //TODO Player has to stop for one round
-                    } else {
-                        ChessBoard.getInstance().getStartPossition();
-                        //TODO move piece back to start possition
-
-                    }
-                    //Log.d("SENSOR", String.valueOf(lightValue));
-                    //TODO and person who pressedn cheat button made a move then we need to check if the move was legal
-                    //  ChessBoard.getwasMoveLegal();
+                if (lightValue <= 500 ) {
+                    SensorActivationObject sensorActivationObject = new SensorActivationObject();
+                    sensorActivationObject.setLobbyCode(NetworkManager.currentLobbyCode);
+                    ChessMateClient.getInstance().getClient().sendTCP(sensorActivationObject);
                 }
             }
 

@@ -16,6 +16,7 @@ public class Player {
     private ArrayList<Field> legalMovesSelected;
     private Field lastSelectedField;
     private ChessPieceColour color;
+    private Card[] playerCards;
     private boolean cheatOn;
     private float lightValue;
     private boolean wasLeganMove;
@@ -152,6 +153,10 @@ public class Player {
     public void setLegalMovesForCheat(ArrayList<Field> legalMovesForCheat) {
         this.legalMovesForCheat = legalMovesForCheat;
     }
+
+    public void setCards(Card[]cards){playerCards= cards;}
+
+    public Card[] getCurrentCards(){return playerCards;}
 
     public float getLightValue() {
         return lightValue;

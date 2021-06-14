@@ -15,5 +15,7 @@ public class NetObjectRegistrator {
         k.register(startGameRequest.class);
         k.register(startGameParameters.class);
         k.register(GameDataObject.class);
+        k.register(SensorActivationObject.class);
+        k.register(CardDataObject.class);
     }
 }

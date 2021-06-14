@@ -59,10 +59,15 @@ public class King extends ChessPiece {
                 for (int j = currentPosition.getFieldY() - 1; j <= currentPosition.getFieldY() + 1; j++) {
                     if (i >= 0 && i <= 7 && j >= 0 && j <= 7) {
                         if (!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())) {
-                            if (currentFields[i][j].getCurrentPiece() == null) {
-                                legalFields.add(currentFields[i][j]);
-                            } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour) {
-                                legalFields.add(currentFields[i][j]);
+                            if(currentFields[i][j].isBlocked()){
+                                break;
+                            }
+                            else {
+                                if (currentFields[i][j].getCurrentPiece() == null) {
+                                    legalFields.add(currentFields[i][j]);
+                                } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour&&!currentFields[i][j].isProtected()) {
+                                    legalFields.add(currentFields[i][j]);
+                                }
                             }
                         }
                     }

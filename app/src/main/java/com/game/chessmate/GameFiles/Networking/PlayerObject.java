@@ -6,6 +6,9 @@ public class PlayerObject {
     String name;
     Connection connection;
     boolean color;
+    //boolean cheatOn;
+
+
 
     public PlayerObject(Connection connection, String name){
         this.connection = connection;
@@ -41,4 +44,12 @@ public class PlayerObject {
     public void setColor(boolean color) {
         this.color = color;
     }
+
+  /*  public boolean isCheatOn() {
+        return cheatOn;
+    }
+
+    public void setCheatOn(boolean cheatOn) {
+        this.cheatOn = cheatOn;
+    }*/
 }

@@ -68,7 +68,7 @@ public class King extends ChessPiece {
                     if (fields[i][j].getCurrentPiece().getColour() != this.getColour()) {
                         for (Field f : fields[i][j].getCurrentPiece().getLegalFields()) {
                             if (f.equals(currentPosition)) {
-                                isChecking.add(f);
+                                isChecking.add(fields[i][j]);
                                 result = true;
                             }
                         }

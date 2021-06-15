@@ -75,6 +75,7 @@ public class ChessBoard {
     private ChessPieceColour clickedPieceColor;
     private ChessPieceType clickedPieceType;
 
+
     private boolean soundOn;
 
     private ChessBoard() {
@@ -217,7 +218,6 @@ public class ChessBoard {
         int touchY = (int)event.getY();
         Rect rect;
 
-        resetLegalMoves();
         for (int i = 0; i < boardFields.length; i++) {
             for (int j = 0; j < boardFields[i].length; j++) {
                 rect = boardFields[i][j].getRectangle();
@@ -240,7 +240,9 @@ public class ChessBoard {
                             f.invalidate();
                         }
                         if(checkMate()){
-                             //TODO - game state lost and won for enemy
+                            Log.d("debug", "I LOST!!!");
+                             gameState = gameState.LOOSE;
+                             //send gamestate win to enemy
                         }
                     }
 
@@ -290,17 +292,30 @@ public class ChessBoard {
                             localPlayer.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
                             localPlayer.setLastSelectedField(null);
                             resetLegalMoves();
-
-
-
+                            resetCheckedFields();
+                            localKing = getLocalKing();
                         } else {
                             localPlayer.setLastSelectedField(null);
                         }
 
-                        resetLegalMoves();//to make red fields disappear
+                        resetLegalMoves();
+                    }
+                    if(localKing.isChecked(boardFields)) {
+                        for (Field f : localKing.getIsChecking()) {
+                            f.setAsChecking();
+                            f.invalidate();
+                        }
                     }
                 }
             }
+        }
+    }
+
+    private void resetCheckedFields() {
+        ChessPiece localKing = getLocalKing();
+        for (Field f : localKing.getIsChecking()){
+            f.setRectangleDefaultColor();
+            f.setUpdate(true);
         }
     }
 

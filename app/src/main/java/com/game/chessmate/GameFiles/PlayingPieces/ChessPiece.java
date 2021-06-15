@@ -63,7 +63,7 @@ abstract public class ChessPiece extends View {
     private MediaPlayer moveSound_start;
     private MediaPlayer moveSound_end;
     private Context context;
-    protected ArrayList<Field> isChecking;
+    protected ArrayList<Field> isChecking = new ArrayList<>();
 
     /**
      * Instantiates a new Chess piece.
@@ -478,9 +478,13 @@ abstract public class ChessPiece extends View {
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
         ChessPiece localKing = ChessBoard.getInstance().getLocalKing();
         ArrayList<Field> legalMovesInCheck = new ArrayList<Field>();
+        localKing.isChecked(currentFields); //to set isChecking
 
         for (Field f : legalFields) {
             if (!wouldbeChecked(currentFields, f)) {//checks whether king would be in check if currentpieces position were field - same for king
+                legalMovesInCheck.add(f);
+            }
+            if(localKing.getIsChecking().contains(f)){//if piece can kill threatening piece
                 legalMovesInCheck.add(f);
             }
         }

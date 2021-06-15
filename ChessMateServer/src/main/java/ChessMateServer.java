@@ -85,20 +85,21 @@ public class ChessMateServer extends Thread{
                             System.out.println("[SENSOR_PACKET]");
                             if(lobby.player1.connection == con) {
                                 if (lobby.origin != null) {
-                                  FieldDataObject originField = lobby.origin;
-                                  FieldDataObject targetField = lobby.target;
-                                  GameDataObject moveBackToOrigin = new GameDataObject();
-                                  moveBackToOrigin.setOrigin(originField);
-                                  moveBackToOrigin.setTarget(targetField);
-                                  System.out.println("the player revealed your cheat");
-                                  //TODO tell player 2 that his cheat was reveald
-                                  ObjectSender.sendGameDataObject(lobby.player2.connection,lobby, moveBackToOrigin);
-                                  lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_MOVE;
+                                    FieldDataObject originField = lobby.origin;
+                                    FieldDataObject targetField = lobby.target;
+                                    GameDataObject moveBackToOrigin = new GameDataObject();
+                                    moveBackToOrigin.setOrigin(originField);
+                                    moveBackToOrigin.setTarget(targetField);
+                                    System.out.println("the player revealed your cheat");
+                                    //TODO tell player 2 that his cheat was reveald
+                                    ObjectSender.sendGameDataObject(lobby.player2.connection, lobby, moveBackToOrigin);
+                                    lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_MOVE;
 
                                 }
                             }
 
-                            if(lobby.player2.connection==con){
+
+                            if(lobby.player2.connection==con) {
                                 if (lobby.origin != null) {
                                     FieldDataObject originField = lobby.origin;
                                     FieldDataObject targetField = lobby.target;
@@ -107,11 +108,11 @@ public class ChessMateServer extends Thread{
                                     moveBackToOrigin.setTarget(targetField);
                                     System.out.println("the player revealed your cheat");
                                     //TODO tell player 1 that his cheat was reveald
-                                    ObjectSender.sendGameDataObject(lobby.player1.connection,lobby, moveBackToOrigin);
-                                    lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_MOVE;
+                                    ObjectSender.sendGameDataObject(lobby.player1.connection, lobby, moveBackToOrigin);
+                                    lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_MOVE;
 
                                 }
-
+                            }
 
                             //ON SENSOR ACTIVATED BUT PLAYER DID NOT CHEAT
                             System.out.println("Sensor got activated and other player cheated");
@@ -145,7 +146,7 @@ public class ChessMateServer extends Thread{
                                 }
                         }
                     }
-                }
+                
 
                 if (o instanceof GameDataObject) {
                     System.out.println("[GameDataObject]");

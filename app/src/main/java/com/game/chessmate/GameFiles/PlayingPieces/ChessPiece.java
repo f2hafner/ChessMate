@@ -57,6 +57,7 @@ abstract public class ChessPiece extends View {
     private boolean isChampion=false;
     private boolean isSwapped=false;
     private ChessPiece swapPiece=null;
+    protected ArrayList<Field> isChecking;
 
     /**
      * Instantiates a new Chess piece.
@@ -479,5 +480,8 @@ abstract public class ChessPiece extends View {
     public void setSwapPiece(ChessPiece piece){
         isSwapped=true;
         swapPiece=piece;
+    }
+    public ArrayList<Field> getIsChecking(){
+        return this.isChecking;
     }
 }

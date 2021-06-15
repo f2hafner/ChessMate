@@ -17,10 +17,6 @@ import java.util.ArrayList;
  */
 public class King extends ChessPiece {
 
-    private ChessPiece checksKing=null;
-    private ArrayList<Field>possibleMovesinCheck;
-    private boolean gameOver=false;
-
     /**
      * Instantiates a new King.
      *
@@ -63,6 +59,7 @@ public class King extends ChessPiece {
     }
 
     //checks whether king / this piece would still be in check
+    //then also sets isChecking
     public boolean isChecked(Field[][] fields) {
         boolean result = false;
         for (int i = 0; i < fields.length; i++) {
@@ -71,6 +68,7 @@ public class King extends ChessPiece {
                     if (fields[i][j].getCurrentPiece().getColour() != this.getColour()) {
                         for (Field f : fields[i][j].getCurrentPiece().getLegalFields()) {
                             if (f.equals(currentPosition)) {
+                                isChecking.add(f);
                                 result = true;
                             }
                         }
@@ -91,7 +89,5 @@ public class King extends ChessPiece {
         currentPosition = realPosition; //resetting to real position
         return result;
     }
-
-    public boolean isGameOver(){return this.gameOver;}
 }
 

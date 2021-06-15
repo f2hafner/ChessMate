@@ -248,10 +248,14 @@ public class ChessBoard {
                                     localPlayer.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalFields());
                                 }
 
-                                //overwrite normal legal moves if king is in check - TODO checkmate
+                                //overwrite normal legal moves if king is in check
                                 localKing = getLocalKing();
                                 if(localKing.isChecked(boardFields)){
-                                    //TODO check which pieces are threatening and colour their fields
+                                    //TODO - check whether we are in checkmate - if we are not in checkmate continue
+                                    //check which pieces are threatening and colour their fields
+                                    for(Field f : localKing.getIsChecking()){
+                                        f.setAsChecking();
+                                    }
                                     localPlayer.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalMovesInCheck());
                                 }
 
@@ -265,7 +269,6 @@ public class ChessBoard {
 
                             endPosition = clickedField;
 
-                            //TODO - only move if moving does not cause king to be in check - change legalfields again to restrict if it causes check
                             localPlayer.getLastSelectedField().getCurrentPiece().move(clickedField);
                             localPlayer.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
                             localPlayer.setLastSelectedField(null);
@@ -286,11 +289,15 @@ public class ChessBoard {
                         } else {
                             localPlayer.setLastSelectedField(null);
                         }
+
+                        resetLegalMoves();//to make red fields disappear
                     }
                 }
             }
         }
     }
+
+
     //searches for local king and returns - could also be used for game over
     public ChessPiece getLocalKing() {
         for (int i = 0; i < boardFields.length; i++) {

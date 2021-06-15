@@ -233,12 +233,14 @@ public class ChessBoard {
                     }
 
                     //check which pieces are threatening and colour their fields
+                    localKing = getLocalKing();
                     if(localKing.isChecked(boardFields)){
                         for(Field f : localKing.getIsChecking()){
                             f.setAsChecking();
+                            f.invalidate();
                         }
                         if(checkMate()){
-                            //GAME IS OVER - TODO
+                             //TODO - game state lost and won for enemy
                         }
                     }
 
@@ -271,8 +273,6 @@ public class ChessBoard {
                         if (localPlayer.getLegalMovesSelected().contains(clickedField)) {
 
                             endPosition = clickedField;
-
-
 
                             if (GameActivity.cheatButtonStatus()) {
                                 localPlayer.setLegalMovesForCheat(movedPiece.getLegalFields());

@@ -234,6 +234,17 @@ public class ChessBoard {
                             resetLegalMoves();
                         }
                     }
+
+                    //check which pieces are threatening and colour their fields
+                    if(localKing.isChecked(boardFields)){
+                        for(Field f : localKing.getIsChecking()){
+                            f.setAsChecking();
+                        }
+                        if(checkMate()){
+                            //GAME IS OVER - TODO
+                        }
+                    }
+
                     if (localPlayer.getLastSelectedField() == null) { //this is the first click on a field
                         if (clickedField.getCurrentPiece() != null) {
                             if (true){//clickedField.getCurrentPiece().getColour() == localPlayer.getColor()) { //only local player is allowed to move
@@ -251,11 +262,6 @@ public class ChessBoard {
                                 //overwrite normal legal moves if king is in check
                                 localKing = getLocalKing();
                                 if(localKing.isChecked(boardFields)){
-                                    //TODO - check whether we are in checkmate - if we are not in checkmate continue
-                                    //check which pieces are threatening and colour their fields
-                                    for(Field f : localKing.getIsChecking()){
-                                        f.setAsChecking();
-                                    }
                                     localPlayer.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalMovesInCheck());
                                 }
 
@@ -295,6 +301,16 @@ public class ChessBoard {
                 }
             }
         }
+    }
+
+    private boolean checkMate() {
+        boolean result = true;
+        for(ChessPiece p : localPlayer.getChessPiecesAlive()){
+            if(!p.getLegalMovesInCheck().isEmpty()){
+                result = false; //no, not all legalMoves in check are empty
+            }
+        }
+        return result;
     }
 
 

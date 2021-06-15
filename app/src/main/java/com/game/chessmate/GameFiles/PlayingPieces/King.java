@@ -47,9 +47,13 @@ public class King extends ChessPiece {
                 if (i >= 0 && i <= 7 && j >= 0 && j <= 7) {
                     if (!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY())) {
                         if (currentFields[i][j].getCurrentPiece() == null) {
-                            legalFields.add(currentFields[i][j]);
+                            if(!wouldbeChecked(currentFields, currentFields[i][j])){//piece can only move to legal field if it does not cause the king to be in check
+                                legalFields.add(currentFields[i][j]);
+                            }
                         } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour) {
-                            legalFields.add(currentFields[i][j]);
+                            if(!wouldbeChecked(currentFields, currentFields[i][j])){//piece can only move to legal field if it does not cause the king to be in check
+                                legalFields.add(currentFields[i][j]);
+                            }
                         }
                     }
                 }

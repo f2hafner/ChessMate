@@ -4,18 +4,24 @@ import com.esotericsoftware.kryonet.Connection;
 import java.util.Random;
 
 public class Lobby {
-    long lobbyID;
+    // GENERIC INFO
+    boolean clearLobby;
+    int lobbyID;
     String lobbycode;
     byte playercount;
     GameStates currentLobbyState;
 
+    // PLAYER INFO
     PlayerObject player1;
     PlayerObject player2;
+
+    // CHEATFUNCTION
     boolean cheatFuncActive;
-    boolean clearLobby;
-    FieldDataObject origin;
-    FieldDataObject target;
-    //TODO moveList
+
+
+    // HISTORY INFO
+    FieldDataObject lastMoveOrigin;
+    FieldDataObject lastMoveTarget;
 
     Lobby(){
         currentLobbyState = GameStates.INITIALIZING;
@@ -32,8 +38,9 @@ public class Lobby {
         Random ran = new Random(System.currentTimeMillis());
         return Integer.toString(ran.nextInt(99999)+100000);
     }
+
     // Player 1
-    public void _player1_join(Connection con, String name){
+    public void player1Join(Connection con, String name){
         if(this.player1==null){
             player1 = new PlayerObject(con, name, ChessPieceColour.WHITE);
             playercount++;
@@ -41,7 +48,7 @@ public class Lobby {
         }
     }
 
-    public void _player1_leave(){
+    public void player1Leave(){
         if(player1!=null){
             player1 = null;
             playercount--;
@@ -49,7 +56,7 @@ public class Lobby {
         }
     }
     // Player 2
-    public void _player2_join(Connection con, String name){
+    public void player2Join(Connection con, String name){
         if(this.player2==null){
             player2 = new PlayerObject(con, name, ChessPieceColour.BLACK);
             playercount++;
@@ -57,12 +64,20 @@ public class Lobby {
         }
     }
 
-    public void _player2_leave(){
+    public void player2Leave(){
         if(player2!=null){
             player2 = null;
             playercount--;
             updateLobby();
         }
+    }
+
+    public void player1turn(){
+
+    }
+
+    public void player2turn(){
+
     }
 
     public LobbyDataObject retrieveLobbyDataObject(){

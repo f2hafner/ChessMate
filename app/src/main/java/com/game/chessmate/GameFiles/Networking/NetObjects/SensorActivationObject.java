@@ -2,7 +2,7 @@ package com.game.chessmate.GameFiles.Networking.NetObjects;
 
 public class SensorActivationObject {
     String lobbyCode;
-    SensorActivationObject(){}
+    public SensorActivationObject(){}
 
     public String getLobbyCode() {
         return lobbyCode;

@@ -13,6 +13,8 @@ public class Lobby {
     PlayerObject player2;
     boolean cheatFuncActive;
     boolean clearLobby;
+    FieldDataObject origin;
+    FieldDataObject target;
     //TODO moveList
 
     Lobby(){

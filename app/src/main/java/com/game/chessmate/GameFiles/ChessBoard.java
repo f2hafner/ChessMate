@@ -299,7 +299,8 @@ public class ChessBoard {
                                 for (Field f : localKing.getIsChecking()) {
                                     Log.d("DEBUG", "KING IS CHECKED 3");
                                     f.setAsChecking();
-                                    f.invalidate();
+                                    //f.invalidate();
+                                    f.setUpdate(true);
                                 }
                             }
                             localPlayer.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time

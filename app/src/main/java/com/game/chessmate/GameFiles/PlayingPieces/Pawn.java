@@ -88,10 +88,10 @@ public class Pawn extends ChessPiece {
      */
     @Override
     public ArrayList<Field> getLegalMovesInCheck(){
+        Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
         this.normal = false; //normal moves are not allowed
         ArrayList<Field> legalFields = this.getLegalFields();
         this.normal = true; //resetting for normal legal moves call
-        Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
         ChessPiece localKing = ChessBoard.getInstance().getLocalKing();
         ArrayList<Field> legalMovesInCheck = new ArrayList<Field>();
         localKing.isChecked(currentFields); //to set isChecking

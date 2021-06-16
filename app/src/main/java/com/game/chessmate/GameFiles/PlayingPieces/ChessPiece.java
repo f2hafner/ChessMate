@@ -484,8 +484,8 @@ abstract public class ChessPiece extends View {
      * @return ArrayList of fields that can be moved to by piece (that frees king out of check), if king is in check
      */
     public ArrayList<Field> getLegalMovesInCheck(){
-        ArrayList<Field> legalFields = this.getLegalFields();
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
+        ArrayList<Field> legalFields = this.getLegalFields();
         ChessPiece localKing = ChessBoard.getInstance().getLocalKing();
         ArrayList<Field> legalMovesInCheck = new ArrayList<Field>();
         localKing.isChecked(currentFields); //to set isChecking
@@ -511,10 +511,12 @@ abstract public class ChessPiece extends View {
      */
     protected boolean wouldbeChecked(Field[][] currentFields, Field f){
         ChessPiece localKing = ChessBoard.getInstance().getLocalKing();
-        Field realPosition = this.currentPosition;
-        this.currentPosition = f; //what would happen if chesspiece had this field as position
+        this.getPosition().setCurrentPiece(null);//moving away from current field so it is empty
+        ChessPiece realPiece = f.getCurrentPiece();//temporary save
+        f.setCurrentPiece(this);//"move to field"
         boolean result = localKing.isChecked(currentFields);//would king still be in check?
-        this.currentPosition = realPosition; //resetting to real position
+        this.getPosition().setCurrentPiece(this);//move back
+        f.setCurrentPiece(realPiece);//move piece back
         return result;
     }
 

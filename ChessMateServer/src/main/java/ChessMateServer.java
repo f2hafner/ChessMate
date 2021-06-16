@@ -30,8 +30,24 @@ public class ChessMateServer extends Thread{
         serverInstance.addListener(new Listener() {
             @Override
             public void received (Connection con, Object o) {
+                if (o instanceof leaveLobbyRequest){
+                    Log.accept("LEAVE_SESSION_REQUEST","Received LEAVE REQUEST");
+                    leaveLobbyRequest req = (leaveLobbyRequest)o;
+                    Lobby lobby = LobbyManager.getSessionByLobbycode(req.getLobbycode());
+                    if(lobby!=null){
+                        if(lobby.player1!=null)
+                            if(con == lobby.player1.connection) lobby.player1Leave();
+
+                        if(lobby.player2!=null)
+                            if(con == lobby.player2.connection){
+                                lobby.player2Leave();
+                                ObjectSender.sendLobbyDataObject(lobby.player1.connection,lobby);
+                            }
+                    }
+                }
+
                 if (o instanceof createSessionRequest) {
-                    Log.i("CREATE_SESSION_REQUEST","Received CREATE REQUEST");
+                    Log.accept("CREATE_SESSION_REQUEST","Received CREATE REQUEST");
                     // Receive
                     createSessionRequest request = (createSessionRequest)o;
                     Log.i("CREATE_SESSION_REQUEST","Lobbycode: " + request.getName());
@@ -44,7 +60,7 @@ public class ChessMateServer extends Thread{
                 }
 
                 if (o instanceof joinSessionRequest) {
-                    Log.i("JOIN_SESSION_REQUEST","Received JOIN REQUEST");
+                    Log.accept("JOIN_SESSION_REQUEST","Received JOIN REQUEST");
                     // Receive
                     joinSessionRequest request = (joinSessionRequest)o;
                     System.out.println("Name: " + request.getName());
@@ -53,7 +69,6 @@ public class ChessMateServer extends Thread{
                     Lobby lobby = LobbyManager.getSessionByLobbycode(request.getLobbycode());
                     if(lobby!=null){
                         lobby.player2Join(con,request.getName());
-                        // Send
                         ObjectSender.sendLobbyDataObject(con,lobby);
                         ObjectSender.sendLobbyDataObject(lobby.player1.connection,lobby);
                     } else {
@@ -62,13 +77,10 @@ public class ChessMateServer extends Thread{
                 }
 
                 if (o instanceof startGameRequest) {
-                    Log.i("START_GAME_REQUEST","Received START GAME REQUEST");
-                    // Receive
+                    Log.accept("START_GAME_REQUEST","Received START GAME REQUEST");
                     startGameRequest request = (startGameRequest)o;
-                    // Process
                     Lobby lobby = LobbyManager.getSessionByLobbycode(request.getLobbycode());
                     if(lobby!=null){
-                        // Send
                         lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
                         ObjectSender.sendStartGameParameters(con,lobby.player1);
                         ObjectSender.sendStartGameParameters(lobby.player2.connection,lobby.player2);
@@ -82,7 +94,7 @@ public class ChessMateServer extends Thread{
                     Lobby lobby = LobbyManager.getSessionByLobbycode(request.getLobbyCode());
                     if(lobby!=null){
                         if(lobby.cheatFuncActive){
-                            Log.i("SENSOR_PACKET","Received SENSOR PACKET");
+                            Log.accept("SENSOR_PACKET","Received SENSOR PACKET");
                             if(lobby.player1.connection == con) {
                                 if (lobby.lastMoveOrigin != null) {
                                   FieldDataObject originField = lobby.lastMoveOrigin;
@@ -141,7 +153,7 @@ public class ChessMateServer extends Thread{
                 }
 
                 if (o instanceof GameDataObject) {
-                    Log.i("GAME_DATA_OBJECT","Received Game Data");
+                    Log.accept("GAME_DATA_OBJECT","Received Game Data");
                     GameDataObject request = (GameDataObject)o;
                     Lobby lobby = LobbyManager.getSessionByLobbycode(request.getLobbyCode());
                     if(lobby!=null){

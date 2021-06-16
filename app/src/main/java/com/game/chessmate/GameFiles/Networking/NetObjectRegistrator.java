@@ -11,6 +11,7 @@ import com.game.chessmate.GameFiles.Networking.NetObjects.SensorActivationObject
 import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionRequest;
 import com.game.chessmate.GameFiles.Networking.NetObjects.createSessionResponse;
 import com.game.chessmate.GameFiles.Networking.NetObjects.joinSessionRequest;
+import com.game.chessmate.GameFiles.Networking.NetObjects.leaveLobbyRequest;
 import com.game.chessmate.GameFiles.Networking.NetObjects.startGameParameters;
 import com.game.chessmate.GameFiles.Networking.NetObjects.startGameRequest;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
@@ -23,6 +24,7 @@ public class NetObjectRegistrator {
         k.register(createSessionRequest.class);
         k.register(createSessionResponse.class);
         k.register(joinSessionRequest.class);
+        k.register(leaveLobbyRequest.class);
         k.register(GameStates.class);
         k.register(LobbyDataObject.class);
         k.register(PlayerDataObject.class);

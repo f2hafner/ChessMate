@@ -77,56 +77,53 @@ public class NetworkManager {
 
     public static void sendMove(Field currentField, Field targetField){
         Log.i(TAG, "sendMove: " + "sendmove was called");
+
         FieldDataObject currentFieldObject = new FieldDataObject();
         currentFieldObject.setX(currentField.getFieldX());
         currentFieldObject.setY(currentField.getFieldY());
+
         FieldDataObject targetFieldObject = new FieldDataObject();
         targetFieldObject.setX(targetField.getFieldX());
         targetFieldObject.setY(targetField.getFieldY());
+
         GameDataObject gameDataObject = new GameDataObject();
         gameDataObject.setLobbyCode(NetworkManager.currentLobbyCode);
         gameDataObject.setMoved(true);
         gameDataObject.setOrigin(currentFieldObject);
         gameDataObject.setTarget(targetFieldObject);
         gameDataObject.setCheatActivated(!ChessBoard.getInstance().getwasMoveLegal());
+
         ChessMateClient.getInstance().getClient().sendTCP(gameDataObject);
     }
 
     public static void sendCard(int cardId, Field field1,Field field2){
         Log.i(TAG,"sendCard: " + "sendcard was called");
 
-        FieldDataObject field1Object = new FieldDataObject();
-        field1Object.setX(field1.getFieldX());
-        field1Object.setY(field1.getFieldY());
+        FieldDataObject fieldObject1 = new FieldDataObject();
+        fieldObject1.setX(field1.getFieldX());
+        fieldObject1.setY(field1.getFieldY());
 
-        FieldDataObject field2Object = new FieldDataObject();
-
-        if (field2!=null) {
-            field2Object.setX(field2.getFieldX());
-            field2Object.setY(field2.getFieldY());
-        }
-
-        CardDataObject cardDataObject= new CardDataObject();
-        cardDataObject.setField1(field1Object);
-        cardDataObject.setField2(field2Object);
-        cardDataObject.setId(cardId);
+        FieldDataObject fieldObject2 = new FieldDataObject();
+        fieldObject2.setX(field2.getFieldX());
+        fieldObject2.setY(field2.getFieldY());
 
         GameDataObject gameDataObject = new GameDataObject();
         gameDataObject.setLobbyCode(NetworkManager.currentLobbyCode);
         gameDataObject.setUsedCard(true);
-        gameDataObject.setCardObject(cardDataObject);
+        gameDataObject.setCardId(cardId);
+        gameDataObject.setOrigin(fieldObject1);
+        gameDataObject.setTarget(fieldObject2);
 
         ChessMateClient.getInstance().getClient().sendTCP(gameDataObject);
     }
 
-    public static void receiveCard(CardDataObject cardDataObject){
-        Log.i(TAG,"receiveCard:" + "receivecard was called");
+    public static void receiveCard(int cardId, FieldDataObject fieldObject1, FieldDataObject fieldObject2){
+        Log.i(TAG, "receiveCard: receivecard was called");
 
-        int cardId=cardDataObject.getId();
-        Field currentField1 = ChessBoard.getInstance().getBoardFields()[cardDataObject.getField1().getX()][cardDataObject.getField1().getY()];
-        Field currentField2 = ChessBoard.getInstance().getBoardFields()[cardDataObject.getField2().getX()][cardDataObject.getField2().getY()];
+        Field field1 = ChessBoard.getInstance().getBoardFields()[fieldObject1.getX()][fieldObject1.getY()];
+        Field field2 = ChessBoard.getInstance().getBoardFields()[fieldObject2.getX()][fieldObject2.getY()];
 
-        ChessBoard.getInstance().receiveCardAction(cardId,currentField1,currentField2);
+        ChessBoard.getInstance().receiveCardAction(cardId, field1, field2);
     }
 
     public static Listener getGameCycleListener(){
@@ -140,7 +137,7 @@ public class NetworkManager {
                         receiveMove(gameDataObject.getOrigin(), gameDataObject.getTarget());
                     }
                     else if (gameDataObject.isUsedCard()) {
-                        receiveCard(gameDataObject.getCardObject());
+                        receiveCard(gameDataObject.getCardId(),gameDataObject.getOrigin(),gameDataObject.getTarget());
                     }
                 }
             }
@@ -150,6 +147,7 @@ public class NetworkManager {
 
     public static void receiveMove(FieldDataObject origin, FieldDataObject target){
         Log.i(TAG, "receiveMove: receivemove was called");
+
         Field originField = ChessBoard.getInstance().getBoardFields()[origin.getX()][origin.getY()];
         Field targetField = ChessBoard.getInstance().getBoardFields()[target.getX()][target.getY()];
         originField.getCurrentPiece().move(targetField);
@@ -162,10 +160,4 @@ public class NetworkManager {
     public static void setInitialColor(ChessPieceColour initialColor) {
         NetworkManager.initialColor = initialColor;
     }
-
-    /*public static void leaveSession() {
-        NetworkTasks.leaveSession();
-    }
-    public static void startGame() {
-    }*/
 }

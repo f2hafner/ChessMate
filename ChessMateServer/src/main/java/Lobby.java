@@ -34,6 +34,26 @@ public class Lobby {
         currentLobbyState = GameStates.WAITING_FOR_PLAYER;
     }
 
+    public void action_playCard() {
+
+    }
+
+    public void action_makeMove() {
+
+    }
+
+    public void action_cheats() {
+
+    }
+
+    public void action_revealCheat() {
+
+    }
+
+    public void checkPLayersExistence(){
+
+    }
+
     public String generateLobbyCode(){
         Random ran = new Random(System.currentTimeMillis());
         return Integer.toString(ran.nextInt(99999)+100000);
@@ -53,6 +73,7 @@ public class Lobby {
             player1 = null;
             playercount--;
             updateLobby();
+            LobbyManager.deleteLobby(this);
         }
     }
     // Player 2
@@ -86,11 +107,19 @@ public class Lobby {
         lobbyDataObject.setLobbycode(this.lobbycode);
 
         PlayerDataObject p1 = new PlayerDataObject();
-        p1.setName(this.player1.getName());
+        if(this.player1!=null){
+            p1.setName(this.player1.getName());
+        } else {
+            p1.setName("");
+        }
         lobbyDataObject.setPlayer1(p1);
 
         PlayerDataObject p2 = new PlayerDataObject();
-        p2.setName(this.player2.getName());
+        if(this.player2!=null){
+            p2.setName(this.player2.getName());
+        } else {
+            p2.setName("");
+        }
         lobbyDataObject.setPlayer2(p2);
 
         lobbyDataObject.setPlayercount(this.playercount);
@@ -103,16 +132,16 @@ public class Lobby {
     }
 
     public void printInfo() {
-        Log.i("LOBBY","LobbyID="+"\t"+lobbyID);
-        Log.i("LOBBY","LobbyCODE="+"\t"+lobbycode);
-        Log.i("LOBBY","PlayersCOUNT="+"\t"+playercount);
-        Log.i("LOBBY","Player1="+"\t"+player1);
-        Log.i("LOBBY","Player2="+"\t"+player2);
-        Log.i("LOBBY","Player2="+"\t"+cheatFuncActive);
+        Log.i("LOBBY"+lobbyID,"LobbyID="+"\t"+lobbyID);
+        Log.i("LOBBY"+lobbyID,"LobbyCODE="+"\t"+lobbycode);
+        Log.i("LOBBY"+lobbyID,"PlayersCOUNT="+"\t"+playercount);
+        Log.i("LOBBY"+lobbyID,"Player1="+"\t"+player1);
+        Log.i("LOBBY"+lobbyID,"Player2="+"\t"+player2);
+        Log.i("LOBBY"+lobbyID,"cheatFunctionActive="+"\t"+cheatFuncActive);
     }
 
     public void updateLobby(){
-        if(playercount==0){ this.clearLobby = true; } // removeLobbyIfEmpty
+        if(playercount==0){ LobbyManager.deleteLobby(this); } // removeLobbyIfEmpty
         if(playercount==2){ currentLobbyState = GameStates.READY; } // lobby can be started
     }
 

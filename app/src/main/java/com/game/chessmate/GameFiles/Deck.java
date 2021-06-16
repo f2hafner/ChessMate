@@ -4,13 +4,27 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 public class Deck {
+
+    //current deck of possible Cards
     private  Card[] deck;
+
+    //max size of deck
     private int size=13;//25
+
+    //size of deck for each player during game
     private int initialCardNumber=3;
+
+    //index for deck (to get next Card)
     private int currentCard=0;
+
+    //seed for shuffle
     private Random rand;
+
+    //last Card which was played in the game
     private Card lastCardPlayed=null;
 
+
+    //init deck
     public Deck(){
         deck=new Card[size];
 
@@ -22,6 +36,7 @@ public class Deck {
         shuffle();
     }
 
+    //return start Card-Array for each player
     public Card[] getInitialCards(){
         Card[]temp=new Card[initialCardNumber];
         int j=0;
@@ -54,15 +69,14 @@ public class Deck {
 
     public Card drawCard() {
         if (currentCard == size) {
-            currentCard=0;
+            shuffle();
         }
-
-        shuffle();
 
         while (deck[currentCard].isOwned()){
             currentCard++;
-            if (currentCard==size)
-                currentCard=0;
+            if (currentCard==size) {
+                shuffle();
+            }
         }
 
         deck[currentCard].setOwned(true);

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.MediaPlayer;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.GameFiles.GameState;
 import com.game.chessmate.GameFiles.Networking.NetworkManager;
 import com.game.chessmate.GameFiles.Vector;
+import com.game.chessmate.OptionsActivity;
+import com.game.chessmate.R;
 
 import java.util.ArrayList;
 
@@ -57,6 +60,9 @@ abstract public class ChessPiece extends View {
     private boolean isChampion=false;
     private boolean isSwapped=false;
     private ChessPiece swapPiece=null;
+    private MediaPlayer moveSound_start;
+    private MediaPlayer moveSound_end;
+    private Context context;
 
     /**
      * Instantiates a new Chess piece.
@@ -68,6 +74,7 @@ abstract public class ChessPiece extends View {
      */
     protected ChessPiece(Context context, Field position, Bitmap sprite, ChessPieceColour colour) {
         super(context);
+        this.context = context;
         this.currentPosition = position;
         this.targetPosition = null;
         this.colour = colour;
@@ -75,6 +82,9 @@ abstract public class ChessPiece extends View {
         this.updateMovementOffset = false;
         this.updateView = false;
         this.sprite = sprite;
+        this.moveSound_end = MediaPlayer.create(context,R.raw.chessmatemove_end);
+        this.moveSound_start.setVolume(1.0f,1.0f);
+        this.moveSound_end.setVolume(1.0f,1.0f);
     }
 
     /**
@@ -88,6 +98,7 @@ abstract public class ChessPiece extends View {
      */
     protected ChessPiece(Context context, @Nullable AttributeSet attrs, Field position, Bitmap sprite, ChessPieceColour colour) {
         super(context, attrs);
+        this.context = context;
         this.currentPosition = position;
         this.targetPosition = null;
         this.colour = colour;
@@ -95,6 +106,7 @@ abstract public class ChessPiece extends View {
         this.updateMovementOffset = false;
         this.updateView = false;
         this.sprite = sprite;
+        this.moveSound_end = MediaPlayer.create(context,R.raw.chessmatemove_end);
     }
 
     /**
@@ -129,12 +141,26 @@ abstract public class ChessPiece extends View {
         }
     }
 
+    private void startPlayingMoveSound(){
+        board = ChessBoard.getInstance();
+        if (!board.isSoundOn()){
+            return;
+        }
+        try {
+            moveSound_start = MediaPlayer.create(this.context, R.raw.chessmatemove_start);
+            moveSound_start.start();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Marks this PlayingPiece for the Render-thread to update and start moving to @targetField
      *
      * @param targetField the target field
      */
     public void move(Field targetField) {
+        startPlayingMoveSound();
 
         Field [][] currentFields=ChessBoard.getInstance().getBoardFields();
 
@@ -193,6 +219,7 @@ abstract public class ChessPiece extends View {
      * Cleanup work after move. Update Positions of chessPieces and update fields.
      */
     private void afterMove() {
+        stopMoveSoundPlayEndSound();
 
         if (ChessBoard.getInstance().isCardActivated()){
             Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
@@ -239,6 +266,18 @@ abstract public class ChessPiece extends View {
         else {
             Log.i("GAMESTATE", "afterMoveend: " + ChessBoard.getInstance().getGameState());
         }
+    }
+
+    private void stopMoveSoundPlayEndSound(){
+        board = ChessBoard.getInstance();
+        if (!board.isSoundOn()){
+            return;
+        }
+        moveSound_start.stop();
+        moveSound_start.reset();
+        moveSound_end.reset();
+        moveSound_end = MediaPlayer.create(context,R.raw.chessmatemove_end);
+        moveSound_end.start();
     }
 
     /**

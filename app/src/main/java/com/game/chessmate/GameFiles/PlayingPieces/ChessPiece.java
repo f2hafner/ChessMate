@@ -483,19 +483,19 @@ abstract public class ChessPiece extends View {
      *
      * @return ArrayList of fields that can be moved to by piece (that frees king out of check), if king is in check
      */
-    //king is in check - this legal moves is called instead -- same for every chesspiece
     public ArrayList<Field> getLegalMovesInCheck(){
         ArrayList<Field> legalFields = this.getLegalFields();
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
         ChessPiece localKing = ChessBoard.getInstance().getLocalKing();
         ArrayList<Field> legalMovesInCheck = new ArrayList<Field>();
         localKing.isChecked(currentFields); //to set isChecking
+        ArrayList<Field> isChecking = localKing.getIsChecking();
 
         for (Field f : legalFields) {
             if (!wouldbeChecked(currentFields, f)) {//checks whether king would be in check if currentpieces position were field - same for king
                 legalMovesInCheck.add(f);
             }
-            if(localKing.getIsChecking().contains(f)){//if piece can kill threatening piece
+            if(isChecking.contains(f)){//if piece can kill threatening piece
                 legalMovesInCheck.add(f);
             }
         }

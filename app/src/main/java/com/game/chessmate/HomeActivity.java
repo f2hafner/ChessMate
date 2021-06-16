@@ -30,13 +30,21 @@ public class HomeActivity extends AppCompatActivity {
 
         Button enterGame = findViewById(R.id.EnterGameButton);
         enterGame.setOnClickListener(v -> {
+
+            /*
             if (!enterName.getText().toString().matches("")) {
+
+
                 Intent createSessionIntent = new Intent(this, CreateSession.class);
                 createSessionIntent.putExtra("name",enterName.getText().toString());
                 startActivity(createSessionIntent);
             } else {
                 pleaseEnterName.setText("Please Enter Your Name!");
             }
+            */
+            Intent createSessionIntent = new Intent(this, EndScreen.class);
+            startActivity(createSessionIntent);
+
         });
 
     }

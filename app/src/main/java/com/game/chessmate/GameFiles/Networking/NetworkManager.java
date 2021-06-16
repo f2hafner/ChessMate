@@ -159,6 +159,7 @@ public class NetworkManager {
     public static void sendWin(){
         GameDataObject object = new GameDataObject();
         object.setWin(true);
+        object.setLobbyCode(NetworkManager.currentLobbyCode);
         ChessMateClient.getInstance().getClient().sendTCP(object);
     }
 

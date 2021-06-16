@@ -133,7 +133,10 @@ public class NetworkManager {
                     GameDataObject gameDataObject = (GameDataObject)object;
                     Log.i("LOG","ORG: "+ gameDataObject.getOrigin().toString()+" TRG: "+gameDataObject.getTarget().toString());
 
-                    if (gameDataObject.isMoved()) {
+                    if(gameDataObject.isWin()){
+                        receiveWin();
+                    }
+                    else if (gameDataObject.isMoved()) {
                         receiveMove(gameDataObject.getOrigin(), gameDataObject.getTarget());
                     }
                     else if (gameDataObject.isUsedCard()) {
@@ -151,6 +154,17 @@ public class NetworkManager {
         Field originField = ChessBoard.getInstance().getBoardFields()[origin.getX()][origin.getY()];
         Field targetField = ChessBoard.getInstance().getBoardFields()[target.getX()][target.getY()];
         originField.getCurrentPiece().move(targetField);
+    }
+
+    public static void sendWin(){
+        GameDataObject object = new GameDataObject();
+        object.setWin(true);
+        ChessMateClient.getInstance().getClient().sendTCP(object);
+    }
+
+    public static void receiveWin(){
+        ChessBoard.getInstance().setGameState(GameState.WIN);
+        ChessBoard.getInstance().redirectToEndScreen();
     }
 
     public static ChessPieceColour getInitialColor() {

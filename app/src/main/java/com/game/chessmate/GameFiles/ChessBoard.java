@@ -2,6 +2,7 @@ package com.game.chessmate.GameFiles;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.game.chessmate.EndScreen;
 import com.game.chessmate.GameActivity;
 import com.game.chessmate.GameFiles.Networking.NetworkManager;
 import com.game.chessmate.GameFiles.PlayingPieces.Bishop;
@@ -25,6 +27,7 @@ import com.game.chessmate.R;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
+import static java.security.AccessController.getContext;
 
 /**
  * The ChessBoard class handles creation and maintenance of the ChessBoard
@@ -243,9 +246,11 @@ public class ChessBoard {
                         }
                         Log.d("DEBUG", "CHECKING FOR CHECKMATE");
                         if(checkMate() || getLocalKing() == null){
-                            Log.d("debug", "I LOST!!!");
                              gameState = gameState.LOOSE;
-                             //send gamestate win to enemy
+                             Intent intent = new Intent(view.getContext(), EndScreen.class);
+                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                             view.getContext().startActivity(intent);
+                             NetworkManager.sendWin();
                         }
                     }
 
@@ -920,6 +925,11 @@ public class ChessBoard {
 
         playingPiece1.setUpdateView(true);
         playingPiece2.setUpdateView(true);
+    }
+
+    public void redirectToEndScreen(){
+        Intent intent = new Intent(view.getContext(), EndScreen.class);
+        view.getContext().startActivity(intent);
     }
 
     public Card getCurrentCard() {

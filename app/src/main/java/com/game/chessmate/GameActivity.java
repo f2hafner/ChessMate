@@ -1,5 +1,6 @@
 package com.game.chessmate;
 import android.app.Service;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
@@ -299,5 +300,6 @@ public class GameActivity extends AppCompatActivity {
         super.onDestroy();
         new NetworkTasks.SendLeaveSessionPacket();
     }
+
 }
 

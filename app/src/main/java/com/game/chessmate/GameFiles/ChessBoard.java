@@ -368,8 +368,13 @@ public class ChessBoard {
         int touchX = (int) event.getX();
         int touchY = (int) event.getY();
         Rect rect;
-        ArrayList<Field> legalMoves;
 
+        //cheat-Function is not permitted here
+        if (GameActivity.cheatButtonStatus()){
+            GameActivity.unselectAfterCardActivation();
+        }
+
+        //get currentPlayerCards, current Color, mark card activated and setz currentCard
         Card[] cards = localPlayer.getCurrentCards();
         localPlayerColor = localPlayer.getColor();
         isCardActivated=true;
@@ -391,7 +396,7 @@ public class ChessBoard {
                     }
 
                     //do action depending on card
-                    switch (cards[id].getId()) {
+                    switch (getCurrentCard().getId()){//cards[id].getId()) {
                         case 0: //cowardice
                             if (localPlayer.getLastSelectedField() == null) { //first click
                                 if (clickedPiece != null && clickedPieceType == ChessPieceType.PAWN && clickedPieceColor != localPlayerColor) {
@@ -905,17 +910,17 @@ public class ChessBoard {
         Field field1=playingPiece1.getPosition();
         Field field2=playingPiece2.getPosition();
 
-        playingPiece1.setSwapPiece(playingPiece2);
-        playingPiece2.setSwapPiece(playingPiece1);
-
-        playingPiece1.move(playingPiece2.getPosition());
-        playingPiece2.move(playingPiece1.getPosition());
+     /*   playingPiece1.setSwapPiece(playingPiece2);
+        playingPiece2.setSwapPiece(playingPiece1);*/
 
         field1.setCurrentPiece(playingPiece2);
         playingPiece2.setCurrentPosition(field1);
 
         field2.setCurrentPiece(playingPiece1);
         playingPiece1.setCurrentPosition(field2);
+
+        playingPiece1.setUpdateView(true);
+        playingPiece2.setUpdateView(true);
     }
 
     public Card getCurrentCard() {

@@ -46,10 +46,12 @@ public class Bishop extends ChessPiece {
             while(i<8 && i>=0 && j<8 && j>=0){
                 if(!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY()) && !opponentEncountered){
                     if (currentFields[i][j].getCurrentPiece() == null) {
-                        if(!currentFields[i][j].isBlocked())
+                        if(!currentFields[i][j].isBlocked()) {
                             legalFields.add(currentFields[i][j]);
-                        else
+
+                        }else{
                             break;
+                        }
                     } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour&&!currentFields[i][j].isProtected()) {
                         legalFields.add(currentFields[i][j]);
                         opponentEncountered = true;
@@ -79,7 +81,6 @@ public class Bishop extends ChessPiece {
         }
         return legalFields;
     }
-
 
 }
 

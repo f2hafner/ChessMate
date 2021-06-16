@@ -63,6 +63,7 @@ abstract public class ChessPiece extends View {
     private MediaPlayer moveSound_start;
     private MediaPlayer moveSound_end;
     private Context context;
+    protected ArrayList<Field> isChecking = new ArrayList<>();
 
     /**
      * Instantiates a new Chess piece.
@@ -234,7 +235,6 @@ abstract public class ChessPiece extends View {
                 NetworkManager.sendMove(currentPosition, targetPosition);
             }
         }
-
         this.updateMovementOffset = false;
         this.offset = new Vector(0, 0);
         currentPosition.setCurrentPiece(null);
@@ -258,6 +258,9 @@ abstract public class ChessPiece extends View {
         else if(ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
             ChessBoard.getInstance().setGameState(GameState.WAITING);
         }
+
+
+        Log.i("GAMESTATE","afterMoveend: " + ChessBoard.getInstance().getGameState());
 
         if (ChessBoard.getInstance().isCardActivated()){
             Log.i("GAMESTATE", "afterCardend: " + ChessBoard.getInstance().getGameState());
@@ -463,6 +466,61 @@ abstract public class ChessPiece extends View {
 
     public boolean isChampion(){return this.isChampion;}
 
+    /**
+     * Method determines whether king is checked, by calling isChecked()-method of king. isChecked()-method is overridden in king.
+     *
+     * @param boardFields current layout of fields and their pieces from chessboard
+     * @return boolean whether king is in check
+     */
+    public boolean isChecked(Field[][] boardFields){
+        ChessPiece localKing = ChessBoard.getInstance().getLocalKing();
+        return localKing.isChecked(ChessBoard.getInstance().getBoardFields());
+    }
+
+    /**
+     * Calculated legalFields that can be moved to when king is in check. Normal legalFields are taken.
+     * Only fields that free the king out of check are copied into legalMovesInCheck Array.
+     *
+     * @return ArrayList of fields that can be moved to by piece (that frees king out of check), if king is in check
+     */
+    public ArrayList<Field> getLegalMovesInCheck(){
+        Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
+        ArrayList<Field> legalFields = this.getLegalFields();
+        ChessPiece localKing = ChessBoard.getInstance().getLocalKing();
+        ArrayList<Field> legalMovesInCheck = new ArrayList<Field>();
+        localKing.isChecked(currentFields); //to set isChecking
+        ArrayList<Field> isChecking = localKing.getIsChecking();
+
+        for (Field f : legalFields) {
+            if (!wouldbeChecked(currentFields, f)) {//checks whether king would be in check if currentpieces position were field - same for king
+                legalMovesInCheck.add(f);
+            }
+            if(isChecking.contains(f)){//if piece can kill threatening piece
+                legalMovesInCheck.add(f);
+            }
+        }
+        return legalMovesInCheck;
+    }
+
+    /**
+     * Method determines whether king would still be checked, if piece were to move to Field f. Method is overridden in king.
+     *
+     * @param currentFields current layout of fields and their pieces from chessboard
+     * @param f field that is theoretically moved to
+     * @return boolean whether king would be in check if piece moved to field f
+     */
+    protected boolean wouldbeChecked(Field[][] currentFields, Field f){
+        ChessPiece localKing = ChessBoard.getInstance().getLocalKing();
+        this.getPosition().setCurrentPiece(null);//moving away from current field so it is empty
+        ChessPiece realPiece = f.getCurrentPiece();//temporary save
+        f.setCurrentPiece(this);//"move to field"
+        boolean result = localKing.isChecked(currentFields);//would king still be in check?
+        this.getPosition().setCurrentPiece(this);//move back
+        f.setCurrentPiece(realPiece);//move piece back
+        return result;
+    }
+
+
     public void setTargetPosition(Field position){this.targetPosition=position;}
 
     public void setUpdateMovementOffset(boolean Boolean){this.updateMovementOffset=Boolean;}
@@ -474,5 +532,8 @@ abstract public class ChessPiece extends View {
     public void setSwapPiece(ChessPiece piece){
         isSwapped=true;
         swapPiece=piece;
+    }
+    public ArrayList<Field> getIsChecking(){
+        return this.isChecking;
     }
 }

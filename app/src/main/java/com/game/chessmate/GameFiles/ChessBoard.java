@@ -825,14 +825,16 @@ public class ChessBoard {
     }
 
     public void swap(ChessPiece playingPiece1, ChessPiece playingPiece2){
+        Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
+        if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece1.getPosition(),playingPiece2.getPosition());
+        }
+
         playingPiece1.setProtected(true);
         playingPiece2.setProtected(true);
 
         Field field1=playingPiece1.getPosition();
         Field field2=playingPiece2.getPosition();
-
-     /*   playingPiece1.setSwapPiece(playingPiece2);
-        playingPiece2.setSwapPiece(playingPiece1);*/
 
         field1.setCurrentPiece(playingPiece2);
         playingPiece2.setCurrentPosition(field1);
@@ -842,6 +844,15 @@ public class ChessBoard {
 
         playingPiece1.setUpdateView(true);
         playingPiece2.setUpdateView(true);
+
+        if (ChessBoard.getInstance().getGameState() == GameState.WAITING) {
+            ChessBoard.getInstance().setGameState(GameState.ACTIVE);
+        }
+        else if(ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+            ChessBoard.getInstance().setGameState(GameState.WAITING);
+        }
+
+        Log.i("GAMESTATE", "afterCardend: " + ChessBoard.getInstance().getGameState());
     }
 
     public Card getCurrentCard() {

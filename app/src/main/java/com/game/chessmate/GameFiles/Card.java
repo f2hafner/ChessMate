@@ -314,7 +314,7 @@ public class Card {
     public void disintegration(ChessPiece playingPiece){
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece.getPosition(), null);
+            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece.getPosition(), ChessBoard.getInstance().getBoardFields()[0][0]);
         }
 
         playingPiece.capture();
@@ -333,7 +333,7 @@ public class Card {
     public void champion(ChessPiece playingPiece){
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece.getPosition(), null);
+            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece.getPosition(), ChessBoard.getInstance().getBoardFields()[0][0]);
         }
 
         playingPiece.setChampion();
@@ -486,9 +486,11 @@ public class Card {
 
     //protect 1 of your pieces for the next turn
     public void mysticShield(Field field){
+
+        currentFields=ChessBoard.getInstance().getBoardFields();
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),field, null);
+            NetworkManager.sendCard(this.getId(),field,currentFields[5][5]);
         }
 
         field.getCurrentPiece().setProtected(true);
@@ -509,7 +511,7 @@ public class Card {
     public void forbiddenCity(Field field){
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),field, null);
+            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),field, ChessBoard.getInstance().getBoardFields()[0][0]);
         }
 
             field.setBlocked();
@@ -548,16 +550,16 @@ public class Card {
 
     //Exchange your hand with your opponent's. He must draw another card to replace this one.
     public void handOfFate(Player player1,Player player2){
-        Card [] temp=player1.getCurrentCards();
+     /*   Card [] temp=player1.getCurrentCards();
         player1.setCards(player2.getCurrentCards());
-        player2.setCards(temp);
+        player2.setCards(temp);*/
     }
 
     //Take the last card played by your opponent and put it in your hand.
     public void vulture(int id ,Player localPlayer,Deck deck){
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),null, null);
+            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),ChessBoard.getInstance().getBoardFields()[0][0], ChessBoard.getInstance().getBoardFields()[0][0]);
         }
 
         Card temp=localPlayer.getCurrentCards()[id]; //set new Last Card played

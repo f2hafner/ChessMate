@@ -10,6 +10,7 @@ public class GameDataObject {
 
     //Cards
     boolean usedCard;
+    int cardId;
     CardDataObject cardObject;
 
     //CheatFunction

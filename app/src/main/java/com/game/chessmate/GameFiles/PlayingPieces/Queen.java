@@ -44,12 +44,13 @@ public class Queen extends ChessPiece {
                 if(!(i == currentPosition.getFieldX() && j == currentPosition.getFieldY()) && !opponentEncountered){
                     if (currentFields[i][j].getCurrentPiece() == null) {
                         if(!currentFields[i][j].isBlocked())
-                             legalFields.add(currentFields[i][j]);
+                            legalFields.add(currentFields[i][j]);
                         else
                             break;
                     } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour&&!currentFields[i][j].isProtected()) {
                         legalFields.add(currentFields[i][j]);
                         opponentEncountered = true;
+
                     }else{
                         break;
                     }

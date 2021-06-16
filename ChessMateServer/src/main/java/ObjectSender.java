@@ -8,6 +8,7 @@ public class ObjectSender {
         System.out.println("Sending: " + response.getLobbyCode());
         con.sendTCP(response);
     }
+
     public static void sendLobbyDataObject(Connection con, Lobby lobby){
         LobbyDataObject lobbyDataObject = lobby.retrieveLobbyDataObject();
         System.out.println("Sending: " + lobbyDataObject);
@@ -27,5 +28,12 @@ public class ObjectSender {
         gameDataObject.setTarget(Lobby.mirrorFunc(g.getTarget()));
         System.out.println("Sending: " + gameDataObject);
         con.sendTCP(gameDataObject);
+    }
+
+    public static void sendErrorPacket(Connection con, String errorMsg){
+        ErrorPacket errorPacket = new ErrorPacket();
+        errorPacket.setErrorMsg(errorMsg);
+        Log.e("ErrorPacket","Sending: " + errorPacket);
+        con.sendTCP(errorPacket);
     }
 }

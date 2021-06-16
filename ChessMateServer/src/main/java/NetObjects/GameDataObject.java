@@ -16,6 +16,9 @@ public class GameDataObject {
     //CheatFunction
     boolean cheatActivated;
 
+    //Win
+    private boolean win;
+
     public GameDataObject() {}
 
     public GameStates getCurrentClientState() {
@@ -88,5 +91,13 @@ public class GameDataObject {
 
     public void setCardId(int cardId) {
         this.cardId = cardId;
+    }
+
+    public boolean isWin() {
+        return win;
+    }
+
+    public void setWin(boolean win) {
+        this.win = win;
     }
 }

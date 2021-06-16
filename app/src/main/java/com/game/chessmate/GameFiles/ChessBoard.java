@@ -242,7 +242,7 @@ public class ChessBoard {
                             f.invalidate();
                         }
                         Log.d("DEBUG", "CHECKING FOR CHECKMATE");
-                        if(checkMate()){
+                        if(checkMate() || getLocalKing() == null){
                             Log.d("debug", "I LOST!!!");
                              gameState = gameState.LOOSE;
                              //send gamestate win to enemy
@@ -293,26 +293,24 @@ public class ChessBoard {
                                 }
                             }
                             localPlayer.getLastSelectedField().getCurrentPiece().move(clickedField);
+                            resetCheckedFields();
+                            localKing = getLocalKing();
+                            if(localKing.isChecked(boardFields)) {
+                                for (Field f : localKing.getIsChecking()) {
+                                    Log.d("DEBUG", "KING IS CHECKED 3");
+                                    f.setAsChecking();
+                                    f.invalidate();
+                                }
+                            }
                             localPlayer.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
                             localPlayer.setLastSelectedField(null);
                             resetLegalMoves();
-                            Log.d("DEBUG", "RESETTING CHECKEDFIELDS");
-                            resetCheckedFields();
-                            localKing = getLocalKing();
                         } else {
                             localPlayer.setLastSelectedField(null);
                         }
-
                         resetLegalMoves();
                     }
 
-                    if(localKing.isChecked(boardFields)) {
-                        for (Field f : localKing.getIsChecking()) {
-                            Log.d("DEBUG", "KING IS CHECKED 3");
-                            f.setAsChecking();
-                            f.invalidate();
-                        }
-                    }
                 }
             }
         }

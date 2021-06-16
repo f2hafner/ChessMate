@@ -6,6 +6,7 @@ import java.util.Random;
 public class Lobby {
     // GENERIC INFO
     boolean clearLobby;
+    boolean inGame; // false => in lobby; true ==> inGame;
     int lobbyID;
     String lobbycode;
     byte playercount;
@@ -142,7 +143,7 @@ public class Lobby {
 
     public void updateLobby(){
         if(playercount==0){ LobbyManager.deleteLobby(this); } // removeLobbyIfEmpty
-        if(playercount==2){ currentLobbyState = GameStates.READY; } // lobby can be started
+        if(playercount==2){ currentLobbyState = GameStates.READY;}
     }
 
     public static FieldDataObject mirrorFunc(FieldDataObject field){

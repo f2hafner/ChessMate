@@ -2,6 +2,7 @@ package com.game.chessmate.GameFiles.Networking;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.game.chessmate.GameFiles.Networking.NetObjects.CardDataObject;
+import com.game.chessmate.GameFiles.Networking.NetObjects.ErrorPacket;
 import com.game.chessmate.GameFiles.Networking.NetObjects.FieldDataObject;
 import com.game.chessmate.GameFiles.Networking.NetObjects.GameDataObject;
 import com.game.chessmate.GameFiles.Networking.NetObjects.GameStates;
@@ -36,5 +37,6 @@ public class NetObjectRegistrator {
         k.register(GameDataObject.class);
         k.register(SensorActivationObject.class);
         k.register(CardDataObject.class);
+        k.register(ErrorPacket.class);
     }
 }

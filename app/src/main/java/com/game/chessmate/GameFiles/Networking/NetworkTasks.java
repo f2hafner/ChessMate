@@ -62,19 +62,13 @@ public class NetworkTasks {
         @Override
         public LobbyDataObject call() {
             ChessMateClient.getInstance(); //creates and starts Client
-            joinSessionRequest req = new joinSessionRequest();
-            req.setLobbycode(this.lobbycode);
-            req.setName(this.name);
-            Log.i("NETWORK","[C]>SessionRequest: " + req.getLobbycode());
-            ChessMateClient.getInstance().getClient().sendTCP(req);
-
-            LobbyDataObject[] lobbyDataObject = new LobbyDataObject[1];
-
+            final LobbyDataObject[] lobbyDataObject = new LobbyDataObject[1];
+            lobbyDataObject[0]=null;
             Listener listener = new Listener(){
                 public void received(Connection connection, Object object) {
                     if (object instanceof LobbyDataObject) {
                         lobbyDataObject[0] = (LobbyDataObject) object;
-                        Log.i("NETWORK", "Received: lobbyDataObject");
+                        Log.i("NETWORK", Thread.currentThread().getName()+"Received: lobbyDataObject");
                     }
 
                     if(object instanceof ErrorPacket){
@@ -83,13 +77,19 @@ public class NetworkTasks {
                         tempObject.setClearLobby(true);
                         tempObject.setLobbycode(errorPacket.getErrorMsg());
                         lobbyDataObject[0] = tempObject;
+                        Log.i("NETWORK", Thread.currentThread().getName()+"Received: ErrorPacket");
                     }
                 }
             };
             ChessMateClient.getInstance().getClient().addListener(listener);
-            Log.i("NETWORK", "before loop");
-            while(lobbyDataObject[0]==null){}
-            Log.i("NETWORK", "after loop");
+            joinSessionRequest req = new joinSessionRequest();
+            req.setLobbycode(this.lobbycode);
+            req.setName(this.name);
+            Log.i("NETWORK","[C]>SessionRequest: " + req.getLobbycode());
+            ChessMateClient.getInstance().getClient().sendTCP(req);
+            Log.i("NETWORK", Thread.currentThread().getName()+ "before loop"+lobbyDataObject[0]);
+            while(lobbyDataObject[0]==null){Log.i("NETWORK", String.valueOf(lobbyDataObject[0]));}
+            Log.i("NETWORK", Thread.currentThread().getName()+"after loop");
             ChessMateClient.getInstance().getClient().removeListener(listener);
             return lobbyDataObject[0];
         }

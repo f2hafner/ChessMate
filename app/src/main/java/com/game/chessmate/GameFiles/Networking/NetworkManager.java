@@ -134,6 +134,7 @@ public class NetworkManager {
                     Log.i("LOG","ORG: "+ gameDataObject.getOrigin().toString()+" TRG: "+gameDataObject.getTarget().toString());
 
                     if(gameDataObject.isWin()){
+                        Log.d(TAG, "received: " + gameDataObject +" "+ gameDataObject.isWin());
                         receiveWin();
                     }
                     else if (gameDataObject.isMoved()) {
@@ -156,13 +157,8 @@ public class NetworkManager {
         originField.getCurrentPiece().move(targetField);
     }
 
-    public static void sendWin(){
-        GameDataObject object = new GameDataObject();
-        object.setWin(true);
-        ChessMateClient.getInstance().getClient().sendTCP(object);
-    }
-
     public static void receiveWin(){
+        Log.d(TAG, "receiveWin: " + "was called");
         ChessBoard.getInstance().setGameState(GameState.WIN);
         ChessBoard.getInstance().redirectToEndScreen();
     }

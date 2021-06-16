@@ -16,21 +16,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.game.chessmate.GameFiles.BoardView;
 import com.game.chessmate.GameFiles.CheatFunktion;
 import com.game.chessmate.GameFiles.ChessBoard;
-import com.game.chessmate.GameFiles.Deck;
-import com.game.chessmate.GameFiles.Networking.ChessMateClient;
-import com.game.chessmate.GameFiles.Networking.NetObjects.SensorActivationObject;
-import com.game.chessmate.GameFiles.Networking.NetworkManager;
 import com.game.chessmate.GameFiles.Networking.NetworkTasks;
 import com.game.chessmate.GameFiles.Player;
 import com.game.chessmate.GameFiles.GameState;
-import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
-
-import com.game.chessmate.GameFiles.Networking.NetObjects.PlayerDataObject;
-import com.game.chessmate.GameFiles.Networking.PlayerObject;
-import com.game.chessmate.GameFiles.Player;
 
 /**
  * The type Game activity.
@@ -88,7 +78,7 @@ public class GameActivity extends AppCompatActivity {
                 float lightValue = sensorEvent.values[0];
                 //float closeSensor = maxValue/100;
                 if (lightValue <= 500) {
-                    NetworkTasks.SendSensorPackage sendSensorPackage = new NetworkTasks.SendSensorPackage();
+                    NetworkTasks.SendSensorPacket sendSensorPacket = new NetworkTasks.SendSensorPacket();
                 }
             }
 
@@ -302,6 +292,12 @@ public class GameActivity extends AppCompatActivity {
                 default: gameStateView.setText("..."); break;
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        new NetworkTasks.SendLeaveSessionPacket();
     }
 }
 

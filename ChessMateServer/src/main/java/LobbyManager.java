@@ -67,4 +67,8 @@ public class LobbyManager {
             if(s.lobbyID==lobbyID) return s;
         return null;
     }
+
+    public static void deleteLobby(Lobby lobby){
+
+    }
 }

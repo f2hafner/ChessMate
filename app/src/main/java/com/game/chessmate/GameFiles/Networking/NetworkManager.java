@@ -160,10 +160,4 @@ public class NetworkManager {
     public static void setInitialColor(ChessPieceColour initialColor) {
         NetworkManager.initialColor = initialColor;
     }
-
-    /*public static void leaveSession() {
-        NetworkTasks.leaveSession();
-    }
-    public static void startGame() {
-    }*/
 }

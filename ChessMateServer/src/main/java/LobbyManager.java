@@ -33,7 +33,7 @@ public class LobbyManager {
         } else {
             Log.i("LOBBY","Online lobbies: "+sessions.size()+"/"+MAX_SESSIONS);
             for (Lobby s : sessions)
-                System.out.println(s.toString());
+                s.printInfo();
         }
     }
 

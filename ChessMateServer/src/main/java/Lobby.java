@@ -102,13 +102,13 @@ public class Lobby {
         return lobbycode;
     }
 
-    @Override
-    public String toString() {
-        return "["+lobbyID+"]<"+playercount+"> code="+lobbycode+"\n"
-                +"\t"+"state="+currentLobbyState+"\n"
-                +"\t"+"player1="+player1+"\n"
-                +"\t"+"player2="+player2+"\n"
-                +"\t"+"cheatFuncActive="+cheatFuncActive;
+    public void printInfo() {
+        Log.i("LOBBY","LobbyID="+"\t"+lobbyID);
+        Log.i("LOBBY","LobbyCODE="+"\t"+lobbycode);
+        Log.i("LOBBY","PlayersCOUNT="+"\t"+playercount);
+        Log.i("LOBBY","Player1="+"\t"+player1);
+        Log.i("LOBBY","Player2="+"\t"+player2);
+        Log.i("LOBBY","Player2="+"\t"+cheatFuncActive);
     }
 
     public void updateLobby(){

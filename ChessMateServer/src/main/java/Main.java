@@ -8,7 +8,7 @@ public class Main {
         String input="";
         boolean commandExecuted;
         try {Thread.sleep(2000);} catch(InterruptedException e) {}
-        Log.v("SYSTEM","Type '/help' to see the available commands!");
+        Log.i("SYSTEM","Type '/help' to see the available commands!");
         while(true){
             commandExecuted = false;
             if(in.hasNext()){ input = in.nextLine(); }
@@ -17,8 +17,8 @@ public class Main {
                 commandExecuted = true;
             }
             if(input.equalsIgnoreCase("/help")){
-                Log.v("HELP PAGE"," - "+"/quit"+"\t"+"Closes the Server");
-                Log.v("HELP PAGE"," - "+"/list"+"\t"+"Lists informations about the Lobbies online");
+                Log.i("HELP PAGE"," - "+"/quit"+"\t"+"Closes the Server");
+                Log.i("HELP PAGE"," - "+"/list"+"\t"+"Lists informations about the Lobbies online");
                 commandExecuted = true;
             }
             if(input.equalsIgnoreCase("/list")){

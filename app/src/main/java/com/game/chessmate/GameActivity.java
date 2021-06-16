@@ -77,8 +77,9 @@ public class GameActivity extends AppCompatActivity {
             public void onSensorChanged(SensorEvent sensorEvent) {
                 float lightValue = sensorEvent.values[0];
                 //float closeSensor = maxValue/100;
-                if (lightValue <= 500) {
-                    NetworkTasks.SendSensorPacket sendSensorPacket = new NetworkTasks.SendSensorPacket();
+                if (lightValue < 1) {
+                    Toast.makeText(GameActivity.this, "You tried to reveal a cheat!", Toast.LENGTH_SHORT).show();
+                    new NetworkTasks.SendSensorPacket();
                 }
             }
 

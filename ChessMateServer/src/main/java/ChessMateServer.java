@@ -48,31 +48,26 @@ public class ChessMateServer extends Thread{
 
                 if (o instanceof createSessionRequest) {
                     Log.accept("CREATE_SESSION_REQUEST","Received CREATE REQUEST");
-                    // Receive
                     createSessionRequest request = (createSessionRequest)o;
                     Log.i("CREATE_SESSION_REQUEST","Lobbycode: " + request.getName());
-                    // Process
                     Lobby lobby = new Lobby();
                     lobby.player1Join(con, request.getName());
                     LobbyManager.getSessions().add(lobby);
-                    // Send
                     ObjectSender.createLobbyResponse(con, lobby);
                 }
 
                 if (o instanceof joinSessionRequest) {
                     Log.accept("JOIN_SESSION_REQUEST","Received JOIN REQUEST");
-                    // Receive
                     joinSessionRequest request = (joinSessionRequest)o;
                     System.out.println("Name: " + request.getName());
                     System.out.println("LobbyCode: " + request.getLobbycode());
-                    // Process
                     Lobby lobby = LobbyManager.getSessionByLobbycode(request.getLobbycode());
                     if(lobby!=null){
                         lobby.player2Join(con,request.getName());
                         ObjectSender.sendLobbyDataObject(con,lobby);
                         ObjectSender.sendLobbyDataObject(lobby.player1.connection,lobby);
                     } else {
-                        //TODO lobby doesn't exist
+                        ObjectSender.sendErrorPacket(con,"Lobby doens't exist!");
                     }
                 }
 
@@ -82,10 +77,11 @@ public class ChessMateServer extends Thread{
                     Lobby lobby = LobbyManager.getSessionByLobbycode(request.getLobbycode());
                     if(lobby!=null){
                         lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
+                        lobby.inGame = true;
                         ObjectSender.sendStartGameParameters(con,lobby.player1);
                         ObjectSender.sendStartGameParameters(lobby.player2.connection,lobby.player2);
                     } else {
-                        //TODO lobby doesn't exist
+                        ObjectSender.sendErrorPacket(con,"Error processing your gameInput!");
                     }
                 }
 
@@ -183,7 +179,7 @@ public class ChessMateServer extends Thread{
                             }
                         }
                     } else {
-                        //TODO lobby doesn't exist
+                        ObjectSender.sendErrorPacket(con,"Error processing your gameInput!");
                     }
                 }
                 //Log.v("SERVER",con.toString() +"\t"+ o.toString() +"\n");

@@ -15,6 +15,13 @@ public class ObjectSender {
         con.sendTCP(lobbyDataObject);
     }
 
+    public static void sendBackToCodeScreen(Connection con){
+        LobbyDataObject lobbyDataObject = new LobbyDataObject();
+        lobbyDataObject.setClearLobby(true);
+        System.out.println("Sending: " + lobbyDataObject);
+        con.sendTCP(lobbyDataObject);
+    }
+
     public static void sendStartGameParameters(Connection con, PlayerObject p){
         startGameParameters parameters = new startGameParameters();
         parameters.setInitColour(p.chessPieceColour);

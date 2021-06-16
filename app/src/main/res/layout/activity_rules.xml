@@ -59,19 +59,34 @@
             android:layout_height="wrap_content"
             android:justificationMode="inter_word"
 
-            android:text="What is Lorem Ipsum?Lorem Ipsum is simply dummy text of the printing and typesettingindustry.What is Lorem Ipsum?
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-
-Why do we use it?
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-
-
-Where does it come from?
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32.
-
-The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham."
+            android:text=
+                "Turn Sequence \n
+As in a regular game of chess, the players alternate turns. However, on each turn, you may play one card from your hand.
+Each card has a special effect, changing the rules of the game. Some cards modify your regular move. Others add to it, or replace it entirely!
+\n
+You may never play more than one card on your turn, or on your opponent’s turn. When you play a card, it will end up on the discard pile.
+The card’s effect takes place immediately. Exception: If a card has a continuing effect (see below), it will get marked to remind both players of that effect.
+Your hand must always consist of three cards. Your played card will immediately get replaced by another card.
+If you run out of cards to draw, the discard pile will be shuffled and ready to draw from again.
+\n \n
+Continuing Effects \n
+Most cards change only a single move, but some last indefinitely . . . even through the whole game. These are called “Continuing Effect” cards. A card does not have a continuing effect unless it says so at the bottom!
+\n \n
+Transformed Pieces \n
+Some Continuing Effect cards transform a piece, turning it into a new kind of piece with a new name. They will get marked by a color. Unless the creating card specifies otherwise, a transformed piece can be affected by cards that name the original piece. If a card returns the piece to play later after it got captured, it returns as the original type of piece.
+\n \n
+Moving Without a Card \n
+You are never required to play a card. When you move without playing a card, you follow all the normal rules of chess . . . subject to any continuing effects of cards already played!
+\n \n
+Pawn Rules \n
+Pawns may promote only to Queen, Rook, Knight or Bishop. They may not promote to new types of piece.
+\n \n
+Variant \n
+Common Deck
+All the cards will be placed in one deck, face down. Both players will get their hand of three cards, and all replacements, from this deck. (This is how the original French Tempête sur l’Echiquier worked.) If you use up all the cards, the discards will be reshuffled."
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            />
     </ScrollView>
 
 

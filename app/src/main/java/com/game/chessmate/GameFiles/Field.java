@@ -166,4 +166,8 @@ public class Field extends View {
 
     public boolean isProtected(){return this.isProtected;}
     public void setProtected(boolean isProtected){this.isProtected=isProtected;}
+
+    public void setAsChecking() {
+        this.color.setColor(Color.RED);
+    }
 }

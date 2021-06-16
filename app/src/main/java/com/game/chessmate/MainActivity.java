@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.chessmate.GameFiles.Networking.NetworkTasks;
 import com.game.chessmate.GameFiles.ResourceLoader;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,11 +22,5 @@ public class MainActivity extends AppCompatActivity {
         int width = metrics.widthPixels;
         ResourceLoader loader = new ResourceLoader(getResources(), width, this);
         loader.execute();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //TODO CLIENT CLOSE
     }
 }

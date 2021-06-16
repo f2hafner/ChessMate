@@ -65,7 +65,7 @@ public class NetworkTasks {
             Log.i("NETWORK","[C]>SessionRequest: " + req.getLobbycode());
             ChessMateClient.getInstance().getClient().sendTCP(req);
 
-            final LobbyDataObject[] lobbyDataObject = new LobbyDataObject[1];
+            LobbyDataObject[] lobbyDataObject = new LobbyDataObject[1];
 
             Listener listener = new Listener(){
                 public void received(Connection connection, Object object) {
@@ -77,7 +77,9 @@ public class NetworkTasks {
                 }
             };
             ChessMateClient.getInstance().getClient().addListener(listener);
+            Log.i("NETWORK", "before loop");
             while(lobbyDataObject[0]==null){}
+            Log.i("NETWORK", "after loop");
             ChessMateClient.getInstance().getClient().removeListener(listener);
             return lobbyDataObject[0];
         }
@@ -114,12 +116,10 @@ public class NetworkTasks {
         }
     }
 
-    public static class SendSensorPackage extends Thread{
-
-        public SendSensorPackage() {
+    public static class SendSensorPacket extends Thread{
+        public SendSensorPacket() {
             this.start();
         }
-
         @Override
         public void run() {
             SensorActivationObject sensorActivationObject = new SensorActivationObject();
@@ -128,14 +128,15 @@ public class NetworkTasks {
         }
     }
 
-    /*public static void leaveSession() {
-        ChessMateClient.getInstance(); //creates and starts Client
-        leaveLobbyRequest req = new leaveLobbyRequest();
-        ChessMateClient.getInstance().getClient().sendTCP(req);
+    public static class SendLeaveSessionPacket extends Thread{
+        public SendLeaveSessionPacket() {
+            this.start();
+        }
+        @Override
+        public void run() {
+            leaveLobbyRequest leaveLobbyRequest = new leaveLobbyRequest();
+            leaveLobbyRequest.setLobbycode(NetworkManager.currentLobbyCode);
+            ChessMateClient.getInstance().getClient().sendTCP(leaveLobbyRequest);
+        }
     }
-
-                String lobbycode = null;
-            while(lobbycode==null){ClientListener.getLobbycode();}
-            return lobbycode;
-    */
 }

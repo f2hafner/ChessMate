@@ -17,6 +17,7 @@ import com.game.chessmate.GameFiles.Networking.ChessMateClient;
 import com.game.chessmate.GameFiles.Networking.NetObjects.LobbyDataObject;
 import com.game.chessmate.GameFiles.Networking.NetObjects.startGameParameters;
 import com.game.chessmate.GameFiles.Networking.NetworkManager;
+import com.game.chessmate.GameFiles.Networking.NetworkTasks;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
 
 public class Lobby extends AppCompatActivity {
@@ -26,7 +27,6 @@ public class Lobby extends AppCompatActivity {
         setContentView(R.layout.activity_lobby);
         getSupportActionBar().hide();
         boolean isHost = false;
-
 
         TextView codeOutput = findViewById(R.id.CodeOutput);
         //codeOutput.setVisibility(View.INVISIBLE);
@@ -79,5 +79,11 @@ public class Lobby extends AppCompatActivity {
         });
 
         ChessMateClient.getInstance().getClient().addListener(lobbyUpdateListener);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        new NetworkTasks.SendLeaveSessionPacket();
     }
 }

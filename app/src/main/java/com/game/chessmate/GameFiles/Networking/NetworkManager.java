@@ -31,7 +31,7 @@ public class NetworkManager {
     public static NetworkManager getInstance(){ return NetworkManager.InstanceHolder.INSTANCE; }
     public static ChessPieceColour initialColor;
     public static String currentLobbyCode;
-    static ExecutorService service = Executors.newFixedThreadPool(10);
+    static ExecutorService service = Executors.newFixedThreadPool(1);
 
     public static String createSession(String name) {
         Future<String> future = service.submit(new NetworkTasks.CreateSession(name));

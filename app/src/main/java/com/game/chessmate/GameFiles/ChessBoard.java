@@ -460,7 +460,7 @@ public class ChessBoard {
                         case 2: //deathDance
                             if (localPlayer.getLastSelectedField() == null) { //first click
                                 if (clickedPiece != null && clickedPieceColor == localPlayerColor) {
-                                    afterFirstClickAfterCardSelection(clickedField, cards[id].getLegalMovesDeathDance(clickedPiece));
+                                    afterFirstClickAfterCardSelection(clickedField, clickedPiece.getLegalMovesDeathDance());
                                 } else
                                     GameActivity.unselectAfterCardActivation();
                             }
@@ -516,7 +516,7 @@ public class ChessBoard {
                         case 6: //revelation
                             if (localPlayer.getLastSelectedField() == null) { //first click
                                 if (clickedPiece != null && clickedPieceType == ChessPieceType.KNIGHT) {
-                                    afterFirstClickAfterCardSelection(clickedField, cards[id].getLegalMovesRevelation(clickedPiece));
+                                    afterFirstClickAfterCardSelection(clickedField, clickedPiece.getLegalMovesRevelation());
                                 } else
                                     GameActivity.unselectAfterCardActivation();
                             }
@@ -556,7 +556,7 @@ public class ChessBoard {
                         case 8: //lostCastle
                             if (localPlayer.getLastSelectedField() == null) { //first click
                                 if (clickedPiece != null && clickedPieceType == ChessPieceType.ROOK) {
-                                    afterFirstClickAfterCardSelection(clickedField, cards[id].getLegalMovesLostCastle(clickedPiece));
+                                    afterFirstClickAfterCardSelection(clickedField, clickedPiece.getLegalMovesLostCastle());
                                 } else
                                     GameActivity.unselectAfterCardActivation();
                             }
@@ -593,7 +593,7 @@ public class ChessBoard {
                         case 11://holyQuest
                             if (localPlayer.getLastSelectedField() == null) { //first click
                                 if (clickedPiece != null && clickedPieceType == ChessPieceType.BISHOP&&clickedPieceColor==localPlayerColor) {
-                                    afterFirstClickAfterCardSelection(clickedField, cards[id].getLegalMovesHolyQuest(clickedPiece));
+                                    afterFirstClickAfterCardSelection(clickedField, clickedPiece.getLegalMovesHolyQuest());
                                 } else
                                     GameActivity.unselectAfterCardActivation();
                             }
@@ -663,10 +663,6 @@ public class ChessBoard {
                                 }
                             }
                             break;
-
-                        case 14://handOfFate
-                            cards[id].handOfFate(localPlayer,enemyPlayer);
-                            break;
                     }
                 }
             }
@@ -710,7 +706,7 @@ public class ChessBoard {
                 break;
 
             case 2: //DeathDance
-                swap(field1.getCurrentPiece(),field2.getCurrentPiece());
+                card.swap(field1.getCurrentPiece(),field2.getCurrentPiece());
                 break;
 
             case 3: //Disintegration
@@ -726,7 +722,7 @@ public class ChessBoard {
                 break;
 
             case 6: //Revelation
-                swap(field1.getCurrentPiece(),field2.getCurrentPiece());
+                card.swap(field1.getCurrentPiece(),field2.getCurrentPiece());
                 break;
 
             case 7: //LongJump
@@ -734,7 +730,7 @@ public class ChessBoard {
                 break;
 
             case 8: //LostCastle
-                swap(field1.getCurrentPiece(),field2.getCurrentPiece());
+                card.swap(field1.getCurrentPiece(),field2.getCurrentPiece());
                 break;
 
             case 9: //MysticShield
@@ -746,7 +742,7 @@ public class ChessBoard {
                 break;
 
             case 11: //HolyQuest
-                swap(field1.getCurrentPiece(),field2.getCurrentPiece());
+                card.swap(field1.getCurrentPiece(),field2.getCurrentPiece());
                 break;
 
             case 12: //Vulture - nothing to do
@@ -948,39 +944,6 @@ public class ChessBoard {
 
     public void setCardActivated(boolean cardActivated) {
         isCardActivated = cardActivated;
-    }
-
-    public void swap(ChessPiece playingPiece1, ChessPiece playingPiece2){
-        MediaPlayer.create(view.getContext(),R.raw.chessmatemove_end).start();
-
-        Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
-        if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-            new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece1.getPosition(),playingPiece2.getPosition());
-        }
-
-        playingPiece1.setProtected(true);
-        playingPiece2.setProtected(true);
-
-        Field field1=playingPiece1.getPosition();
-        Field field2=playingPiece2.getPosition();
-
-        field1.setCurrentPiece(playingPiece2);
-        playingPiece2.setCurrentPosition(field1);
-
-        field2.setCurrentPiece(playingPiece1);
-        playingPiece1.setCurrentPosition(field2);
-
-        playingPiece1.setUpdateView(true);
-        playingPiece2.setUpdateView(true);
-
-        if (ChessBoard.getInstance().getGameState() == GameState.WAITING) {
-            ChessBoard.getInstance().setGameState(GameState.ACTIVE);
-        }
-        else if(ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-            ChessBoard.getInstance().setGameState(GameState.WAITING);
-        }
-
-        Log.i("GAMESTATE", "afterCardend: " + ChessBoard.getInstance().getGameState());
     }
 
     public void redirectToEndScreen(){

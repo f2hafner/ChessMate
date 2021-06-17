@@ -522,6 +522,122 @@ abstract public class ChessPiece extends View {
     }
 
 
+    //Card Functions
+    /**
+     * Get legal moves death dance array list.
+     * @return the array list
+     */
+    public ArrayList<Field> getLegalMovesDeathDance(){
+        //return legal Moves for Death Dance
+        ArrayList<Field> legalMoves=new ArrayList<>();
+        Field [][] currentFields=ChessBoard.getInstance().getBoardFields();
+        Field field=currentPosition;
+
+        //down
+        if (field.getFieldX()+1!=-1&&field.getFieldX()+1!=currentFields.length
+                &&currentFields[field.getFieldX()+1][field.getFieldY()].getCurrentPiece()!=null
+                &&currentFields[field.getFieldX()+1][field.getFieldY()].getCurrentPiece().getColour()!=colour)
+            legalMoves.add(currentFields[field.getFieldX()+1][field.getFieldY()]);
+        //up
+        if (field.getFieldX()-1!=-1&&field.getFieldX()-1!=currentFields.length
+                &&currentFields[field.getFieldX()-1][field.getFieldY()].getCurrentPiece()!=null
+                &&currentFields[field.getFieldX()-1][field.getFieldY()].getCurrentPiece().getColour()!=colour)
+            legalMoves.add(currentFields[field.getFieldX()-1][field.getFieldY()]);
+        //left
+        if (field.getFieldY()-1!=-1&&field.getFieldY()-1!=currentFields.length
+                &&currentFields[field.getFieldX()][field.getFieldY()-1].getCurrentPiece()!=null
+                &&currentFields[field.getFieldX()][field.getFieldY()-1].getCurrentPiece().getColour()!=colour)
+            legalMoves.add(currentFields[field.getFieldX()][field.getFieldY()-1]);
+        //right
+        if (field.getFieldY()+1!=-1&&field.getFieldY()+1!=currentFields.length
+                &&currentFields[field.getFieldX()][field.getFieldY()+1].getCurrentPiece()!=null
+                &&currentFields[field.getFieldX()][field.getFieldY()+1].getCurrentPiece().getColour()!=colour)
+            legalMoves.add(currentFields[field.getFieldX()][field.getFieldY()+1]);
+        //down-left
+        if (field.getFieldX()+1!=-1&&field.getFieldX()+1!=currentFields.length&&field.getFieldY()-1!=-1&&field.getFieldY()-1!=currentFields.length
+                &&currentFields[field.getFieldX()+1][field.getFieldY()-1].getCurrentPiece()!=null
+                &&currentFields[field.getFieldX()+1][field.getFieldY()-1].getCurrentPiece().getColour()!=colour)
+            legalMoves.add(currentFields[field.getFieldX()+1][field.getFieldY()-1]);
+        //down-right
+        if (field.getFieldX()+1!=-1&&field.getFieldX()+1!=currentFields.length&&field.getFieldY()+1!=-1&&field.getFieldY()+1!=currentFields.length
+                &&currentFields[field.getFieldX()+1][field.getFieldY()+1].getCurrentPiece()!=null
+                &&currentFields[field.getFieldX()+1][field.getFieldY()+1].getCurrentPiece().getColour()!=colour)
+            legalMoves.add(currentFields[field.getFieldX()+1][field.getFieldY()+1]);
+        //up-left
+        if (field.getFieldX()-1!=-1&&field.getFieldX()-1!=currentFields.length&&field.getFieldY()-1!=-1&&field.getFieldY()-1!=currentFields.length
+                &&currentFields[field.getFieldX()-1][field.getFieldY()-1].getCurrentPiece()!=null
+                &&currentFields[field.getFieldX()-1][field.getFieldY()-1].getCurrentPiece().getColour()!=colour)
+            legalMoves.add(currentFields[field.getFieldX()-1][field.getFieldY()-1]);
+        //up-right
+        if (field.getFieldX()-1!=-1&&field.getFieldX()-1!=currentFields.length&&field.getFieldY()+1!=-1&&field.getFieldY()+1!= currentFields.length
+                &&currentFields[field.getFieldX()-1][field.getFieldY()+1].getCurrentPiece()!=null
+                &&currentFields[field.getFieldX()-1][field.getFieldY()+1].getCurrentPiece().getColour()!=colour)
+            legalMoves.add(currentFields[field.getFieldX()-1][field.getFieldY()+1]);
+
+        return legalMoves;
+    }
+
+    /**
+     * Get legal moves revelation array list.
+     * @return the array list
+     */
+    public ArrayList<Field> getLegalMovesRevelation(){
+        //get legal Moves for revelation
+        ArrayList<Field> legalMoves=new ArrayList<>();
+        Field[][] currentFields=ChessBoard.getInstance().getBoardFields();
+
+        for (Field[] currentField : currentFields) {
+            for (Field field : currentField) {
+                if (field.getCurrentPiece() != null && field.getCurrentPiece().getPlayingPieceType() == ChessPieceType.BISHOP && field.getCurrentPiece().getColour() == colour) {
+                    legalMoves.add(field);
+                }
+            }
+        }
+
+        return legalMoves;
+    }
+
+    /**
+     * Get legal moves lost castle array list.
+     * @return the array list
+     */
+    public ArrayList<Field> getLegalMovesLostCastle(){
+        //get legal Moves for lost Castle
+        ArrayList<Field> legalMoves=new ArrayList<>();
+        Field[][] currentFields=ChessBoard.getInstance().getBoardFields();
+
+        for (Field[] currentField : currentFields) {
+            for (Field field : currentField) {
+                if (field.getCurrentPiece() != null && field.getCurrentPiece().getPlayingPieceType() == ChessPieceType.ROOK && field.getCurrentPiece().getColour() != colour) {
+                    legalMoves.add(field);
+                }
+            }
+        }
+
+        return legalMoves;
+    }
+
+    /**
+     * Get legal moves holy quest array list.
+     * @return the array list
+     */
+    public ArrayList<Field> getLegalMovesHolyQuest(){
+        //get legal Moves for holy Quest
+        ArrayList<Field> legalMoves=new ArrayList<>();
+        Field[][] currentFields=ChessBoard.getInstance().getBoardFields();
+
+        for (Field[] currentField : currentFields) {
+            for (Field field : currentField) {
+                if (field.getCurrentPiece() != null && field.getCurrentPiece().getPlayingPieceType() == ChessPieceType.KNIGHT && field.getCurrentPiece().getColour() != colour) {
+                    legalMoves.add(field);
+                }
+            }
+        }
+
+        return legalMoves;
+    }
+
+
     public void setTargetPosition(Field position){this.targetPosition=position;}
 
     public void setUpdateMovementOffset(boolean Boolean){this.updateMovementOffset=Boolean;}

@@ -19,15 +19,23 @@ public class EndScreen extends AppCompatActivity {
 
         TextView endMsg = findViewById(R.id.txtEnd);
         if(ChessBoard.getInstance().getGameState() == GameState.LOOSE){
-            endMsg.setText("SORRY. YOU LOST. WANT TO TRY AGAIN?");
+            endMsg.setText("SORRY. \n YOU LOST. \n WANT TO TRY AGAIN?");
         }else if(ChessBoard.getInstance().getGameState() == GameState.WIN) {
-            endMsg.setText("CONGRATULATIONS! YOU WON! WANNA GO AGAIN?");
+            endMsg.setText("CONGRATULATIONS! \n YOU WON! \n WANNA GO AGAIN?");
         }
 
         Button backHome = findViewById(R.id.btnHome);
         backHome.setOnClickListener(v -> {
-                Intent createSessionIntent = new Intent(this, HomeActivity.class);
+                Intent createSessionIntent = new Intent(this, CreateSession.class);
+                createSessionIntent.putExtra("name", CreateSession.name);
                 startActivity(createSessionIntent);
+        });
+
+        Button playAgain = findViewById(R.id.playAgain);
+        playAgain.setOnClickListener(v -> {
+            Intent createSessionIntent = new Intent(this, GameActivity.class);
+            createSessionIntent.putExtra("name", CreateSession.name);
+            startActivity(createSessionIntent);
         });
     }
 }

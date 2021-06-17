@@ -278,8 +278,8 @@ abstract public class ChessPiece extends View {
             return;
         }
         moveSound_start.stop();
-        moveSound_start.reset();
-        moveSound_end.reset();
+        moveSound_start.release();
+        moveSound_end.release();
         moveSound_end = MediaPlayer.create(context,R.raw.chessmatemove_end);
         moveSound_end.start();
     }

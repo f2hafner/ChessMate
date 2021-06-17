@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.game.chessmate.EndScreen;
 import com.game.chessmate.GameActivity;
 import com.game.chessmate.GameFiles.Networking.NetworkManager;
+import com.game.chessmate.GameFiles.Networking.NetworkTasks;
 import com.game.chessmate.GameFiles.PlayingPieces.Bishop;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
@@ -246,11 +247,13 @@ public class ChessBoard {
                         }
                         Log.d("DEBUG", "CHECKING FOR CHECKMATE");
                         if(checkMate() || getLocalKing() == null){
+                            Log.d(TAG, "handleFieldClick: " + "i lost");
                              gameState = gameState.LOOSE;
+                             new NetworkTasks.SendWin();
+
                              Intent intent = new Intent(view.getContext(), EndScreen.class);
                              intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                              view.getContext().startActivity(intent);
-                             NetworkManager.sendWin();
                         }
                     }
 

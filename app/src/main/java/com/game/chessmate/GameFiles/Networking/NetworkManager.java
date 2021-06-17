@@ -3,9 +3,11 @@ package com.game.chessmate.GameFiles.Networking;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.game.chessmate.CreateSession;
 import com.game.chessmate.GameActivity;
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
@@ -18,6 +20,7 @@ import com.game.chessmate.GameFiles.Networking.NetObjects.startGameParameters;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceColour;
 import com.game.chessmate.Lobby;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,15 +36,16 @@ public class NetworkManager {
     public static String currentLobbyCode;
     static ExecutorService service = Executors.newFixedThreadPool(1);
 
-    public static String createSession(String name) {
-        Future<String> future = service.submit(new NetworkTasks.CreateSession(name));
+    public static String createSession(String name){
+            Future<String> future = service.submit(new NetworkTasks.CreateSession(name));
         try{
             String lobbycode = future.get();
             Log.i("NETWORK","LobbyCode: "+lobbycode);
             NetworkManager.currentLobbyCode = lobbycode;
             return lobbycode;
         } catch (InterruptedException | ExecutionException e){
-            Log.e("NETWORK","Couldnt get Value from Future");
+            e.printStackTrace();
+            //Log.e("NETWORK","Couldnt get Value from Future");
             //Thread.currentThread().interrupt();
         }
         return null;

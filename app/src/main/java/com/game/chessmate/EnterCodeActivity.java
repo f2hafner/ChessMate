@@ -37,7 +37,7 @@ public class EnterCodeActivity extends AppCompatActivity {
             lobbyObject[0] = NetworkManager.joinSession(lobbycode.getText().toString(),name);
             if(lobbyObject[0] !=null){
                 if(lobbyObject[0].isClearLobby()){
-                    Toast.makeText(this, lobbyObject[0].getLobbycode(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, lobbyObject[0].getLobbycode(), Toast.LENGTH_LONG).show();
                     lobbyObject[0] =null;
                 } else {
                     Intent toLobbyIntent = new Intent(this, Lobby.class);

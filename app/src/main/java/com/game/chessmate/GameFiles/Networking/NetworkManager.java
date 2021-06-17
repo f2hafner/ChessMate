@@ -31,7 +31,7 @@ public class NetworkManager {
     public static NetworkManager getInstance(){ return NetworkManager.InstanceHolder.INSTANCE; }
     public static ChessPieceColour initialColor;
     public static String currentLobbyCode;
-    static ExecutorService service = Executors.newFixedThreadPool(10);
+    static ExecutorService service = Executors.newFixedThreadPool(1);
 
     public static String createSession(String name) {
         Future<String> future = service.submit(new NetworkTasks.CreateSession(name));
@@ -133,7 +133,11 @@ public class NetworkManager {
                     GameDataObject gameDataObject = (GameDataObject)object;
                     Log.i("LOG","ORG: "+ gameDataObject.getOrigin().toString()+" TRG: "+gameDataObject.getTarget().toString());
 
-                    if (gameDataObject.isMoved()) {
+                    if(gameDataObject.isWin()){
+                        Log.d(TAG, "received: " + gameDataObject +" "+ gameDataObject.isWin());
+                        receiveWin();
+                    }
+                    else if (gameDataObject.isMoved()) {
                         receiveMove(gameDataObject.getOrigin(), gameDataObject.getTarget());
                     }
                     else if (gameDataObject.isUsedCard()) {
@@ -151,6 +155,12 @@ public class NetworkManager {
         Field originField = ChessBoard.getInstance().getBoardFields()[origin.getX()][origin.getY()];
         Field targetField = ChessBoard.getInstance().getBoardFields()[target.getX()][target.getY()];
         originField.getCurrentPiece().move(targetField);
+    }
+
+    public static void receiveWin(){
+        Log.d(TAG, "receiveWin: " + "was called");
+        ChessBoard.getInstance().setGameState(GameState.WIN);
+        ChessBoard.getInstance().redirectToEndScreen();
     }
 
     public static ChessPieceColour getInitialColor() {

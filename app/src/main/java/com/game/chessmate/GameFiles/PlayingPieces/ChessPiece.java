@@ -211,9 +211,8 @@ abstract public class ChessPiece extends View {
             offset = offset.add(vector.div(this.movementSpeed));
             this.setUpdateView(true);
         }
-        else if(!isSwapped){
+        else
             afterMove();
-        }
     }
 
     /**
@@ -222,10 +221,19 @@ abstract public class ChessPiece extends View {
     private void afterMove() {
         stopMoveSoundPlayEndSound();
 
-        if (ChessBoard.getInstance().isCardActivated()){
-            Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
-            if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-                NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),currentPosition, targetPosition);
+        if (ChessBoard.getInstance().isCardActivated()) {
+            if (ChessBoard.getInstance().isCrusadeActivated()) {
+                Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
+                if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+                    NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(), ChessBoard.getInstance().getFirstCrusadeField(), targetPosition);
+                    ChessBoard.getInstance().setCrusadeActivatedFalse();
+                    ChessBoard.getInstance().setFirstCrusadeFieldNull();
+                }
+            } else {
+                Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
+                if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+                    NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(), currentPosition, targetPosition);
+                }
             }
         }
 
@@ -258,9 +266,6 @@ abstract public class ChessPiece extends View {
         else if(ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
             ChessBoard.getInstance().setGameState(GameState.WAITING);
         }
-
-
-        Log.i("GAMESTATE","afterMoveend: " + ChessBoard.getInstance().getGameState());
 
         if (ChessBoard.getInstance().isCardActivated()){
             Log.i("GAMESTATE", "afterCardend: " + ChessBoard.getInstance().getGameState());
@@ -536,4 +541,5 @@ abstract public class ChessPiece extends View {
     public ArrayList<Field> getIsChecking(){
         return this.isChecking;
     }
+
 }

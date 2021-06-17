@@ -69,6 +69,9 @@ public class LobbyManager {
     }
 
     public static void deleteLobby(Lobby lobby){
-
+        if(lobby!=null){
+            ObjectSender.sendBackToCodeScreen(lobby.player2.connection);
+            sessions.remove(lobby);
+        }
     }
 }

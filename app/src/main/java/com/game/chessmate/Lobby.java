@@ -48,9 +48,16 @@ public class Lobby extends AppCompatActivity {
                 if(object instanceof LobbyDataObject){
                     LobbyDataObject req = (LobbyDataObject) object;
                     runOnUiThread(() -> {
-                        player2.setText(req.getPlayer2().getName());
-                        player2.setVisibility(View.VISIBLE);
-                        enterGameLobbyButton.setVisibility(View.VISIBLE);
+                        if(req.isClearLobby()){
+                            Intent backToCodeInputScreen = new Intent(Lobby.this, EnterCodeActivity.class);
+                            backToCodeInputScreen.putExtra("name", name2);
+                            startActivity(backToCodeInputScreen);
+                        } else {
+                            player2.setText(req.getPlayer2().getName());
+                            player2.setVisibility(View.VISIBLE);
+                            enterGameLobbyButton.setVisibility(View.VISIBLE);
+                        }
+
                     });
                 }
 

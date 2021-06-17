@@ -9,7 +9,7 @@ public class Deck {
     private  Card[] deck;
 
     //max size of deck
-    private int size=13;//25
+    private int size=14;//25
 
     //size of deck for each player during game
     private int initialCardNumber=3;
@@ -46,6 +46,15 @@ public class Deck {
             deck[currentCard].setOwned(true);
             currentCard++;
             j++;
+        }
+
+        for (int i=0;i<size;i++){
+            if(deck[i].getId()==9)
+                temp[0]=deck[i];
+            if (deck[i].getId()==0)
+                temp[1]=deck[i];
+            if (deck[i].getId()==13)
+                temp[2]=deck[i];
         }
 
         return temp;

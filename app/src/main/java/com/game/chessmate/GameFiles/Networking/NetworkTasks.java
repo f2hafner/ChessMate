@@ -215,5 +215,4 @@ public class NetworkTasks {
             ChessMateClient.getInstance().getClient().sendTCP(object);
         }
     }
-
 }

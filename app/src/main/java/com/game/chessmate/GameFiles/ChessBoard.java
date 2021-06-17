@@ -74,8 +74,17 @@ public class ChessBoard {
     private Deck deck;
     private boolean isCardActivated=false;
     private Card currentCard;
-    int crusadeNumber=0;
-    boolean crusadeActivated=false;
+    /**
+     * The Special number (Crusade, Bombard)
+     */
+    int specialNumber=0;
+    /**
+     * The Special activated.
+     */
+    boolean specialActivated=false;
+    /**
+     * The First field.
+     */
     Field firstField;
 
     private ChessPieceColour localPlayerColor;
@@ -359,6 +368,7 @@ public class ChessBoard {
 
     /**
      * Searches all fields in boardFields to get King of localPlayer (color determines) and returns him.
+     *
      * @return king of localPlayer
      */
     public ChessPiece getLocalKing() {
@@ -376,7 +386,12 @@ public class ChessBoard {
     }
 
 
-
+    /**
+     * Do card action.
+     *
+     * @param event the event
+     * @param id    the id
+     */
     public void doCardAction(MotionEvent event, int id) {
         Log.i(TAG, "doCardAction: " + gameState);
         if (gameState == GameState.WAITING) {
@@ -615,16 +630,16 @@ public class ChessBoard {
                             break;
 
                         case 13: //crusade
-                            if (localPlayer.getLastSelectedField() == null && crusadeNumber==0) { //first click
+                            if (localPlayer.getLastSelectedField() == null && specialNumber==0) { //first click
                                 if (clickedPiece != null && clickedPieceType == ChessPieceType.BISHOP && clickedPieceColor == localPlayerColor) {
                                     afterFirstClickAfterCardSelection(clickedField, clickedPiece.getLegalFields());
-                                    crusadeNumber=1;
-                                    crusadeActivated=true;
+                                    specialNumber=1;
+                                    specialActivated=true;
                                     firstField=clickedField;
                                 } else
                                     GameActivity.unselectAfterCardActivation();
                             }
-                            else if (crusadeNumber==1){ //second click
+                            else if (specialNumber==1){ //second click
                                 if (localPlayer.getLegalMovesSelected().contains(clickedField)) {
                                     clickedField.setCurrentPiece(localPlayer.getLastSelectedField().getCurrentPiece());
                                     localPlayer.getLastSelectedField().getCurrentPiece().setCurrentPosition(clickedField);
@@ -633,30 +648,97 @@ public class ChessBoard {
 
                                     resetLegalMoves();
                                     afterFirstClickAfterCardSelection(clickedField,clickedField.getCurrentPiece().getLegalFields());
-                                    crusadeNumber=2;
+                                    specialNumber=2;
                                 }
                                 else{
                                     localPlayer.setLastSelectedField(null);
                                     resetLegalMoves();
                                     GameActivity.unselectAfterCardActivation();
-                                    crusadeNumber=0;
+                                    specialNumber=0;
                                     firstField=null;
-                                    crusadeActivated=false;
+                                    specialActivated=false;
                                 }
                             }
                             else {//third click
                                 if (localPlayer.getLegalMovesSelected().contains(clickedField)) {
                                     cards[id].crusade(localPlayer.getLastSelectedField().getCurrentPiece(), clickedField);
                                     afterCardActivation(id);
-                                    crusadeNumber=0;
+                                    specialNumber=0;
 
                                 } else {
                                     localPlayer.setLastSelectedField(null);
                                     resetLegalMoves();
                                     GameActivity.unselectAfterCardActivation();
-                                    crusadeNumber=0;
+                                    specialNumber=0;
                                     firstField=null;
-                                    crusadeActivated=false;
+                                    specialActivated=false;
+                                }
+                            }
+                            break;
+
+                        case 14: //ManOfStraw
+                            if (localPlayer.getLastSelectedField() == null) { //first click
+                                if (clickedPiece != null && clickedPieceType == ChessPieceType.KING && clickedPieceColor==localPlayerColor) {
+                                    afterFirstClickAfterCardSelection(clickedField, clickedPiece.getLegalMovesManOfStraw());
+                                } else
+                                    GameActivity.unselectAfterCardActivation();
+                            }
+                            else {//second click
+                                if (localPlayer.getLegalMovesSelected().contains(clickedField)) {
+                                    cards[id].manOfStraw(localPlayer.getLastSelectedField().getCurrentPiece(), clickedPiece);
+                                    afterCardActivation(id);
+                                } else {
+                                    localPlayer.setLastSelectedField(null);
+                                    resetLegalMoves();
+                                    GameActivity.unselectAfterCardActivation();
+                                }
+                            }
+                            break;
+
+                        case 15: //Bombard
+                            if (localPlayer.getLastSelectedField() == null && specialNumber==0) { //first click
+                                if (clickedPiece != null && clickedPieceType == ChessPieceType.ROOK && clickedPieceColor == localPlayerColor) {
+                                    specialNumber=1;
+                                    specialActivated=true;
+                                    firstField=clickedField;
+                                    afterFirstClickAfterCardSelection(clickedField, clickedPiece.getLegalFields());
+                                } else
+                                    GameActivity.unselectAfterCardActivation();
+                            }
+                            else if (specialNumber==1){ //second click
+                                if (localPlayer.getLegalMovesSelected().contains(clickedField)) {
+                                    //move Piece
+                                    clickedField.setCurrentPiece(localPlayer.getLastSelectedField().getCurrentPiece());
+                                    localPlayer.getLastSelectedField().getCurrentPiece().setCurrentPosition(clickedField);
+                                    localPlayer.getLastSelectedField().setCurrentPiece(null);
+                                    clickedField.getCurrentPiece().setUpdateView(true);
+
+                                    resetLegalMoves();
+                                    afterFirstClickAfterCardSelection(clickedField,clickedField.getCurrentPiece().getLegalFields()); //get normal fields
+                                    specialNumber=2;
+                                }
+                                else{
+                                    localPlayer.setLastSelectedField(null);
+                                    resetLegalMoves();
+                                    GameActivity.unselectAfterCardActivation();
+                                    specialNumber=0;
+                                    firstField=null;
+                                    specialActivated=false;
+                                }
+                            }
+                            else {//third click
+                                if (localPlayer.getLegalMovesSelected().contains(clickedField)) {
+                                    cards[id].bombard(localPlayer.getLastSelectedField().getCurrentPiece(), clickedField);
+                                    afterCardActivation(id);
+                                    specialNumber=0;
+
+                                } else {
+                                    localPlayer.setLastSelectedField(null);
+                                    resetLegalMoves();
+                                    GameActivity.unselectAfterCardActivation();
+                                    specialNumber=0;
+                                    firstField=null;
+                                    specialActivated=false;
                                 }
                             }
                             break;
@@ -669,6 +751,12 @@ public class ChessBoard {
         }
     }
 
+    /**
+     * After first click after card selection.
+     *
+     * @param clickedField the clicked field
+     * @param legalMoves   the legal moves
+     */
     public void afterFirstClickAfterCardSelection(Field clickedField, ArrayList<Field> legalMoves) {
         localPlayer.setLastSelectedField(clickedField);
         localPlayer.setLegalMovesSelected(legalMoves);
@@ -678,6 +766,11 @@ public class ChessBoard {
         }
     }
 
+    /**
+     * After card activation.
+     *
+     * @param id the id
+     */
     public void afterCardActivation(int id) {
         localPlayer.setLastSelectedField(null);
         resetLegalMoves();
@@ -688,7 +781,14 @@ public class ChessBoard {
         GameActivity.unselectAfterCardActivation(); //mark card "unselected"
     }
 
-    //receive Card from Network
+    /**
+     * Receive card action.
+     *
+     * @param cardId the card id
+     * @param field1 the field 1
+     * @param field2 the field 2
+     */
+//receive Card from Network
     public void receiveCardAction(int cardId, Field field1, Field field2){
         Card card=deck.getSpecificCard(cardId);
         deck.setLastCardPlayed(card);
@@ -749,7 +849,15 @@ public class ChessBoard {
                 card.crusade(field1.getCurrentPiece(),field2);
                 break;
 
+            case 14: //Man of Straw
+                card.manOfStraw(field1.getCurrentPiece(),field2.getCurrentPiece());
+                break;
 
+            case 15: //bombard
+                card.bombard(field1.getCurrentPiece(),field2);
+                break;
+
+            case 16: //
         }
     }
 
@@ -780,6 +888,9 @@ public class ChessBoard {
         return endPosition;
     }
 
+    /**
+     * Reset legal moves.
+     */
     public void resetLegalMoves() {
         for (Field f : localPlayer.getLegalMovesSelected()) {
             f.setRectangleDefaultColor();
@@ -917,10 +1028,20 @@ public class ChessBoard {
     }
 
 
+    /**
+     * Gets game state.
+     *
+     * @return the game state
+     */
     public GameState getGameState() {
         return gameState;
     }
 
+    /**
+     * Sets game state.
+     *
+     * @param gameState the game state
+     */
     public void setGameState(GameState gameState) {
         if (view != null) {
             GameActivity a = (GameActivity) view.getContext();
@@ -929,50 +1050,116 @@ public class ChessBoard {
         this.gameState = gameState;
     }
 
+    /**
+     * Gets deck.
+     *
+     * @return the deck
+     */
     public Deck getDeck() {
         return this.deck;
     }
 
+    /**
+     * Get cards player card [ ].
+     *
+     * @return the card [ ]
+     */
     public Card[] getCardsPlayer(){
         return localPlayer.getCurrentCards();
     }
 
+    /**
+     * Is card activated boolean.
+     *
+     * @return the boolean
+     */
     public boolean isCardActivated(){return this.isCardActivated;}
 
+    /**
+     * Sets card activated.
+     *
+     * @param cardActivated the card activated
+     */
     public void setCardActivated(boolean cardActivated) {
         isCardActivated = cardActivated;
     }
 
+    /**
+     * Redirect to end screen.
+     */
     public void redirectToEndScreen(){
         Intent intent = new Intent(view.getContext(), EndScreen.class);
         view.getContext().startActivity(intent);
     }
 
+    /**
+     * Gets current card.
+     *
+     * @return the current card
+     */
     public Card getCurrentCard() {
         return currentCard;
     }
 
+    /**
+     * Is sound on boolean.
+     *
+     * @return the boolean
+     */
     public boolean isSoundOn() {
         return soundOn;
     }
 
+    /**
+     * Sets sound on.
+     *
+     * @param soundOn the sound on
+     */
     public void setSoundOn(boolean soundOn) {
         this.soundOn = soundOn;
     }
 
+    /**
+     * Gets moved piece.
+     *
+     * @return the moved piece
+     */
     public ChessPiece getMovedPiece() {
         return movedPiece;
     }
 
+    /**
+     * Sets moved piece.
+     *
+     * @param movedPiece the moved piece
+     */
     public void setMovedPiece(ChessPiece movedPiece) {
         this.movedPiece = movedPiece;
     }
 
-    public Field getFirstCrusadeField(){return firstField;}
+    /**
+     * Get first crusade field field.
+     *
+     * @return the field
+     */
+    public Field getFirstField(){return firstField;}
 
-    public void setFirstCrusadeFieldNull(){this.firstField=null;}
+    /**
+     * Set first crusade field null.
+     */
+    public void setFirstFieldNull(){this.firstField=null;}
 
-    public boolean isCrusadeActivated(){return this.crusadeActivated;}
+    /**
+     * Is crusade activated boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isSpecialActivated(){return this.specialActivated;}
 
-    public void setCrusadeActivatedFalse(){this.crusadeActivated=false;}
+    /**
+     * Set crusade activated false.
+     */
+    public void setSpecialActivatedFalse(){this.specialActivated=false;}
+
+    public int getSpecialNumber(){return this.specialNumber;}
 }

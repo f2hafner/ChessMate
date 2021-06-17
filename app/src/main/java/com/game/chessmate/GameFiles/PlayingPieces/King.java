@@ -21,6 +21,10 @@ public class King extends ChessPiece {
      * Instantiates a new King.
      *
      * @param position the position
+     * @param sprite   the sprite
+     * @param context  the context
+     * @param attrs    the attrs
+     * @param color    the color
      */
     public King(Field position, Bitmap sprite, Context context, @Nullable AttributeSet attrs, ChessPieceColour color) {
         super(context, attrs, position, sprite, color);

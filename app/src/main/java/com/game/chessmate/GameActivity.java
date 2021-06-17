@@ -229,6 +229,7 @@ public class GameActivity extends AppCompatActivity {
      * @return the cheat button
      */
     public Button getCheatButton() {
+        cheatButton=findViewById(R.id.cheatButton);
         return cheatButton;
     }
 

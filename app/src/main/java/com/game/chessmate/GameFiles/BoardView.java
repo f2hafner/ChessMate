@@ -25,6 +25,9 @@ public class BoardView extends ViewGroup {
     private ChessBoard board;
     private Thread thread;
     private RenderThread runnable;
+    /**
+     * The Game state view.
+     */
     TextView gameStateView;
 
     /**

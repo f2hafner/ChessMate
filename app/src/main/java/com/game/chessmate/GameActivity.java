@@ -1,6 +1,5 @@
 package com.game.chessmate;
 import android.app.Service;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
@@ -29,18 +28,31 @@ import com.game.chessmate.GameFiles.GameState;
  */
 public class GameActivity extends AppCompatActivity {
 
+    //Declaring Card-Variables
     private static ImageView card1, card2, card3, exactView;
     private static Button button;
     private static int id = 3;
     private static boolean selected;
-
     private MediaPlayer cardSelectSound;
 
+    /**
+     * The Player.
+     */
+    Player player;
+
+    //Declaring CheatFunction-Variables
     private Sensor sensor;
     private SensorManager sensorManager;
     private SensorEventListener lightEventListener;
     private float maxValue;
     private TextView gameStateView;
+    private static boolean isCheatOn = false;
+
+    /**
+     * The Cheat button.
+     */
+    Button cheatButton;
+
 
 
     @Override
@@ -49,12 +61,15 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         getSupportActionBar().hide();
 
+        //initialise Sound Effect
         cardSelectSound=MediaPlayer.create(this,R.raw.mixkit_card_select);
         this.cardSelectSound.setVolume(1.0f,1.0f);
 
+        //initialise Sensor
         sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
+        //initialise Game-State-View
         gameStateView = findViewById(R.id.gameStateView);
         gameStateView.setTextSize(18);
         gameStateView.setTextColor(Color.BLACK);
@@ -62,12 +77,11 @@ public class GameActivity extends AppCompatActivity {
         gameStateView.setTypeface(null, Typeface.BOLD);
         gameStateView.setText("The Game started !");
 
-        Button cheatButton = getCheatButton();
-
-        Player player = ChessBoard.getInstance().getLocalPlayer();
+        cheatButton = getCheatButton();
+        player = ChessBoard.getInstance().getLocalPlayer();
 
         if (sensor == null) {
-            Toast.makeText(this, "your device has no light sensore, so you wont be able to use the cheat funktion", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "your device has no light sensor, so you wont be able to use the cheat function", Toast.LENGTH_SHORT).show();
             CheatFunktion.setCheatFunction(false);
         } else {
             CheatFunktion.setCheatFunction(true);
@@ -75,7 +89,6 @@ public class GameActivity extends AppCompatActivity {
         }
 
          //Cheat-Function
-
         maxValue = sensor.getMaximumRange();
         lightEventListener = new SensorEventListener() {
             @Override
@@ -95,143 +108,114 @@ public class GameActivity extends AppCompatActivity {
             }
         };
 
+        cheatButton.setOnClickListener(v -> {
+            //TODO How to distinguish who pressed the button
+            if (cheatButton.getText().toString().matches("Cheat Off")) {
+                cheatButton.setText("Cheat On");
+                player.setCheatOn(true);
+                cheatButton.setTextColor(getApplication().getResources().getColor(R.color.black));
+                isCheatOn = true;
+                cheatButton.setBackgroundColor(getResources().getColor(R.color.white));
 
+            } else if (cheatButton.getText().toString().matches("Cheat On")) {
+                cheatButton.setText("Cheat Off");
+                isCheatOn = false;
+                ChessBoard.getInstance().resetLegalMoves();
+                player.setCheatOn(false);
+                cheatButton.setTextColor(getApplication().getResources().getColor(R.color.white));
+                cheatButton.setBackgroundColor(getResources().getColor(R.color.black));
 
-
-        cheatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO How to distinguish who pressed the button
-                if (cheatButton.getText().toString().matches("Cheat Off")) {
-                    cheatButton.setText("Cheat On");
-                    player.setCheatOn(true);
-                    cheatButton.setTextColor(getApplication().getResources().getColor(R.color.black));
-                    isCheatOn = true;
-                    cheatButton.setBackgroundColor(getResources().getColor(R.color.white));
-
-                } else if (cheatButton.getText().toString().matches("Cheat On")) {
-                    cheatButton.setText("Cheat Off");
-                    isCheatOn = false;
-                    ChessBoard.getInstance().resetLegalMoves();
-                    player.setCheatOn(false);
-                    cheatButton.setTextColor(getApplication().getResources().getColor(R.color.white));
-                    cheatButton.setBackgroundColor(getResources().getColor(R.color.black));
-
-                }
             }
         });
 
 
-        card1 = (ImageView) findViewById(R.id.cardView1);
-        card2 = (ImageView) findViewById(R.id.cardView2);
-        card3 = (ImageView) findViewById(R.id.cardView3);
-        exactView = (ImageView) findViewById(R.id.exactView);
-        button = (Button) findViewById(R.id.back);
+
+
+        //initialising Card Variables
+        card1 = findViewById(R.id.cardView1);
+        card2 = findViewById(R.id.cardView2);
+        card3 = findViewById(R.id.cardView3);
+        exactView = findViewById(R.id.exactView);
+        button = findViewById(R.id.back);
 
 
         //Select Card
-        exactView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //start sound
-                cardSelectSound.start();
+        exactView.setOnClickListener(v -> {
+            //start sound
+            cardSelectSound.start();
 
-                //mark card selected
-                exactView.setVisibility(View.GONE);
-                selected = true;
-                switch (id) {
-                    case 0:
-                        card1.setVisibility(View.VISIBLE);
-                        card1.setBackgroundColor(Color.RED);
-                        break;
-                    case 1:
-                        card2.setVisibility(View.VISIBLE);
-                        card2.setBackgroundColor(Color.RED);
-                        break;
-                    case 2:
-                        card3.setVisibility(View.VISIBLE);
-                        card3.setBackgroundColor(Color.RED);
-                        break;
-                }
+            //mark card selected
+            exactView.setVisibility(View.GONE);
+            selected = true;
+            switch (id) {
+                case 0:
+                    card1.setVisibility(View.VISIBLE);
+                    card1.setBackgroundColor(Color.RED);
+                    break;
+                case 1:
+                    card2.setVisibility(View.VISIBLE);
+                    card2.setBackgroundColor(Color.RED);
+                    break;
+                case 2:
+                    card3.setVisibility(View.VISIBLE);
+                    card3.setBackgroundColor(Color.RED);
+                    break;
             }
         });
 
         //close card
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                exactView.setVisibility(View.GONE);
-                button.setVisibility(View.INVISIBLE);
-                switch (id) {
-                    case 0:
-                        card1.setVisibility(View.VISIBLE);
-                        card1.setBackgroundColor(Color.WHITE);
-                        break;
-                    case 1:
-                        card2.setVisibility(View.VISIBLE);
-                        card2.setBackgroundColor(Color.WHITE);
-                        break;
-                    case 2:
-                        card3.setVisibility(View.VISIBLE);
-                        card3.setBackgroundColor(Color.WHITE);
-                        break;
-                }
-                id = 3;
-                selected = false;
-            }
+        button.setOnClickListener(v -> {
+            //mark card unselected
+            exactView.setVisibility(View.GONE);
+            unselectAfterCardActivation();
         });
 
 
         //click on first card
-        card1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (id == 3 || id == 0) {
-                    exactView.setImageResource(ChessBoard.getInstance().getCardsPlayer()[0].getDrawableId());
-                    exactView.setVisibility(View.VISIBLE);
-                    card1.setVisibility(View.INVISIBLE);
-                    button.setVisibility(View.VISIBLE);
-                    id = 0;
-                }
+        card1.setOnClickListener(v -> {
+            //show first card and button
+            if (id == 3 || id == 0) {
+                exactView.setImageResource(ChessBoard.getInstance().getCardsPlayer()[0].getDrawableId());
+                exactView.setVisibility(View.VISIBLE);
+                card1.setVisibility(View.INVISIBLE);
+                button.setVisibility(View.VISIBLE);
+                id = 0;
             }
         });
 
         //click on second card
-        card2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (id == 3 || id == 1) {
-                    exactView.setImageResource(ChessBoard.getInstance().getCardsPlayer()[1].getDrawableId());
-                    exactView.setVisibility(View.VISIBLE);
-                    card2.setVisibility(View.INVISIBLE);
-                    button.setVisibility(View.VISIBLE);
-                    id = 1;
-                }
+        card2.setOnClickListener(v -> {
+            //show second card and button
+            if (id == 3 || id == 1) {
+                exactView.setImageResource(ChessBoard.getInstance().getCardsPlayer()[1].getDrawableId());
+                exactView.setVisibility(View.VISIBLE);
+                card2.setVisibility(View.INVISIBLE);
+                button.setVisibility(View.VISIBLE);
+                id = 1;
             }
         });
 
         //click on third card
-        card3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (id == 3 || id == 2) {
-                    exactView.setImageResource(ChessBoard.getInstance().getCardsPlayer()[2].getDrawableId());
-                    exactView.setVisibility(View.VISIBLE);
-                    card3.setVisibility(View.INVISIBLE);
-                    button.setVisibility(View.VISIBLE);
-                    id = 2;
-                }
+        card3.setOnClickListener(v -> {
+            //show third card and button
+            if (id == 3 || id == 2) {
+                exactView.setImageResource(ChessBoard.getInstance().getCardsPlayer()[2].getDrawableId());
+                exactView.setVisibility(View.VISIBLE);
+                card3.setVisibility(View.INVISIBLE);
+                button.setVisibility(View.VISIBLE);
+                id = 2;
             }
         });
 
 
     }
+
+    //Methods for sensor
     @Override
     public void onPause() {
         super.onPause();
         sensorManager.unregisterListener(lightEventListener);
     }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -245,12 +229,8 @@ public class GameActivity extends AppCompatActivity {
      * @return the cheat button
      */
     public Button getCheatButton() {
-        Button cheatButton = findViewById(R.id.cheatButton);
         return cheatButton;
     }
-
-    private static boolean isCheatOn = false;
-
 
     /**
      * Cheat button status boolean.
@@ -261,14 +241,27 @@ public class GameActivity extends AppCompatActivity {
         return isCheatOn;
     }
 
+    /**
+     * Is card selected boolean.
+     *
+     * @return the boolean
+     */
     public static boolean isSelected(){
         return selected;
     }
 
+    /**
+     * Get id int.
+     *
+     * @return the int
+     */
     public static int getId(){
         return id;
     }
 
+    /**
+     * Unselect after card activation.
+     */
     public static void unselectAfterCardActivation(){
         button.setVisibility(View.INVISIBLE);
         switch (id) {
@@ -289,6 +282,11 @@ public class GameActivity extends AppCompatActivity {
         selected=false;
     }
 
+    /**
+     * Sets game state view.
+     *
+     * @param gameState the game state
+     */
     public void setGameStateView(GameState gameState) {
         gameStateView = findViewById(R.id.gameStateView);
         if (gameStateView != null) {

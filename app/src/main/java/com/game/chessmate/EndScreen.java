@@ -27,7 +27,15 @@ public class EndScreen extends AppCompatActivity {
         Button backHome = findViewById(R.id.btnHome);
         backHome.setOnClickListener(v -> {
                 Intent createSessionIntent = new Intent(this, CreateSession.class);
+                createSessionIntent.putExtra("name", CreateSession.name);
                 startActivity(createSessionIntent);
+        });
+
+        Button playAgain = findViewById(R.id.playAgain);
+        playAgain.setOnClickListener(v -> {
+            Intent createSessionIntent = new Intent(this, GameActivity.class);
+            createSessionIntent.putExtra("name", CreateSession.name);
+            startActivity(createSessionIntent);
         });
     }
 }

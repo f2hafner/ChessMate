@@ -16,6 +16,8 @@ import com.game.chessmate.GameFiles.Networking.NetworkManager;
 
 public class CreateSession extends AppCompatActivity {
 
+    public static String name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,7 @@ public class CreateSession extends AppCompatActivity {
         Button rules =(Button) findViewById(R.id.rulesButton);
 
         TextView namedisplay = findViewById(R.id.playerName);
-        String name = getIntent().getExtras().getString("name");
+        name = getIntent().getExtras().getString("name");
 
         namedisplay.setText("Welcome "+ name);
         final String[] lobbycode = new String[1];

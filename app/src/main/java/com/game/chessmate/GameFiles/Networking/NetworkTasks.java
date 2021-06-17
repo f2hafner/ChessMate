@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.GameFiles.Networking.NetObjects.ErrorPacket;
 import com.game.chessmate.GameFiles.Networking.NetObjects.FieldDataObject;
 import com.game.chessmate.GameFiles.Networking.NetObjects.GameDataObject;
@@ -183,5 +184,35 @@ public class NetworkTasks {
         }
     }
 
+    public static class SendCard extends Thread {
+        int id;
+        Field field1;
+        Field field2;
 
+        public SendCard(int id, Field field1, Field field2) {
+            this.id=id;
+            this.field1=field1;
+            this.field2=field2;
+            this.start();
+        }
+
+        @Override
+        public void run() {
+            FieldDataObject tempField1 = new FieldDataObject();
+            tempField1.setX(field1.getFieldX());
+            tempField1.setY(field1.getFieldY());
+
+            FieldDataObject tempField2=new FieldDataObject();
+            tempField2.setX(field2.getFieldX());
+            tempField2.setY(field2.getFieldY());
+
+            GameDataObject object = new GameDataObject();
+            object.setCardId(id);
+            object.setOrigin(tempField1);
+            object.setTarget(tempField2);
+            object.setUsedCard(true);
+            object.setLobbyCode(NetworkManager.currentLobbyCode);
+            ChessMateClient.getInstance().getClient().sendTCP(object);
+        }
+    }
 }

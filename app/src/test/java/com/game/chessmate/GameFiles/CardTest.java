@@ -1,7 +1,14 @@
 package com.game.chessmate.GameFiles;
 
 
+import android.content.Context;
+
+import androidx.core.app.RemoteInput;
+
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -37,123 +44,129 @@ public class CardTest {
 
     Card card;
 
+    @Mock
+    private Context context;
+
+    @Before
+    public void init(){
+        context= Mockito.mock(Context.class);
+        card=new Card(0,context);
+    }
+
     @Test
     public void testInit(){
 
-        card=new Card(0);
+        card=new Card(0,context);
         assertEquals(n0,card.getName());
 
-        card=new Card(1);
+        card=new Card(1,context);
         assertEquals(n1,card.getName());
 
-        card=new Card(2);
+        card=new Card(2,context);
         assertEquals(n2,card.getName());
 
-        card=new Card(3);
+        card=new Card(3,context);
         assertEquals(n3,card.getName());
 
-        card=new Card(4);
+        card=new Card(4,context);
         assertEquals(n4,card.getName());
 
-        card=new Card(5);
+        card=new Card(5,context);
         assertEquals(n5,card.getName());
 
-        card=new Card(6);
+        card=new Card(6,context);
         assertEquals(n6,card.getName());
 
-        card=new Card(7);
+        card=new Card(7,context);
         assertEquals(n7,card.getName());
 
-        card=new Card(8);
+        card=new Card(8,context);
         assertEquals(n8,card.getName());
 
-        card=new Card(9);
+        card=new Card(9,context);
         assertEquals(n9,card.getName());
 
-        card=new Card(10);
+        card=new Card(10,context);
         assertEquals(n10,card.getName());
 
-        card=new Card(11);
+        card=new Card(11,context);
         assertEquals(n11,card.getName());
 
-        card=new Card(12);
+        card=new Card(12,context);
         assertEquals(n12,card.getName());
 
-        card=new Card(13);
+        card=new Card(13,context);
         assertEquals(n13,card.getName());
 
-        card=new Card(14);
+        card=new Card(14,context);
         assertEquals(n14,card.getName());
 
-        card=new Card(15);
+        card=new Card(15,context);
         assertEquals(n15,card.getName());
 
-        card=new Card(16);
+        card=new Card(16,context);
         assertEquals(n16,card.getName());
 
-        card=new Card(17);
+        card=new Card(17,context);
         assertEquals(n17,card.getName());
 
-        card=new Card(18);
+        card=new Card(18,context);
         assertEquals(n18,card.getName());
 
-        card=new Card(19);
+        card=new Card(19,context);
         assertEquals(n19,card.getName());
 
-        card=new Card(20);
+        card=new Card(20,context);
         assertEquals(n20,card.getName());
 
-        card=new Card(21);
+        card=new Card(21,context);
         assertEquals(n21,card.getName());
 
-        card=new Card(22);
+        card=new Card(22,context);
         assertEquals(n22,card.getName());
 
-        card=new Card(23);
+        card=new Card(23,context);
         assertEquals(n23,card.getName());
 
-        card=new Card(24);
+        card=new Card(24,context);
         assertEquals(n24,card.getName());
     }
 
     @Test
     public void testInitFailure(){
-        assertThrows(IllegalArgumentException.class, () -> {new Card(25);});
+        assertThrows(IllegalArgumentException.class, () -> {new Card(25,context);});
     }
 
     @Test
     public void testContinuingTillEnd(){
-        card=new Card(15);
+        card=new Card(15,context);
         assertTrue(card.isContinuingUntilEnd());
 
-        card=new Card(0);
+        card=new Card(0,context);
         assertFalse(card.isContinuingUntilEnd());
     }
 
     @Test
     public void testContinuingTillCaptured(){
-        card=new Card(19);
+        card=new Card(19,context);
         assertTrue(card.isContinuingUntilCaptured());
 
-        card=new Card(0);
+        card=new Card(0,context);
         assertFalse(card.isContinuingUntilCaptured());
     }
 
     @Test
     public void testGetDesc(){
-        card=new Card(0);
         assertEquals("Move one of your opponent's pawns one or two squares backward. It may not enter or cross an occupied square.",card.getDesc());
     }
 
     @Test
     public void testGetUseCase(){
-        card=new Card(0);
         assertEquals("[i] Play this card immediately after your move",card.getUseCase());
     }
 
     @Test
     public void testOwned(){
-        card=new Card(0);
         assertFalse(card.isOwned());
 
         card.setOwned(true);

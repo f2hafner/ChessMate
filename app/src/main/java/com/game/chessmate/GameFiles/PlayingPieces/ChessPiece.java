@@ -16,6 +16,7 @@ import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.GameFiles.GameState;
 import com.game.chessmate.GameFiles.Networking.NetworkManager;
+import com.game.chessmate.GameFiles.Networking.NetworkTasks;
 import com.game.chessmate.GameFiles.Vector;
 import com.game.chessmate.OptionsActivity;
 import com.game.chessmate.R;
@@ -58,8 +59,6 @@ abstract public class ChessPiece extends View {
     private ChessBoard board;
     protected boolean opponentEncountered = false;
     private boolean isChampion=false;
-    private boolean isSwapped=false;
-    private ChessPiece swapPiece=null;
     private MediaPlayer moveSound_start;
     private MediaPlayer moveSound_end;
     private Context context;
@@ -211,9 +210,8 @@ abstract public class ChessPiece extends View {
             offset = offset.add(vector.div(this.movementSpeed));
             this.setUpdateView(true);
         }
-        else if(!isSwapped){
+        else
             afterMove();
-        }
     }
 
     /**
@@ -222,10 +220,20 @@ abstract public class ChessPiece extends View {
     private void afterMove() {
         stopMoveSoundPlayEndSound();
 
-        if (ChessBoard.getInstance().isCardActivated()){
-            Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
-            if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-                NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),currentPosition, targetPosition);
+        if (ChessBoard.getInstance().isCardActivated()) {
+            if (ChessBoard.getInstance().isCrusadeActivated()) {
+                Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
+                if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+                    new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(), ChessBoard.getInstance().getFirstCrusadeField(), targetPosition);
+                    ChessBoard.getInstance().setCrusadeActivatedFalse();
+                    ChessBoard.getInstance().setFirstCrusadeFieldNull();
+                }
+            } else {
+                Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
+                if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
+                    new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(), currentPosition, targetPosition);
+
+                }
             }
         }
 
@@ -241,10 +249,6 @@ abstract public class ChessPiece extends View {
         this.currentPosition = targetPosition;
         targetPosition.setCurrentPiece(this);
 
-        //swap-Move (card)
-        swapPiece=null;
-        isSwapped=false;
-
         if (this.isChampion()){
             targetPosition.markChampion();
             targetPosition.invalidate();
@@ -258,9 +262,6 @@ abstract public class ChessPiece extends View {
         else if(ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
             ChessBoard.getInstance().setGameState(GameState.WAITING);
         }
-
-
-        Log.i("GAMESTATE","afterMoveend: " + ChessBoard.getInstance().getGameState());
 
         if (ChessBoard.getInstance().isCardActivated()){
             Log.i("GAMESTATE", "afterCardend: " + ChessBoard.getInstance().getGameState());
@@ -277,8 +278,8 @@ abstract public class ChessPiece extends View {
             return;
         }
         moveSound_start.stop();
-        moveSound_start.reset();
-        moveSound_end.reset();
+        moveSound_start.release();
+        moveSound_end.release();
         moveSound_end = MediaPlayer.create(context,R.raw.chessmatemove_end);
         moveSound_end.start();
     }
@@ -529,11 +530,9 @@ abstract public class ChessPiece extends View {
 
     public Field getTargetPosition(){return this.targetPosition;}
 
-    public void setSwapPiece(ChessPiece piece){
-        isSwapped=true;
-        swapPiece=piece;
-    }
+
     public ArrayList<Field> getIsChecking(){
         return this.isChecking;
     }
+
 }

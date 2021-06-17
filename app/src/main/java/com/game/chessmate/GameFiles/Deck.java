@@ -1,5 +1,7 @@
 package com.game.chessmate.GameFiles;
 
+import android.content.Context;
+
 import java.security.SecureRandom;
 import java.util.Random;
 
@@ -9,7 +11,7 @@ public class Deck {
     private  Card[] deck;
 
     //max size of deck
-    private int size=13;//25
+    private int size=14;//25
 
     //size of deck for each player during game
     private int initialCardNumber=3;
@@ -25,11 +27,11 @@ public class Deck {
 
 
     //init deck
-    public Deck(){
+    public Deck(Context context){
         deck=new Card[size];
 
         for (int i=0;i<size;i++){
-            deck[i]=new Card(i);
+            deck[i]=new Card(i,context);
         }
 
         rand=new SecureRandom();
@@ -46,6 +48,15 @@ public class Deck {
             deck[currentCard].setOwned(true);
             currentCard++;
             j++;
+        }
+
+        for (int i=0;i<size;i++){
+            if(deck[i].getId()==9)
+                temp[0]=deck[i];
+            if (deck[i].getId()==13)
+                temp[1]=deck[i];
+            if (deck[i].getId()==8)
+                temp[2]=deck[i];
         }
 
         return temp;

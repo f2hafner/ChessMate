@@ -59,8 +59,6 @@ abstract public class ChessPiece extends View {
     private ChessBoard board;
     protected boolean opponentEncountered = false;
     private boolean isChampion=false;
-    private boolean isSwapped=false;
-    private ChessPiece swapPiece=null;
     private MediaPlayer moveSound_start;
     private MediaPlayer moveSound_end;
     private Context context;
@@ -250,10 +248,6 @@ abstract public class ChessPiece extends View {
         currentPosition.setCurrentPiece(null);
         this.currentPosition = targetPosition;
         targetPosition.setCurrentPiece(this);
-
-        //swap-Move (card)
-        swapPiece=null;
-        isSwapped=false;
 
         if (this.isChampion()){
             targetPosition.markChampion();
@@ -536,10 +530,7 @@ abstract public class ChessPiece extends View {
 
     public Field getTargetPosition(){return this.targetPosition;}
 
-    public void setSwapPiece(ChessPiece piece){
-        isSwapped=true;
-        swapPiece=piece;
-    }
+
     public ArrayList<Field> getIsChecking(){
         return this.isChecking;
     }

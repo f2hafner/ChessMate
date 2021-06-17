@@ -1,8 +1,10 @@
 package com.game.chessmate.GameFiles;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.util.Log;
 
 import com.game.chessmate.GameActivity;
@@ -23,12 +25,16 @@ public class Card {
     private boolean owned;
     private int id;
     private int drawableId;
+    private MediaPlayer fieldManipulationSound;
 
     ArrayList<Field> legalMoves;
     Field [][] currentFields;
 
-    public Card (int number) throws IllegalArgumentException{
+    public Card (int number, Context context) throws IllegalArgumentException{
         id=number;
+        this.fieldManipulationSound=MediaPlayer.create(context,R.raw.mixkit_field_manipulation);
+        this.fieldManipulationSound.setVolume(10.0f,10.0f);
+
         switch (number){
             case 0: //works
                 name="Cowardice";
@@ -312,6 +318,8 @@ public class Card {
 
     //Remove one of your own pawns (It is now dead and cannot be brought back into play)
     public void disintegration(ChessPiece playingPiece){
+        fieldManipulationSound.start();
+
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
             new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece.getPosition(), ChessBoard.getInstance().getBoardFields()[0][0]);
@@ -331,6 +339,8 @@ public class Card {
 
     //Any one knight becomes a Champion. Place a marker underneath it. (a Champion jumps to the opposite corner of a 3 by 4 rectangle).
     public void champion(ChessPiece playingPiece){
+        fieldManipulationSound.start();
+
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
             new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece.getPosition(), ChessBoard.getInstance().getBoardFields()[0][0]);
@@ -487,8 +497,9 @@ public class Card {
 
     //protect 1 of your pieces for the next turn
     public void mysticShield(Field field){
-
+        fieldManipulationSound.start();
         currentFields=ChessBoard.getInstance().getBoardFields();
+
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
             new NetworkTasks.SendCard(this.getId(),field,currentFields[5][5]);
@@ -510,6 +521,8 @@ public class Card {
 
     //block field till end of game (cannot be movedTo)
     public void forbiddenCity(Field field){
+        fieldManipulationSound.start();
+
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
             new NetworkTasks.SendCard(this.getId(),field,ChessBoard.getInstance().getBoardFields()[0][0]);
@@ -558,6 +571,7 @@ public class Card {
 
     //Take the last card played by your opponent and put it in your hand.
     public void vulture(int id ,Player localPlayer,Deck deck){
+
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
             new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(),ChessBoard.getInstance().getBoardFields()[0][0], ChessBoard.getInstance().getBoardFields()[0][0]);

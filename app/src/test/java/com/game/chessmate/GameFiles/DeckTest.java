@@ -1,5 +1,7 @@
 package com.game.chessmate.GameFiles;
 
+import android.content.Context;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,11 +19,15 @@ public class DeckTest {
     @Mock
     Card card;
 
+    @Mock
+    Context context;
+
     Card [] cards;
 
     @Before
     public void init(){
-        deck=new Deck();
+        context=Mockito.mock(Context.class);
+        deck=new Deck(context);
         card= Mockito.mock(Card.class);
 
     }

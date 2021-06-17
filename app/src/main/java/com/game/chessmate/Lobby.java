@@ -50,6 +50,7 @@ public class Lobby extends AppCompatActivity {
                     runOnUiThread(() -> {
                         if(req.isClearLobby()){
                             Intent backToCodeInputScreen = new Intent(Lobby.this, EnterCodeActivity.class);
+                            backToCodeInputScreen.putExtra("name", name2);
                             startActivity(backToCodeInputScreen);
                         } else {
                             player2.setText(req.getPlayer2().getName());

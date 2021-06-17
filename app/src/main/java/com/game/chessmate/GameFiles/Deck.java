@@ -51,9 +51,9 @@ public class Deck {
         for (int i=0;i<size;i++){
             if(deck[i].getId()==9)
                 temp[0]=deck[i];
-            if (deck[i].getId()==0)
-                temp[1]=deck[i];
             if (deck[i].getId()==13)
+                temp[1]=deck[i];
+            if (deck[i].getId()==8)
                 temp[2]=deck[i];
         }
 

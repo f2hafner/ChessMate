@@ -16,6 +16,7 @@ import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.GameFiles.GameState;
 import com.game.chessmate.GameFiles.Networking.NetworkManager;
+import com.game.chessmate.GameFiles.Networking.NetworkTasks;
 import com.game.chessmate.GameFiles.Vector;
 import com.game.chessmate.OptionsActivity;
 import com.game.chessmate.R;
@@ -225,14 +226,15 @@ abstract public class ChessPiece extends View {
             if (ChessBoard.getInstance().isCrusadeActivated()) {
                 Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
                 if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-                    NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(), ChessBoard.getInstance().getFirstCrusadeField(), targetPosition);
+                    new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(), ChessBoard.getInstance().getFirstCrusadeField(), targetPosition);
                     ChessBoard.getInstance().setCrusadeActivatedFalse();
                     ChessBoard.getInstance().setFirstCrusadeFieldNull();
                 }
             } else {
                 Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
                 if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-                    NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(), currentPosition, targetPosition);
+                    new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(), currentPosition, targetPosition);
+
                 }
             }
         }

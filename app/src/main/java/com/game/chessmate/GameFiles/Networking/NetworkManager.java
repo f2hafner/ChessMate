@@ -96,27 +96,6 @@ public class NetworkManager {
         ChessMateClient.getInstance().getClient().sendTCP(gameDataObject);
     }
 
-    public static void sendCard(int cardId, Field field1,Field field2){
-        Log.i(TAG,"sendCard: " + "sendcard was called");
-
-        FieldDataObject fieldObject1 = new FieldDataObject();
-        fieldObject1.setX(field1.getFieldX());
-        fieldObject1.setY(field1.getFieldY());
-
-        FieldDataObject fieldObject2 = new FieldDataObject();
-        fieldObject2.setX(field2.getFieldX());
-        fieldObject2.setY(field2.getFieldY());
-
-        GameDataObject gameDataObject = new GameDataObject();
-        gameDataObject.setLobbyCode(NetworkManager.currentLobbyCode);
-        gameDataObject.setUsedCard(true);
-        gameDataObject.setCardId(cardId);
-        gameDataObject.setOrigin(fieldObject1);
-        gameDataObject.setTarget(fieldObject2);
-
-        ChessMateClient.getInstance().getClient().sendTCP(gameDataObject);
-    }
-
     public static void receiveCard(int cardId, FieldDataObject fieldObject1, FieldDataObject fieldObject2){
         Log.i(TAG, "receiveCard: receivecard was called");
 

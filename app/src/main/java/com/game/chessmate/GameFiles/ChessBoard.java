@@ -942,7 +942,7 @@ public class ChessBoard {
     public void swap(ChessPiece playingPiece1, ChessPiece playingPiece2){
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece1.getPosition(),playingPiece2.getPosition());
+            new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece1.getPosition(),playingPiece2.getPosition());
         }
 
         playingPiece1.setProtected(true);

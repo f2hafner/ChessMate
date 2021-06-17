@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.game.chessmate.GameActivity;
 import com.game.chessmate.GameFiles.Networking.NetworkManager;
+import com.game.chessmate.GameFiles.Networking.NetworkTasks;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPiece;
 import com.game.chessmate.GameFiles.PlayingPieces.ChessPieceType;
 import com.game.chessmate.R;
@@ -313,7 +314,7 @@ public class Card {
     public void disintegration(ChessPiece playingPiece){
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece.getPosition(), ChessBoard.getInstance().getBoardFields()[0][0]);
+            new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece.getPosition(), ChessBoard.getInstance().getBoardFields()[0][0]);
         }
 
         playingPiece.capture();
@@ -332,7 +333,7 @@ public class Card {
     public void champion(ChessPiece playingPiece){
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece.getPosition(), ChessBoard.getInstance().getBoardFields()[0][0]);
+            new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece.getPosition(), ChessBoard.getInstance().getBoardFields()[0][0]);
         }
 
         playingPiece.setChampion();
@@ -490,7 +491,7 @@ public class Card {
         currentFields=ChessBoard.getInstance().getBoardFields();
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-            NetworkManager.sendCard(this.getId(),field,currentFields[5][5]);
+            new NetworkTasks.SendCard(this.getId(),field,currentFields[5][5]);
         }
 
         field.getCurrentPiece().setProtected(true);
@@ -511,7 +512,7 @@ public class Card {
     public void forbiddenCity(Field field){
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),field, ChessBoard.getInstance().getBoardFields()[0][0]);
+            new NetworkTasks.SendCard(this.getId(),field,ChessBoard.getInstance().getBoardFields()[0][0]);
         }
 
             field.setBlocked();
@@ -559,7 +560,7 @@ public class Card {
     public void vulture(int id ,Player localPlayer,Deck deck){
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),ChessBoard.getInstance().getBoardFields()[0][0], ChessBoard.getInstance().getBoardFields()[0][0]);
+            new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(),ChessBoard.getInstance().getBoardFields()[0][0], ChessBoard.getInstance().getBoardFields()[0][0]);
         }
 
         Card temp=localPlayer.getCurrentCards()[id]; //set new Last Card played

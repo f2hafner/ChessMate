@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,7 +34,7 @@ public class GameActivity extends AppCompatActivity {
     private static int id = 3;
     private static boolean selected;
 
-    Player player;
+    private MediaPlayer cardSelectSound;
 
     private Sensor sensor;
     private SensorManager sensorManager;
@@ -47,6 +48,9 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         getSupportActionBar().hide();
+
+        cardSelectSound=MediaPlayer.create(this,R.raw.mixkit_card_select);
+        this.cardSelectSound.setVolume(1.0f,1.0f);
 
         sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
@@ -129,6 +133,9 @@ public class GameActivity extends AppCompatActivity {
         exactView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //start sound
+                cardSelectSound.start();
+
                 //mark card selected
                 exactView.setVisibility(View.GONE);
                 selected = true;

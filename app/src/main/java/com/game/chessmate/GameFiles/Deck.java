@@ -1,5 +1,7 @@
 package com.game.chessmate.GameFiles;
 
+import android.content.Context;
+
 import java.security.SecureRandom;
 import java.util.Random;
 
@@ -25,11 +27,11 @@ public class Deck {
 
 
     //init deck
-    public Deck(){
+    public Deck(Context context){
         deck=new Card[size];
 
         for (int i=0;i<size;i++){
-            deck[i]=new Card(i);
+            deck[i]=new Card(i,context);
         }
 
         rand=new SecureRandom();
@@ -51,9 +53,9 @@ public class Deck {
         for (int i=0;i<size;i++){
             if(deck[i].getId()==9)
                 temp[0]=deck[i];
-            if (deck[i].getId()==0)
-                temp[1]=deck[i];
             if (deck[i].getId()==13)
+                temp[1]=deck[i];
+            if (deck[i].getId()==8)
                 temp[2]=deck[i];
         }
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -88,7 +89,6 @@ public class ChessBoard {
     private ChessBoard() {
         this.boardFields = new Field[8][8];
         soundOn = true;
-        deck = new Deck();
     }
 
     /**
@@ -104,6 +104,9 @@ public class ChessBoard {
         initFields();
         localPlayer = new Player(NetworkManager.getInitialColor());
         enemyPlayer = new Player(NetworkManager.getInitialColor());
+
+        deck = new Deck(view.getContext());
+
         if(NetworkManager.getInitialColor()==ChessPieceColour.WHITE){
             enemyPlayer = new Player(ChessPieceColour.BLACK);
         } else {
@@ -375,6 +378,11 @@ public class ChessBoard {
 
 
     public void doCardAction(MotionEvent event, int id) {
+        Log.i(TAG, "doCardAction: " + gameState);
+        if (gameState == GameState.WAITING) {
+            return;
+        }
+
         int touchX = (int) event.getX();
         int touchY = (int) event.getY();
         Rect rect;
@@ -940,9 +948,11 @@ public class ChessBoard {
     }
 
     public void swap(ChessPiece playingPiece1, ChessPiece playingPiece2){
+        MediaPlayer.create(view.getContext(),R.raw.chessmatemove_end).start();
+
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
         if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-            NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece1.getPosition(),playingPiece2.getPosition());
+            new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece1.getPosition(),playingPiece2.getPosition());
         }
 
         playingPiece1.setProtected(true);

@@ -253,22 +253,25 @@ public class ChessBoard {
 
                     Log.d("DEBUG", "CHECKING WHETHER KING IS CHECKED 1");
                     //check which pieces are threatening and colour their fields
-                    localKing = getLocalKing();
-                    if(localKing.isChecked(boardFields)){
-                        for(Field f : localKing.getIsChecking()){
-                            Log.d("DEBUG", "KING IS CHECKED 1");
-                            f.setAsChecking();
-                            f.invalidate();
-                        }
-                        Log.d("DEBUG", "CHECKING FOR CHECKMATE");
-                        if(checkMate() || getLocalKing() == null){
-                            Log.d(TAG, "handleFieldClick: " + "i lost");
-                             gameState = gameState.LOOSE;
-                             new NetworkTasks.SendWin();
 
-                             Intent intent = new Intent(view.getContext(), EndScreen.class);
-                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                             view.getContext().startActivity(intent);
+                    localKing = getLocalKing();
+                    if(localKing!=null){
+                        if(localKing.isChecked(boardFields)){
+                            for(Field f : localKing.getIsChecking()){
+                                Log.d("DEBUG", "KING IS CHECKED 1");
+                                f.setAsChecking();
+                                f.invalidate();
+                            }
+                            Log.d("DEBUG", "CHECKING FOR CHECKMATE");
+                            if(checkMate() || getLocalKing() == null){
+                                Log.d(TAG, "handleFieldClick: " + "i lost");
+                                 gameState = gameState.LOOSE;
+                                 new NetworkTasks.SendWin();
+
+                                 Intent intent = new Intent(view.getContext(), EndScreen.class);
+                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                 view.getContext().startActivity(intent);
+                            }
                         }
                     }
 

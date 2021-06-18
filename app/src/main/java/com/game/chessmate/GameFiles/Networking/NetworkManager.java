@@ -34,6 +34,7 @@ public class NetworkManager {
     public static NetworkManager getInstance(){ return NetworkManager.InstanceHolder.INSTANCE; }
     public static ChessPieceColour initialColor;
     public static String currentLobbyCode;
+    public static boolean excludeAfterMove;
     static ExecutorService service = Executors.newFixedThreadPool(1);
 
     public static String createSession(String name){
@@ -121,6 +122,8 @@ public class NetworkManager {
                         receiveWin();
                     }
                     else if (gameDataObject.isMoved()) {
+                        NetworkManager.excludeAfterMove = false;
+                        if(gameDataObject.isMovedBack()){excludeAfterMove=true;}
                         receiveMove(gameDataObject.getOrigin(), gameDataObject.getTarget());
                     }
                     else if (gameDataObject.isUsedCard()) {
@@ -134,9 +137,17 @@ public class NetworkManager {
 
     public static void receiveMove(FieldDataObject origin, FieldDataObject target){
         Log.i(TAG, "receiveMove: receivemove was called");
-
+        Log.i("RECEIVE_MOVE", String.valueOf(origin));
+        Log.i("RECEIVE_MOVE", String.valueOf(target));
         Field originField = ChessBoard.getInstance().getBoardFields()[origin.getX()][origin.getY()];
         Field targetField = ChessBoard.getInstance().getBoardFields()[target.getX()][target.getY()];
+
+        Log.i("RECEIVE_MOVE", String.valueOf(originField));
+        Log.i("RECEIVE_MOVE", String.valueOf(originField.getFieldX()));
+        Log.i("RECEIVE_MOVE", String.valueOf(targetField.getFieldY()));
+        Log.i("RECEIVE_MOVE", String.valueOf(targetField));
+        Log.i("RECEIVE_MOVE", String.valueOf(targetField.getFieldX()));
+        Log.i("RECEIVE_MOVE", String.valueOf(targetField.getFieldY()));
         originField.getCurrentPiece().move(targetField);
     }
 

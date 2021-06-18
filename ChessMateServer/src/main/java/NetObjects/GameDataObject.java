@@ -4,6 +4,7 @@ public class GameDataObject {
     String lobbyCode;
     GameStates currentClientState;
     //Movement
+    boolean movedBack;
     boolean moved;
     FieldDataObject origin;
     FieldDataObject target;
@@ -20,6 +21,14 @@ public class GameDataObject {
     private boolean win;
 
     public GameDataObject() {}
+
+    public boolean isMovedBack() {
+        return movedBack;
+    }
+
+    public void setMovedBack(boolean movedBack) {
+        this.movedBack = movedBack;
+    }
 
     public GameStates getCurrentClientState() {
         return currentClientState;

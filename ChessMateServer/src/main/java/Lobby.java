@@ -18,7 +18,7 @@ public class Lobby {
 
     // CHEATFUNCTION
     boolean cheatFuncActive;
-
+    boolean canReceiveSensorPacket;
 
     // HISTORY INFO
     FieldDataObject lastMoveOrigin;
@@ -30,6 +30,7 @@ public class Lobby {
         player1 = null;
         player2 = null;
         playercount = 0;
+        canReceiveSensorPacket=false;
         this.lobbyID = LobbyManager.getNewFreeID();
         this.lobbycode = generateLobbyCode();
         currentLobbyState = GameStates.WAITING_FOR_PLAYER;

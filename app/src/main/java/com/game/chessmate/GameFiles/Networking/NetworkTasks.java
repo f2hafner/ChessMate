@@ -136,7 +136,16 @@ public class NetworkTasks {
                 }
             };
             ChessMateClient.getInstance().getClient().addListener(listener);
-            while(parameters[0]==null){}
+            int errorTimeout=0;
+            while(parameters[0]==null){
+                Log.d("NETWORK", "parameters" + parameters[0]);
+                if(errorTimeout>5000){
+                    startGameParameters tempObject = new startGameParameters();
+                    tempObject.setInitColour(null);
+                    parameters[0] = tempObject;
+                }
+                errorTimeout++;
+            }
             ChessMateClient.getInstance().getClient().removeListener(listener);
             return parameters[0];
         }

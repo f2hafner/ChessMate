@@ -96,7 +96,7 @@ public class Card {
                 break;
 
             case 5:
-                name="Rebirth";
+                name="Rebirth"; //? Anderer Spieler ist sofort wieder dran?
                 desc="Move one enemy piece to any square it could have occupied at the beginning of the game. The square must be empty or contain one of your pieces. If one of your pieces is in the square, it is captured.";
                 useCase="[i] Play this card instead of your move";
                 drawableId=R.drawable.rebirth;
@@ -174,17 +174,17 @@ public class Card {
                 break;
 
             case 16:
-                name="Martyr";
-                desc="Play this card when one of your bishops has the choice of taking two or more of your opponent's pieces. Capture as many of these pieces as you want (at least two). Your bishop is removed from play and regarded as captured.";
-                useCase="[i] Play this card on your turn, instead of making a regular move.";
-                drawableId=R.drawable.martyr;
-                break;
-
-            case 17:
                 name="Spoils of War";
                 desc="Play this card when you capture one of your opponent's pieces. The capturing piece changes permanently into a piece of the kind it captured. For instance, if one of your pawns captures a knight, it becomes a knight.";
                 useCase="[i] Play this card immediately after your move.";
                 drawableId=R.drawable.spoils_of_war;
+                break;
+
+            case 17:
+                name="Martyr";
+                desc="Play this card when one of your bishops has the choice of taking two or more of your opponent's pieces. Capture as many of these pieces as you want (at least two). Your bishop is removed from play and regarded as captured.";
+                useCase="[i] Play this card on your turn, instead of making a regular move.";
+                drawableId=R.drawable.martyr;
                 break;
 
             case 18:
@@ -594,14 +594,6 @@ public class Card {
     }
 
     /**
-     * Hand of fate.
-     *
-     */
-    public void handOfFate(){
-        //Exchange your hand with your opponent's. He must draw another card to replace this one
-    }
-
-    /**
      * Vulture.
      *
      * @param id          the id
@@ -610,59 +602,11 @@ public class Card {
      */
     public void vulture(int id ,Player localPlayer,Deck deck){
         //Take the last card played by your opponent and put it in your hand.
-        Field field=ChessBoard.getInstance().getBoardFields()[0][0];
-
-        Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
-        if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-            new NetworkTasks.SendCard(this.getId(), field, field);
-        }
-
         Card temp=localPlayer.getCurrentCards()[id]; //set new Last Card played
         localPlayer.getCurrentCards()[id].setOwned(false); //set current card free again
         localPlayer.getCurrentCards()[id]=deck.getLastCardPlayed(); //get last Card Played
         deck.setLastCardPlayed(temp); //set new last Card Played
         GameActivity.unselectAfterCardActivation(); //mark card "unselected"
-
-        if (ChessBoard.getInstance().getGameState() == GameState.WAITING) {
-            ChessBoard.getInstance().setGameState(GameState.ACTIVE);
-        }
-        else if(ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-            ChessBoard.getInstance().setGameState(GameState.WAITING);
-        }
-
-        Log.i("GAMESTATE", "afterCardend: " + ChessBoard.getInstance().getGameState());
-    }
-
-    /**
-     * Abduction.
-     */
-    public void abduction(){
-        //opponent must look away from the board for ten seconds, as you remove any one of his pieces except the king. He then has ten seconds to look at the board If he remembers correctly, the piece is put back in its place.
-
-    }
-
-    /**
-     * Bombard.
-     */
-    public void bombard(){
-        //On this move, one of your rooks can move in its normal straight line, jump over any piece or one obstruction on the board, and continue in a straight line. (At the end of its move, the rook may make a normal capture)
-
-    }
-
-    /**
-     * Coup.
-     */
-    public void coup(){
-        //Your king becomes a prince (prince moves like a king but can be captured). Choose one of your pieces, except a rook or a queen, and mark it. (This piece keeps its standard move, but is the new king)
-
-    }
-
-    /**
-     * Confabulation.
-     */
-    public void confabulation(){
-        //Make an otherwise legal move which puts two of your pieces (other than kings) on the same square. They "merge" into a new piece. It can move and capture like either one of them, and is affected by any card that affects either of them. Move the two pieces together. Confabulated pawns cannot promote.
-
     }
 
     /**
@@ -677,43 +621,52 @@ public class Card {
     }
 
     /**
-     * Spoils of war.
+     * Bombard.
+     *
+     * @param playingPiece the playing piece
+     * @param field        the field
      */
-    public void spoilsOfWar(){
-        //when you capture one of your opponent's pieces. The capturing piece changes permanently into a piece of the kind it captured. For instance, if one of your pawns captures a knight, it becomes a knight.
+    public void bombard(ChessPiece playingPiece, Field field){
+        //On this move, one of your rooks can move in its normal straight line, jump over any piece or one obstruction on the board, and continue in a straight line. (At the end of its move, the rook may make a normal capture)
+        playingPiece.move(field);
     }
 
-    /**
-     * Think again.
-     */
+    /* Not implemented cards
+    public void handOfFate(){
+        //Exchange your hand with your opponent's. He must draw another card to replace this one
+    }
+
+    public void abduction(){
+        //opponent must look away from the board for ten seconds, as you remove any one of his pieces except the king. He then has ten seconds to look at the board If he remembers correctly, the piece is put back in its place.
+    }
+
+    public void coup(){
+        //Your king becomes a prince (prince moves like a king but can be captured). Choose one of your pieces, except a rook or a queen, and mark it. (This piece keeps its standard move, but is the new king)
+    }
+
+    public void confabulation(){
+        //Make an otherwise legal move which puts two of your pieces (other than kings) on the same square. They "merge" into a new piece. It can move and capture like either one of them, and is affected by any card that affects either of them. Move the two pieces together. Confabulated pawns cannot promote.
+
+    }
+
     public void thinkAgain(){
         //Your opponent's move is cancelled. He must make a different move
 
     }
 
-    /**
-     * Martyr.
-     */
     public void martyr(){
         //Play this card when one of your bishops has the choice of taking two or more of your opponent's pieces. Capture as many of these pieces as you want (at least two). Your bishop is removed from play and regarded as captured.
 
     }
 
-    /**
-     * Fog of war.
-     */
     public void fogOfWar(){
         //This card cancels the effect of any other card. Both cards are discarded. If the opposing card constituted your opponent's whole move, he may make another move, but he may not play another card.
-
     }
 
-    /**
-     * Funeral pyre.
-     */
     public void funeralPyre(){
         //All captured pieces of both players are now considered dead. They cannot be returned to the chessboard through the play of a card.
-
     }
+*/
 
     /**
      * Swap.

@@ -11,13 +11,19 @@ import com.game.chessmate.GameFiles.Field;
 
 import java.util.ArrayList;
 
-/** class implementing the Queen playing piece */
+/**
+ * class implementing the Queen playing piece
+ */
 public class Queen extends ChessPiece {
 
     /**
      * Instantiates a new Queen.
      *
-     * @param position     the position
+     * @param position the position
+     * @param sprite   the sprite
+     * @param context  the context
+     * @param attrs    the attrs
+     * @param color    the color
      */
     public Queen(Field position, Bitmap sprite, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){
         super(context, attrs, position, sprite, color);

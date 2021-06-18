@@ -11,14 +11,24 @@ import com.game.chessmate.GameFiles.Field;
 
 import java.util.ArrayList;
 
-/** class implementing the Knight playing piece */
+/**
+ * class implementing the Knight playing piece
+ */
 public class Knight extends ChessPiece {
 
+    /**
+     * The Is blocked.
+     */
     boolean isBlocked;
+
     /**
      * Instantiates a new Knight.
      *
-     * @param position     the position
+     * @param position the position
+     * @param sprite   the sprite
+     * @param context  the context
+     * @param attrs    the attrs
+     * @param color    the color
      */
 
     public Knight(Field position, Bitmap sprite, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){
@@ -107,12 +117,31 @@ public class Knight extends ChessPiece {
         return legalFields;
     }
 
+    /**
+     * Is field null boolean.
+     *
+     * @param i the
+     * @param j the j
+     * @return the boolean
+     */
     public boolean isFieldNull(int i,int j){
         if (i>=0&&i<8&&j>=0&&j<8)
             return false;
         return true;
     }
 
+    /**
+     * Test jumped fields boolean.
+     *
+     * @param x             the x
+     * @param y             the y
+     * @param i             the
+     * @param iMinus        the minus
+     * @param j             the j
+     * @param jMinus        the j minus
+     * @param currentFields the current fields
+     * @return the boolean
+     */
     public boolean testJumpedFields(int x,int y,int i,boolean iMinus,int j,boolean jMinus,Field[][] currentFields){
         if (iMinus&&jMinus){
             for (int start=i;start>0;start--){
@@ -160,6 +189,12 @@ public class Knight extends ChessPiece {
         return false;
     }
 
+    /**
+     * Get legal fields champion array list.
+     *
+     * @param currentFields the current fields
+     * @return the array list
+     */
     public ArrayList<Field> getLegalFieldsChampion(Field [][] currentFields){
         ArrayList<Field> legalFields=new ArrayList<>();
 

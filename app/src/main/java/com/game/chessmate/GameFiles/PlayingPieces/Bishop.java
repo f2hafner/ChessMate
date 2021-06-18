@@ -11,13 +11,19 @@ import com.game.chessmate.GameFiles.Field;
 
 import java.util.ArrayList;
 
-/** class implementing the Bishop playing piece */
+/**
+ * class implementing the Bishop playing piece
+ */
 public class Bishop extends ChessPiece {
 
     /**
      * Instantiates a new Bishop.
      *
-     * @param position     the position
+     * @param position the position
+     * @param sprite   the sprite
+     * @param context  the context
+     * @param attrs    the attrs
+     * @param color    the color
      */
     public Bishop(Field position, Bitmap sprite, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){
         super(context, attrs, position, sprite, color);
@@ -52,7 +58,7 @@ public class Bishop extends ChessPiece {
                         }else{
                             break;
                         }
-                    } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour&&!currentFields[i][j].isProtected()) {
+                    } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour&&!currentFields[i][j].isProtected()&&ChessBoard.getInstance().getSpecialNumber()!=1) {
                         legalFields.add(currentFields[i][j]);
                         opponentEncountered = true;
                     }else{

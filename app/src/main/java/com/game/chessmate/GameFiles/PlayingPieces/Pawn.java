@@ -12,14 +12,24 @@ import com.game.chessmate.GameFiles.Field;
 
 import java.util.ArrayList;
 
-/** class implementing the Pawn playing piece */
+/**
+ * class implementing the Pawn playing piece
+ */
 public class Pawn extends ChessPiece {
 
+    /**
+     * The Normal.
+     */
     boolean normal = true; //normal moves are allowed
+
     /**
      * Instantiates a new Pawn.
      *
-     * @param position     the position
+     * @param position the position
+     * @param sprite   the sprite
+     * @param context  the context
+     * @param attrs    the attrs
+     * @param color    the color
      */
     public Pawn(Field position, Bitmap sprite, Context context, @Nullable AttributeSet attrs, ChessPieceColour color){
         super(context, attrs, position, sprite, color);

@@ -16,8 +16,8 @@ import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
 import com.game.chessmate.GameFiles.GameState;
 import com.game.chessmate.GameFiles.Networking.NetworkManager;
+import com.game.chessmate.GameFiles.Networking.NetworkTasks;
 import com.game.chessmate.GameFiles.Vector;
-import com.game.chessmate.OptionsActivity;
 import com.game.chessmate.R;
 
 import java.util.ArrayList;
@@ -43,26 +43,29 @@ abstract public class ChessPiece extends View {
      */
     protected Field currentPosition;
     private Field targetPosition;
-    private Bitmap sprite;
+    private final Bitmap sprite;
     /**
      * The Colour.
      */
     protected ChessPieceColour colour;
     private Vector offset;
     private boolean updateMovementOffset;
-    private int movementSpeed = 15;
     private boolean updateView;
     private boolean firstMove = true;
     private boolean isProtected = false;
     private boolean isCaptured = false;
     private ChessBoard board;
+    /**
+     * The Opponent encountered.
+     */
     protected boolean opponentEncountered = false;
     private boolean isChampion=false;
-    private boolean isSwapped=false;
-    private ChessPiece swapPiece=null;
     private MediaPlayer moveSound_start;
     private MediaPlayer moveSound_end;
-    private Context context;
+    private final Context context;
+    /**
+     * The Is checking.
+     */
     protected ArrayList<Field> isChecking = new ArrayList<>();
 
     /**
@@ -128,7 +131,7 @@ abstract public class ChessPiece extends View {
     /**
      * Draws the bitmap of this PlayingPiece to the canvas in the position of the containing rectangle.
      *
-     * @param canvas
+     * @param canvas the Canvas
      */
     @Override
     protected void onDraw(Canvas canvas) {
@@ -170,12 +173,12 @@ abstract public class ChessPiece extends View {
             this.getPosition().invalidate();
         }
 
-        if (targetField.hasPiece()&&targetField.getCurrentPiece().isProtected==false) {
+        if (targetField.hasPiece()&& !targetField.getCurrentPiece().isProtected) {
             if (targetField.getCurrentPiece().getColour() != this.colour) {
                 targetField.getCurrentPiece().capture();
             }
         }
-        else if(targetField.hasPiece()&&targetField.getCurrentPiece().isProtected==true) {
+        else if(targetField.hasPiece()&& targetField.getCurrentPiece().isProtected) {
             targetField.getCurrentPiece().setProtected(false);
         }
 
@@ -208,7 +211,8 @@ abstract public class ChessPiece extends View {
         Vector vector = target.sub(start);
 
         if ((offset.getX() != vector.getX()) || (offset.getY() != vector.getY())) {
-            offset = offset.add(vector.div(this.movementSpeed));
+            int movementSpeed = 15;
+            offset = offset.add(vector.div(movementSpeed));
             this.setUpdateView(true);
         }
         else
@@ -222,17 +226,18 @@ abstract public class ChessPiece extends View {
         stopMoveSoundPlayEndSound();
 
         if (ChessBoard.getInstance().isCardActivated()) {
-            if (ChessBoard.getInstance().isCrusadeActivated()) {
+            if (ChessBoard.getInstance().isSpecialActivated()) {
                 Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
                 if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-                    NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(), ChessBoard.getInstance().getFirstCrusadeField(), targetPosition);
-                    ChessBoard.getInstance().setCrusadeActivatedFalse();
-                    ChessBoard.getInstance().setFirstCrusadeFieldNull();
+                    new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(), ChessBoard.getInstance().getFirstField(), targetPosition);
+                    ChessBoard.getInstance().setSpecialActivatedFalse();
+                    ChessBoard.getInstance().setFirstFieldNull();
                 }
             } else {
                 Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
                 if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-                    NetworkManager.sendCard(ChessBoard.getInstance().getCurrentCard().getId(), currentPosition, targetPosition);
+                    new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(), currentPosition, targetPosition);
+
                 }
             }
         }
@@ -248,10 +253,6 @@ abstract public class ChessPiece extends View {
         currentPosition.setCurrentPiece(null);
         this.currentPosition = targetPosition;
         targetPosition.setCurrentPiece(this);
-
-        //swap-Move (card)
-        swapPiece=null;
-        isSwapped=false;
 
         if (this.isChampion()){
             targetPosition.markChampion();
@@ -282,8 +283,8 @@ abstract public class ChessPiece extends View {
             return;
         }
         moveSound_start.stop();
-        moveSound_start.reset();
-        moveSound_end.reset();
+        moveSound_start.release();
+        moveSound_end.release();
         moveSound_end = MediaPlayer.create(context,R.raw.chessmatemove_end);
         moveSound_end.start();
     }
@@ -308,7 +309,12 @@ abstract public class ChessPiece extends View {
         this.setUpdateView(true);
     }
 
-    // Fields the King can move during Cheat Function on
+    /**
+     * Cheat moves array list.
+     *
+     * @return the array list
+     */
+// Fields the King can move during Cheat Function on
     public ArrayList<Field> cheatMoves() {
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
 
@@ -316,10 +322,10 @@ abstract public class ChessPiece extends View {
         ArrayList<Field> cheatFields = new ArrayList<>();
 
 
-        for (int fieldX = 0; fieldX < currentFields.length; fieldX++) {
-            for (int fieldY = 0; fieldY < currentFields[fieldX].length; fieldY++) {
-                if (!currentFields[fieldX][fieldY].hasPiece()) {
-                    cheatFields.add(currentFields[fieldX][fieldY]);
+        for (Field[] currentField : currentFields) {
+            for (Field field : currentField) {
+                if (!field.hasPiece()) {
+                    cheatFields.add(field);
                 }
 
             }
@@ -328,6 +334,11 @@ abstract public class ChessPiece extends View {
         return cheatFields;
     }
 
+    /**
+     * Gets cheat function moves.
+     *
+     * @return the cheat function moves
+     */
     public ArrayList<Field> getCheatFunctionMoves() {
 
         ArrayList<Field> legalMoves;
@@ -464,11 +475,19 @@ abstract public class ChessPiece extends View {
         this.colour=colour;
     }
 
+    /**
+     * Set champion.
+     */
     public void setChampion(){
         if (this.getPlayingPieceType()==ChessPieceType.KNIGHT)
             isChampion=true;
     }
 
+    /**
+     * Is champion boolean.
+     *
+     * @return the boolean
+     */
     public boolean isChampion(){return this.isChampion;}
 
     /**
@@ -492,12 +511,12 @@ abstract public class ChessPiece extends View {
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
         ArrayList<Field> legalFields = this.getLegalFields();
         ChessPiece localKing = ChessBoard.getInstance().getLocalKing();
-        ArrayList<Field> legalMovesInCheck = new ArrayList<Field>();
+        ArrayList<Field> legalMovesInCheck = new ArrayList<>();
         localKing.isChecked(currentFields); //to set isChecking
         ArrayList<Field> isChecking = localKing.getIsChecking();
 
         for (Field f : legalFields) {
-            if (!wouldbeChecked(currentFields, f)) {//checks whether king would be in check if currentpieces position were field - same for king
+            if (!wouldbeChecked(currentFields, f)) {//checks whether king would be in check if current pieces position were field - same for king
                 legalMovesInCheck.add(f);
             }
             if(isChecking.contains(f)){//if piece can kill threatening piece
@@ -511,7 +530,7 @@ abstract public class ChessPiece extends View {
      * Method determines whether king would still be checked, if piece were to move to Field f. Method is overridden in king.
      *
      * @param currentFields current layout of fields and their pieces from chessboard
-     * @param f field that is theoretically moved to
+     * @param f             field that is theoretically moved to
      * @return boolean whether king would be in check if piece moved to field f
      */
     protected boolean wouldbeChecked(Field[][] currentFields, Field f){
@@ -526,18 +545,178 @@ abstract public class ChessPiece extends View {
     }
 
 
+    //Card Functions
+
+    /**
+     * Get legal moves death dance array list.
+     *
+     * @return the array list
+     */
+    public ArrayList<Field> getLegalMovesDeathDance(){
+        //return legal Moves for Death Dance
+        ArrayList<Field> legalMoves=new ArrayList<>();
+        Field [][] currentFields=ChessBoard.getInstance().getBoardFields();
+        Field field=currentPosition;
+
+        //down
+        if (field.getFieldX()+1!=-1&&field.getFieldX()+1!=currentFields.length
+                &&currentFields[field.getFieldX()+1][field.getFieldY()].getCurrentPiece()!=null
+                &&currentFields[field.getFieldX()+1][field.getFieldY()].getCurrentPiece().getColour()!=colour)
+            legalMoves.add(currentFields[field.getFieldX()+1][field.getFieldY()]);
+        //up
+        if (field.getFieldX()-1!=-1&&field.getFieldX()-1!=currentFields.length
+                &&currentFields[field.getFieldX()-1][field.getFieldY()].getCurrentPiece()!=null
+                &&currentFields[field.getFieldX()-1][field.getFieldY()].getCurrentPiece().getColour()!=colour)
+            legalMoves.add(currentFields[field.getFieldX()-1][field.getFieldY()]);
+        //left
+        if (field.getFieldY()-1!=-1&&field.getFieldY()-1!=currentFields.length
+                &&currentFields[field.getFieldX()][field.getFieldY()-1].getCurrentPiece()!=null
+                &&currentFields[field.getFieldX()][field.getFieldY()-1].getCurrentPiece().getColour()!=colour)
+            legalMoves.add(currentFields[field.getFieldX()][field.getFieldY()-1]);
+        //right
+        if (field.getFieldY()+1!=-1&&field.getFieldY()+1!=currentFields.length
+                &&currentFields[field.getFieldX()][field.getFieldY()+1].getCurrentPiece()!=null
+                &&currentFields[field.getFieldX()][field.getFieldY()+1].getCurrentPiece().getColour()!=colour)
+            legalMoves.add(currentFields[field.getFieldX()][field.getFieldY()+1]);
+        //down-left
+        if (field.getFieldX()+1!=-1&&field.getFieldX()+1!=currentFields.length&&field.getFieldY()-1!=-1&&field.getFieldY()-1!=currentFields.length
+                &&currentFields[field.getFieldX()+1][field.getFieldY()-1].getCurrentPiece()!=null
+                &&currentFields[field.getFieldX()+1][field.getFieldY()-1].getCurrentPiece().getColour()!=colour)
+            legalMoves.add(currentFields[field.getFieldX()+1][field.getFieldY()-1]);
+        //down-right
+        if (field.getFieldX()+1!=-1&&field.getFieldX()+1!=currentFields.length&&field.getFieldY()+1!=-1&&field.getFieldY()+1!=currentFields.length
+                &&currentFields[field.getFieldX()+1][field.getFieldY()+1].getCurrentPiece()!=null
+                &&currentFields[field.getFieldX()+1][field.getFieldY()+1].getCurrentPiece().getColour()!=colour)
+            legalMoves.add(currentFields[field.getFieldX()+1][field.getFieldY()+1]);
+        //up-left
+        if (field.getFieldX()-1!=-1&&field.getFieldX()-1!=currentFields.length&&field.getFieldY()-1!=-1&&field.getFieldY()-1!=currentFields.length
+                &&currentFields[field.getFieldX()-1][field.getFieldY()-1].getCurrentPiece()!=null
+                &&currentFields[field.getFieldX()-1][field.getFieldY()-1].getCurrentPiece().getColour()!=colour)
+            legalMoves.add(currentFields[field.getFieldX()-1][field.getFieldY()-1]);
+        //up-right
+        if (field.getFieldX()-1!=-1&&field.getFieldX()-1!=currentFields.length&&field.getFieldY()+1!=-1&&field.getFieldY()+1!= currentFields.length
+                &&currentFields[field.getFieldX()-1][field.getFieldY()+1].getCurrentPiece()!=null
+                &&currentFields[field.getFieldX()-1][field.getFieldY()+1].getCurrentPiece().getColour()!=colour)
+            legalMoves.add(currentFields[field.getFieldX()-1][field.getFieldY()+1]);
+
+        return legalMoves;
+    }
+
+    /**
+     * Get legal moves revelation array list.
+     *
+     * @return the array list
+     */
+    public ArrayList<Field> getLegalMovesRevelation(){
+        //get legal Moves for revelation
+        ArrayList<Field> legalMoves=new ArrayList<>();
+        Field[][] currentFields=ChessBoard.getInstance().getBoardFields();
+
+        for (Field[] currentField : currentFields) {
+            for (Field field : currentField) {
+                if (field.getCurrentPiece() != null && field.getCurrentPiece().getPlayingPieceType() == ChessPieceType.BISHOP && field.getCurrentPiece().getColour() == colour) {
+                    legalMoves.add(field);
+                }
+            }
+        }
+
+        return legalMoves;
+    }
+
+    /**
+     * Get legal moves lost castle array list.
+     *
+     * @return the array list
+     */
+    public ArrayList<Field> getLegalMovesLostCastle(){
+        //get legal Moves for lost Castle
+        ArrayList<Field> legalMoves=new ArrayList<>();
+        Field[][] currentFields=ChessBoard.getInstance().getBoardFields();
+
+        for (Field[] currentField : currentFields) {
+            for (Field field : currentField) {
+                if (field.getCurrentPiece() != null && field.getCurrentPiece().getPlayingPieceType() == ChessPieceType.ROOK && field.getCurrentPiece().getColour() != colour) {
+                    legalMoves.add(field);
+                }
+            }
+        }
+
+        return legalMoves;
+    }
+
+    /**
+     * Get legal moves holy quest array list.
+     *
+     * @return the array list
+     */
+    public ArrayList<Field> getLegalMovesHolyQuest(){
+        //get legal Moves for holy Quest
+        ArrayList<Field> legalMoves=new ArrayList<>();
+        Field[][] currentFields=ChessBoard.getInstance().getBoardFields();
+
+        for (Field[] currentField : currentFields) {
+            for (Field field : currentField) {
+                if (field.getCurrentPiece() != null && field.getCurrentPiece().getPlayingPieceType() == ChessPieceType.KNIGHT && field.getCurrentPiece().getColour() != colour) {
+                    legalMoves.add(field);
+                }
+            }
+        }
+
+        return legalMoves;
+    }
+
+    /**
+     * Get legal moves man of straw array list.
+     *
+     * @return the array list
+     */
+    public ArrayList<Field> getLegalMovesManOfStraw(){
+        //get legal Moves for holy Quest
+        ArrayList<Field> legalMoves=new ArrayList<>();
+        Field[][] currentFields=ChessBoard.getInstance().getBoardFields();
+
+        for (Field[] currentField : currentFields){
+            for (Field field : currentField) {
+                if (field.getCurrentPiece()!=null && field.getCurrentPiece().getPlayingPieceType()==ChessPieceType.PAWN && field.getCurrentPiece().getColour()==colour)
+                    legalMoves.add(field);
+            }
+        }
+
+        return legalMoves;
+    }
+
+    /**
+     * Set target position.
+     *
+     * @param position the position
+     */
     public void setTargetPosition(Field position){this.targetPosition=position;}
 
+    /**
+     * Set update movement offset.
+     *
+     * @param Boolean the boolean
+     */
     public void setUpdateMovementOffset(boolean Boolean){this.updateMovementOffset=Boolean;}
 
+    /**
+     * Reset offset.
+     */
     public void resetOffset(){this.offset=new Vector(0,0);}
 
+    /**
+     * Get target position field.
+     *
+     * @return the field
+     */
     public Field getTargetPosition(){return this.targetPosition;}
 
-    public void setSwapPiece(ChessPiece piece){
-        isSwapped=true;
-        swapPiece=piece;
-    }
+
+    /**
+     * Get is checking array list.
+     *
+     * @return the array list
+     */
     public ArrayList<Field> getIsChecking(){
         return this.isChecking;
     }

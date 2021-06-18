@@ -55,6 +55,14 @@ public class Lobby {
 
     }
 
+    public void player1turn(){
+
+    }
+
+    public void player2turn(){
+
+    }
+
     public String generateLobbyCode(){
         Random ran = new Random(System.currentTimeMillis());
         return Integer.toString(ran.nextInt(99999)+100000);
@@ -94,14 +102,6 @@ public class Lobby {
         }
     }
 
-    public void player1turn(){
-
-    }
-
-    public void player2turn(){
-
-    }
-
     public LobbyDataObject retrieveLobbyDataObject(){
         LobbyDataObject lobbyDataObject = new LobbyDataObject();
         lobbyDataObject.setLobbyID(this.lobbyID);
@@ -110,6 +110,8 @@ public class Lobby {
         PlayerDataObject p1 = new PlayerDataObject();
         if(this.player1!=null){
             p1.setName(this.player1.getName());
+            p1.setChessPieceColour(this.player1.getChessPieceColour());
+            p1.setMaxWrongCheatReveal(this.player1.getMaxWrongCheatReveal());
         } else {
             p1.setName("");
         }
@@ -118,6 +120,8 @@ public class Lobby {
         PlayerDataObject p2 = new PlayerDataObject();
         if(this.player2!=null){
             p2.setName(this.player2.getName());
+            p2.setChessPieceColour(this.player2.getChessPieceColour());
+            p2.setMaxWrongCheatReveal(this.player2.getMaxWrongCheatReveal());
         } else {
             p2.setName("");
         }

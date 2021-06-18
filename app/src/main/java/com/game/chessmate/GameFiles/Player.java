@@ -39,10 +39,20 @@ public class Player {
     }
 
 
+    /**
+     * Gets cheat on.
+     *
+     * @return the cheat on
+     */
     public boolean getCheatOn() {
         return cheatOn;
     }
 
+    /**
+     * Sets cheat on.
+     *
+     * @param cheatOn the cheat on
+     */
     public void setCheatOn(boolean cheatOn) {
         this.cheatOn = cheatOn;
     }
@@ -146,39 +156,89 @@ public class Player {
         this.lastSelectedField = lastSelectedField;
     }
 
+    /**
+     * Gets legal moves for cheat.
+     *
+     * @return the legal moves for cheat
+     */
     public ArrayList<Field> getLegalMovesForCheat() {
         return legalMovesForCheat;
     }
 
+    /**
+     * Sets legal moves for cheat.
+     *
+     * @param legalMovesForCheat the legal moves for cheat
+     */
     public void setLegalMovesForCheat(ArrayList<Field> legalMovesForCheat) {
         this.legalMovesForCheat = legalMovesForCheat;
     }
 
+    /**
+     * Set cards.
+     *
+     * @param cards the cards
+     */
     public void setCards(Card[]cards){playerCards= cards;}
 
+    /**
+     * Get current cards card [ ].
+     *
+     * @return the card [ ]
+     */
     public Card[] getCurrentCards(){return playerCards;}
 
+    /**
+     * Gets light value.
+     *
+     * @return the light value
+     */
     public float getLightValue() {
         return lightValue;
     }
 
 
+    /**
+     * Sets light value.
+     *
+     * @param lightValue the light value
+     */
     public void setLightValue(float lightValue) {
         this.lightValue = lightValue;
     }
 
+    /**
+     * Gets was legan move.
+     *
+     * @return the was legan move
+     */
     public boolean getWasLeganMove() {
         return wasLeganMove;
     }
 
+    /**
+     * Sets was legan move.
+     *
+     * @param wasLeganMove the was legan move
+     */
     public void setWasLeganMove(boolean wasLeganMove) {
         this.wasLeganMove = wasLeganMove;
     }
 
+    /**
+     * Gets times cheat funktion used wrongly.
+     *
+     * @return the times cheat funktion used wrongly
+     */
     public int getTimesCheatFunktionUsedWrongly() {
         return timesCheatFunktionUsedWrongly;
     }
 
+    /**
+     * Sets times cheat funktion used wrongly.
+     *
+     * @param timesCheatFunktionUsedWrongly the times cheat funktion used wrongly
+     */
     public void setTimesCheatFunktionUsedWrongly(int timesCheatFunktionUsedWrongly) {
         this.timesCheatFunktionUsedWrongly = timesCheatFunktionUsedWrongly;
     }

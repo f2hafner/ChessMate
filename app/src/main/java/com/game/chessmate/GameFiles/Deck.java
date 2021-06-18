@@ -62,6 +62,11 @@ public class Deck {
             j++;
         }
 
+        for (int i=0;i<size;i++){
+            if (deck[i].getId()==15)
+                temp[0]=deck[i];
+        }
+
         return temp;
     }
 

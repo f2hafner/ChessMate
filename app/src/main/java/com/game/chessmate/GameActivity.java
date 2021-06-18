@@ -147,6 +147,8 @@ public class GameActivity extends AppCompatActivity {
             //mark card selected
             exactView.setVisibility(View.GONE);
             selected = true;
+            gameStateView.setVisibility(View.VISIBLE);
+
             switch (id) {
                 case 0:
                     card1.setVisibility(View.VISIBLE);
@@ -166,6 +168,7 @@ public class GameActivity extends AppCompatActivity {
         //close card
         button.setOnClickListener(v -> {
             //mark card unselected
+            gameStateView.setVisibility(View.VISIBLE);
             exactView.setVisibility(View.GONE);
             unselectAfterCardActivation();
         });
@@ -175,6 +178,7 @@ public class GameActivity extends AppCompatActivity {
         card1.setOnClickListener(v -> {
             //show first card and button
             if (id == 3 || id == 0) {
+                gameStateView.setVisibility(View.INVISIBLE);
                 exactView.setImageResource(ChessBoard.getInstance().getCardsPlayer()[0].getDrawableId());
                 exactView.setVisibility(View.VISIBLE);
                 card1.setVisibility(View.INVISIBLE);
@@ -187,6 +191,7 @@ public class GameActivity extends AppCompatActivity {
         card2.setOnClickListener(v -> {
             //show second card and button
             if (id == 3 || id == 1) {
+                gameStateView.setVisibility(View.INVISIBLE);
                 exactView.setImageResource(ChessBoard.getInstance().getCardsPlayer()[1].getDrawableId());
                 exactView.setVisibility(View.VISIBLE);
                 card2.setVisibility(View.INVISIBLE);
@@ -199,6 +204,7 @@ public class GameActivity extends AppCompatActivity {
         card3.setOnClickListener(v -> {
             //show third card and button
             if (id == 3 || id == 2) {
+                gameStateView.setVisibility(View.INVISIBLE);
                 exactView.setImageResource(ChessBoard.getInstance().getCardsPlayer()[2].getDrawableId());
                 exactView.setVisibility(View.VISIBLE);
                 card3.setVisibility(View.INVISIBLE);

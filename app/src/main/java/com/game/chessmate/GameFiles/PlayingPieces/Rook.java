@@ -105,21 +105,21 @@ public class Rook extends ChessPiece {
                     if (currentFields[i][j].getCurrentPiece() == null) {
                         legalMoves.add(currentFields[i][j]);
                     }
+                }
 
-                    switch (loops) {
-                        case 0:
-                            i++;
-                            break;
-                        case 1:
-                            i--;
-                            break;
-                        case 2:
-                            j--;
-                            break;
-                        case 3:
-                            j++;
-                            break;
-                    }
+                switch (loops) {
+                    case 0:
+                        i++;
+                        break;
+                    case 1:
+                        i--;
+                        break;
+                    case 2:
+                        j--;
+                        break;
+                    case 3:
+                        j++;
+                        break;
                 }
             }
 

@@ -398,6 +398,7 @@ public class ChessBoard {
     public void doCardAction(MotionEvent event, int id) {
         Log.i(TAG, "doCardAction: " + gameState);
         if (gameState == GameState.WAITING) {
+            GameActivity.unselectAfterCardActivation();
             return;
         }
 
@@ -635,10 +636,10 @@ public class ChessBoard {
                         case 13: //crusade
                             if (localPlayer.getLastSelectedField() == null && specialNumber==0) { //first click
                                 if (clickedPiece != null && clickedPieceType == ChessPieceType.BISHOP && clickedPieceColor == localPlayerColor) {
-                                    afterFirstClickAfterCardSelection(clickedField, clickedPiece.getLegalFields());
                                     specialNumber=1;
                                     specialActivated=true;
                                     firstField=clickedField;
+                                    afterFirstClickAfterCardSelection(clickedField, clickedPiece.getLegalFields());
                                 } else
                                     GameActivity.unselectAfterCardActivation();
                             }
@@ -716,9 +717,10 @@ public class ChessBoard {
                                     localPlayer.getLastSelectedField().setCurrentPiece(null);
                                     clickedField.getCurrentPiece().setUpdateView(true);
 
+                                    specialNumber=2;
                                     resetLegalMoves();
                                     afterFirstClickAfterCardSelection(clickedField,clickedField.getCurrentPiece().getLegalFields()); //get normal fields
-                                    specialNumber=2;
+
                                 }
                                 else{
                                     localPlayer.setLastSelectedField(null);

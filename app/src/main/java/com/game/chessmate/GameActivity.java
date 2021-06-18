@@ -281,6 +281,10 @@ public class GameActivity extends AppCompatActivity {
         }
         id = 3;
         selected=false;
+
+        if (!ChessBoard.getInstance().isSpecialActivated()) {
+            ChessBoard.getInstance().setCardActivated(false);
+        }
     }
 
     /**

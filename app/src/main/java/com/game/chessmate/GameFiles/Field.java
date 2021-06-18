@@ -208,7 +208,7 @@ public class Field extends View {
      */
     public void setBlocked() {
         this.blocked = true;
-        color.setColor(Color.RED);
+        color.setColor(Color.rgb(218,165,32));
     }
 
     /**

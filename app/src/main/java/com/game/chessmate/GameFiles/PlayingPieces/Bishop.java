@@ -58,7 +58,7 @@ public class Bishop extends ChessPiece {
                         }else{
                             break;
                         }
-                    } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour&&!currentFields[i][j].isProtected()) {
+                    } else if (currentFields[i][j].getCurrentPiece().getColour() != this.colour&&!currentFields[i][j].isProtected()&&ChessBoard.getInstance().getSpecialNumber()!=1) {
                         legalFields.add(currentFields[i][j]);
                         opponentEncountered = true;
                     }else{

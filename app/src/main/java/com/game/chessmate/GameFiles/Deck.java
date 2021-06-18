@@ -101,7 +101,9 @@ public class Deck {
      * @return the card
      */
     public Card drawCard() {
-        if (currentCard == size) {
+        currentCard++;
+
+        if (currentCard > size-1) {
             shuffle();
         }
 

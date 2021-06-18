@@ -96,7 +96,7 @@ public class Card {
                 break;
 
             case 5:
-                name="Rebirth";
+                name="Rebirth"; //? Anderer Spieler ist sofort wieder dran?
                 desc="Move one enemy piece to any square it could have occupied at the beginning of the game. The square must be empty or contain one of your pieces. If one of your pieces is in the square, it is captured.";
                 useCase="[i] Play this card instead of your move";
                 drawableId=R.drawable.rebirth;

@@ -104,7 +104,7 @@ public class ChessMateServer extends Thread{
                                         //TODO tell player 2 that his cheat was reveald
                                         ObjectSender.sendGameDataObjectNoFlip(lobby.player2.connection, lobby, moveBackToOrigin);
                                         ObjectSender.sendGameDataObject(lobby.player1.connection, lobby, moveBackToOrigin);
-                                        lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
+                                        lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
                                     }
                                 }
 
@@ -120,7 +120,7 @@ public class ChessMateServer extends Thread{
                                         //TODO tell player 1 that his cheat was reveald
                                         ObjectSender.sendGameDataObjectNoFlip(lobby.player1.connection, lobby, moveBackToOrigin);
                                         ObjectSender.sendGameDataObject(lobby.player2.connection, lobby, moveBackToOrigin);
-                                        lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
+                                        lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
                                     }
                                 }
                                 try {
@@ -174,6 +174,9 @@ public class ChessMateServer extends Thread{
                         lobby.lastMoveOrigin = request.getOrigin();
                         lobby.lastMoveTarget = request.getTarget();
                         lobby.cheatFuncActive = request.isCheatActivated();
+                        Log.i("GameDataObject",request.getOrigin().toString());
+                        Log.i("GameDataObject",request.getTarget().toString());
+                        Log.i("GameDataObject", "MovedBackVar: "+request.isMovedBack());
                         if(lobby.currentLobbyState == GameStates.WAITING_FOR_PLAYER1_INPUT){
                             System.out.println("Current Lobbystate was WaitForPlayer1move");
                             if(con==lobby.player1.connection){

@@ -34,6 +34,7 @@ public class NetworkManager {
     public static NetworkManager getInstance(){ return NetworkManager.InstanceHolder.INSTANCE; }
     public static ChessPieceColour initialColor;
     public static String currentLobbyCode;
+    public static boolean excludeAfterMove;
     static ExecutorService service = Executors.newFixedThreadPool(1);
 
     public static String createSession(String name){
@@ -121,6 +122,8 @@ public class NetworkManager {
                         receiveWin();
                     }
                     else if (gameDataObject.isMoved()) {
+                        NetworkManager.excludeAfterMove = false;
+                        if(gameDataObject.isMovedBack()){excludeAfterMove=true;}
                         receiveMove(gameDataObject.getOrigin(), gameDataObject.getTarget());
                     }
                     else if (gameDataObject.isUsedCard()) {

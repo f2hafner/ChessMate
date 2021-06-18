@@ -41,6 +41,7 @@ public class ObjectSender {
         GameDataObject gameDataObject = g;
         gameDataObject.setOrigin(g.getOrigin());
         gameDataObject.setTarget(g.getTarget());
+        gameDataObject.setMovedBack(true);
         System.out.println("Sending: " + gameDataObject);
         con.sendTCP(gameDataObject);
     }

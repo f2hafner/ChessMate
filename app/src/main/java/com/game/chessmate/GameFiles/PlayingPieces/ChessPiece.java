@@ -18,7 +18,6 @@ import com.game.chessmate.GameFiles.GameState;
 import com.game.chessmate.GameFiles.Networking.NetworkManager;
 import com.game.chessmate.GameFiles.Networking.NetworkTasks;
 import com.game.chessmate.GameFiles.Vector;
-import com.game.chessmate.OptionsActivity;
 import com.game.chessmate.R;
 
 import java.util.ArrayList;
@@ -44,14 +43,13 @@ abstract public class ChessPiece extends View {
      */
     protected Field currentPosition;
     private Field targetPosition;
-    private Bitmap sprite;
+    private final Bitmap sprite;
     /**
      * The Colour.
      */
     protected ChessPieceColour colour;
     private Vector offset;
     private boolean updateMovementOffset;
-    private int movementSpeed = 15;
     private boolean updateView;
     private boolean firstMove = true;
     private boolean isProtected = false;
@@ -64,7 +62,7 @@ abstract public class ChessPiece extends View {
     private boolean isChampion=false;
     private MediaPlayer moveSound_start;
     private MediaPlayer moveSound_end;
-    private Context context;
+    private final Context context;
     /**
      * The Is checking.
      */
@@ -133,7 +131,7 @@ abstract public class ChessPiece extends View {
     /**
      * Draws the bitmap of this PlayingPiece to the canvas in the position of the containing rectangle.
      *
-     * @param canvas
+     * @param canvas the Canvas
      */
     @Override
     protected void onDraw(Canvas canvas) {
@@ -175,12 +173,12 @@ abstract public class ChessPiece extends View {
             this.getPosition().invalidate();
         }
 
-        if (targetField.hasPiece()&&targetField.getCurrentPiece().isProtected==false) {
+        if (targetField.hasPiece()&& !targetField.getCurrentPiece().isProtected) {
             if (targetField.getCurrentPiece().getColour() != this.colour) {
                 targetField.getCurrentPiece().capture();
             }
         }
-        else if(targetField.hasPiece()&&targetField.getCurrentPiece().isProtected==true) {
+        else if(targetField.hasPiece()&& targetField.getCurrentPiece().isProtected) {
             targetField.getCurrentPiece().setProtected(false);
         }
 
@@ -213,7 +211,8 @@ abstract public class ChessPiece extends View {
         Vector vector = target.sub(start);
 
         if ((offset.getX() != vector.getX()) || (offset.getY() != vector.getY())) {
-            offset = offset.add(vector.div(this.movementSpeed));
+            int movementSpeed = 15;
+            offset = offset.add(vector.div(movementSpeed));
             this.setUpdateView(true);
         }
         else
@@ -323,10 +322,10 @@ abstract public class ChessPiece extends View {
         ArrayList<Field> cheatFields = new ArrayList<>();
 
 
-        for (int fieldX = 0; fieldX < currentFields.length; fieldX++) {
-            for (int fieldY = 0; fieldY < currentFields[fieldX].length; fieldY++) {
-                if (!currentFields[fieldX][fieldY].hasPiece()) {
-                    cheatFields.add(currentFields[fieldX][fieldY]);
+        for (Field[] currentField : currentFields) {
+            for (Field field : currentField) {
+                if (!field.hasPiece()) {
+                    cheatFields.add(field);
                 }
 
             }
@@ -512,12 +511,12 @@ abstract public class ChessPiece extends View {
         Field[][] currentFields = ChessBoard.getInstance().getBoardFields();
         ArrayList<Field> legalFields = this.getLegalFields();
         ChessPiece localKing = ChessBoard.getInstance().getLocalKing();
-        ArrayList<Field> legalMovesInCheck = new ArrayList<Field>();
+        ArrayList<Field> legalMovesInCheck = new ArrayList<>();
         localKing.isChecked(currentFields); //to set isChecking
         ArrayList<Field> isChecking = localKing.getIsChecking();
 
         for (Field f : legalFields) {
-            if (!wouldbeChecked(currentFields, f)) {//checks whether king would be in check if currentpieces position were field - same for king
+            if (!wouldbeChecked(currentFields, f)) {//checks whether king would be in check if current pieces position were field - same for king
                 legalMovesInCheck.add(f);
             }
             if(isChecking.contains(f)){//if piece can kill threatening piece

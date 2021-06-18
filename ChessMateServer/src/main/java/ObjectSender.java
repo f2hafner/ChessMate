@@ -37,6 +37,14 @@ public class ObjectSender {
         con.sendTCP(gameDataObject);
     }
 
+    public static void sendGameDataObjectNoFlip(Connection con, Lobby lobby, GameDataObject g){
+        GameDataObject gameDataObject = g;
+        gameDataObject.setOrigin(g.getOrigin());
+        gameDataObject.setTarget(g.getTarget());
+        System.out.println("Sending: " + gameDataObject);
+        con.sendTCP(gameDataObject);
+    }
+
     public static void sendErrorPacket(Connection con, String errorMsg){
         ErrorPacket errorPacket = new ErrorPacket();
         errorPacket.setErrorMsg(errorMsg);

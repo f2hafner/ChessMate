@@ -89,60 +89,73 @@ public class ChessMateServer extends Thread{
                     SensorActivationObject request = (SensorActivationObject)o;
                     Lobby lobby = LobbyManager.getSessionByLobbycode(request.getLobbyCode());
                     if(lobby!=null){
-                        if(lobby.cheatFuncActive){
-                            Log.accept("SENSOR_PACKET","Received SENSOR PACKET");
-                            if(lobby.player1.connection == con) {
-                                if (lobby.lastMoveOrigin != null) {
-                                  FieldDataObject originField = lobby.lastMoveOrigin;
-                                  FieldDataObject targetField = lobby.lastMoveTarget;
-                                  GameDataObject moveBackToOrigin = new GameDataObject();
-                                  moveBackToOrigin.setOrigin(originField);
-                                  moveBackToOrigin.setTarget(targetField);
-                                  Log.i("SENSOR_PACKET","Player1 revealed the cheat");
-                                  //TODO tell player 2 that his cheat was reveald
-                                  ObjectSender.sendGameDataObject(lobby.player2.connection,lobby, moveBackToOrigin);
-                                  lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
+                        if(lobby.canReceiveSensorPacket){
+                            if(lobby.cheatFuncActive){
+                                Log.accept("SENSOR_PACKET","Received SENSOR PACKET");
+                                if(lobby.player1.connection == con) {
+                                    if (lobby.lastMoveOrigin != null) {
+                                        FieldDataObject originField = lobby.lastMoveOrigin;
+                                        FieldDataObject targetField = lobby.lastMoveTarget;
+                                        GameDataObject moveBackToOrigin = new GameDataObject();
+                                        moveBackToOrigin.setOrigin(targetField);
+                                        moveBackToOrigin.setTarget(originField);
+                                        moveBackToOrigin.setMoved(true);
+                                        Log.i("SENSOR_PACKET","Player1 revealed the cheat");
+                                        //TODO tell player 2 that his cheat was reveald
+                                        ObjectSender.sendGameDataObjectNoFlip(lobby.player2.connection, lobby, moveBackToOrigin);
+                                        ObjectSender.sendGameDataObject(lobby.player1.connection, lobby, moveBackToOrigin);
+                                        lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
+                                    }
                                 }
-                            }
 
-                            if(lobby.player2.connection==con) {
-                                if (lobby.lastMoveOrigin != null) {
-                                    FieldDataObject originField = lobby.lastMoveOrigin;
-                                    FieldDataObject targetField = lobby.lastMoveTarget;
-                                    GameDataObject moveBackToOrigin = new GameDataObject();
-                                    moveBackToOrigin.setOrigin(originField);
-                                    moveBackToOrigin.setTarget(targetField);
-                                    Log.i("SENSOR_PACKET", "Player2 revealed the cheat");
-                                    //TODO tell player 1 that his cheat was reveald
-                                    ObjectSender.sendGameDataObject(lobby.player1.connection, lobby, moveBackToOrigin);
-                                    lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
+                                if(lobby.player2.connection==con) {
+                                    if (lobby.lastMoveOrigin != null) {
+                                        FieldDataObject originField = lobby.lastMoveOrigin;
+                                        FieldDataObject targetField = lobby.lastMoveTarget;
+                                        GameDataObject moveBackToOrigin = new GameDataObject();
+                                        moveBackToOrigin.setOrigin(targetField);
+                                        moveBackToOrigin.setTarget(originField);
+                                        moveBackToOrigin.setMoved(true);
+                                        Log.i("SENSOR_PACKET", "Player2 revealed the cheat");
+                                        //TODO tell player 1 that his cheat was reveald
+                                        ObjectSender.sendGameDataObjectNoFlip(lobby.player1.connection, lobby, moveBackToOrigin);
+                                        ObjectSender.sendGameDataObject(lobby.player2.connection, lobby, moveBackToOrigin);
+                                        lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
+                                    }
                                 }
-                            }
-                            Log.v("SENSOR_PACKET","Sensor got activated and other player cheated");
-                            lobby.cheatFuncActive = false;
-                        } else {
-                            Log.v("SENSOR_PACKET","Sensor got activated and other player did not cheat");
-                            if(lobby.player1.connection == con) {
-                                if (lobby.player1.maxWrongCheatReveal > 0) {
-                                    lobby.player1.maxWrongCheatReveal--;
-                                    lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
-                                   // ObjectSender.sendGameDataObject(lobby.player2.connection, lobby, request);
-                                } else {
-                                    Log.i("SENSOR_PACKET","Player1 ran out of reveals!");
-                                    //TODO anzeigen wieviele Aufdeckversuche noch vorhanden sind
-                                    // lobby.currentLobbyState = GameStates.GAMEOVER;
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
                                 }
-                            }
+                                Log.v("SENSOR_PACKET","Sensor got activated and other player cheated");
+                                lobby.cheatFuncActive = false;
+                                lobby.canReceiveSensorPacket = false;
+                            } else {
+                                Log.v("SENSOR_PACKET","Sensor got activated and other player did not cheat");
+                                if(lobby.player1.connection == con) {
+                                    if (lobby.player1.maxWrongCheatReveal > 0) {
+                                        lobby.player1.maxWrongCheatReveal--;
+                                        lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
+                                        // ObjectSender.sendGameDataObject(lobby.player2.connection, lobby, request);
+                                    } else {
+                                        Log.i("SENSOR_PACKET","Player1 ran out of reveals!");
+                                        //TODO anzeigen wieviele Aufdeckversuche noch vorhanden sind
+                                        // lobby.currentLobbyState = GameStates.GAMEOVER;
+                                    }
+                                }
 
-                            if(lobby.player2.connection == con){
-                                if(lobby.player2.maxWrongCheatReveal > 0){
-                                    lobby.player2.maxWrongCheatReveal--;
-                                    lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
-                                } else {
-                                    Log.i("SENSOR_PACKET", "Player2 ran out of reveals!");
-                                    //TODO anzeigen wieviele Aufdeckversuche noch vorhanden sind
-                                    // lobby.currentLobbyState = GameStates.GAMEOVER;
+                                if(lobby.player2.connection == con){
+                                    if(lobby.player2.maxWrongCheatReveal > 0){
+                                        lobby.player2.maxWrongCheatReveal--;
+                                        lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
+                                    } else {
+                                        Log.i("SENSOR_PACKET", "Player2 ran out of reveals!");
+                                        //TODO anzeigen wieviele Aufdeckversuche noch vorhanden sind
+                                        // lobby.currentLobbyState = GameStates.GAMEOVER;
+                                    }
                                 }
+                                lobby.canReceiveSensorPacket = false;
                             }
                         }
                     }
@@ -155,12 +168,12 @@ public class ChessMateServer extends Thread{
                     if(lobby!=null){
                         if(lobby.cheatFuncActive){
                             //WHEN PLAYER PROCEEDED WITH MOVE INSTEAD OF SENSORACTIVATION
+                            lobby.canReceiveSensorPacket = false;
                             lobby.cheatFuncActive = false;
                         }
                         lobby.lastMoveOrigin = request.getOrigin();
                         lobby.lastMoveTarget = request.getTarget();
                         lobby.cheatFuncActive = request.isCheatActivated();
-
                         if(lobby.currentLobbyState == GameStates.WAITING_FOR_PLAYER1_INPUT){
                             System.out.println("Current Lobbystate was WaitForPlayer1move");
                             if(con==lobby.player1.connection){
@@ -178,6 +191,7 @@ public class ChessMateServer extends Thread{
                                 ObjectSender.sendGameDataObject(lobby.player1.connection, lobby, request);
                             }
                         }
+                        lobby.canReceiveSensorPacket = true;
                     } else {
                         ObjectSender.sendErrorPacket(con,"Error processing your gameInput!");
                     }

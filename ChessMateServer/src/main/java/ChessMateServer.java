@@ -104,7 +104,7 @@ public class ChessMateServer extends Thread{
                                         //TODO tell player 2 that his cheat was reveald
                                         ObjectSender.sendGameDataObjectNoFlip(lobby.player2.connection, lobby, moveBackToOrigin);
                                         ObjectSender.sendGameDataObject(lobby.player1.connection, lobby, moveBackToOrigin);
-                                       // lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
+                                       lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
                                     }
                                 }
 
@@ -120,7 +120,7 @@ public class ChessMateServer extends Thread{
                                         //TODO tell player 1 that his cheat was reveald
                                         ObjectSender.sendGameDataObjectNoFlip(lobby.player1.connection, lobby, moveBackToOrigin);
                                         ObjectSender.sendGameDataObject(lobby.player2.connection, lobby, moveBackToOrigin);
-                                       // lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
+                                       lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
                                     }
                                 }
                                 try {

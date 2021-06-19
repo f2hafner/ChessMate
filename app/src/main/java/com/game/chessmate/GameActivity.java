@@ -77,7 +77,7 @@ public class GameActivity extends AppCompatActivity {
         gameStateView.setTypeface(null, Typeface.BOLD);
         gameStateView.setText("The Game started !");
 
-        cheatButton = getCheatButton();
+        cheatButton = findViewById(R.id.cheatButton);
         player = ChessBoard.getInstance().getLocalPlayer();
 
         if (sensor == null) {

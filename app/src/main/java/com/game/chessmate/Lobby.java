@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -64,12 +65,16 @@ public class Lobby extends AppCompatActivity {
                 if(object instanceof startGameParameters){
                     runOnUiThread(() -> {
                         ChessPieceColour color = ((startGameParameters) object).getInitColour();
-                        NetworkManager.setInitialColor(color);
-                        Log.i("COLOR","COLORlobby: "+((startGameParameters) object).getInitColour());
-                        Intent toGameIntentPlayer2 = new Intent(Lobby.this, GameActivity.class);
-                        startActivity(toGameIntentPlayer2);
-                        ChessMateClient.getInstance().getClient().addListener(NetworkManager.getGameCycleListener());
-                        ChessBoard.getInstance().setGameState(GameState.WAITING);
+                        if(color!=null) {
+                            NetworkManager.setInitialColor(color);
+                            Log.i("COLOR", "COLORlobby: " + ((startGameParameters) object).getInitColour());
+                            Intent toGameIntentPlayer2 = new Intent(Lobby.this, GameActivity.class);
+                            startActivity(toGameIntentPlayer2);
+                            ChessMateClient.getInstance().getClient().addListener(NetworkManager.getGameCycleListener());
+                            ChessBoard.getInstance().setGameState(GameState.WAITING);
+                        } else {
+                            Toast.makeText(Lobby.this, "Couldn't fetch starting parameter!", Toast.LENGTH_LONG).show();
+                        }
                     });
                 }
             }

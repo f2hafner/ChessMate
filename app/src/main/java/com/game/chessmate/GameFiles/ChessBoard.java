@@ -233,6 +233,17 @@ public class ChessBoard {
             return;
         }
 
+        Log.d("DEBUG", "CHECKING FOR CHECKMATE");
+        if(getLocalKing() == null){
+            Log.d(TAG, "handleFieldClick: " + "i lost");
+            gameState = GameState.LOOSE;
+            new NetworkTasks.SendWin();
+
+            Intent intent = new Intent(view.getContext(), EndScreen.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            view.getContext().startActivity(intent);
+        }
+
         int touchX = (int)event.getX();
         int touchY = (int)event.getY();
         Rect rect;
@@ -262,82 +273,80 @@ public class ChessBoard {
                                 f.setAsChecking();
                                 f.invalidate();
                             }
-                            Log.d("DEBUG", "CHECKING FOR CHECKMATE");
                             if(checkMate() || getLocalKing() == null){
                                 Log.d(TAG, "handleFieldClick: " + "i lost");
-                                 gameState = gameState.LOOSE;
-                                 new NetworkTasks.SendWin();
+                                gameState = GameState.LOOSE;
+                                new NetworkTasks.SendWin();
 
-                                 Intent intent = new Intent(view.getContext(), EndScreen.class);
-                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                 view.getContext().startActivity(intent);
+                                Intent intent = new Intent(view.getContext(), EndScreen.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                view.getContext().startActivity(intent);
                             }
                         }
-                    }
 
-                    if (localPlayer.getLastSelectedField() == null) { //this is the first click on a field
-                        if (clickedField.getCurrentPiece() != null) {
-                            if (clickedField.getCurrentPiece().getColour() == localPlayer.getColor()) { //only local player is allowed to move
-                                localPlayer.setLastSelectedField(clickedField);
-                                // position for CheatFunction
-                                // Log.d("position1", lastSelectedField.toString());
-                                startPosition = clickedField;
-                                movedPiece = startPosition.getCurrentPiece();
+                        if (localPlayer.getLastSelectedField() == null) { //this is the first click on a field
+                            if (clickedField.getCurrentPiece() != null) {
+                                if (clickedField.getCurrentPiece().getColour() == localPlayer.getColor()) { //only local player is allowed to move
+                                    localPlayer.setLastSelectedField(clickedField);
+                                    // position for CheatFunction
+                                    // Log.d("position1", lastSelectedField.toString());
+                                    startPosition = clickedField;
+                                    movedPiece = startPosition.getCurrentPiece();
+                                    if (GameActivity.cheatButtonStatus()) {
+                                        localPlayer.setLegalMovesSelected(clickedField.getCurrentPiece().getCheatFunctionMoves());
+                                    } else {
+                                        localPlayer.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalFields());
+                                    }
+                                    Log.d("DEBUG", "FIRST CLICK");
+                                    //overwrite normal legal moves if king is in check
+                                    localKing = getLocalKing();
+                                    if(localKing.isChecked(boardFields)){
+                                        Log.d("DEBUG", "KING IS CHECKED 2");
+                                        localPlayer.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalMovesInCheck());
+                                    }
+
+                                    if (!localPlayer.getLegalMovesSelected().isEmpty()) {
+                                        drawLegalMoves(localPlayer.getLegalMovesSelected());
+                                    }
+                                }
+                            }
+                        } else {//this is the second click
+                            if (localPlayer.getLegalMovesSelected().contains(clickedField)) {
+
+                                endPosition = clickedField;
+
                                 if (GameActivity.cheatButtonStatus()) {
-                                    localPlayer.setLegalMovesSelected(clickedField.getCurrentPiece().getCheatFunctionMoves());
-                                } else {
-                                    localPlayer.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalFields());
+                                    localPlayer.setLegalMovesForCheat(movedPiece.getLegalFields());
+                                    if ((localPlayer.getLegalMovesForCheat().contains(endPosition))) {
+                                        moveWasLegal = true;
+                                        localPlayer.setWasLeganMove(true);
+                                        Log.d("Move********TRUE", String.valueOf(moveWasLegal));
+                                    } else {
+                                        moveWasLegal = false;
+                                        localPlayer.setWasLeganMove(false);
+                                        Log.d("Move_______FALSE", String.valueOf(moveWasLegal));
+                                    }
                                 }
-                                Log.d("DEBUG", "FIRST CLICK");
-                                //overwrite normal legal moves if king is in check
+                                localPlayer.getLastSelectedField().getCurrentPiece().move(clickedField);
+                                resetCheckedFields();
                                 localKing = getLocalKing();
-                                if(localKing.isChecked(boardFields)){
-                                    Log.d("DEBUG", "KING IS CHECKED 2");
-                                    localPlayer.setLegalMovesSelected(clickedField.getCurrentPiece().getLegalMovesInCheck());
+                                if(localKing.isChecked(boardFields)) {
+                                    for (Field f : localKing.getIsChecking()) {
+                                        Log.d("DEBUG", "KING IS CHECKED 3");
+                                        f.setAsChecking();
+                                        //f.invalidate();
+                                        f.setUpdate(true);
+                                    }
                                 }
-
-                                if (!localPlayer.getLegalMovesSelected().isEmpty()) {
-                                    drawLegalMoves(localPlayer.getLegalMovesSelected());
-                                }
+                                localPlayer.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
+                                localPlayer.setLastSelectedField(null);
+                                resetLegalMoves();
+                            } else {
+                                localPlayer.setLastSelectedField(null);
                             }
-                        }
-                    } else {//this is the second click
-                        if (localPlayer.getLegalMovesSelected().contains(clickedField)) {
-
-                            endPosition = clickedField;
-
-                            if (GameActivity.cheatButtonStatus()) {
-                                localPlayer.setLegalMovesForCheat(movedPiece.getLegalFields());
-                                if ((localPlayer.getLegalMovesForCheat().contains(endPosition))) {
-                                    moveWasLegal = true;
-                                    localPlayer.setWasLeganMove(true);
-                                    Log.d("Move********TRUE", String.valueOf(moveWasLegal));
-                                } else {
-                                    moveWasLegal = false;
-                                    localPlayer.setWasLeganMove(false);
-                                    Log.d("Move_______FALSE", String.valueOf(moveWasLegal));
-                                }
-                            }
-                            localPlayer.getLastSelectedField().getCurrentPiece().move(clickedField);
-                            resetCheckedFields();
-                            localKing = getLocalKing();
-                            if(localKing.isChecked(boardFields)) {
-                                for (Field f : localKing.getIsChecking()) {
-                                    Log.d("DEBUG", "KING IS CHECKED 3");
-                                    f.setAsChecking();
-                                    //f.invalidate();
-                                    f.setUpdate(true);
-                                }
-                            }
-                            localPlayer.getLastSelectedField().getCurrentPiece().setFirstMove(false); //so that pawn has limited legal moves next time
-                            localPlayer.setLastSelectedField(null);
                             resetLegalMoves();
-                        } else {
-                            localPlayer.setLastSelectedField(null);
                         }
-                        resetLegalMoves();
                     }
-
                 }
             }
         }

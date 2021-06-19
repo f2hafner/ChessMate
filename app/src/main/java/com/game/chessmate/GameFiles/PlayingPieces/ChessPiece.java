@@ -189,7 +189,6 @@ abstract public class ChessPiece extends View {
                     currentFields[i][j].setProtected(false);
                     currentFields[i][j].getCurrentPiece().setProtected(false);
                     currentFields[i][j].invalidate();
-
                 }
             }
         }
@@ -216,7 +215,7 @@ abstract public class ChessPiece extends View {
             this.setUpdateView(true);
         }
         else
-            afterMove();
+             afterMove();
     }
 
     /**
@@ -224,7 +223,6 @@ abstract public class ChessPiece extends View {
      */
     private void afterMove() {
         stopMoveSoundPlayEndSound();
-
         if (ChessBoard.getInstance().isCardActivated()) {
             if (ChessBoard.getInstance().isSpecialActivated()) {
                 Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
@@ -237,15 +235,13 @@ abstract public class ChessPiece extends View {
                 Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
                 if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
                     new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(), currentPosition, targetPosition);
-
                 }
             }
-        }
-
-        else {
+        } else {
             Log.i("GAMESTATE", "afterMovestart: " + ChessBoard.getInstance().getGameState());
             if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
-                NetworkManager.sendMove(currentPosition, targetPosition);
+                Log.i("excludeAfterMove","AfterMoveValue "+NetworkManager.excludeAfterMove);
+                if(!NetworkManager.excludeAfterMove) NetworkManager.sendMove(currentPosition, targetPosition);
             }
         }
         this.updateMovementOffset = false;
@@ -253,7 +249,7 @@ abstract public class ChessPiece extends View {
         currentPosition.setCurrentPiece(null);
         this.currentPosition = targetPosition;
         targetPosition.setCurrentPiece(this);
-
+        NetworkManager.excludeAfterMove = false;
         if (this.isChampion()){
             targetPosition.markChampion();
             targetPosition.invalidate();

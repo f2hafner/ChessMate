@@ -4,9 +4,11 @@ package com.game.chessmate.GameFiles.PlayingPieces;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import com.game.chessmate.GameActivity;
 import com.game.chessmate.GameFiles.BoardView;
 import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Field;
+import com.game.chessmate.GameFiles.Player;
 import com.game.chessmate.R;
 
 import org.junit.Before;
@@ -556,6 +558,28 @@ public class BishopCheatMovesTest {
         assertTrue(expected.size() == actual.size() && expected.containsAll(actual) && actual.containsAll(expected));//better solution - order does not matter
     }
 
+
+
+
+
+    /*@Test
+    public void getCheatisLegalMoveTest(){
+        when(field.getFieldX()).thenReturn(7);
+        when(field.getFieldY()).thenReturn(7);
+        Player player = new Player(ChessPieceColour.BLACK);
+        player.setCheatOn(true);
+
+
+        player.getLastSelectedField().getCurrentPiece().move();
+
+        boolean actual = player.getWasLeganMove();
+
+
+
+        assertEquals(false,actual);
+
+    }
+*/
 
 
 

@@ -101,7 +101,7 @@ public class ChessMateServer extends Thread{
                                   Log.i("SENSOR_PACKET","Player1 revealed the cheat");
                                   //TODO tell player 2 that his cheat was reveald
                                   ObjectSender.sendGameDataObject(lobby.player2.connection,lobby, moveBackToOrigin);
-                                  lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
+                                //  lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
                                 }
                             }
 
@@ -115,7 +115,7 @@ public class ChessMateServer extends Thread{
                                     Log.i("SENSOR_PACKET", "Player2 revealed the cheat");
                                     //TODO tell player 1 that his cheat was reveald
                                     ObjectSender.sendGameDataObject(lobby.player1.connection, lobby, moveBackToOrigin);
-                                    lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
+                                 //   lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
                                 }
                             }
                             Log.v("SENSOR_PACKET","Sensor got activated and other player cheated");

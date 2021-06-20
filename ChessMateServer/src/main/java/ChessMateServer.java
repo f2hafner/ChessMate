@@ -122,8 +122,8 @@ public class ChessMateServer extends Thread{
                                         moveBackToOrigin.setOrigin(targetField);
                                         moveBackToOrigin.setTarget(originField);
                                         moveBackToOrigin.setMoved(true);
-                                        lobby.player1.maxWrongCheatReveal--;
-                                         /*if (lobby.player1.maxWrongCheatReveal<=0){
+                                        /*lobby.player1.maxWrongCheatReveal--;
+                                         if (lobby.player1.maxWrongCheatReveal<=0){
                                              GameDataObject gameDataObject = new GameDataObject();
                                              gameDataObject.setWrongCheatRevealPlayer1(lobby.player1.maxWrongCheatReveal);
                                              gameDataObject.setWrongCheatRevealPlayer2(lobby.player2.maxWrongCheatReveal);

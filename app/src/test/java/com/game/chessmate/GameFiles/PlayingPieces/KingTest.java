@@ -38,7 +38,6 @@ public class KingTest {
     @Mock
     private BoardView view;
 
-
     King king;
     //for legal moves tests
     ArrayList<String> expected;

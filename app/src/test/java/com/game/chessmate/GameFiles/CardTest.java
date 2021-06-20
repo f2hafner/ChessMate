@@ -17,30 +17,30 @@ import static org.junit.Assert.assertTrue;
 
 public class CardTest {
     String n0="Cowardice";
-    String n1="Crusade";
-    String n2="Dark Mirror";
-    String n3="Death Dance";
-    String n4="Disintegration";
-    String n5="Champion";
-    String n6="Rebirth";
-    String n7="Revelation";
-    String n8="Long Jump";
-    String n9="Lost Castle";
-    String n10="Man of Straw";
-    String n11="Mystic Shield";
-    String n12="Forbidden City";
-    String n13="Holy Quest";
-    String n14="Bombard";
-    String n15="Coup";
-    String n16="Hand of Fate";
-    String n17="Funeral Pyre";
-    String n18="Martyr";
-    String n19="Confabulation";
-    String n20="Fog of War";
-    String n21="Spoils of War";
+    String n1="Dark Mirror";
+    String n2="Death Dance";
+    String n3="Disintegration";
+    String n4="Champion";
+    String n5="Rebirth";
+    String n6="Revelation";
+    String n7="Long Jump";
+    String n8="Lost Castle";
+    String n9="Mystic Shield";
+    String n10="Forbidden City";
+    String n11="Holy Quest";
+    String n12="Vulture";
+    String n13="Crusade";
+    String n14="Man of Straw";
+    String n15="Bombard";
+    String n16="Spoils of War";
+    String n17="Martyr";
+    String n18="Funeral Pyre";
+    String n19="Hand of Fate";
+    String n20="Abduction";
+    String n21="Fog of War";
     String n22="Think Again";
-    String n23="Vulture";
-    String n24="Abduction";
+    String n23="Coup";
+    String n24="Confabulation";
 
     Card card;
 
@@ -139,7 +139,7 @@ public class CardTest {
 
     @Test
     public void testContinuingTillEnd(){
-        card=new Card(15,context);
+        card=new Card(23,context);
         assertTrue(card.isContinuingUntilEnd());
 
         card=new Card(0,context);
@@ -148,7 +148,7 @@ public class CardTest {
 
     @Test
     public void testContinuingTillCaptured(){
-        card=new Card(19,context);
+        card=new Card(24,context);
         assertTrue(card.isContinuingUntilCaptured());
 
         card=new Card(0,context);
@@ -162,7 +162,7 @@ public class CardTest {
 
     @Test
     public void testGetUseCase(){
-        assertEquals("[i] Play this card immediately after your move",card.getUseCase());
+        assertEquals("[i] Play this card instead of your move",card.getUseCase());
     }
 
     @Test

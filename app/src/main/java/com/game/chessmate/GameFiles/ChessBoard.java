@@ -635,10 +635,15 @@ public class ChessBoard {
                             break;
 
                         case 12://vulture
-                            cards[id].vulture(id,localPlayer,deck);
 
-                            localPlayer.setLastSelectedField(null);
-                            resetLegalMoves();
+                            if (deck.isLastCardPlayedbyOponent()) {
+                                cards[id].vulture(id, localPlayer, deck);
+
+                                localPlayer.setLastSelectedField(null);
+                                resetLegalMoves();
+                            }
+                            else
+                                GameActivity.unselectAfterCardActivation();
 
                             break;
 
@@ -790,6 +795,7 @@ public class ChessBoard {
         resetLegalMoves();
 
         deck.setLastCardPlayed(localPlayer.getCurrentCards()[id]);
+        deck.setLastCardPlayedbyOponent(false);
         localPlayer.getCurrentCards()[id].setOwned(false); //set card free
         localPlayer.getCurrentCards()[id] = deck.drawCard(); //replace card
         GameActivity.unselectAfterCardActivation(); //mark card "unselected"
@@ -806,6 +812,13 @@ public class ChessBoard {
     public void receiveCardAction(int cardId, Field field1, Field field2){
         Card card=deck.getSpecificCard(cardId);
         deck.setLastCardPlayed(card);
+        deck.setLastCardPlayedbyOponent(true);
+
+        //show message to user
+        if (view != null) {
+            GameActivity gameActivity = (GameActivity) view.getContext();
+            gameActivity.showToast(card.getName());
+        }
 
         switch (cardId){
             case 0: //Cawardice

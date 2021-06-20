@@ -27,6 +27,7 @@ public class Deck {
 
     //last Card which was played in the game
     private Card lastCardPlayed=null;
+    private boolean lastCardPlayedbyOponent=false;
 
 
     /**
@@ -60,11 +61,6 @@ public class Deck {
             deck[currentCard].setOwned(true);
             currentCard++;
             j++;
-        }
-
-        for (int i=0;i<size;i++){
-            if (deck[i].getId()==15)
-                temp[0]=deck[i];
         }
 
         return temp;
@@ -106,7 +102,8 @@ public class Deck {
      * @return the card
      */
     public Card drawCard() {
-        currentCard++;
+
+        Card card;
 
         if (currentCard > size-1) {
             shuffle();
@@ -119,9 +116,11 @@ public class Deck {
             }
         }
 
-        deck[currentCard].setOwned(true);
+        card=deck[currentCard];
+        card.setOwned(true);
+        currentCard++;
 
-        return deck[currentCard];
+        return card;
     }
 
     /**
@@ -172,5 +171,13 @@ public class Deck {
             }
         }
         return null;
+    }
+
+    public boolean isLastCardPlayedbyOponent() {
+        return lastCardPlayedbyOponent;
+    }
+
+    public void setLastCardPlayedbyOponent(boolean lastCardPlayedbyOponent) {
+        this.lastCardPlayedbyOponent = lastCardPlayedbyOponent;
     }
 }

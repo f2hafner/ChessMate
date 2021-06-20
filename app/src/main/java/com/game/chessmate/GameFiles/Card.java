@@ -31,7 +31,7 @@ public class Card {
 //View and Sound
     Context context;
     private final int drawableId;
-    private final MediaPlayer fieldManipulationSound;
+    private MediaPlayer fieldManipulationSound;
 
     /**
      * The Legal moves.
@@ -52,10 +52,6 @@ public class Card {
     public Card (int id, Context context) throws IllegalArgumentException{
         this.id=id;
         this.context=context;
-
-        //initialise sound-Effect
-        this.fieldManipulationSound=MediaPlayer.create(context,R.raw.mixkit_field_manipulation);
-        this.fieldManipulationSound.setVolume(10.0f,10.0f);
 
         //create card depending on id
         switch (id){
@@ -331,6 +327,7 @@ public class Card {
         //Remove one of your own pawns (It is now dead and cannot be brought back into play)
 
         //start Sound Effect
+        createSound();
         fieldManipulationSound.start();
 
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
@@ -360,6 +357,7 @@ public class Card {
         //Any one knight becomes a Champion. Place a marker underneath it. (a Champion jumps to the opposite corner of a 3 by 4 rectangle).
 
         //start Sound
+        createSound();
         fieldManipulationSound.start();
 
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
@@ -530,6 +528,7 @@ public class Card {
         currentFields=ChessBoard.getInstance().getBoardFields();
 
         //start sound
+        createSound();
         fieldManipulationSound.start();
 
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
@@ -561,6 +560,7 @@ public class Card {
         //block field till end of game (cannot be movedTo)
 
         //start sound
+        createSound();
         fieldManipulationSound.start();
 
         Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
@@ -780,4 +780,9 @@ public class Card {
      * @return the int
      */
     public int getId(){return this.id;}
+
+    public void createSound(){
+        fieldManipulationSound=MediaPlayer.create(context,R.raw.mixkit_field_manipulation);
+        fieldManipulationSound.setVolume(10.0f,10.0f);
+    }
 }

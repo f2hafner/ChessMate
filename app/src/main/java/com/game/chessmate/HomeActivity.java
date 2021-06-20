@@ -18,12 +18,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         getSupportActionBar().hide();
 
-        Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { openNewActivity();            }
-        });
-
         EditText enterName = findViewById(R.id.EnterName);
         String name = enterName.getText().toString();
         TextView pleaseEnterName = findViewById(R.id.pleaseEnterYourName);
@@ -40,15 +34,6 @@ public class HomeActivity extends AppCompatActivity {
                 pleaseEnterName.setText("Please Enter Your Name!");
             }
 
-        });
-
-    }
-
-
-    public void openNewActivity() {
-        new Handler().post(() -> {
-            Intent intent = new Intent(this, GameActivity.class);
-            startActivity(intent);
         });
     }
 }

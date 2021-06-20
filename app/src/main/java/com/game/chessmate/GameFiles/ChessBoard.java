@@ -634,19 +634,6 @@ public class ChessBoard {
                             }
                             break;
 
-                        case 12://vulture
-
-                            if (deck.isLastCardPlayedbyOponent()) {
-                                cards[id].vulture(id, localPlayer, deck);
-
-                                localPlayer.setLastSelectedField(null);
-                                resetLegalMoves();
-                            }
-                            else
-                                GameActivity.unselectAfterCardActivation();
-
-                            break;
-
                         case 13: //crusade
                             if (localPlayer.getLastSelectedField() == null && specialNumber==0) { //first click
                                 if (clickedPiece != null && clickedPieceType == ChessPieceType.BISHOP && clickedPieceColor == localPlayerColor) {

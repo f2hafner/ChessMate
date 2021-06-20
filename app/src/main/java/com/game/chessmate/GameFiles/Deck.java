@@ -107,12 +107,14 @@ public class Deck {
 
         if (currentCard > size-1) {
             shuffle();
+            currentCard=0;
         }
 
         while (deck[currentCard].isOwned()){
             currentCard++;
             if (currentCard==size) {
                 shuffle();
+                currentCard=0;
             }
         }
 

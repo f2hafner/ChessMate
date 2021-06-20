@@ -155,14 +155,35 @@ public class GameActivity extends AppCompatActivity {
                 case 0:
                     card1.setVisibility(View.VISIBLE);
                     card1.setBackgroundColor(Color.RED);
+
+                    if (ChessBoard.getInstance().getCardsPlayer()[0].getId()==12) {
+                        if(ChessBoard.getInstance().getDeck().isLastCardPlayedbyOponent())
+                            ChessBoard.getInstance().getCardsPlayer()[0].vulture(0, ChessBoard.getInstance().getLocalPlayer(), ChessBoard.getInstance().getDeck());
+                        else
+                            unselectAfterCardActivation();
+                    }
                     break;
                 case 1:
                     card2.setVisibility(View.VISIBLE);
                     card2.setBackgroundColor(Color.RED);
+
+                    if (ChessBoard.getInstance().getCardsPlayer()[1].getId()==12){
+                        if(ChessBoard.getInstance().getDeck().isLastCardPlayedbyOponent())
+                            ChessBoard.getInstance().getCardsPlayer()[1].vulture(1,ChessBoard.getInstance().getLocalPlayer(), ChessBoard.getInstance().getDeck());
+                        else
+                            unselectAfterCardActivation();
+                    }
                     break;
                 case 2:
                     card3.setVisibility(View.VISIBLE);
                     card3.setBackgroundColor(Color.RED);
+
+                    if (ChessBoard.getInstance().getCardsPlayer()[2].getId()==12){
+                        if(ChessBoard.getInstance().getDeck().isLastCardPlayedbyOponent())
+                            ChessBoard.getInstance().getCardsPlayer()[2].vulture(2,ChessBoard.getInstance().getLocalPlayer(), ChessBoard.getInstance().getDeck());
+                        else
+                            unselectAfterCardActivation();
+                    }
                     break;
             }
         });

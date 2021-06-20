@@ -89,7 +89,6 @@ public class GameActivity extends AppCompatActivity {
             CheatFunktion.setCheatFunction(false);
         } else {
             CheatFunktion.setCheatFunction(true);
-
         }
 
          //Cheat-Function
@@ -113,7 +112,6 @@ public class GameActivity extends AppCompatActivity {
         };
 
         cheatButton.setOnClickListener(v -> {
-            //TODO How to distinguish who pressed the button
             if (cheatButton.getText().toString().matches("Cheat Off")) {
                 cheatButton.setText("Cheat On");
                 player.setCheatOn(true);

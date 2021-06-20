@@ -76,7 +76,7 @@ public class Card {
                 drawableId=R.drawable.death_dance;
                 break;
 
-            case 3:
+            case 3: //? Bauer ist nicht wirklich weg?
                 name="Disintegration";
                 desc="Remove one of your own pawns from the chessboard, and set it aside. It is now dead, and cannot be brought back into play with another card.";
                 useCase="[i] Play this card instead of your move";
@@ -92,7 +92,7 @@ public class Card {
                 break;
 
             case 5:
-                name="Rebirth"; //? Anderer Spieler ist sofort wieder dran?
+                name="Rebirth"; //? Wenn ich auf dem Feld stehe, wird Figur nicht entfernt?
                 desc="Move one enemy piece to any square it could have occupied at the beginning of the game. The square must be empty or contain one of your pieces. If one of your pieces is in the square, it is captured.";
                 useCase="[i] Play this card instead of your move";
                 drawableId=R.drawable.rebirth;
@@ -336,7 +336,12 @@ public class Card {
         }
 
         //capture Piece
-        playingPiece.capture();
+        ChessBoard.getInstance().getLocalPlayer().addChessPiecesCaptured(playingPiece);
+        ChessBoard.getInstance().getLocalPlayer().removeChessPiecesAlive(playingPiece);
+        playingPiece.getPosition().setCurrentPiece(null);
+        playingPiece.setCurrentPosition(null);
+        playingPiece.isCaptured=true;
+        playingPiece.setUpdateView(true);
 
         if (ChessBoard.getInstance().getGameState() == GameState.WAITING) {
             ChessBoard.getInstance().setGameState(GameState.ACTIVE);
@@ -691,6 +696,19 @@ public class Card {
         //get position of pieces
         Field field1=playingPiece1.getPosition();
         Field field2=playingPiece2.getPosition();
+
+       if (playingPiece1.isChampion()&&playingPiece2.isChampion()) {
+
+       }
+        else{
+            if (playingPiece1.isChampion()) {
+                field1.setRectangleDefaultColor();
+                field2.markChampion();
+        } else if (playingPiece2.isChampion()) {
+                field2.setRectangleDefaultColor();
+                field1.markChampion();
+            }
+        }
 
         //swap pieces
         field1.setCurrentPiece(playingPiece2);

@@ -53,7 +53,7 @@ abstract public class ChessPiece extends View {
     private boolean updateView;
     private boolean firstMove = true;
     private boolean isProtected = false;
-    private boolean isCaptured = false;
+    public boolean isCaptured = false;
     private ChessBoard board;
     /**
      * The Opponent encountered.

@@ -557,32 +557,6 @@ public class BishopCheatMovesTest {
         assertEquals(expected, actual);//-- to see mistake of this test
         assertTrue(expected.size() == actual.size() && expected.containsAll(actual) && actual.containsAll(expected));//better solution - order does not matter
     }
-
-
-
-
-
-    /*@Test
-    public void getCheatisLegalMoveTest(){
-        when(field.getFieldX()).thenReturn(7);
-        when(field.getFieldY()).thenReturn(7);
-        Player player = new Player(ChessPieceColour.BLACK);
-        player.setCheatOn(true);
-
-
-        player.getLastSelectedField().getCurrentPiece().move();
-
-        boolean actual = player.getWasLeganMove();
-
-
-
-        assertEquals(false,actual);
-
     }
-*/
-
-
-
-}
 
 

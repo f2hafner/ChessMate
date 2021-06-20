@@ -100,11 +100,17 @@ public class ChessMateServer extends Thread{
                                         moveBackToOrigin.setOrigin(targetField);
                                         moveBackToOrigin.setTarget(originField);
                                         moveBackToOrigin.setMoved(true);
+                                        lobby.player2.maxWrongCheatReveal--;
+                                        if (lobby.player2.maxWrongCheatReveal<=0){
+                                         GameDataObject gameDataObject = new GameDataObject();
+                                         gameDataObject.setWin(true);
+
+                                        }
                                         Log.i("SENSOR_PACKET","Player1 revealed the cheat");
                                         //TODO tell player 2 that his cheat was reveald
                                         ObjectSender.sendGameDataObjectNoFlip(lobby.player2.connection, lobby, moveBackToOrigin);
                                         ObjectSender.sendGameDataObject(lobby.player1.connection, lobby, moveBackToOrigin);
-                                       lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
+                                     //  lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
                                     }
                                 }
 
@@ -116,11 +122,17 @@ public class ChessMateServer extends Thread{
                                         moveBackToOrigin.setOrigin(targetField);
                                         moveBackToOrigin.setTarget(originField);
                                         moveBackToOrigin.setMoved(true);
+                                        lobby.player1.maxWrongCheatReveal--;
+                                         if (lobby.player1.maxWrongCheatReveal<=0){
+                                             GameDataObject gameDataObject = new GameDataObject();
+                                             gameDataObject.setWin(true);
+                                         }
+
                                         Log.i("SENSOR_PACKET", "Player2 revealed the cheat");
                                         //TODO tell player 1 that his cheat was reveald
                                         ObjectSender.sendGameDataObjectNoFlip(lobby.player1.connection, lobby, moveBackToOrigin);
                                         ObjectSender.sendGameDataObject(lobby.player2.connection, lobby, moveBackToOrigin);
-                                       lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
+                                    //   lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
                                     }
                                 }
                                 try {

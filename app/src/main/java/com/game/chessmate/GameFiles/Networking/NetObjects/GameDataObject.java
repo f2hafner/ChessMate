@@ -8,6 +8,8 @@ public class GameDataObject {
     boolean moved;
     FieldDataObject origin;
     FieldDataObject target;
+    int WrongCheatRevealPlayer1;
+    int WrongCheatRevealPlayer2;
 
     //Cards
     boolean usedCard;
@@ -19,6 +21,7 @@ public class GameDataObject {
 
     //Win
     private boolean win;
+    private boolean loose;
 
     public GameDataObject() {}
 
@@ -108,5 +111,29 @@ public class GameDataObject {
 
     public void setWin(boolean win) {
         this.win = win;
+    }
+
+    public int getWrongCheatRevealPlayer1() {
+        return WrongCheatRevealPlayer1;
+    }
+
+    public void setWrongCheatRevealPlayer1(int wrongCheatRevealPlayer1) {
+        WrongCheatRevealPlayer1 = wrongCheatRevealPlayer1;
+    }
+
+    public int getWrongCheatRevealPlayer2() {
+        return WrongCheatRevealPlayer2;
+    }
+
+    public void setWrongCheatRevealPlayer2(int wrongCheatRevealPlayer2) {
+        WrongCheatRevealPlayer2 = wrongCheatRevealPlayer2;
+    }
+
+    public boolean isLoose() {
+        return loose;
+    }
+
+    public void setLoose(boolean loose) {
+        this.loose = loose;
     }
 }

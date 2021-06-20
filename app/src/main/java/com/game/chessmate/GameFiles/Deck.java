@@ -63,11 +63,6 @@ public class Deck {
             j++;
         }
 
-        for (int i=0;i<size;i++){
-            if (deck[i].getId()==15)
-                temp[0]=deck[i];
-        }
-
         return temp;
     }
 
@@ -107,7 +102,8 @@ public class Deck {
      * @return the card
      */
     public Card drawCard() {
-        currentCard++;
+
+        Card card;
 
         if (currentCard > size-1) {
             shuffle();
@@ -120,9 +116,11 @@ public class Deck {
             }
         }
 
-        deck[currentCard].setOwned(true);
+        card=deck[currentCard];
+        card.setOwned(true);
+        currentCard++;
 
-        return deck[currentCard];
+        return card;
     }
 
     /**

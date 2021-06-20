@@ -17,9 +17,10 @@
         app:backgroundTint="#090808"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.631" />
+        app:layout_constraintVertical_bias="0.54" />
 
     <TextView
         android:id="@+id/txtEnd"
@@ -36,18 +37,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.336" />
 
-    <Button
-        android:id="@+id/playAgain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play again !"
-        android:textColor="#F9F6F6"
-        android:textStyle="bold"
-        android:visibility="visible"
-        app:backgroundTint="#090808"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.55" />
 </androidx.constraintlayout.widget.ConstraintLayout>

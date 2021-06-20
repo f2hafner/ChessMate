@@ -27,6 +27,7 @@ public class Deck {
 
     //last Card which was played in the game
     private Card lastCardPlayed=null;
+    private boolean lastCardPlayedbyOponent=false;
 
 
     /**
@@ -172,5 +173,13 @@ public class Deck {
             }
         }
         return null;
+    }
+
+    public boolean isLastCardPlayedbyOponent() {
+        return lastCardPlayedbyOponent;
+    }
+
+    public void setLastCardPlayedbyOponent(boolean lastCardPlayedbyOponent) {
+        this.lastCardPlayedbyOponent = lastCardPlayedbyOponent;
     }
 }

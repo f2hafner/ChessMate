@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.WorkerThread;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.game.chessmate.GameFiles.CheatFunktion;
@@ -22,6 +24,8 @@ import com.game.chessmate.GameFiles.ChessBoard;
 import com.game.chessmate.GameFiles.Networking.NetworkTasks;
 import com.game.chessmate.GameFiles.Player;
 import com.game.chessmate.GameFiles.GameState;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * The type Game activity.
@@ -316,6 +320,20 @@ public class GameActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         new NetworkTasks.SendLeaveSessionPacket();
+    }
+
+    /**
+     * Show toast.
+     *
+     * @param text the text
+     */
+    //message to user that oponent used a card
+    @WorkerThread
+    public void showToast(String text) {
+        runOnUiThread(() -> {
+            String message="Oponent used the card: "+text;
+            Toast.makeText(GameActivity.this,message,Toast.LENGTH_LONG).show();
+        });
     }
 
 }

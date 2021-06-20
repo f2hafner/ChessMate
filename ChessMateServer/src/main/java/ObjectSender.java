@@ -37,7 +37,7 @@ public class ObjectSender {
         con.sendTCP(gameDataObject);
     }
 
-    public static void sendEndStateGameDataObject(Connection con,GameDataObject g, boolean endState){
+    /*public static void sendEndStateGameDataObject(Connection con,GameDataObject g, boolean endState){
         GameDataObject gameDataObject = g;
         if(endState){
             gameDataObject.setWin(true);
@@ -46,7 +46,7 @@ public class ObjectSender {
         }
         System.out.println("Sending: " + gameDataObject);
         con.sendTCP(gameDataObject);
-    }
+    }*/
 
     public static void sendGameDataObjectNoFlip(Connection con, Lobby lobby, GameDataObject g){
         GameDataObject gameDataObject = g;

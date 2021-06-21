@@ -140,6 +140,7 @@ public class Lobby {
     public void printInfo() {
         Log.i("LOBBY"+lobbyID,"LobbyID="+"\t"+lobbyID);
         Log.i("LOBBY"+lobbyID,"LobbyCODE="+"\t"+lobbycode);
+        Log.i("LOBBY"+lobbyID,"STATE="+"\t"+this.currentLobbyState);
         Log.i("LOBBY"+lobbyID,"PlayersCOUNT="+"\t"+playercount);
         Log.i("LOBBY"+lobbyID,"Player1="+"\t"+player1);
         Log.i("LOBBY"+lobbyID,"Player2="+"\t"+player2);

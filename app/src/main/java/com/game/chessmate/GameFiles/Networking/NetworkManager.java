@@ -115,18 +115,18 @@ public class NetworkManager {
             public void received(Connection connection, Object object) {
                 if(object instanceof GameDataObject){
                     GameDataObject gameDataObject = (GameDataObject)object;
-                    Log.i("LOG","ORG: "+ gameDataObject.getOrigin().toString()+" TRG: "+gameDataObject.getTarget().toString());
-
+                    ChessBoard.getInstance().getLocalPlayer().setTimesCheatFunktionUsedWrongly(gameDataObject.getWrongCheatRevealPlayer());
                     if(gameDataObject.isWin()){
                         Log.d(TAG, "received: " + gameDataObject +" "+ gameDataObject.isWin());
                         receiveWin();
-                    }
-                    else if (gameDataObject.isMoved()) {
+                    } else if(gameDataObject.isLoose()){
+                        Log.d(TAG, "received: " + gameDataObject +" "+ gameDataObject.isLoose());
+                        receiveLoose();
+                    } else if (gameDataObject.isMoved()) {
                         NetworkManager.excludeAfterMove = false;
                         if(gameDataObject.isMovedBack()){excludeAfterMove=true;}
                         receiveMove(gameDataObject.getOrigin(), gameDataObject.getTarget());
-                    }
-                    else if (gameDataObject.isUsedCard()) {
+                    } else if (gameDataObject.isUsedCard()) {
                         receiveCard(gameDataObject.getCardId(),gameDataObject.getOrigin(),gameDataObject.getTarget());
                     }
                 }
@@ -154,6 +154,12 @@ public class NetworkManager {
     public static void receiveWin(){
         Log.d(TAG, "receiveWin: " + "was called");
         ChessBoard.getInstance().setGameState(GameState.WIN);
+        ChessBoard.getInstance().redirectToEndScreen();
+    }
+
+    public static void receiveLoose(){
+        Log.d(TAG, "receiveLoose: " + "was called");
+        ChessBoard.getInstance().setGameState(GameState.LOOSE);
         ChessBoard.getInstance().redirectToEndScreen();
     }
 

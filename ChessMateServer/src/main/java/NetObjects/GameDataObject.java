@@ -128,4 +128,5 @@ public class GameDataObject {
     public void setLoose(boolean loose) {
         this.loose = loose;
     }
+
 }

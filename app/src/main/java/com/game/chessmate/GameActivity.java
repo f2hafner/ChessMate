@@ -1,4 +1,5 @@
 package com.game.chessmate;
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -50,12 +51,12 @@ public class GameActivity extends AppCompatActivity {
     private SensorEventListener lightEventListener;
     private float maxValue;
     private TextView gameStateView;
-    private static boolean isCheatOn = false;
+    public static boolean isCheatOn = false;
 
     /**
      * The Cheat button.
      */
-    Button cheatButton;
+    static Button cheatButton;
 
 
 
@@ -110,6 +111,8 @@ public class GameActivity extends AppCompatActivity {
 
             }
         };
+
+
 
         cheatButton.setOnClickListener(v -> {
 
@@ -264,7 +267,13 @@ public class GameActivity extends AppCompatActivity {
         sensorManager.registerListener(lightEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-
+    public void updateButtonTextLocal(){
+        cheatButton = findViewById(R.id.cheatButton);
+        if (cheatButton != null) {
+            if(isCheatOn) cheatButton.setText("Cheat ON " + player.getTimesCheatFunktionUsedWrongly() + " left");
+            if(!isCheatOn) cheatButton.setText("Cheat OFF " + player.getTimesCheatFunktionUsedWrongly() + " left");
+        }
+    }
     /**
      * Gets cheat button.
      *
@@ -360,12 +369,9 @@ public class GameActivity extends AppCompatActivity {
      * @param text the text
      */
     //message to user that oponent used a card
-    @WorkerThread
-    public void showToast(String text) {
-        runOnUiThread(() -> {
-            String message="Opponent used the card: "+text;
-            Toast.makeText(GameActivity.this,message,Toast.LENGTH_LONG).show();
-        });
+    public void showToast(String text){
+        String message="Opponent used the card: "+text;
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
     }
 
 }

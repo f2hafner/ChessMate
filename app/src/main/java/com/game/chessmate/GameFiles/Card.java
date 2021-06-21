@@ -239,7 +239,6 @@ public class Card {
                 throw new IllegalArgumentException ("Not a valid card!");
         }
     }
-
     /**
      * Cowardice array list.
      *
@@ -713,7 +712,6 @@ public class Card {
         //update view
         playingPiece1.setUpdateView(true);
         playingPiece2.setUpdateView(true);
-
 
         if (ChessBoard.getInstance().getGameState() == GameState.WAITING) {
             ChessBoard.getInstance().setGameState(GameState.ACTIVE);

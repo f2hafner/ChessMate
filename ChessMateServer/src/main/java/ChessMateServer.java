@@ -109,9 +109,9 @@ public class ChessMateServer extends Thread{
                                         }*/
                                         Log.i("SENSOR_PACKET","Player1 revealed the cheat");
                                         //TODO tell player 2 that his cheat was reveald
+                                        lobby.player2.maxWrongCheatReveal--;
                                         ObjectSender.sendGameDataObjectNoFlip(lobby.player2.connection, lobby, moveBackToOrigin);
                                         ObjectSender.sendGameDataObject(lobby.player1.connection, lobby, moveBackToOrigin);
-                                        lobby.player2.maxWrongCheatReveal--;
                                         if(lobby.player2.maxWrongCheatReveal==0){
                                             ObjectSender.sendEndStateGameDataObject(lobby.player2.connection,false);
                                             ObjectSender.sendEndStateGameDataObject(lobby.player1.connection,true);
@@ -138,9 +138,10 @@ public class ChessMateServer extends Thread{
 
                                         Log.i("SENSOR_PACKET", "Player2 revealed the cheat");
                                         //TODO tell player 1 that his cheat was reveald
+                                        lobby.player1.maxWrongCheatReveal--;
                                         ObjectSender.sendGameDataObjectNoFlip(lobby.player1.connection, lobby, moveBackToOrigin);
                                         ObjectSender.sendGameDataObject(lobby.player2.connection, lobby, moveBackToOrigin);
-                                        lobby.player1.maxWrongCheatReveal--;
+
                                         if(lobby.player1.maxWrongCheatReveal==0){
                                             ObjectSender.sendEndStateGameDataObject(lobby.player1.connection,false);
                                             ObjectSender.sendEndStateGameDataObject(lobby.player2.connection,true);
@@ -165,7 +166,7 @@ public class ChessMateServer extends Thread{
                                             ObjectSender.sendEndStateGameDataObject(lobby.player1.connection,false);
                                             ObjectSender.sendEndStateGameDataObject(lobby.player2.connection,true);
                                         }
-                                        lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
+                                        lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
                                         // ObjectSender.sendGameDataObject(lobby.player2.connection, lobby, request);
                                     } else {
                                         Log.i("SENSOR_PACKET","Player1 ran out of reveals!");
@@ -181,7 +182,7 @@ public class ChessMateServer extends Thread{
                                             ObjectSender.sendEndStateGameDataObject(lobby.player2.connection,false);
                                             ObjectSender.sendEndStateGameDataObject(lobby.player1.connection,true);
                                         }
-                                        lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
+                                        lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
                                     } else {
                                         Log.i("SENSOR_PACKET", "Player2 ran out of reveals!");
                                         //TODO anzeigen wieviele Aufdeckversuche noch vorhanden sind

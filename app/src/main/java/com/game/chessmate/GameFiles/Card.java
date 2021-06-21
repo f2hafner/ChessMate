@@ -56,21 +56,21 @@ public class Card {
         //create card depending on id
         switch (id){
             case 0:
-                name="Cowardice";
+                name="Cowardice";//geht
                 desc="Move one of your opponent's pawns one or two squares backward. It may not enter or cross an occupied square.";
                 useCase="[i] Play this card instead of your move";
                 drawableId=R.drawable.cowardice;
                 break;
 
             case 1:
-                name="Dark Mirror";
+                name="Dark Mirror";//geht
                 desc="On this move, one of your pawns can capture by moving diagonally backward instead of forward.";
                 useCase="[i] Play this card instead of your move";
                 drawableId=R.drawable.dark_mirror;
                 break;
 
             case 2:
-                name="Death Dance";
+                name="Death Dance";//geht
                 desc="Exchange the position of any of your pieces with any adjacent enemy piece.";
                 useCase="[i] Play this card instead of your move";
                 drawableId=R.drawable.death_dance;
@@ -84,7 +84,7 @@ public class Card {
                 break;
 
             case 4:
-                name="Champion";
+                name="Champion";//geht
                 desc="Any one knight in play becomes a Champion. Place a marker underneath it. Instead of jumping like a knight, to the opposite corner of a 2 by 3 rectangle, a Champion jumps to the opposite corner of a 3 by 4 rectangle.";
                 useCase="[i] Play this card instead of your move. Continuing Effect until piece is captured.";
                 continuingEffectUntilCaptured=true;
@@ -92,7 +92,7 @@ public class Card {
                 break;
 
             case 5:
-                name="Rebirth"; //? Wenn ich auf dem Feld stehe, wird Figur nicht entfernt?
+                name="Rebirth"; //? Wenn ich auf dem Feld stehe, wird Figur nicht entfernt? geht
                 desc="Move one enemy piece to any square it could have occupied at the beginning of the game. The square must be empty or contain one of your pieces. If one of your pieces is in the square, it is captured.";
                 useCase="[i] Play this card instead of your move";
                 drawableId=R.drawable.rebirth;
@@ -113,7 +113,7 @@ public class Card {
                 break;
 
             case 8:
-                name="Lost Castle";
+                name="Lost Castle";//geht
                 desc="Swap the positions of one of your rooks and one of your opponent's rooks.";
                 useCase="[i] Play this card instead of your move";
                 drawableId=R.drawable.lost_castle;
@@ -170,18 +170,20 @@ public class Card {
                 break;
 
             case 16:
-                name="Spoils of War";
+
+                /*name="Spoils of War";
                 desc="Play this card when you capture one of your opponent's pieces. The capturing piece changes permanently into a piece of the kind it captured. For instance, if one of your pawns captures a knight, it becomes a knight.";
                 useCase="[i] Play this card immediately after your move.";
                 drawableId=R.drawable.spoils_of_war;
-                break;
+                break;*/
 
             case 17:
-                name="Martyr";
+
+                /*name="Martyr";
                 desc="Play this card when one of your bishops has the choice of taking two or more of your opponent's pieces. Capture as many of these pieces as you want (at least two). Your bishop is removed from play and regarded as captured.";
                 useCase="[i] Play this card on your turn, instead of making a regular move.";
                 drawableId=R.drawable.martyr;
-                break;
+                break;*/
 
             case 18:
                 name="Funeral Pyre";
@@ -238,7 +240,6 @@ public class Card {
                 throw new IllegalArgumentException ("Not a valid card!");
         }
     }
-
     /**
      * Cowardice array list.
      *

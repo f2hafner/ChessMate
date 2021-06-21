@@ -116,6 +116,7 @@ public class NetworkManager {
                 if(object instanceof GameDataObject){
                     GameDataObject gameDataObject = (GameDataObject)object;
                     ChessBoard.getInstance().getLocalPlayer().setTimesCheatFunktionUsedWrongly(gameDataObject.getWrongCheatRevealPlayer());
+                        ChessBoard.getInstance().updateButtonText();
                     if(gameDataObject.isWin()){
                         Log.d(TAG, "received: " + gameDataObject +" "+ gameDataObject.isWin());
                         receiveWin();
@@ -148,7 +149,7 @@ public class NetworkManager {
         Log.i("RECEIVE_MOVE", String.valueOf(targetField));
         Log.i("RECEIVE_MOVE", String.valueOf(targetField.getFieldX()));
         Log.i("RECEIVE_MOVE", String.valueOf(targetField.getFieldY()));
-        originField.getCurrentPiece().move(targetField);
+        if(originField!=null && targetField!=null ) originField.getCurrentPiece().move(targetField);
     }
 
     public static void receiveWin(){

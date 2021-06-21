@@ -62,7 +62,7 @@ dependencies {
     //Mockito
     testImplementation 'org.mockito:mockito-core:3.7.7'
     //testImplementation 'org.mockito:mockito-junit-jupiter:2.25.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.2'
     androidTestImplementation 'org.mockito:mockito-android:3.7.7'
     androidTestImplementation 'com.google.dexmaker:dexmaker:1.0'
     androidTestImplementation'com.google.dexmaker:dexmaker-mockito:1.0'

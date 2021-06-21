@@ -112,21 +112,34 @@ public class GameActivity extends AppCompatActivity {
         };
 
         cheatButton.setOnClickListener(v -> {
-            if (cheatButton.getText().toString().matches("Cheat Off")) {
-                cheatButton.setText("Cheat On ");
-                player.setCheatOn(true);
-                cheatButton.setTextColor(getApplication().getResources().getColor(R.color.black));
-                isCheatOn = true;
-                cheatButton.setBackgroundColor(getResources().getColor(R.color.white));
 
-            } else if (cheatButton.getText().toString().matches("Cheat On")) {
-                cheatButton.setText("Cheat Off ");
-                isCheatOn = false;
-                ChessBoard.getInstance().resetLegalMoves();
-                player.setCheatOn(false);
-                cheatButton.setTextColor(getApplication().getResources().getColor(R.color.white));
-                cheatButton.setBackgroundColor(getResources().getColor(R.color.black));
-
+            if (isCheatOn) {
+                if(player.getTimesCheatFunktionUsedWrongly()==0){
+                    isCheatOn = false;
+                    cheatButton.setText("No Cheats Left!");
+                    cheatButton.setTextColor(getApplication().getResources().getColor(R.color.white));
+                    cheatButton.setBackgroundColor(getResources().getColor(R.color.black));
+                } else {
+                    cheatButton.setText("Cheat OFF " + player.getTimesCheatFunktionUsedWrongly() + " left");
+                    ChessBoard.getInstance().resetLegalMoves();
+                    player.setCheatOn(false);
+                    isCheatOn = false;
+                    cheatButton.setTextColor(getApplication().getResources().getColor(R.color.white));
+                    cheatButton.setBackgroundColor(getResources().getColor(R.color.black));
+                }
+            } else {
+                if(player.getTimesCheatFunktionUsedWrongly()==0){
+                    isCheatOn = false;
+                    cheatButton.setText("No Cheats Left!");
+                    cheatButton.setTextColor(getApplication().getResources().getColor(R.color.white));
+                    cheatButton.setBackgroundColor(getResources().getColor(R.color.black));
+                } else {
+                    cheatButton.setText("Cheat ON " + player.getTimesCheatFunktionUsedWrongly()+" left");
+                    isCheatOn = true;
+                    player.setCheatOn(true);
+                    cheatButton.setTextColor(getApplication().getResources().getColor(R.color.black));
+                    cheatButton.setBackgroundColor(getResources().getColor(R.color.white));
+                }
             }
         });
 
@@ -350,7 +363,7 @@ public class GameActivity extends AppCompatActivity {
     @WorkerThread
     public void showToast(String text) {
         runOnUiThread(() -> {
-            String message="Oponent used the card: "+text;
+            String message="Opponent used the card: "+text;
             Toast.makeText(GameActivity.this,message,Toast.LENGTH_LONG).show();
         });
     }

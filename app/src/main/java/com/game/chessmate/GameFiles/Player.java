@@ -35,7 +35,7 @@ public class Player {
         this.color = color;
         this.cheatOn = false;
         this.wasLeganMove = true;
-        this.timesCheatFunktionUsedWrongly = 0;
+        this.timesCheatFunktionUsedWrongly = 3;
     }
 
 

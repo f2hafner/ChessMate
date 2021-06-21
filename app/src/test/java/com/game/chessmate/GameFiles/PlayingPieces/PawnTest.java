@@ -48,7 +48,7 @@ public class PawnTest {
 
     @Before
     public void init(){
-        colour= ChessPieceColour.WHITE;
+        colour= null;//ChessPieceColour.WHITE;
         context= Mockito.mock(Context.class);
         field= Mockito.mock(Field.class);
         sprite=Mockito.mock(Bitmap.class);
@@ -95,7 +95,7 @@ public class PawnTest {
         assertEquals(colour,pawn.getColour());
     }
 
-    //NOTE - in the testcase environment, the position of the black and white pieces is different than in the app. The position of the pieces (but not the chessboard) is changed as if the chessboard were rotated agianst the clock once - so black pieces are on the left and white pieces on the right.
+    //NOTE - in the testcase environment, the position of the black and white pieces is different than in the app. The position of the pieces (but not the chessboard) is changed as if the chessboard were rotated against the clock once - so black pieces are on the left and white pieces on the right.
     /*
        testcases - one average testcase when piece is in the middle of the chessboard - legal moves should be restricted by pieces of same colour (later also by opponent),
        one testcase per chessboard border (4) - legal moves should be restricted by pieces of same colour and border (later also by opponent),
@@ -293,7 +293,7 @@ public class PawnTest {
         when(field.getFieldX()).thenReturn(2);
         when(field.getFieldY()).thenReturn(0);
 
-        expected.add(currentFields[1][0].getFieldX() + ":" + currentFields[1][0].getFieldY());
+        expected.add(currentFields[1][1].getFieldX() + ":" + currentFields[1][1].getFieldY());
         ArrayList<Field> temp = pawn.getLegalFields();
         ArrayList<String> actual = new ArrayList<>();
         for (int i = 0; i < temp.size(); i++) {
@@ -303,5 +303,110 @@ public class PawnTest {
         assertTrue(expected.size() == actual.size() && expected.containsAll(actual) && actual.containsAll(expected));//better solution - order does not matter
     }
 
+    @Test
+    public void getLegalMovesDeathDanceUpperLeftCornerTest(){
+        when(field.getFieldX()).thenReturn(0);
+        when(field.getFieldY()).thenReturn(0);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        expected.add(currentFields[1][0]);
+        expected.add(currentFields[1][1]);
+        expected.add(currentFields[0][1]);
+
+        assertEquals(expected.size(),pawn.getLegalMovesDeathDance().size());
+    }
+
+    @Test
+    public void getLegalMovesDeathDanceUpperRightCornerTest(){
+        when(field.getFieldX()).thenReturn(0);
+        when(field.getFieldY()).thenReturn(7);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        expected.add(currentFields[1][6]);
+        expected.add(currentFields[1][7]);
+        expected.add(currentFields[0][6]);
+
+        assertEquals(expected.size(),pawn.getLegalMovesDeathDance().size());
+    }
+
+    @Test
+    public void getLegalMovesDeathDanceUpperBorderTest(){
+        when(field.getFieldX()).thenReturn(0);
+        when(field.getFieldY()).thenReturn(3);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        expected.add(currentFields[1][2]);
+        expected.add(currentFields[1][3]);
+        expected.add(currentFields[1][4]);
+        expected.add(currentFields[0][2]);
+        expected.add(currentFields[0][4]);
+
+        assertEquals(expected.size(),pawn.getLegalMovesDeathDance().size());
+    }
+
+    @Test
+    public void getLegalMovesDeathDanceLowerLeftCornerTest(){
+        when(field.getFieldX()).thenReturn(7);
+        when(field.getFieldY()).thenReturn(0);
+
+        pawn.setColor(ChessPieceColour.WHITE);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        expected.add(currentFields[6][0]);
+        expected.add(currentFields[6][1]);
+        expected.add(currentFields[7][1]);
+
+        assertEquals(expected.size(),pawn.getLegalMovesDeathDance().size());
+
+        pawn.setColor(null);
+    }
+
+    @Test
+    public void getLegalMovesDeathDanceLowerRightCornerTest(){
+        when(field.getFieldX()).thenReturn(7);
+        when(field.getFieldY()).thenReturn(7);
+
+        pawn.setColor(ChessPieceColour.WHITE);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        expected.add(currentFields[6][7]);
+        expected.add(currentFields[6][6]);
+        expected.add(currentFields[7][6]);
+
+        assertEquals(expected.size(),pawn.getLegalMovesDeathDance().size());
+
+        pawn.setColor(null);
+
+    }
+
+    @Test
+    public void getLegalMovesDeathDanceLowerBorderTest(){
+        when(field.getFieldX()).thenReturn(7);
+        when(field.getFieldY()).thenReturn(3);
+
+        pawn.setColor(ChessPieceColour.WHITE);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        expected.add(currentFields[7][2]);
+        expected.add(currentFields[7][4]);
+        expected.add(currentFields[6][2]);
+        expected.add(currentFields[6][3]);
+        expected.add(currentFields[6][4]);
+
+        assertEquals(expected.size(),pawn.getLegalMovesDeathDance().size());
+
+        pawn.setColor(null);
+
+    }
+
+    @Test
+    public void getLegalMovesDeathDanceMiddleTest(){
+        when(field.getFieldX()).thenReturn(3);
+        when(field.getFieldY()).thenReturn(3);
+
+        ArrayList<Field>expected=new ArrayList<>();
+
+        assertEquals(expected.size(),pawn.getLegalMovesDeathDance().size());
+    }
 
 }

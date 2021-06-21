@@ -47,7 +47,7 @@ public class RookCheatMovesTest {
 
     @Before
     public void init() {
-        colour = ChessPieceColour.WHITE;
+        colour = null;// ChessPieceColour.WHITE;
         context = Mockito.mock(Context.class);
         field = Mockito.mock(Field.class);
         sprite = Mockito.mock(Bitmap.class);

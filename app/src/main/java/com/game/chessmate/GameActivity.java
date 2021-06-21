@@ -113,14 +113,14 @@ public class GameActivity extends AppCompatActivity {
 
         cheatButton.setOnClickListener(v -> {
             if (cheatButton.getText().toString().matches("Cheat Off")) {
-                cheatButton.setText("Cheat On " + player.getTimesCheatFunktionUsedWrongly() + " times");
+                cheatButton.setText("Cheat On ");
                 player.setCheatOn(true);
                 cheatButton.setTextColor(getApplication().getResources().getColor(R.color.black));
                 isCheatOn = true;
                 cheatButton.setBackgroundColor(getResources().getColor(R.color.white));
 
             } else if (cheatButton.getText().toString().matches("Cheat On")) {
-                cheatButton.setText("Cheat Off " + player.getTimesCheatFunktionUsedWrongly()+" times");
+                cheatButton.setText("Cheat Off ");
                 isCheatOn = false;
                 ChessBoard.getInstance().resetLegalMoves();
                 player.setCheatOn(false);

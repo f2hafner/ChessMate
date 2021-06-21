@@ -3,7 +3,7 @@ package com.game.chessmate.GameFiles;
 public class FieldTest {
     Field field;
 
- /*   @Mock
+ /*  @Mock
     Context context;
 
     @Mock

@@ -49,7 +49,7 @@ public class BishopTest {
 
     @Before
     public void init(){
-        colour= ChessPieceColour.WHITE;
+        colour= null;//ChessPieceColour.WHITE;
         context= Mockito.mock(Context.class);
         field= Mockito.mock(Field.class);
         view = Mockito.mock(BoardView.class);
@@ -96,7 +96,7 @@ public class BishopTest {
 
         assertEquals(colour,bishop.getColour());
     }
-    //NOTE - in the testcase environment, the position of the black and white pieces is different than in the app. The position of the pieces (but not the chessboard) is changed as if the chessboard were rotated agianst the clock once - so black pieces are on the left and white pieces on the right.
+    //NOTE - in the testcase environment, the position of the black and white pieces is different than in the app. The position of the pieces (but not the chessboard) is changed as if the chessboard were rotated against the clock once - so black pieces are on the left and white pieces on the right.
 
     /*
        testcases - one average testcase when piece is in the middle of the chessboard - legal moves should be restricted by pieces of same colour (later also by opponent),
@@ -275,5 +275,23 @@ public class BishopTest {
         }
         assertEquals(expected, actual);//-- to see mistake of this test
         assertTrue(expected.size() == actual.size() && expected.containsAll(actual) && actual.containsAll(expected));//better solution - order does not matter
+    }
+
+    @Test
+    public void holyQuestTest(){
+        //for black bishops
+        ArrayList<Field>expected=new ArrayList<>();
+        expected.add(currentFields[7][1]);
+        expected.add(currentFields[7][6]);
+
+        assertEquals(expected.size(),bishop.getLegalMovesHolyQuest().size());
+
+        //for white bishops
+        bishop.setColor(ChessPieceColour.WHITE);
+        expected=new ArrayList<>();
+        expected.add(currentFields[0][1]);
+        expected.add(currentFields[0][6]);
+
+        assertEquals(expected.size(),bishop.getLegalMovesHolyQuest().size());
     }
 }

@@ -1190,7 +1190,9 @@ public class ChessBoard {
     /**
      * Set crusade activated false.
      */
-    public void setSpecialActivatedFalse(){this.specialActivated=false;}
+    public void setSpecialActivated(boolean activated){this.specialActivated=activated;}
 
     public int getSpecialNumber(){return this.specialNumber;}
+
+    public void setSpecialNumber(int number){this.specialNumber=number;}
 }

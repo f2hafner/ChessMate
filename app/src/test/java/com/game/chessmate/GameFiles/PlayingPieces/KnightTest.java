@@ -48,7 +48,7 @@ public class KnightTest {
 
     @Before
     public void init(){
-        colour= ChessPieceColour.WHITE;
+        colour= null;//ChessPieceColour.WHITE;
         context= Mockito.mock(Context.class);
         field= Mockito.mock(Field.class);
         sprite =Mockito.mock(Bitmap.class);
@@ -95,7 +95,7 @@ public class KnightTest {
         assertEquals(colour,knight.getColour());
     }
 
-    //NOTE - in the testcase environment, the position of the black and white pieces is different than in the app. The position of the pieces (but not the chessboard) is changed as if the chessboard were rotated agianst the clock once - so black pieces are on the left and white pieces on the right.
+    //NOTE - in the testcase environment, the position of the black and white pieces is different than in the app. The position of the pieces (but not the chessboard) is changed as if the chessboard were rotated against the clock once - so black pieces are on the left and white pieces on the right.
     /*Testcases do include interaction with opponent, as interaction with knight jumps on specific fields that are not restricted by a blocking opponent
        testcases - one average testcase when piece is in the middle of the chessboard - legal moves should be restricted by pieces of same colour (later also by opponent),
        one testcase per chessboard border (4) - legal moves should be restricted by pieces of same colour and border (later also by opponent),
@@ -269,5 +269,172 @@ public class KnightTest {
         assertTrue(expected.size() == actual.size() && expected.containsAll(actual) && actual.containsAll(expected));//better solution - order does not matter
     }
 
+
+    @Test
+    public void isChampionTest(){
+        knight.setChampion();
+        assertTrue(knight.isChampion());
+    }
+
+    @Test
+    public void getLegalMovesChampionAverageCaseTest(){
+        when(field.getFieldX()).thenReturn(3);
+        when(field.getFieldY()).thenReturn(3);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        knight.setChampion();
+
+        expected.add(currentFields[0][7]);
+
+        assertEquals(expected.size(), knight.getLegalFields().size());
+    }
+
+
+
+    @Test
+    public void getLegalMovesChampionUpperBorderTest(){
+        when(field.getFieldX()).thenReturn(3);
+        when(field.getFieldY()).thenReturn(0);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        knight.setChampion();
+
+        expected.add(currentFields[0][4]);
+
+        assertEquals(expected.size(), knight.getLegalFields().size());
+    }
+
+
+    @Test
+    public void getLegalMovesChampionLeftBorderTest(){
+        when(field.getFieldX()).thenReturn(0);
+        when(field.getFieldY()).thenReturn(3);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        knight.setChampion();
+
+        expected.add(currentFields[4][6]);
+        expected.add(currentFields[3][7]);
+        expected.add(currentFields[4][0]);
+
+        assertEquals(expected.size(), knight.getLegalFields().size());
+    }
+
+    @Test
+    public void getLegalMovesChampionRightBorderTest(){
+        when(field.getFieldX()).thenReturn(7);
+        when(field.getFieldY()).thenReturn(3);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        knight.setChampion();
+
+        expected.add(currentFields[3][6]);
+        expected.add(currentFields[3][0]);
+        expected.add(currentFields[4][7]);
+
+        assertEquals(expected.size(), knight.getLegalFields().size());
+    }
+
+    @Test
+    public void getLegalMovesChampionLowerBorderTest(){
+        when(field.getFieldX()).thenReturn(3);
+        when(field.getFieldY()).thenReturn(7);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        knight.setChampion();
+
+        expected.add(currentFields[0][3]);
+
+        assertEquals(expected.size(), knight.getLegalFields().size());
+    }
+
+    @Test
+    public void getLegalMovesChampionLeftLowerCornerTest(){
+        when(field.getFieldX()).thenReturn(0);
+        when(field.getFieldY()).thenReturn(7);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        knight.setChampion();
+
+        expected.add(currentFields[3][4]);
+        expected.add(currentFields[4][3]);
+
+        assertEquals(expected.size(), knight.getLegalFields().size());
+    }
+
+    @Test
+    public void getLegalMovesChampionRightLowerCornerTest(){
+        when(field.getFieldX()).thenReturn(7);
+        when(field.getFieldY()).thenReturn(7);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        knight.setChampion();
+
+        expected.add(currentFields[4][3]);
+        expected.add(currentFields[3][4]);
+
+        assertEquals(expected.size(), knight.getLegalFields().size());
+    }
+
+    @Test
+    public void getLegalMovesChampionLeftUpperCornerTest(){
+        when(field.getFieldX()).thenReturn(0);
+        when(field.getFieldY()).thenReturn(0);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        knight.setChampion();
+
+        expected.add(currentFields[4][3]);
+        expected.add(currentFields[3][4]);
+
+        assertEquals(expected.size(), knight.getLegalFields().size());
+    }
+
+    @Test
+    public void getLegalMovesChampionRightUpperCornerTest(){
+        when(field.getFieldX()).thenReturn(7);
+        when(field.getFieldY()).thenReturn(0);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        knight.setChampion();
+
+        expected.add(currentFields[3][4]);
+        expected.add(currentFields[4][3]);
+
+        assertEquals(expected.size(), knight.getLegalFields().size());
+    }
+
+    @Test
+    public void testBlocked(){
+        currentFields[6][7].setBlocked();
+        assertTrue(knight.testJumpedFields(7,7,4,true,3,true,currentFields));
+
+        currentFields[6][0].setBlocked();
+        assertTrue(knight.testJumpedFields(7,0,4,true,3,false,currentFields));
+
+        currentFields[1][0].setBlocked();
+        assertTrue(knight.testJumpedFields(0,0,4,false,3,false,currentFields));
+
+        currentFields[1][7].setBlocked();
+        assertTrue(knight.testJumpedFields(0,7,4,false,3,true,currentFields));
+    }
+
+    @Test
+    public void testLegalMovesRevelation(){
+        //for black knights
+        ArrayList<Field>expected=new ArrayList<>();
+        expected.add(currentFields[0][2]);
+        expected.add(currentFields[0][5]);
+
+        assertEquals(expected.size(), knight.getLegalMovesRevelation().size());
+
+        //for white knights
+        knight.setColor(ChessPieceColour.WHITE);
+        expected=new ArrayList<>();
+        expected.add(currentFields[7][2]);
+        expected.add(currentFields[7][5]);
+
+        assertEquals(expected.size(),knight.getLegalMovesRevelation().size());
+    }
 
 }

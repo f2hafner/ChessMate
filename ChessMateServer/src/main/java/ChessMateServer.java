@@ -93,6 +93,7 @@ public class ChessMateServer extends Thread{
                             if(lobby.cheatFuncActive){
                                 Log.accept("SENSOR_PACKET","Received SENSOR PACKET");
                                 if(lobby.player1.connection == con) {
+                                    // Player 1 Revealed cheat
                                     if (lobby.lastMoveOrigin != null) {
                                         FieldDataObject originField = lobby.lastMoveOrigin;
                                         FieldDataObject targetField = lobby.lastMoveTarget;
@@ -100,7 +101,7 @@ public class ChessMateServer extends Thread{
                                         moveBackToOrigin.setOrigin(targetField);
                                         moveBackToOrigin.setTarget(originField);
                                         moveBackToOrigin.setMoved(true);
-                                      /*  lobby.player2.maxWrongCheatReveal--;
+                                        /* lobby.player2.maxWrongCheatReveal--;
                                         if (lobby.player2.maxWrongCheatReveal<=0){
                                          GameDataObject gameDataObject = new GameDataObject();
                                          gameDataObject.setWrongCheatRevealPlayer2(lobby.player2.maxWrongCheatReveal);
@@ -110,7 +111,12 @@ public class ChessMateServer extends Thread{
                                         //TODO tell player 2 that his cheat was reveald
                                         ObjectSender.sendGameDataObjectNoFlip(lobby.player2.connection, lobby, moveBackToOrigin);
                                         ObjectSender.sendGameDataObject(lobby.player1.connection, lobby, moveBackToOrigin);
-                                        lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
+                                        lobby.player2.maxWrongCheatReveal--;
+                                        if(lobby.player2.maxWrongCheatReveal==0){
+                                            ObjectSender.sendEndStateGameDataObject(lobby.player2.connection,false);
+                                            ObjectSender.sendEndStateGameDataObject(lobby.player1.connection,true);
+                                        }
+                                        lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
                                     }
                                 }
 
@@ -125,8 +131,7 @@ public class ChessMateServer extends Thread{
                                         /*lobby.player1.maxWrongCheatReveal--;
                                          if (lobby.player1.maxWrongCheatReveal<=0){
                                              GameDataObject gameDataObject = new GameDataObject();
-                                             gameDataObject.setWrongCheatRevealPlayer1(lobby.player1.maxWrongCheatReveal);
-                                             gameDataObject.setWrongCheatRevealPlayer2(lobby.player2.maxWrongCheatReveal);
+
                                              ObjectSender.sendEndStateGameDataObject(con, gameDataObject,true);
                                              ObjectSender.sendEndStateGameDataObject(lobby.player1.connection, gameDataObject,false);
                                          }*/
@@ -135,7 +140,12 @@ public class ChessMateServer extends Thread{
                                         //TODO tell player 1 that his cheat was reveald
                                         ObjectSender.sendGameDataObjectNoFlip(lobby.player1.connection, lobby, moveBackToOrigin);
                                         ObjectSender.sendGameDataObject(lobby.player2.connection, lobby, moveBackToOrigin);
-                                    //   lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
+                                        lobby.player1.maxWrongCheatReveal--;
+                                        if(lobby.player1.maxWrongCheatReveal==0){
+                                            ObjectSender.sendEndStateGameDataObject(lobby.player1.connection,false);
+                                            ObjectSender.sendEndStateGameDataObject(lobby.player2.connection,true);
+                                        }
+                                        lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
                                     }
                                 }
                                 try {
@@ -151,6 +161,10 @@ public class ChessMateServer extends Thread{
                                 if(lobby.player1.connection == con) {
                                     if (lobby.player1.maxWrongCheatReveal > 0) {
                                         lobby.player1.maxWrongCheatReveal--;
+                                        if(lobby.player1.maxWrongCheatReveal==0){
+                                            ObjectSender.sendEndStateGameDataObject(lobby.player1.connection,false);
+                                            ObjectSender.sendEndStateGameDataObject(lobby.player2.connection,true);
+                                        }
                                         lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
                                         // ObjectSender.sendGameDataObject(lobby.player2.connection, lobby, request);
                                     } else {
@@ -163,6 +177,10 @@ public class ChessMateServer extends Thread{
                                 if(lobby.player2.connection == con){
                                     if(lobby.player2.maxWrongCheatReveal > 0){
                                         lobby.player2.maxWrongCheatReveal--;
+                                        if(lobby.player2.maxWrongCheatReveal==0){
+                                            ObjectSender.sendEndStateGameDataObject(lobby.player2.connection,false);
+                                            ObjectSender.sendEndStateGameDataObject(lobby.player1.connection,true);
+                                        }
                                         lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER1_INPUT;
                                     } else {
                                         Log.i("SENSOR_PACKET", "Player2 ran out of reveals!");
@@ -200,7 +218,8 @@ public class ChessMateServer extends Thread{
                                 lobby.currentLobbyState = GameStates.WAITING_FOR_PLAYER2_INPUT;
                                 ObjectSender.sendGameDataObject(lobby.player2.connection, lobby, request);
                             }
-                        } else {
+                        }
+                        if(lobby.currentLobbyState == GameStates.WAITING_FOR_PLAYER2_INPUT){
                             System.out.println("Current Lobbystate was WaitForPlayer2move");
                             if(con==lobby.player2.connection){
                                 System.out.println("Connection was the same with player 2");

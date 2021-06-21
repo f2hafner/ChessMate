@@ -33,12 +33,14 @@ public class ObjectSender {
         GameDataObject gameDataObject = g;
         gameDataObject.setOrigin(Lobby.mirrorFunc(g.getOrigin()));
         gameDataObject.setTarget(Lobby.mirrorFunc(g.getTarget()));
+        if(lobby.player1.connection==con) gameDataObject.setWrongCheatRevealPlayer(lobby.player1.maxWrongCheatReveal);
+        if(lobby.player2.connection==con) gameDataObject.setWrongCheatRevealPlayer(lobby.player2.maxWrongCheatReveal);
         System.out.println("Sending: " + gameDataObject);
         con.sendTCP(gameDataObject);
     }
 
-    /*public static void sendEndStateGameDataObject(Connection con,GameDataObject g, boolean endState){
-        GameDataObject gameDataObject = g;
+    public static void sendEndStateGameDataObject(Connection con, boolean endState){
+        GameDataObject gameDataObject = new GameDataObject();
         if(endState){
             gameDataObject.setWin(true);
         } else {
@@ -46,13 +48,15 @@ public class ObjectSender {
         }
         System.out.println("Sending: " + gameDataObject);
         con.sendTCP(gameDataObject);
-    }*/
+    }
 
     public static void sendGameDataObjectNoFlip(Connection con, Lobby lobby, GameDataObject g){
         GameDataObject gameDataObject = g;
         gameDataObject.setOrigin(g.getOrigin());
         gameDataObject.setTarget(g.getTarget());
         gameDataObject.setMovedBack(true);
+        if(lobby.player1.connection==con) gameDataObject.setWrongCheatRevealPlayer(lobby.player1.maxWrongCheatReveal);
+        if(lobby.player2.connection==con) gameDataObject.setWrongCheatRevealPlayer(lobby.player2.maxWrongCheatReveal);
         System.out.println("Sending: " + gameDataObject);
         con.sendTCP(gameDataObject);
     }

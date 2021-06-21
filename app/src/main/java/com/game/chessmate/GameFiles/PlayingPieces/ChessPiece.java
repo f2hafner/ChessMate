@@ -228,7 +228,7 @@ abstract public class ChessPiece extends View {
                 Log.i("GAMESTATE", "afterCardstart: " + ChessBoard.getInstance().getGameState());
                 if (ChessBoard.getInstance().getGameState() == GameState.ACTIVE) {
                     new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(), ChessBoard.getInstance().getFirstField(), targetPosition);
-                    ChessBoard.getInstance().setSpecialActivatedFalse();
+                    ChessBoard.getInstance().setSpecialActivated(false);
                     ChessBoard.getInstance().setFirstFieldNull();
                 }
             } else {
@@ -667,7 +667,7 @@ abstract public class ChessPiece extends View {
      * @return the array list
      */
     public ArrayList<Field> getLegalMovesManOfStraw(){
-        //get legal Moves for holy Quest
+        //get legal Moves for Man of Straw
         ArrayList<Field> legalMoves=new ArrayList<>();
         Field[][] currentFields=ChessBoard.getInstance().getBoardFields();
 

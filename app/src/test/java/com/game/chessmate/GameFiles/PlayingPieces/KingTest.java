@@ -49,7 +49,7 @@ public class KingTest {
 
     @Before
     public void init(){
-        colour= ChessPieceColour.WHITE;
+        colour= null;//ChessPieceColour.WHITE;
         context= Mockito.mock(Context.class);
         field= Mockito.mock(Field.class);
         sprite =Mockito.mock(Bitmap.class);
@@ -97,7 +97,7 @@ public class KingTest {
     }
 
 
-    //NOTE - in the testcase environment, the position of the black and white pieces is different than in the app. The position of the pieces (but not the chessboard) is changed as if the chessboard were rotated agianst the clock once - so black pieces are on the left and white pieces on the right.
+    //NOTE - in the testcase environment, the position of the black and white pieces is different than in the app. The position of the pieces (but not the chessboard) is changed as if the chessboard were rotated against the clock once - so black pieces are on the left and white pieces on the right.
     //NOTE - test do not include special king in checkmate functionality
     /*
        testcases - one average testcase when piece is in the middle of the chessboard - legal moves should be restricted by pieces of same colour (later also by opponent),
@@ -270,5 +270,36 @@ public class KingTest {
         assertTrue(expected.size() == actual.size() && expected.containsAll(actual) && actual.containsAll(expected));//better solution - order does not matter
     }
 
+    @Test
+    public void getLegalMovesManOfStrawTestBlackKing(){
+        ArrayList<Field> expected=new ArrayList<>();
+        expected.add(currentFields[1][0]);
+        expected.add(currentFields[1][1]);
+        expected.add(currentFields[1][2]);
+        expected.add(currentFields[1][3]);
+        expected.add(currentFields[1][4]);
+        expected.add(currentFields[1][5]);
+        expected.add(currentFields[1][6]);
+        expected.add(currentFields[1][7]);
+
+        assertEquals(expected.size(),king.getLegalMovesManOfStraw().size());
+    }
+
+    @Test
+    public void getLegalMovesManOfStrawTestWhiteKing(){
+        king.setColor(ChessPieceColour.WHITE);
+
+        ArrayList<Field> expected=new ArrayList<>();
+        expected.add(currentFields[6][0]);
+        expected.add(currentFields[6][1]);
+        expected.add(currentFields[6][2]);
+        expected.add(currentFields[6][3]);
+        expected.add(currentFields[6][4]);
+        expected.add(currentFields[6][5]);
+        expected.add(currentFields[6][6]);
+        expected.add(currentFields[6][7]);
+
+        assertEquals(expected.size(),king.getLegalMovesManOfStraw().size());
+    }
 
 }

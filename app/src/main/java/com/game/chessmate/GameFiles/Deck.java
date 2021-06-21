@@ -14,7 +14,7 @@ public class Deck {
     private final Card[] deck;
 
     //max size of deck
-    private int size=16;//25
+    private int size=16;
 
     //size of deck for each player during game
     private final int initialCardNumber=3;

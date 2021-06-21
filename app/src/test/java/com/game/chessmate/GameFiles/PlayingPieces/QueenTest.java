@@ -47,7 +47,7 @@ public class QueenTest {
 
     @Before
     public void init(){
-        colour= ChessPieceColour.WHITE;
+        colour= null;//ChessPieceColour.WHITE;
         context= Mockito.mock(Context.class);
         field= Mockito.mock(Field.class);
         sprite=Mockito.mock(Bitmap.class);
@@ -94,7 +94,7 @@ public class QueenTest {
         assertEquals(colour,queen.getColour());
     }
 
-    //NOTE - in the testcase environment, the position of the black and white pieces is different than in the app. The position of the pieces (but not the chessboard) is changed as if the chessboard were rotated agianst the clock once - so black pieces are on the left and white pieces on the right.
+    //NOTE - in the testcase environment, the position of the black and white pieces is different than in the app. The position of the pieces (but not the chessboard) is changed as if the chessboard were rotated against the clock once - so black pieces are on the left and white pieces on the right.
     /*
        testcases - one average testcase when piece is in the middle of the chessboard - legal moves should be restricted by pieces of same colour (later also by opponent),
        one testcase per chessboard border (4) - legal moves should be restricted by pieces of same colour and border (later also by opponent),

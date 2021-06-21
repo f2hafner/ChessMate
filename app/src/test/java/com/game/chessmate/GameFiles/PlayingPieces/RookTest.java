@@ -38,6 +38,8 @@ public class RookTest {
     @Mock
     private Field field;
 
+
+
     Rook rook;
     //for legal moves tests
     ArrayList<String> expected;
@@ -47,7 +49,7 @@ public class RookTest {
 
     @Before
     public void init(){
-        colour= ChessPieceColour.WHITE;
+        colour= null; //ChessPieceColour.WHITE;
         context= Mockito.mock(Context.class);
         field= Mockito.mock(Field.class);
         sprite=Mockito.mock(Bitmap.class);
@@ -94,7 +96,7 @@ public class RookTest {
         assertEquals(colour,rook.getColour());
     }
 
-    //NOTE - in the testcase environment, the position of the black and white pieces is different than in the app. The position of the pieces (but not the chessboard) is changed as if the chessboard were rotated agianst the clock once - so black pieces are on the left and white pieces on the right.
+    //NOTE - in the testcase environment, the position of the black and white pieces is different than in the app. The position of the pieces (but not the chessboard) is changed as if the chessboard were rotated against the clock once - so black pieces are on the left and white pieces on the right.
     /*
        testcases - one average testcase when piece is in the middle of the chessboard - legal moves should be restricted by pieces of same colour (later also by opponent),
        one testcase per chessboard border (4) - legal moves should be restricted by pieces of same colour and border (later also by opponent),
@@ -309,6 +311,181 @@ public class RookTest {
         assertTrue(expected.size() == actual.size() && expected.containsAll(actual) && actual.containsAll(expected));//better solution - order does not matter
     }
 
+    @Test
+    public void getLegalMovesLostCastleTest(){
 
+        //test Method for for Black Rooks
+        ArrayList<Field> expected=new ArrayList<>();
+        expected.add(currentFields[0][0]);
+        expected.add(currentFields[0][7]);
+
+        assertEquals(expected.size(),rook.getLegalMovesLostCastle().size());
+
+        //test method for white Rooks
+        rook.setColor(ChessPieceColour.WHITE);
+        expected=new ArrayList<>();
+        expected.add(currentFields[7][0]);
+        expected.add(currentFields[7][7]);
+
+        assertEquals(expected.size(),rook.getLegalMovesLostCastle().size());
+    }
+
+    @Test
+    public void getLegalMovesBombardTestLeftUpperCorner(){
+        when(field.getFieldX()).thenReturn(0);
+        when(field.getFieldY()).thenReturn(0);
+
+        ChessBoard.getInstance().setSpecialActivated(true);
+        ChessBoard.getInstance().setSpecialNumber(1);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        expected.add(currentFields[2][0]);
+        expected.add(currentFields[3][0]);
+        expected.add(currentFields[4][0]);
+        expected.add(currentFields[5][0]);
+
+        assertEquals(expected.size(),rook.getLegalMovesBombard().size());
+
+        ChessBoard.getInstance().setSpecialActivated(false);
+        ChessBoard.getInstance().setSpecialNumber(0);
+    }
+
+    @Test
+    public void getLegalMovesBombardTestRightUpperCorner(){
+        when(field.getFieldX()).thenReturn(0);
+        when(field.getFieldY()).thenReturn(7);
+
+        ChessBoard.getInstance().setSpecialActivated(true);
+        ChessBoard.getInstance().setSpecialNumber(1);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        expected.add(currentFields[2][7]);
+        expected.add(currentFields[3][7]);
+        expected.add(currentFields[4][7]);
+        expected.add(currentFields[5][7]);
+
+        assertEquals(expected.size(),rook.getLegalMovesBombard().size());
+
+        ChessBoard.getInstance().setSpecialActivated(false);
+        ChessBoard.getInstance().setSpecialNumber(0);
+    }
+
+    @Test
+    public void getLegalMovesBombardTestLeftLowerCorner(){
+        when(field.getFieldX()).thenReturn(7);
+        when(field.getFieldY()).thenReturn(0);
+
+        ChessBoard.getInstance().setSpecialActivated(true);
+        ChessBoard.getInstance().setSpecialNumber(1);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        expected.add(currentFields[2][0]);
+        expected.add(currentFields[3][0]);
+        expected.add(currentFields[4][0]);
+        expected.add(currentFields[5][0]);
+
+        assertEquals(expected.size(),rook.getLegalMovesBombard().size());
+
+        ChessBoard.getInstance().setSpecialActivated(false);
+        ChessBoard.getInstance().setSpecialNumber(0);
+    }
+
+    @Test
+    public void getLegalMovesBombardTestRightLowerCorner(){
+        when(field.getFieldX()).thenReturn(7);
+        when(field.getFieldY()).thenReturn(7);
+
+        ChessBoard.getInstance().setSpecialActivated(true);
+        ChessBoard.getInstance().setSpecialNumber(1);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        expected.add(currentFields[2][7]);
+        expected.add(currentFields[3][7]);
+        expected.add(currentFields[4][7]);
+        expected.add(currentFields[5][7]);
+
+        assertEquals(expected.size(),rook.getLegalMovesBombard().size());
+
+        ChessBoard.getInstance().setSpecialActivated(false);
+        ChessBoard.getInstance().setSpecialNumber(0);
+    }
+
+    @Test
+    public void getLegalMovesBombardTestMiddle(){
+        when(field.getFieldX()).thenReturn(3);
+        when(field.getFieldY()).thenReturn(3);
+
+        ChessBoard.getInstance().setSpecialActivated(true);
+        ChessBoard.getInstance().setSpecialNumber(1);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        expected.add(currentFields[2][3]);
+        expected.add(currentFields[3][0]);
+        expected.add(currentFields[3][1]);
+        expected.add(currentFields[3][2]);
+        expected.add(currentFields[3][4]);
+        expected.add(currentFields[3][5]);
+        expected.add(currentFields[3][6]);
+        expected.add(currentFields[3][7]);
+        expected.add(currentFields[4][3]);
+        expected.add(currentFields[5][3]);
+
+        assertEquals(expected.size(),rook.getLegalMovesBombard().size());
+
+        ChessBoard.getInstance().setSpecialActivated(false);
+        ChessBoard.getInstance().setSpecialNumber(0);
+    }
+
+    @Test
+    public void getLegalMovesBombardTestLeftBorder(){
+        when(field.getFieldX()).thenReturn(3);
+        when(field.getFieldY()).thenReturn(0);
+
+        ChessBoard.getInstance().setSpecialActivated(true);
+        ChessBoard.getInstance().setSpecialNumber(1);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        expected.add(currentFields[2][0]);
+        expected.add(currentFields[3][1]);
+        expected.add(currentFields[3][2]);
+        expected.add(currentFields[3][3]);
+        expected.add(currentFields[3][4]);
+        expected.add(currentFields[3][5]);
+        expected.add(currentFields[3][6]);
+        expected.add(currentFields[3][7]);
+        expected.add(currentFields[4][0]);
+        expected.add(currentFields[5][0]);
+
+        assertEquals(expected.size(),rook.getLegalMovesBombard().size());
+
+        ChessBoard.getInstance().setSpecialActivated(false);
+        ChessBoard.getInstance().setSpecialNumber(0);
+    }
+
+    @Test
+    public void getLegalMovesBombardTestRightBorder(){
+        when(field.getFieldX()).thenReturn(3);
+        when(field.getFieldY()).thenReturn(7);
+
+        ChessBoard.getInstance().setSpecialActivated(true);
+        ChessBoard.getInstance().setSpecialNumber(1);
+
+        ArrayList<Field>expected=new ArrayList<>();
+        expected.add(currentFields[2][7]);
+        expected.add(currentFields[3][6]);
+        expected.add(currentFields[3][5]);
+        expected.add(currentFields[3][4]);
+        expected.add(currentFields[3][3]);
+        expected.add(currentFields[3][2]);
+        expected.add(currentFields[3][1]);
+        expected.add(currentFields[3][0]);
+        expected.add(currentFields[4][7]);
+        expected.add(currentFields[5][7]);
+
+        assertEquals(expected.size(),rook.getLegalMovesBombard().size());
+
+        ChessBoard.getInstance().setSpecialActivated(false);
+        ChessBoard.getInstance().setSpecialNumber(0);
+    }
 
 }

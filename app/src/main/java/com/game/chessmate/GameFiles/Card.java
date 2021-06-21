@@ -411,8 +411,8 @@ public class Card {
                     break;
 
                 case KING:
-                    if (!currentFields[0][3].isBlocked()&&(currentFields[0][3].getCurrentPiece() == null || currentFields[0][3].getCurrentPiece().getColour() != oponentPiece.getColour()))
-                        legalMoves.add(currentFields[0][3]);
+                    if (!currentFields[0][4].isBlocked()&&(currentFields[0][4].getCurrentPiece() == null || currentFields[0][3].getCurrentPiece().getColour() != oponentPiece.getColour()))
+                        legalMoves.add(currentFields[0][4]);
                     break;
 
                 case KNIGHT:
@@ -442,8 +442,8 @@ public class Card {
                     break;
 
                 case QUEEN:
-                    if (!currentFields[0][4].isBlocked()&&(currentFields[0][4].getCurrentPiece() == null || currentFields[0][4].getCurrentPiece().getColour() != oponentPiece.getColour()))
-                        legalMoves.add(currentFields[0][4]);
+                    if (!currentFields[0][3].isBlocked()&&(currentFields[0][3].getCurrentPiece() == null || currentFields[0][3].getCurrentPiece().getColour() != oponentPiece.getColour()))
+                        legalMoves.add(currentFields[0][3]);
                     break;
 
                 case ROOK:
@@ -697,18 +697,17 @@ public class Card {
         Field field1=playingPiece1.getPosition();
         Field field2=playingPiece2.getPosition();
 
-       if (playingPiece1.isChampion()&&playingPiece2.isChampion()) {
 
-       }
-        else{
-            if (playingPiece1.isChampion()) {
-                field1.setRectangleDefaultColor();
-                field2.markChampion();
-        } else if (playingPiece2.isChampion()) {
-                field2.setRectangleDefaultColor();
-                field1.markChampion();
-            }
+
+        if (playingPiece1.isChampion()) {
+            field1.setRectangleDefaultColor();
+            field2.markChampion();
         }
+        else if (playingPiece2.isChampion()) {
+            field2.setRectangleDefaultColor();
+            field1.markChampion();
+        }
+
 
         //swap pieces
         field1.setCurrentPiece(playingPiece2);

@@ -804,7 +804,7 @@ public class ChessBoard {
         //show message to user
         if (view != null) {
             GameActivity gameActivity = (GameActivity) view.getContext();
-            gameActivity.showToast(card.getName());
+            displayToastinGameActivity(card.getName());
         }
 
         switch (cardId){
@@ -1064,6 +1064,23 @@ public class ChessBoard {
         this.gameState = gameState;
     }
 
+    public void updateButtonText() {
+        if (view != null) {
+            GameActivity a = (GameActivity) view.getContext();
+            a.runOnUiThread(()->{
+                a.updateButtonTextLocal();
+            });
+        }
+    }
+
+    public void displayToastinGameActivity(String name) {
+        if (view != null) {
+            GameActivity a = (GameActivity) view.getContext();
+            a.runOnUiThread(()->{
+                a.showToast(name);
+            });
+        }
+    }
     /**
      * Gets deck.
      *

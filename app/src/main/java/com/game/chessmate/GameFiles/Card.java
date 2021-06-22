@@ -3,6 +3,7 @@ package com.game.chessmate.GameFiles;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.util.Log;
+import android.view.View;
 
 import com.game.chessmate.GameActivity;
 import com.game.chessmate.GameFiles.Networking.NetworkTasks;
@@ -69,7 +70,7 @@ public class Card {
                 drawableId=R.drawable.dark_mirror;
                 break;
 
-            case 2:
+            case 2: //Champion marker ändert sich nicht!
                 name="Death Dance";
                 desc="Exchange the position of any of your pieces with any adjacent enemy piece.";
                 useCase="[i] Play this card instead of your move";
@@ -134,7 +135,7 @@ public class Card {
                 drawableId=R.drawable.forbidden_city;
                 break;
 
-            case 11:
+            case 11: //marker verschwindet und kommt erst beim nächsten Zug wieder
                 name="Holy Quest";
                 desc="Swap the positions of a bishop and a knight belonging to your opponent.";
                 useCase="[i] Play this card instead of your move";
@@ -162,7 +163,7 @@ public class Card {
                 drawableId=R.drawable.man_of_straw;
                 break;
 
-            case 15:
+            case 15: //wenn Turm nicht mehr moven kann -> crash
                 name="Bombard";
                 desc="On this move, one of your rooks can move in its normal straight line, jump over any piece or one obstruction on the board, and continue in a straight line. The piece or obstruction is not affected by being jumped. At the end of its move, the rook may make a normal capture.";
                 useCase="[i] Play this card on your turn, instead of making a regular move.";
@@ -238,7 +239,6 @@ public class Card {
                 throw new IllegalArgumentException ("Not a valid card!");
         }
     }
-
     /**
      * Cowardice array list.
      *
@@ -336,12 +336,11 @@ public class Card {
         }
 
         //capture Piece
-        ChessBoard.getInstance().getLocalPlayer().addChessPiecesCaptured(playingPiece);
-        ChessBoard.getInstance().getLocalPlayer().removeChessPiecesAlive(playingPiece);
+        playingPiece.capture();
         playingPiece.getPosition().setCurrentPiece(null);
-        playingPiece.setCurrentPosition(null);
-        playingPiece.isCaptured=true;
-        playingPiece.setUpdateView(true);
+        View pieceView = (View)playingPiece;
+        pieceView.invalidate();
+
 
         if (ChessBoard.getInstance().getGameState() == GameState.WAITING) {
             ChessBoard.getInstance().setGameState(GameState.ACTIVE);
@@ -689,15 +688,9 @@ public class Card {
             new NetworkTasks.SendCard(ChessBoard.getInstance().getCurrentCard().getId(),playingPiece1.getPosition(),playingPiece2.getPosition());
         }
 
-        //make pieces un-captureable
-        playingPiece1.setProtected(true);
-        playingPiece2.setProtected(true);
-
         //get position of pieces
         Field field1=playingPiece1.getPosition();
         Field field2=playingPiece2.getPosition();
-
-
 
         if (playingPiece1.isChampion()) {
             field1.setRectangleDefaultColor();
@@ -712,6 +705,7 @@ public class Card {
         //swap pieces
         field1.setCurrentPiece(playingPiece2);
         playingPiece2.setCurrentPosition(field1);
+
         field2.setCurrentPiece(playingPiece1);
         playingPiece1.setCurrentPosition(field2);
 

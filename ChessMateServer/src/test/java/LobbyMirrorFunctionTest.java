@@ -1,19 +1,18 @@
 
 import NetObjects.FieldDataObject;
+import com.esotericsoftware.kryonet.Connection;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-public class ChessMateServerTest {
-    Lobby lobby;
+public class LobbyMirrorFunctionTest {
     FieldDataObject field_00;
     FieldDataObject field_77;
     FieldDataObject field_23;
     FieldDataObject field_54;
-    public void init(){
-        lobby = new Lobby();
+    public void initFields(){
         field_00 = new FieldDataObject();
         field_00.setX(0);
         field_00.setY(0);
@@ -27,10 +26,11 @@ public class ChessMateServerTest {
         field_54.setX(5);
         field_54.setY(4);
     }
+
     @DisplayName("00to77Test")
     @Test
     public void mirrorFuncTest(){
-        init();
+        initFields();
         FieldDataObject resultingField = Lobby.mirrorFunc(field_00);
         assertEquals(field_77.getX(),resultingField.getX());
         assertEquals(field_77.getY(),resultingField.getY());
@@ -38,7 +38,7 @@ public class ChessMateServerTest {
     @DisplayName("77to00Test")
     @Test
     public void mirrorFuncTest2(){
-        init();
+        initFields();
         FieldDataObject resultingField = Lobby.mirrorFunc(field_77);
         assertEquals(field_00.getX(),resultingField.getX());
         assertEquals(field_00.getY(),resultingField.getY());
@@ -46,7 +46,7 @@ public class ChessMateServerTest {
     @DisplayName("23to54Test")
     @Test
     public void mirrorFuncTest3(){
-        init();
+        initFields();
         FieldDataObject resultingField = Lobby.mirrorFunc(field_23);
         assertEquals(field_54.getX(),resultingField.getX());
         assertEquals(field_54.getY(),resultingField.getY());
@@ -54,7 +54,7 @@ public class ChessMateServerTest {
     @DisplayName("54to23Test")
     @Test
     public void mirrorFuncTest4(){
-        init();
+        initFields();
         FieldDataObject resultingField = Lobby.mirrorFunc(field_54);
         assertEquals(field_23.getX(),resultingField.getX());
         assertEquals(field_23.getY(),resultingField.getY());
@@ -63,9 +63,13 @@ public class ChessMateServerTest {
     @DisplayName("Failing test 44to33Test")
     @Test
     public void mirrorFuncTest5(){
-        init();
+        initFields();
         FieldDataObject resultingField = Lobby.mirrorFunc(field_54);
         assertNotEquals(field_00.getX(),resultingField.getX());
         assertNotEquals(field_00.getY(),resultingField.getY());
     }
+
+
+
+
 }

@@ -36,34 +36,6 @@ public class Lobby {
         currentLobbyState = GameStates.WAITING_FOR_PLAYER;
     }
 
-    public void action_playCard() {
-
-    }
-
-    public void action_makeMove() {
-
-    }
-
-    public void action_cheats() {
-
-    }
-
-    public void action_revealCheat() {
-
-    }
-
-    public void checkPLayersExistence(){
-
-    }
-
-    public void player1turn(){
-
-    }
-
-    public void player2turn(){
-
-    }
-
     public String generateLobbyCode(){
         Random ran = new Random(System.currentTimeMillis());
         return Integer.toString(ran.nextInt(99999)+100000);

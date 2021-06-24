@@ -1,7 +1,4 @@
-import NetObjects.ChessPieceColour;
-import NetObjects.GameDataObject;
-import NetObjects.LobbyDataObject;
-import NetObjects.PlayerDataObject;
+import NetObjects.*;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
@@ -9,24 +6,10 @@ import static org.junit.Assert.*;
 
 public class LobbyRetrieveLobbyDataObjectTests {
     Lobby lobby;
-    LobbyDataObject lobbyDataObject;
+
     public void initLobby(){
         lobby = new Lobby();
         LobbyManager.sessions.add(lobby);
-        PlayerDataObject player1 = new PlayerDataObject();
-        player1.setName("testName");
-        player1.setChessPieceColour(ChessPieceColour.WHITE);
-        player1.setMaxWrongCheatReveal(3);
-        PlayerDataObject player2 = new PlayerDataObject();
-        player2.setName("testName");
-        player2.setChessPieceColour(ChessPieceColour.BLACK);
-        player2.setMaxWrongCheatReveal(3);
-        lobbyDataObject = new LobbyDataObject();
-        lobbyDataObject.setLobbyID(lobby.lobbyID);
-        lobbyDataObject.setLobbycode(lobby.lobbycode);
-        lobbyDataObject.setClearLobby(lobby.clearLobby);
-        lobbyDataObject.setCurrentLobbyState(lobby.currentLobbyState);
-        lobbyDataObject.setCheatFuncActive(lobby.cheatFuncActive);
     }
 
     @DisplayName("initialRetrieveTest")
@@ -34,21 +17,66 @@ public class LobbyRetrieveLobbyDataObjectTests {
     public void initialRetrieveTest(){
         initLobby();
         LobbyDataObject retrievedObject = lobby.retrieveLobbyDataObject();
-        assertSame(lobbyDataObject.getClass(), retrievedObject.getClass());
+        assertEquals(lobby.lobbyID,retrievedObject.getLobbyID());
+        assertEquals(GameStates.WAITING_FOR_PLAYER,retrievedObject.getCurrentLobbyState());
+        assertEquals(0,retrievedObject.getPlayercount());
+        assertFalse(retrievedObject.isCheatFuncActive());
+        assertFalse(retrievedObject.isClearLobby());
     }
 
-    @DisplayName("initialOnePlayerRetrieveTest")
+    @DisplayName("initialPlayerOneRetrieveTest")
     @Test
-    public void initialOnePlayerRetrieveTest(){
+    public void initialPlayerOneRetrieveTest(){
         initLobby();
         lobby.player1Join(null,"testName");
-        lobbyDataObject.setPlayer1(player1);
-        //lobbyDataObject.setPlayer1(player2);
         LobbyDataObject retrievedObject = lobby.retrieveLobbyDataObject();
-        assertEquals(lobbyDataObject.getPlayer1(), retrievedObject.getPlayer1());
-        assertEquals(lobbyDataObject.getPlayer2(), retrievedObject.getPlayer2());
-        assertEquals(lobbyDataObject., retrievedObject.getPlayer2());
+        // Player 1
+        assertEquals("testName",retrievedObject.getPlayer1().getName());
+        assertEquals(ChessPieceColour.WHITE,retrievedObject.getPlayer1().getChessPieceColour());
+        assertEquals(3,retrievedObject.getPlayer1().getMaxWrongCheatReveal());
+        // Player 2
+        assertEquals("",retrievedObject.getPlayer2().getName());
+        assertNull(retrievedObject.getPlayer2().getChessPieceColour());
+        assertEquals(0,retrievedObject.getPlayer2().getMaxWrongCheatReveal());
+
+        assertEquals(1, retrievedObject.getPlayercount());
     }
 
+    @DisplayName("initialPlayerTwoRetrieveTest")
+    @Test
+    public void initialPlayerTwoRetrieveTest(){
+        initLobby();
+        lobby.player2Join(null,"testName");
+        LobbyDataObject retrievedObject = lobby.retrieveLobbyDataObject();
+        // Player 1
+        assertEquals("",retrievedObject.getPlayer1().getName());
+        assertNull(retrievedObject.getPlayer1().getChessPieceColour());
+        assertEquals(0,retrievedObject.getPlayer1().getMaxWrongCheatReveal());
+        // Player 2
+        assertEquals("testName",retrievedObject.getPlayer2().getName());
+        assertEquals(ChessPieceColour.BLACK,retrievedObject.getPlayer2().getChessPieceColour());
+        assertEquals(3,retrievedObject.getPlayer2().getMaxWrongCheatReveal());
+
+        assertEquals(1, retrievedObject.getPlayercount());
+    }
+
+    @DisplayName("initialTwoPlayerRetrieveTest")
+    @Test
+    public void initialTwoPlayerRetrieveTest(){
+        initLobby();
+        lobby.player1Join(null,"testName");
+        lobby.player2Join(null,"testName");
+        LobbyDataObject retrievedObject = lobby.retrieveLobbyDataObject();
+        // Player 1
+        assertEquals("testName",retrievedObject.getPlayer1().getName());
+        assertEquals(ChessPieceColour.WHITE,retrievedObject.getPlayer1().getChessPieceColour());
+        assertEquals(3,retrievedObject.getPlayer1().getMaxWrongCheatReveal());
+        // Player 2
+        assertEquals("testName",retrievedObject.getPlayer2().getName());
+        assertEquals(ChessPieceColour.BLACK,retrievedObject.getPlayer2().getChessPieceColour());
+        assertEquals(3,retrievedObject.getPlayer2().getMaxWrongCheatReveal());
+
+        assertEquals(2, retrievedObject.getPlayercount());
+    }
 
 }
